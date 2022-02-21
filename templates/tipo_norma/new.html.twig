@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TipoNorma{% endblock %}
+
+{% block body %}
+    <h1>Create new TipoNorma</h1>
+
+    {{ include('tipo_norma/_form.html.twig') }}
+
+    <a href="{{ path('tipo_norma_index') }}">back to list</a>
+{% endblock %}

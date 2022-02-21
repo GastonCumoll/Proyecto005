@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TipoNorma{% endblock %}
+
+{% block body %}
+    <h1>Edit TipoNorma</h1>
+
+    {{ include('tipo_norma/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('tipo_norma_index') }}">back to list</a>
+
+    {{ include('tipo_norma/_delete_form.html.twig') }}
+{% endblock %}

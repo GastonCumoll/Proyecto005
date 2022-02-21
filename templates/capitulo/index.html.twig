@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Capitulo index{% endblock %}
+
+{% block body %}
+    <h1>Capitulo index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for capitulo in capitulos %}
+            <tr>
+                <td>{{ capitulo.id }}</td>
+                <td>{{ capitulo.nombre }}</td>
+                <td>
+                    <a href="{{ path('capitulo_show', {'id': capitulo.id}) }}">show</a>
+                    <a href="{{ path('capitulo_edit', {'id': capitulo.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('capitulo_new') }}">Create new</a>
+{% endblock %}

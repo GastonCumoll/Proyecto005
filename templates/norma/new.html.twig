@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Norma{% endblock %}
+
+{% block body %}
+    <h1>Create new Norma</h1>
+
+    {{ include('norma/_form.html.twig') }}
+
+    <a href="{{ path('norma_index') }}">back to list</a>
+{% endblock %}
