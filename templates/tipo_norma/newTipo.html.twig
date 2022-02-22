@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norma index{% endblock %}
+
+{% block body %}
+    {% for tipo_norma in tipo_normas %}
+    <a href="{{ path('norma_new', {'id': tipo_norma.id}) }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">{{tipo_norma.nombre}}</a>
+    {% endfor %}
+{% endblock %}

@@ -27,6 +27,17 @@ class TipoNormaController extends AbstractController
     }
 
     /**
+     * @Route("/nueva", name="norma_nueva", methods={"GET", "POST"})
+     */
+    public function nuevoTipoNorma(TipoNormaRepository $tipoNormaRepository): Response
+    {
+
+        return $this->render('tipo_norma/newTipo.html.twig', [
+            'tipo_normas' => $tipoNormaRepository->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="tipo_norma_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
