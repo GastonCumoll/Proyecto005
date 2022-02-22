@@ -29,6 +29,8 @@ class Titulo
      */
     private $capitulos;
 
+    
+
     public function __construct()
     {
         $this->capitulos = new ArrayCollection();
@@ -79,5 +81,10 @@ class Titulo
         }
 
         return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->nombre;
     }
 }

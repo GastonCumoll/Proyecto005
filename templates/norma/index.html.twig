@@ -17,6 +17,8 @@
                 <th>FechaPublicacionBoletin</th>
                 <th>Estado</th>
                 <th>Etiquetas</th>
+                <th>Numero</th>
+                <th>FechaPromulgacion</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -32,6 +34,8 @@
                 <td>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.estado }}</td>
                 <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
+                <td>{{ norma.numero }}</td>
+                <td>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('norma_show', {'id': norma.id}) }}">show</a>
                     <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
@@ -39,7 +43,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="12">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

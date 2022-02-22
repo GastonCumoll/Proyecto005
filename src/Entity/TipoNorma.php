@@ -28,6 +28,10 @@ class TipoNorma
      * @ORM\OneToMany(targetEntity=Norma::class, mappedBy="tipoNorma", orphanRemoval=true)
      */
     private $normas;
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 
     public function __construct()
     {

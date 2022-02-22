@@ -35,6 +35,11 @@ class Tema
      */
     private $normas;
 
+    public function __toString()
+    {
+        return $this->nombre;
+    }
+
     public function __construct()
     {
         $this->normas = new ArrayCollection();

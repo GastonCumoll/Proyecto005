@@ -12,6 +12,7 @@ class NormaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('tipoNorma')
             ->add('fechaSancion')
             ->add('fechaPublicacion')
             ->add('titulo')
@@ -20,7 +21,13 @@ class NormaType extends AbstractType
             ->add('fechaPublicacionBoletin')
             ->add('estado')
             ->add('etiquetas')
+            ->add('numero')
+            ->add('fechaPromulgacion')
             ->add('temas')
+            
+            ->add('decretoPromulgacion')
+            ->add('complementadaPor')
+            ->add('complementaA')
         ;
     }
 

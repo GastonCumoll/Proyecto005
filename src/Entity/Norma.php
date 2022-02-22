@@ -70,10 +70,48 @@ class Norma
      */
     private $tipoNorma;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $numero;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $fechaPromulgacion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Norma::class, inversedBy="normasPromulgadas")
+     */
+    private $decretoPromulgacion;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Norma::class, mappedBy="decretoPromulgacion")
+     */
+    private $normasPromulgadas;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Norma::class, inversedBy="complementaA")
+     */
+    private $complementadaPor;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Norma::class, mappedBy="complementadaPor")
+     */
+    private $complementaA;
+
+
+    public function __toString()
+    {
+        return $this->titulo;
+    }
 
     public function __construct()
     {
         $this->temas = new ArrayCollection();
+        $this->normasPromulgadas = new ArrayCollection();
+        $this->complementadaPor = new ArrayCollection();
+        $this->complementaA = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -212,6 +250,123 @@ class Norma
     public function setTipoNorma(?TipoNorma $tipoNorma): self
     {
         $this->tipoNorma = $tipoNorma;
+
+        return $this;
+    }
+
+    public function getNumero(): ?string
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(string $numero): self
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getFechaPromulgacion(): ?\DateTimeInterface
+    {
+        return $this->fechaPromulgacion;
+    }
+
+    public function setFechaPromulgacion(?\DateTimeInterface $fechaPromulgacion): self
+    {
+        $this->fechaPromulgacion = $fechaPromulgacion;
+
+        return $this;
+    }
+
+    public function getDecretoPromulgacion(): ?self
+    {
+        return $this->decretoPromulgacion;
+    }
+
+    public function setDecretoPromulgacion(?self $decretoPromulgacion): self
+    {
+        $this->decretoPromulgacion = $decretoPromulgacion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getNormasPromulgadas(): Collection
+    {
+        return $this->normasPromulgadas;
+    }
+
+    public function addNormasPromulgada(self $normasPromulgada): self
+    {
+        if (!$this->normasPromulgadas->contains($normasPromulgada)) {
+            $this->normasPromulgadas[] = $normasPromulgada;
+            $normasPromulgada->setDecretoPromulgacion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNormasPromulgada(self $normasPromulgada): self
+    {
+        if ($this->normasPromulgadas->removeElement($normasPromulgada)) {
+            // set the owning side to null (unless already changed)
+            if ($normasPromulgada->getDecretoPromulgacion() === $this) {
+                $normasPromulgada->setDecretoPromulgacion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getComplementadaPor(): Collection
+    {
+        return $this->complementadaPor;
+    }
+
+    public function addComplementadaPor(self $complementadaPor): self
+    {
+        if (!$this->complementadaPor->contains($complementadaPor)) {
+            $this->complementadaPor[] = $complementadaPor;
+        }
+
+        return $this;
+    }
+
+    public function removeComplementadaPor(self $complementadaPor): self
+    {
+        $this->complementadaPor->removeElement($complementadaPor);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getComplementaA(): Collection
+    {
+        return $this->complementaA;
+    }
+
+    public function addComplementaA(self $complementaA): self
+    {
+        if (!$this->complementaA->contains($complementaA)) {
+            $this->complementaA[] = $complementaA;
+            $complementaA->addComplementadaPor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComplementaA(self $complementaA): self
+    {
+        if ($this->complementaA->removeElement($complementaA)) {
+            $complementaA->removeComplementadaPor($this);
+        }
 
         return $this;
     }

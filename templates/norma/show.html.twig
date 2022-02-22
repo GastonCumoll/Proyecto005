@@ -43,6 +43,14 @@
                 <th>Etiquetas</th>
                 <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
             </tr>
+            <tr>
+                <th>Numero</th>
+                <td>{{ norma.numero }}</td>
+            </tr>
+            <tr>
+                <th>FechaPromulgacion</th>
+                <td>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</td>
+            </tr>
         </tbody>
     </table>
 
