@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Relacion{% endblock %}
+
+{% block body %}
+    <h1>Relacion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ relacion.id }}</td>
+            </tr>
+            <tr>
+                <th>FechaRelacion</th>
+                <td>{{ relacion.fechaRelacion ? relacion.fechaRelacion|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ relacion.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Resumen</th>
+                <td>{{ relacion.resumen }}</td>
+            </tr>
+            <tr>
+                <th>Usuario</th>
+                <td>{{ relacion.usuario }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('relacion_index') }}">back to list</a>
+
+    <a href="{{ path('relacion_edit', {'id': relacion.id}) }}">edit</a>
+
+    {{ include('relacion/_delete_form.html.twig') }}
+{% endblock %}

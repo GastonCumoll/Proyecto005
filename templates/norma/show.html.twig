@@ -51,9 +51,26 @@
                 <th>FechaPromulgacion</th>
                 <td>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</td>
             </tr>
+            <tr> 
+            <th>Complementa o modifica a </th>
+
+            {% for complementa in complementaA %}
+
+                <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
+
+            {% endfor %} #}
+            <tr>
+            <th>Es complementada o modificada por </th>
+            {% for complementada in complementadaPor %}
+                <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getComplementada.getTitulo}}</a></td>
+            {% endfor %}
+            
+            </tr>
+            <a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>
         </tbody>
     </table>
 
+<tr>
     <a href="{{ path('norma_index') }}">back to list</a>
 
     <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>

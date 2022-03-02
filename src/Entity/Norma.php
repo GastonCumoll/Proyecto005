@@ -86,19 +86,31 @@ class Norma
     private $decretoPromulgacion;
 
     /**
-     * @ORM\OneToMany(targetEntity=Norma::class, mappedBy="decretoPromulgacion")
+     * @ORM\OneToMany(targetEntity=Relacion::class, mappedBy="norma")
      */
-    private $normasPromulgadas;
+    private $complementa;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Norma::class, inversedBy="complementaA")
+     * @ORM\OneToMany(targetEntity=Relacion::class, mappedBy="complementada")
      */
-    private $complementadaPor;
+    private $relaciones;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Norma::class, mappedBy="complementadaPor")
-     */
-    private $complementaA;
+/**
+* @ORM\Column(type="boolean")
+*/
+protected $rela = false;
+
+public function getRela(): ?bool
+{
+    return $this->rela;
+}
+
+public function setRela(?bool $rela): self
+{
+    $this->rela = $rela;
+
+    return $this;
+}
 
 
     public function __toString()
@@ -110,8 +122,8 @@ class Norma
     {
         $this->temas = new ArrayCollection();
         $this->normasPromulgadas = new ArrayCollection();
-        $this->complementadaPor = new ArrayCollection();
-        $this->complementaA = new ArrayCollection();
+        $this->complementa = new ArrayCollection();
+        $this->relaciones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -291,29 +303,29 @@ class Norma
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|Relacion[]
      */
-    public function getNormasPromulgadas(): Collection
+    public function getComplementa(): Collection
     {
-        return $this->normasPromulgadas;
+        return $this->complementa;
     }
 
-    public function addNormasPromulgada(self $normasPromulgada): self
+    public function addComplementum(Relacion $complementum): self
     {
-        if (!$this->normasPromulgadas->contains($normasPromulgada)) {
-            $this->normasPromulgadas[] = $normasPromulgada;
-            $normasPromulgada->setDecretoPromulgacion($this);
+        if (!$this->complementa->contains($complementum)) {
+            $this->complementa[] = $complementum;
+            $complementum->setNorma($this);
         }
 
         return $this;
     }
 
-    public function removeNormasPromulgada(self $normasPromulgada): self
+    public function removeComplementum(Relacion $complementum): self
     {
-        if ($this->normasPromulgadas->removeElement($normasPromulgada)) {
+        if ($this->complementa->removeElement($complementum)) {
             // set the owning side to null (unless already changed)
-            if ($normasPromulgada->getDecretoPromulgacion() === $this) {
-                $normasPromulgada->setDecretoPromulgacion(null);
+            if ($complementum->getNorma() === $this) {
+                $complementum->setNorma(null);
             }
         }
 
@@ -321,51 +333,30 @@ class Norma
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|Relacion[]
      */
-    public function getComplementadaPor(): Collection
+    public function getRelaciones(): Collection
     {
-        return $this->complementadaPor;
+        return $this->relaciones;
     }
 
-    public function addComplementadaPor(self $complementadaPor): self
+    public function addRelacione(Relacion $relacione): self
     {
-        if (!$this->complementadaPor->contains($complementadaPor)) {
-            $this->complementadaPor[] = $complementadaPor;
+        if (!$this->relaciones->contains($relacione)) {
+            $this->relaciones[] = $relacione;
+            $relacione->setComplementada($this);
         }
 
         return $this;
     }
 
-    public function removeComplementadaPor(self $complementadaPor): self
+    public function removeRelacione(Relacion $relacione): self
     {
-        $this->complementadaPor->removeElement($complementadaPor);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getComplementaA(): Collection
-    {
-        return $this->complementaA;
-    }
-
-    public function addComplementaA(self $complementaA): self
-    {
-        if (!$this->complementaA->contains($complementaA)) {
-            $this->complementaA[] = $complementaA;
-            $complementaA->addComplementadaPor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComplementaA(self $complementaA): self
-    {
-        if ($this->complementaA->removeElement($complementaA)) {
-            $complementaA->removeComplementadaPor($this);
+        if ($this->relaciones->removeElement($relacione)) {
+            // set the owning side to null (unless already changed)
+            if ($relacione->getComplementada() === $this) {
+                $relacione->setComplementada(null);
+            }
         }
 
         return $this;

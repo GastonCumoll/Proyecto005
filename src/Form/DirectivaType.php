@@ -6,6 +6,7 @@ use App\Entity\Norma;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class DirectivaType extends AbstractType
 {
@@ -14,7 +15,7 @@ class DirectivaType extends AbstractType
         $builder
         ->add('numero')
         ->add('fechaSancion')
-        ->add('fechaPublicacion')
+        //->add('fechaPublicacion')
         ->add('titulo')
         ->add('texto')
         ->add('resumen')
@@ -24,10 +25,12 @@ class DirectivaType extends AbstractType
         
         //->add('fechaPromulgacion')
         ->add('temas')
+        ->add('rela', CheckboxType::class, array(
+            'required' => false,
+            'value' => 1,
+        ))
         
         //->add('decretoPromulgacion')
-        ->add('complementadaPor')
-        ->add('complementaA')
         ;
     }
 

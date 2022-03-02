@@ -6,6 +6,7 @@ use App\Entity\Norma;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ResolucionType extends AbstractType
 {
@@ -24,10 +25,13 @@ class ResolucionType extends AbstractType
         
         //->add('fechaPromulgacion')
         ->add('temas')
+        ->add('rela', CheckboxType::class, array(
+            'required' => false,
+            'value' => 1,
+        ))
         
         //->add('decretoPromulgacion')
-        ->add('complementadaPor')
-        ->add('complementaA')
+
         ;
     }
 

@@ -31,7 +31,7 @@ class TipoNormaController extends AbstractController
      */
     public function nuevoTipoNorma(TipoNormaRepository $tipoNormaRepository): Response
     {
-
+        
         return $this->render('tipo_norma/newTipo.html.twig', [
             'tipo_normas' => $tipoNormaRepository->findAll(),
         ]);

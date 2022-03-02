@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class CircularType extends AbstractType
 {
@@ -16,7 +17,7 @@ class CircularType extends AbstractType
         $builder
             ->add('numero')
             ->add('fechaSancion')
-            ->add('fechaPublicacion')
+            //->add('fechaPublicacion')
             ->add('titulo')
             ->add('texto')
             ->add('resumen')
@@ -26,10 +27,12 @@ class CircularType extends AbstractType
             
             //->add('fechaPromulgacion')
             ->add('temas')
+            ->add('rela', CheckboxType::class, array(
+                'required' => false,
+                'value' => 1,
+            ))
             
             //->add('decretoPromulgacion')
-            ->add('complementadaPor')
-            ->add('complementaA')
         ;
     }
 

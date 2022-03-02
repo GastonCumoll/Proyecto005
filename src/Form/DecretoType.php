@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class DecretoType extends AbstractType
 {
@@ -14,21 +15,24 @@ class DecretoType extends AbstractType
     {
         $builder
         ->add('numero')
-        ->add('fechaSancion')
-        ->add('fechaPublicacion')
+        //->add('fechaSancion')
+        //->add('fechaPublicacion')
         ->add('titulo')
         ->add('texto')
         ->add('resumen')
         //->add('fechaPublicacionBoletin')
-        ->add('estado')
+        //->add('estado')
         //->add('etiquetas',TextType::class)
         
         //->add('fechaPromulgacion')
         ->add('temas')
-        
+        ->add('rela', CheckboxType::class, array(
+            'required' => false,
+            'value' => 1,
+        ))
         //->add('decretoPromulgacion')
-        ->add('complementadaPor')
-        ->add('complementaA')
+        //->add('cA')
+        //->add('cPor')
         ;
     }
 

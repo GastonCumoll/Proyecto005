@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Tipo de norma</th>
                 <th>FechaSancion</th>
                 <th>FechaPublicacion</th>
                 <th>Titulo</th>
@@ -26,6 +27,7 @@
         {% for norma in normas %}
             <tr>
                 <td>{{ norma.id }}</td>
+                <td>{{norma.tipoNorma}}</td>
                 <td>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.titulo }}</td>
@@ -39,6 +41,7 @@
                 <td>
                     <a href="{{ path('norma_show', {'id': norma.id}) }}">show</a>
                     <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
+                    
                 </td>
             </tr>
         {% else %}
