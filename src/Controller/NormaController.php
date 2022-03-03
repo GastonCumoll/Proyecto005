@@ -25,7 +25,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 /**
  * @Route("/norma")
  */
@@ -40,61 +39,62 @@ class NormaController extends AbstractController
             'normas' => $normaRepository->findAll(),
         ]);
     }
-    
+    /**
+     * @Route("{id}/mostrarTexto", name="mostrar_texto", methods={"GET"})
+     */
+    public function mostrarTexto(NormaRepository $normaRepository ,$id): Response
+    {
+        return $this->render('norma/mostrarTexto.html.twig', [
+            'id' => $normaRepository->find($id),
+        ]);
+    }
     
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository ,$id): Response
     {
-        // $repository1 = $this->getDoctrine()->getRepository(Norma::class);
-        // $hola = $repository1->findById(1);
-        // dd($hola);
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
         
-        if($id==1)
-        {
-            $norma = new Norma();
-            $norma->setTipoNorma($idNorma);
-            $norma->setEstado("vigente");
-            $form = $this->createForm(DecretoType::class, $norma);
-            $form->handleRequest($request);
-        }elseif($id==2)
-        {
-            $norma = new Norma();
-            $norma->setTipoNorma($idNorma);
-            $norma->setEstado("vigente");
-            $form = $this->createForm(OrdenanzaType::class, $norma);
-            $form->handleRequest($request);
-        }elseif($id==3)
-        {
-            $norma = new Norma();
-            $norma->setTipoNorma($idNorma);
-            $norma->setEstado("vigente");
-            $form = $this->createForm(ResolucionType::class, $norma);
-            $form->handleRequest($request);
-        }elseif($id==4)
-        {
-            $norma = new Norma();
-            $norma->setTipoNorma($idNorma);
-            $norma->setEstado("vigente");
-            $form = $this->createForm(LeyType::class, $norma);
-            $form->handleRequest($request);
-        }elseif($id==5)
-        {
-            $norma = new Norma();
-            $norma->setTipoNorma($idNorma);
-            $norma->setEstado("vigente");
-            $form = $this->createForm(CircularType::class, $norma);
-            $form->handleRequest($request);
+        switch ($id){
+            case 1:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(DecretoType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 2:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(OrdenanzaType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 3:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(ResolucionType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 4:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(LeyType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 5:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(CircularType::class, $norma);
+                $form->handleRequest($request);
+                break;
         }
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            
             
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
+            $norma->setEstado("Borrador");
             $entityManager->persist($norma);
             $entityManager->flush();
                 
@@ -107,23 +107,6 @@ class NormaController extends AbstractController
                 return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
             }
             return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
-            
-
-            
-            
-            // $normaComplementa=$norma->getCA();
-            // $normaComplementada=$norma->getCPor();
-            
-
-            // foreach ($normaComplementada as $unaComplementada) {
-            //     $norma->addCPor($unaComplementada);
-            // }
-            // foreach ($normaComplementa as $unaComplementa) {
-            //     $unaComplementa->addCA($norma);
-            // }
-            // dd($norma);
-            // $entityManager->flush();
-
             
         }
         

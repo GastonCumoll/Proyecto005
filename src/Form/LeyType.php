@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 
 class LeyType extends AbstractType
 {
@@ -15,9 +16,9 @@ class LeyType extends AbstractType
         $builder
         ->add('numero')
         ->add('fechaSancion')
-        ->add('fechaPublicacion')
+        //->add('fechaPublicacion')
         ->add('titulo')
-        ->add('texto')
+        ->add('texto',  FroalaEditorType::class)
         ->add('resumen')
         //->add('fechaPublicacionBoletin')
         //->add('estado')

@@ -6,6 +6,7 @@ use App\Entity\Norma;
 use App\Form\CircularType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -19,8 +20,8 @@ class CircularType extends AbstractType
             ->add('fechaSancion')
             //->add('fechaPublicacion')
             ->add('titulo')
-            ->add('texto')
             ->add('resumen')
+            ->add('texto',  FroalaEditorType::class)
             //->add('fechaPublicacionBoletin')
             //->add('estado')
             //->add('etiquetas',TextType::class)

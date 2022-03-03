@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{id.getTitulo}}{% endblock %}
+
+{% block body %}
+
+<td>{{ froala_display(id.texto) }}</td>
+
+{% endblock %}

@@ -48,7 +48,6 @@ class RelacionController extends AbstractController
         $today=new DateTime();
         $relacion=new Relacion();
 
-
         $repository= $this->getDoctrine()->getRepository(Norma::class);
         $norma=$repository->find($id);
         $relacion->setFechaRelacion($today);
@@ -83,7 +82,7 @@ class RelacionController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Norma::class);
         $norma = $repository->find($id);
         $relacion->setNorma($norma);
-        $session->invalidate();
+        //$session->invalidate();
         $form = $this->createForm(RelacionType::class, $relacion);
         $form->handleRequest($request);
 
@@ -93,33 +92,34 @@ class RelacionController extends AbstractController
 
             return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
         }
+        
         return $this->renderForm('relacion/new.html.twig', [
             'relacion' => $relacion,
             'form' => $form,
         ]);
     }
     
-    /**
-     * @Route("/new", name="relacion_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $relacion = new Relacion();
-        $form = $this->createForm(RelacionType::class, $relacion);
-        $form->handleRequest($request);
+    // /**
+    //  * @Route("/new", name="relacion_new", methods={"GET", "POST"})
+    //  */
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $relacion = new Relacion();
+    //     $form = $this->createForm(RelacionType::class, $relacion);
+    //     $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($relacion);
-            $entityManager->flush();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($relacion);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
-        }
+    //         return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+    //     }
 
-        return $this->renderForm('relacion/new.html.twig', [
-            'relacion' => $relacion,
-            'form' => $form,
-        ]);
-    }
+    //     return $this->renderForm('relacion/new.html.twig', [
+    //         'relacion' => $relacion,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}", name="relacion_show", methods={"GET"})

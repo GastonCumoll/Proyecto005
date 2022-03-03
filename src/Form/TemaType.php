@@ -14,7 +14,7 @@ class TemaType extends AbstractType
         $builder
             ->add('nombre')
             ->add('capitulo')
-            ->add('normas')
+            //->add('normas')
         ;
     }
 
