@@ -26,11 +26,15 @@
             </tr>
             <tr>
                 <th>Texto</th>
-                    <a href="{{path('mostrar_texto', {'id': norma.id})  }}"> texto completo de la norma</a>
+                    <td><a href="{{path('mostrar_texto', {'id': norma.id})  }}"> texto completo de la norma</a></td>
             </tr>
             <tr>
                 <th>Estado</th>
                 <td>{{ norma.estado }}</td>
+            </tr>
+            <tr>
+                <th>Etiquetas</th>
+                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
             </tr>
             {% if norma.tipoNorma.nombre=="Ley" %}
             <tr>
@@ -42,16 +46,19 @@
             <th>Complementa o modifica a </th>
             {% for complementa in complementaA %}
                 <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
-            {% endfor %} #}
+            {% endfor %} 
             <tr>
             <th>Es complementada o modificada por </th>
             {% for complementada in complementadaPor %}
                 <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
             {% endfor %}
             </tr>
-            <a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>
+            
         </tbody>
+        
     </table>
+    <a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>
+    <br>
 <tr>
 
     <a href="{{ path('norma_index') }}">back to list</a>

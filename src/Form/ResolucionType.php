@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class ResolucionType extends AbstractType
@@ -22,7 +23,10 @@ class ResolucionType extends AbstractType
         ->add('texto',  FroalaEditorType::class)
         //->add('fechaPublicacionBoletin')
         //->add('estado')
-        //->add('etiquetas',TextType::class)
+        ->add('etiquetas')
+        ->add('etiquetasE',TextType::class, [
+                'mapped' => false
+        ])
         
         //->add('fechaPromulgacion')
         ->add('temas')

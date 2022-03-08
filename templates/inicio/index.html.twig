@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block body %}
+    <a href="{{ path('titulo_index')}}">Titulos</a>
+    <br>
+    <a href="{{ path('norma_nueva')}}">Cargar norma </a>
+    <br>
+    <a href="{{ path('norma_index')}}">Listado normas</a>
+    <br>
+
+{% endblock %}

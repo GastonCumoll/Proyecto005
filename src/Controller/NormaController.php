@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Norma;
 use App\Form\LeyType;
 use App\Form\NormaType;
+use App\Entity\Etiqueta;
 use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
@@ -17,6 +18,7 @@ use App\Form\ResolucionType;
 use App\Repository\NormaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
+use App\Repository\EtiquetaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +41,7 @@ class NormaController extends AbstractController
             'normas' => $normaRepository->findAll(),
         ]);
     }
+
     /**
      * @Route("{id}/mostrarTexto", name="mostrar_texto", methods={"GET"})
      */
@@ -57,32 +60,32 @@ class NormaController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
         
-        switch ($id){
-            case 1:
+        switch ($idNorma->getNombre()){
+            case 'Decreto':
                 $norma = new Norma();
                 $norma->setTipoNorma($idNorma);
                 $form = $this->createForm(DecretoType::class, $norma);
                 $form->handleRequest($request);
             break;
-            case 2:
+            case 'Ordenanza':
                 $norma = new Norma();
                 $norma->setTipoNorma($idNorma);
                 $form = $this->createForm(OrdenanzaType::class, $norma);
                 $form->handleRequest($request);
             break;
-            case 3:
+            case 'Resolucion':
                 $norma = new Norma();
                 $norma->setTipoNorma($idNorma);
                 $form = $this->createForm(ResolucionType::class, $norma);
                 $form->handleRequest($request);
             break;
-            case 4:
+            case 'Ley':
                 $norma = new Norma();
                 $norma->setTipoNorma($idNorma);
                 $form = $this->createForm(LeyType::class, $norma);
                 $form->handleRequest($request);
             break;
-            case 5:
+            case 'Circular':
                 $norma = new Norma();
                 $norma->setTipoNorma($idNorma);
                 $form = $this->createForm(CircularType::class, $norma);
@@ -95,9 +98,29 @@ class NormaController extends AbstractController
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
+            
+            //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por espacios en blanco y se las guarda en un array
+            $etiquetas = explode(", ", $form['etiquetasE']->getData());
+
+            
+            
             $entityManager->persist($norma);
             $entityManager->flush();
                 
+            foreach ($etiquetas as $unaEtiqueta) {
+                if(!$repository->findOneBy(['nombre' => $unaEtiqueta]))
+                {
+                $etiquetaNueva = new Etiqueta();
+                $etiquetaNueva->setNombre($unaEtiqueta);
+                $etiquetaNueva->addNorma($norma);
+                $norma->addEtiqueta($etiquetaNueva);
+                
+                $entityManager->persist($etiquetaNueva);
+                }
+                $entityManager->persist($norma);
+                $entityManager->flush();
+            }
+
             if($norma->getRela()==true){
                 
                 $id=$norma->getId();
@@ -139,10 +162,45 @@ class NormaController extends AbstractController
      */
     public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(NormaType::class, $norma);
-        $form->handleRequest($request);
+        switch ($norma->getTipoNorma()->getNombre()){
+            case 'Decreto':
+                $form = $this->createForm(DecretoType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 'Ordenanza':
+                $form = $this->createForm(OrdenanzaType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 'Resolucion':
+                $form = $this->createForm(ResolucionType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 'Ley':
+                $form = $this->createForm(LeyType::class, $norma);
+                $form->handleRequest($request);
+            break;
+            case 'Circular':
+                $form = $this->createForm(CircularType::class, $norma);
+                $form->handleRequest($request);
+            break;
+        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $etiquetas = explode(", ", $form['etiquetasE']->getData());
+            $repository = $this->getDoctrine()->getRepository(Etiqueta::class);
+            foreach ($etiquetas as $unaEtiqueta) {
+
+            if(!$repository->findOneBy(['nombre' => $unaEtiqueta]))
+            {
+                $etiquetaNueva = new Etiqueta();
+                $etiquetaNueva->setNombre($unaEtiqueta);
+                $etiquetaNueva->addNorma($norma);
+                $norma->addEtiqueta($etiquetaNueva);
+                $entityManager->persist($etiquetaNueva);
+            }
+                $entityManager->persist($norma);        
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);

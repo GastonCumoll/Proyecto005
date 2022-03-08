@@ -24,7 +24,10 @@ class CircularType extends AbstractType
             ->add('texto',  FroalaEditorType::class)
             //->add('fechaPublicacionBoletin')
             //->add('estado')
-            //->add('etiquetas',TextType::class)
+            ->add('etiquetas')
+        ->add('etiquetasE',TextType::class, [
+                'mapped' => false
+        ])
             
             //->add('fechaPromulgacion')
             ->add('temas')

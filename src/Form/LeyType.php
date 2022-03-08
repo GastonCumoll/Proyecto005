@@ -6,6 +6,7 @@ use App\Entity\Norma;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 
@@ -22,7 +23,10 @@ class LeyType extends AbstractType
         ->add('resumen')
         //->add('fechaPublicacionBoletin')
         //->add('estado')
-        //->add('etiquetas',TextType::class)
+        ->add('etiquetas')
+        ->add('etiquetasE',TextType::class, [
+                'mapped' => false
+        ])
         
         ->add('fechaPromulgacion')
         ->add('temas')

@@ -7,7 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 
 class OrdenanzaType extends AbstractType
 {
@@ -23,7 +25,10 @@ class OrdenanzaType extends AbstractType
             ->add('texto',  FroalaEditorType::class)
             //->add('fechaPublicacionBoletin')
             //->add('estado')
-            //->add('etiquetas')
+            ->add('etiquetas')
+        ->add('etiquetasE',TextType::class, [
+                'mapped' => false
+        ])
             ->add('numero')
             
             ->add('temas')

@@ -55,11 +55,6 @@ class Norma
     private $estado;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $etiquetas = [];
-
-    /**
      * @ORM\ManyToMany(targetEntity=Tema::class, mappedBy="normas")
      */
     private $temas;
@@ -100,6 +95,11 @@ class Norma
 */
 protected $rela = false;
 
+/**
+ * @ORM\ManyToMany(targetEntity=Etiqueta::class, inversedBy="normas")
+ */
+private $etiquetas;
+
 public function getRela(): ?bool
 {
     return $this->rela;
@@ -124,6 +124,7 @@ public function setRela(?bool $rela): self
         $this->normasPromulgadas = new ArrayCollection();
         $this->complementa = new ArrayCollection();
         $this->relaciones = new ArrayCollection();
+        $this->etiquetas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,17 +216,6 @@ public function setRela(?bool $rela): self
         return $this;
     }
 
-    public function getEtiquetas(): ?array
-    {
-        return $this->etiquetas;
-    }
-
-    public function setEtiquetas(?array $etiquetas): self
-    {
-        $this->etiquetas = $etiquetas;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Tema[]
@@ -358,6 +348,30 @@ public function setRela(?bool $rela): self
                 $relacione->setComplementada(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Etiqueta[]
+     */
+    public function getEtiquetas(): Collection
+    {
+        return $this->etiquetas;
+    }
+
+    public function addEtiqueta(Etiqueta $etiqueta): self
+    {
+        if (!$this->etiquetas->contains($etiqueta)) {
+            $this->etiquetas[] = $etiqueta;
+        }
+
+        return $this;
+    }
+
+    public function removeEtiqueta(Etiqueta $etiqueta): self
+    {
+        $this->etiquetas->removeElement($etiqueta);
 
         return $this;
     }

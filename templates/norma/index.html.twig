@@ -14,6 +14,7 @@
                 <th>FechaSancion</th>
                 <th>FechaPublicacion</th>
                 <th>Resumen</th>
+                <th>Etiquetas</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,6 +27,7 @@
                 <td>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.resumen }}</td>
+                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
                 <td>
                     <a href="{{ path('norma_show', {'id': norma.id}) }}">show</a>
                     <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
