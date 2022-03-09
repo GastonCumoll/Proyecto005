@@ -8,20 +8,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nombre</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for titulo in titulos %}
             <tr>
-                <td>{{ titulo.id }}</td>
-                <td>{{ titulo.nombre }}</td>
-                <td>
-                    <a href="{{ path('titulo_show', {'id': titulo.id}) }}">show</a>
-                    <a href="{{ path('titulo_edit', {'id': titulo.id}) }}">edit</a>
-                </td>
+                <td><button > <a class="btn btn-dark"href="{{ path('titulo_new') }}">> ><a  href="{{ path('capitulo_de_titulo', {'id': titulo.id}) }}">{{ titulo.nombre }}</a></a></button></td>
             </tr>
         {% else %}
             <tr>

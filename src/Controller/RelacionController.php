@@ -31,6 +31,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class RelacionController extends AbstractController
 {
+
     /**
      * @Route("/", name="relacion_index", methods={"GET"})
      */
@@ -40,6 +41,7 @@ class RelacionController extends AbstractController
             'relacions' => $relacionRepository->findAll(),
         ]);
     }
+
     /**
      * @Route("/{id}/agregarRelacion", name="agregar_relacion", methods={"GET", "POST"})
      */
@@ -68,6 +70,7 @@ class RelacionController extends AbstractController
             'form' => $form,
         ]);
     }
+    
     /**
      * @Route("/relaForm", name="form_rela", methods={"GET", "POST"})
      */

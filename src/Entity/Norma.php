@@ -112,7 +112,6 @@ public function setRela(?bool $rela): self
     return $this;
 }
 
-
     public function __toString()
     {
         return $this->titulo;

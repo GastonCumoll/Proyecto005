@@ -17,6 +17,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class CapituloController extends AbstractController
 {
     /**
+     * @Route("/{id}/deTitulo", name="capitulo_de_titulo", methods={"GET"})
+     */
+    public function capituloTitulo(CapituloRepository $capituloRepository,$id): Response
+    {
+        $cap=$capituloRepository->findByTitulo($id);
+        //dd($cap);
+        
+        return $this->render('capitulo/capituloDeTitulo.html.twig', [
+            'capitulos'=>$cap
+        ]);
+    }
+
+    /**
+     * @Route("/novedades", name="novedades", methods={"GET"})
+     */
+    public function novedades(){
+        return $this->render('capitulo/novedades.html.twig',[]);
+    }
+
+    /**
      * @Route("/", name="capitulo_index", methods={"GET"})
      */
     public function index(CapituloRepository $capituloRepository): Response
@@ -87,7 +107,7 @@ class CapituloController extends AbstractController
             $entityManager->remove($capitulo);
             $entityManager->flush();
         }
-
+        
         return $this->redirectToRoute('capitulo_index', [], Response::HTTP_SEE_OTHER);
     }
 }

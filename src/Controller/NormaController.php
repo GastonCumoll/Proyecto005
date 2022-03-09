@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Entity\Tema;
 use App\Entity\Norma;
 use App\Form\LeyType;
 use App\Form\NormaType;
@@ -15,15 +16,17 @@ use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
 use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
+use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
+use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
-use App\Repository\EtiquetaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -32,11 +35,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class NormaController extends AbstractController
 {
+
+    /**
+     * @Route("/{id}/deTema", name="normas_de_tema", methods={"GET"})
+     */
+    public function normasTema(NormaRepository $normaRepository,TemaRepository $temaRepository, $id): Response
+    {
+        $tema=$temaRepository->find($id);
+        $normas=$tema->getNormas();
+        
+        
+        return $this->render('norma/normasDeTema.html.twig', [
+            'normas' => $normas
+        ]);
+    }
+
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
     public function index(NormaRepository $normaRepository): Response
     {   
+        
         return $this->render('norma/index.html.twig', [
             'normas' => $normaRepository->findAll(),
         ]);
@@ -101,12 +120,22 @@ class NormaController extends AbstractController
             
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por espacios en blanco y se las guarda en un array
             $etiquetas = explode(", ", $form['etiquetasE']->getData());
+            $tema =$form['temas']->getData();
+            
+            
+            //$entityManager->persist($tema);
 
-            
-            
+            foreach ($tema as $unTema) {
+                $newTema= new Tema();
+                $newTema=$unTema;
+                // dd($newTema);
+            $norma->addTema($newTema);
+            $newTema->addNorma($norma); 
+            $entityManager->persist($newTema);
+            }
             $entityManager->persist($norma);
             $entityManager->flush();
-                
+            //dd($norma);
             foreach ($etiquetas as $unaEtiqueta) {
                 if(!$repository->findOneBy(['nombre' => $unaEtiqueta]))
                 {

@@ -16,6 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TemaController extends AbstractController
 {
+    
+    /**
+     * @Route("/{id}/deCapitulo", name="tema_de_capitulo", methods={"GET"})
+     */
+    public function temaCapitulo(TemaRepository $temaRepository,$id): Response
+    {
+        $tema=$temaRepository->findByCapitulo($id);
+        // dd($tema);
+        
+        return $this->render('tema/temaDeCapitulo.html.twig', [
+            'temas'=>$tema
+        ]);
+    }
+
     /**
      * @Route("/", name="tema_index", methods={"GET"})
      */

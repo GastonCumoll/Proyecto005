@@ -13,9 +13,6 @@
                 <th>Titulo</th>
                 <th>FechaSancion</th>
                 <th>FechaPublicacion</th>
-                {# <th>Resumen</th>
-                <th>actions</th>
-                <th>Etiquetas</th> #}
             </tr>
         </thead>
         <tbody>
@@ -27,18 +24,14 @@
                 
                 <td>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</td>
-                {# <td>{{ norma.resumen }}</td>
-                <td>
-                    <a href="{{ path('norma_show', {'id': norma.id}) }}">show</a>
-                    <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
-                </td>
-                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
-            </tr> #}
+                
         {% else %}
             <tr>
                 <td colspan="12">no records found</td>
             </tr>
         {% endfor %}
+        
         </tbody>
     </table>
+    <a href="{{ path('norma_nueva') }}">Create new</a>
 {% endblock %}

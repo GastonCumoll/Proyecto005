@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Capitulo index{% endblock %}
+{% block title %}Tema index{% endblock %}
 
 {% block body %}
-    <h1>Capitulo index</h1>
+    <h1>Tema index</h1>
 
     <table class="table">
         <thead>
@@ -12,9 +12,11 @@
             </tr>
         </thead>
         <tbody>
-        {% for capitulo in capitulos %}
+        {% for tema in temas %}
             <tr>
-                <td><a href="{{ path('tema_de_capitulo', {'id': capitulo.id}) }}">{{ capitulo.nombre }}</a></td>
+                <td>
+                    <a href="{{ path('normas_de_tema', {'id': tema.id}) }}">{{ tema.nombre }}</a>
+                </td>
             </tr>
         {% else %}
             <tr>
@@ -24,5 +26,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('capitulo_new') }}">Create new</a>
+    <a href="{{ path('tema_new') }}">Create new</a>
 {% endblock %}
