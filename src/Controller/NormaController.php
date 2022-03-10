@@ -79,6 +79,8 @@ class NormaController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
         
+        $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
+
         switch ($idNorma->getNombre()){
             case 'Decreto':
                 $norma = new Norma();
@@ -118,38 +120,45 @@ class NormaController extends AbstractController
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
             
-            //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por espacios en blanco y se las guarda en un array
+            //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
             $etiquetas = explode(", ", $form['etiquetasE']->getData());
             $tema =$form['temas']->getData();
             
-            
-            //$entityManager->persist($tema);
-
             foreach ($tema as $unTema) {
                 $newTema= new Tema();
                 $newTema=$unTema;
-                // dd($newTema);
-            $norma->addTema($newTema);
-            $newTema->addNorma($norma); 
-            $entityManager->persist($newTema);
-            }
-            $entityManager->persist($norma);
-            $entityManager->flush();
-            //dd($norma);
-            foreach ($etiquetas as $unaEtiqueta) {
-                if(!$repository->findOneBy(['nombre' => $unaEtiqueta]))
-                {
-                $etiquetaNueva = new Etiqueta();
-                $etiquetaNueva->setNombre($unaEtiqueta);
-                $etiquetaNueva->addNorma($norma);
-                $norma->addEtiqueta($etiquetaNueva);
+                $norma->addTema($newTema);
+                $newTema->addNorma($norma); 
                 
-                $entityManager->persist($etiquetaNueva);
-                }
-                $entityManager->persist($norma);
-                $entityManager->flush();
             }
 
+            $entityManager->persist($norma);
+            $entityManager->flush();
+            
+            foreach ($etiquetas as $unaEtiqueta) {
+                $etiquetaSinEspacios="";
+                for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
+                        if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
+                            $etiquetaSinEspacios.=$unaEtiqueta[$i];// aca concatenamos caracter por acaracter de unaEtiqueta a etiquetaSinEspacios que es un string
+                        }
+                    }
+                    
+                if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
+                {   
+                    
+                    $etiquetaNueva = new Etiqueta();
+                    $etiquetaNueva->setNombre($etiquetaSinEspacios);
+                    $etiquetaNueva->addNorma($norma);
+                    $norma->addEtiqueta($etiquetaNueva);
+                
+                    $entityManager->persist($etiquetaNueva);
+                }
+                
+                $entityManager->persist($norma);
+                
+            }
+            $entityManager->flush();
+            
             if($norma->getRela()==true){
                 
                 $id=$norma->getId();
@@ -217,18 +226,34 @@ class NormaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $etiquetas = explode(", ", $form['etiquetasE']->getData());
-            $repository = $this->getDoctrine()->getRepository(Etiqueta::class);
-            foreach ($etiquetas as $unaEtiqueta) {
+            $tema =$form['temas']->getData();
+            
+            foreach ($tema as $unTema) {
+                $newTema= new Tema();
+                $newTema=$unTema;
+                $norma->addTema($newTema);
+                $newTema->addNorma($norma); 
+            }
+            $entityManager->persist($norma);
+            $entityManager->flush();
 
-            if(!$repository->findOneBy(['nombre' => $unaEtiqueta]))
+            $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
+            foreach ($etiquetas as $unaEtiqueta) {
+                $etiquetaSinEspacios="";
+                for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
+                        if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
+                            $etiquetaSinEspacios.=$unaEtiqueta[$i];
+                        }
+                    }
+            if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
             {
                 $etiquetaNueva = new Etiqueta();
-                $etiquetaNueva->setNombre($unaEtiqueta);
+                $etiquetaNueva->setNombre($etiquetaSinEspacios);
                 $etiquetaNueva->addNorma($norma);
                 $norma->addEtiqueta($etiquetaNueva);
                 $entityManager->persist($etiquetaNueva);
             }
-                $entityManager->persist($norma);        
+                $entityManager->persist($norma);   
             }
             $entityManager->flush();
 

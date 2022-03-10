@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {# <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar scroll</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px;">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Digesto <span class="sr-only">(current)</span></a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="titulo" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Títulos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="titulo">
+                        {% for unTitulo in titulos %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="capitulo" role="button" data-toggle="dropdown" aria-expanded="false">
+                                    {{unTitulo.nombre}}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="capitulo">
+                                    {% for unCapitulo in unTitulo.getCapitulos %}
+                                        <li><a class="dropdown-item" href="#">{{unCapitulo.nombre}}</a></li>            
+                                    {% endfor %}
+                        
+                                </ul>
+                            </li>            
+                        {% endfor %}
+                
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled">Link</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </nav> #}
+
+    {# <div class="accordion" id="accordionExample">
+        {% for unTitulo in titulos %}
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne{{unTitulo.getId()}}" aria-expanded="false" aria-controls="collapseOne{{unTitulo.getId()}}">
+                            {{unTitulo.nombre}}
+                        </button>
+                    </h2>
+            </div>
+
+            <div id="collapseOne{{unTitulo.getId()}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="accordion" id="accordionCapitulo">
+                        {% for unCapitulo in unTitulo.getCapitulos() %}
+                        <div class="card">
+                            <div class="card-header" id="headingCapitulo">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseCapitulo{{unCapitulo.getId()}}" aria-expanded="false" aria-controls="collapseCapitulo{{unCapitulo.getId()}}">
+                                            {{unCapitulo.nombre}}
+                                        </button>
+                                    </h2>
+                            </div>
+                
+                            <div id="collapseCapitulo{{unCapitulo.getId()}}" class="collapse show" aria-labelledby="headingCapitulo" data-parent="#accordionCapitulo">
+                                <div class="card-body">
+                                    Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div> #}
+
+    <div class="accordion" id="accordionTitulo">
+        {% for unTitulo in titulos %}
+        <div class="card">
+            <div class="card-header" id="headingTitulo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTitulo{{unTitulo.getId()}}" aria-expanded="false" aria-controls="collapseTitulo{{unTitulo.getId()}}">
+                        {{unTitulo.nombre}}
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTitulo{{unTitulo.getId()}}" class="collapse" aria-labelledby="headingTitulo" data-parent="#accordionTitulo">
+                <div class="card-body">
+                    <div class="accordion" id="accordionCapitulo">
+                        {% for unCapitulo in unTitulo.getCapitulos %}
+                        <div class="card">
+                            <div class="card-header" id="headingCapitulo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseCapitulo{{unCapitulo.getId()}}" aria-expanded="false" aria-controls="collapseCapitulo{{unCapitulo.getId()}}">
+                                        {{unCapitulo.nombre}}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseCapitulo{{unCapitulo.getId()}}" class="collapse" aria-labelledby="headingCapitulo" data-parent="#accordionCapitulo">
+                                <div class="card-body">
+                                    <div class="accordion" id="accordionTema">
+                                        {% for unTema in unCapitulo.getTemas %}
+                                        <div class="card">
+                                            <div class="card-header" id="headingTema">
+                                                <h2 class="mb-0">
+                                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTema{{unTema.getId()}}" aria-expanded="false" aria-controls="collapseTema{{unTema.getId()}}">
+                                                        {{unTema.nombre}}
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            <div id="collapseTema{{unTema.getId()}}" class="collapse" aria-labelledby="headingTema" data-parent="#accordionTema">
+                                                <div class="card-body">
+                                                    {% for unaNorma in unTema.getNormas %}
+                                                        <a href="{{ path('norma_show', {'id': unaNorma.id}) }}">{{ unaNorma.titulo }}</a>
+                                                        <br>
+                                                    {% endfor %}
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

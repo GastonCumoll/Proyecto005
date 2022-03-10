@@ -15,27 +15,27 @@ class DirectivaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('numero')
-        ->add('fechaSancion')
-        //->add('fechaPublicacion')
-        ->add('titulo')
-        ->add('resumen')
-        ->add('texto',  FroalaEditorType::class)
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
-        ->add('etiquetas')
-        ->add('etiquetasE',TextType::class, [
+            ->add('numero')
+            ->add('titulo')
+            //->add('fechaSancion')
+            //->add('fechaPublicacion')
+            
+            ->add('resumen')
+            ->add('texto',  FroalaEditorType::class)
+            //->add('fechaPublicacionBoletin')
+            //->add('estado')
+            ->add('etiquetas')
+            ->add('etiquetasE',TextType::class, [
                 'mapped' => false
-        ])
-        
-        //->add('fechaPromulgacion')
-        ->add('temas')
-        ->add('rela', CheckboxType::class, array(
-            'required' => false,
-            'value' => 1,
-        ))
-        
-        //->add('decretoPromulgacion')
+            ])
+            //->add('fechaPromulgacion')
+            ->add('temas')
+            ->add('rela', CheckboxType::class, array(
+                'required' => false,
+                'value' => 1,
+            ))
+            //->add('decretoPromulgacion')
+        ;
         ;
     }
 
