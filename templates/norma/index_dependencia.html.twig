@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norma index{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+<div class="container mt-2">
+    <div class="accordion" id="accordionTitulo">
+        {% for unTitulo in titulos %}
+        <div class="card">
+            <div class="card-header" id="headingTitulo">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTitulo{{unTitulo.getId()}}" aria-expanded="false" aria-controls="collapseTitulo{{unTitulo.getId()}}">
+                        {{unTitulo.nombre}}
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTitulo{{unTitulo.getId()}}" class="collapse" aria-labelledby="headingTitulo" data-parent="#accordionTitulo">
+                <div class="card-body">
+                    <div class="accordion" id="accordionCapitulo">
+                        {% for unCapitulo in unTitulo.getCapitulos %}
+                        <div class="card">
+                            <div class="card-header" id="headingCapitulo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseCapitulo{{unCapitulo.getId()}}" aria-expanded="false" aria-controls="collapseCapitulo{{unCapitulo.getId()}}">
+                                        {{unCapitulo.nombre}}
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseCapitulo{{unCapitulo.getId()}}" class="collapse" aria-labelledby="headingCapitulo" data-parent="#accordionCapitulo">
+                                <div class="card-body">
+                                    <div class="accordion" id="accordionTema">
+                                        {% for unTema in unCapitulo.getTemas %}
+                                        <div class="card">
+                                            <div class="card-header" id="headingTema">
+                                                <h2 class="mb-0">
+                                                    
+                                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTema{{unTema.getId()}}" aria-expanded="false" aria-controls="collapseTema{{unTema.getId()}}">
+                                                        <a href="{{ path('normas_de_tema', {'id': unTema.id}) }}">{{unTema.nombre}}</a>
+                                                    </button>
+                                                </h2>
+                                            </div>
+                                            {# <div id="collapseTema{{unTema.getId()}}" class="collapse" aria-labelledby="headingTema" data-parent="#accordionTema">
+                                                <div class="card-body">
+                                                    {% for unaNorma in unTema.getNormas %}
+                                                        <a href="{{ path('norma_show', {'id': unaNorma.id}) }}">{{unaNorma.titulo}}</a>
+                                                        <br>
+                                                    {% endfor %}
+                                                    
+                                                </div>
+                                            </div> #}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% for norma in normasTema %}
+<div class="container mt-3 mb-3">
+    <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card-header">
+            <th>{{norma.tipoNorma.nombre}} N° </th>
+            
+            {{ norma.numero }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ norma.titulo }}</h5>
+            {# <p class="card-text">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+            <p class="card-text">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p> #}
+            <a href="{{path('norma_show', {'id': norma.id})  }}" class="btn btn-primary">Ver Norma</a>
+        </div>
+        {# <div class="card-footer text-muted">
+            <a href="{{ path('norma_index') }}">
+                <button type="button" class="btn btn-info"> Back to list <i class="fas fa-arrow-left"></i> </button> 
+            </a>
+        </div> #}
+        <div class="card-footer text-muted">
+            
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+
+<a href="{{ path('norma_nueva') }}">Create new</a>
+{% endblock %}
+
+

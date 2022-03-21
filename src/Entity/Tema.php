@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TemaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,11 +28,13 @@ class Tema
     /**
      * @ORM\ManyToOne(targetEntity=Capitulo::class, inversedBy="temas")
      * @ORM\JoinColumn(nullable=false)
+     * @MaxDepth(1)
      */
     private $capitulo;
 
     /**
      * @ORM\ManyToMany(targetEntity=Norma::class, inversedBy="temas")
+     * @MaxDepth(1)
      */
     private $normas;
 

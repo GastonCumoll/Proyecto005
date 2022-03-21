@@ -1,25 +1,423 @@
-<!DOCTYPE html>
 <html>
-    <head>
+
+<head>
+    {% block head %}
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        <link href="../css/froala_style.min.css" rel="stylesheet" type="text/css" /> 
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Municipalidad de Paraná </title>
+        <link rel="icon" href="{{ asset('images/logomuniblanco.png') }}" type="image/x-icon" />
+        <link rel="stylesheet" href="{{ asset('build/css/loader.css') }}" />
+        {# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> #}
+        {# <link href="../css/froala_style.min.css" rel="stylesheet" type="text/css" />  #}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="sweetalert2.all.min.js"></script>
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {# {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %} #}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+        
+    {% endblock %}
+    {% block addStyleSheets %}
+    {{ encore_entry_link_tags('base') }}
+    {{ encore_entry_link_tags('estilo') }}
+    {% endblock %}
+</head>
+
+<body>
+    <div id="contenedor_carga">
+        <div id="carga"></div>
+        <div id="carga2"></div>
+        <div id="carga3"></div>
+    </div>
+    <div class="{#header-top #}container">
+
+
+
+        <nav class="navbar navbar-expand-lg  navbar-light bg-white" id="nav">
+            <div class="d-flex flex-grow-1">
+                <a class="navbar-brand" {#href="{{ path('bienvenido') }}" #}>
+                    <img src="{{asset('/municipalidad.png')}}" width="173" height="auto" alt="">
+                </a>
+
+
+                <div class="w-100 mt-auto mb-auto text-right">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse text-right" id="myNavbar">
+                <ul class="navbar-nav ml-auto">
+
+                    {% if app.session.get('USUARIO_ID') is defined and app.session.get('USUARIO_ID') is not null %}
+
+                    {%set acreditador = false%}
+                    {%set consultor = false%}
+                    {%set cajero = false%}
+                    {%set admin = false%}
+                    {%for rol in app.session.get('USUARIO_ROL')%}
+                    {%if rol.id == 'ORDING_Admin' or rol.id == 'ORDING_Sellado' %}
+                    {%set admin = true%}
+                    {%endif%}
+                    {%if rol.id == 'ORDING_Admin' or rol.id == 'ORDING_Acreditador' %}
+                    {%set acreditador = true%}
+                    {%endif%}
+                    {%if rol.id == 'ORDING_Admin' or rol.id == 'ORDING_CAJERO' or rol.id == 'ORDING_CAJA_SUPERVISOR' %}
+                    {%set cajero = true%}
+                    {%endif%}
+                    {%if rol.id == 'ORDING_Admin' or rol.id == 'ORDING_Consultor' %}
+                    {%set consultor = true%}
+                    {%endif%}
+                    {%endfor%}
+
+                    {# {%if admin %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Ordenes y Sellados</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <a class="dropdown-item" href="{{ path('orden_index') }}"
+                                style="font-size: 12px !important;">Ordenes de Ingreso</a>
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('orden_sellado') }}"
+                                style="font-size: 12px !important;">Sellados</a>
+
+
+                        </div>
+                    </li>
+                    {%else%}
+                    <li class="nav-item">
+                        <a href="{{ path('orden_index') }}">Ordenes de Ingreso</a>
+                    </li>
+                    {%endif%}#}
+
+                    {#<li class="nav-item">#}
+                        {#<a class="cargando" href="{{ path('orden_index') }}">Ordenes de Ingreso</a>#}
+                        <!-- Agrega POCHON -->
+
+                        {% if admin %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Ordenes de Ingreso</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <a class="dropdown-item cargando" href="{{ path('orden_index') }}"
+                                style="font-size: 12px !important;">Ordenes de Ingreso</a>
+
+                            <!--  <div class="dropdown-divider"></div>
+                                     <a class="dropdown-item cargando" href="{#{{ path('sellado_index') }}#}" style="font-size: 12px !important;">Controlar Uso</a>
+                                     <div class="dropdown-divider"></div>
+                                     <a class="dropdown-item cargando" href="{#{{ path('clase_registro_conducir_index') }}#}" style="font-size: 12px !important;">Consultar Ordenes</a>
+                                     <div class="dropdown-divider"></div>
+                                    -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item cargando" href="{{ path('orden_marcas') }}"
+                                style="font-size: 12px !important;">Consulta Ordenes de Ingreso Utilizadas</a>
+                            <div class="dropdown-divider"></div>
+
+
+                            <a class="dropdown-item cargando" href="{{ path('acumulado_porusuario') }}"
+                                style="font-size: 12px !important;">Consulta Ordenes de Ingreso Acumuladas</a>
+
+                            <div class="dropdown-divider"></div>
+
+                            {% if consultor %}
+                                <a class="dropdown-item cargando" href="{{ path('orden_all') }}"
+                                style="font-size: 12px !important;">Consultar Todas</a>
+                            {% endif %}
+                            {# <div class="dropdown-divider"></div>
+
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="true" aria-expanded="false" style="font-size: 12px !important;">Marcar /
+                                Desmarcar Orden por Nº de Referencia</a>
+                            <div class="dropdown-menu text-right border-right-0 border-left-0">
+                                <form class="navbar-form" method="post" action="{{ path('orden_buscar') }}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-sm" maxlength="6"
+                                            name="nroReferencia" placeholder="Nº de Referencia">
+                                    </div>
+                                    <button type="submit"
+                                        class="btn btn-sm btn-outline-info cargando">Consultar</button>
+                                </form>
+                            </div>#}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item cargando" href="{{ path('orden_buscar_qr') }}"
+                                style="font-size: 12px !important;">Marcar / Desmarcar Orden</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Ordenes de Ingresos</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <a class="cargando" href="{{ path('orden_index') }}">Consultar Ordenes de Ingresos</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item cargando" href="{{ path('orden_buscar_qr') }}">Marcar / Desmarcar
+                                Orden</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item cargando" href="{{ path('acumulado_porusuario') }}">Consulta Ordenes
+                                de Ingreso Acumuladas</a>
+                            <div class="dropdown-divider"></div>
+                            {% if consultor %}
+                                <a class="dropdown-item cargando" href="{{ path('orden_all') }}"
+                                style="font-size: 12px !important;">Consultar Todas</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {# <div class="dropdown-divider"></div>
+                    <a class="dropdown-item cargando" href="{{ path('orden_marcas') }}"
+                        style="font-size: 12px !important;">Consulta Ordenes de Ingreso Utilizadas</a>
+                    <div class="dropdown-divider"></div>
+                    #}
+                    {% endif %}
+
+
+
+                    <!-- Fin Agrega POCHON -->
+
+
+
+                    {# </li>#}
+                    
+                    {% set permiteParametroEntrada = false %}
+                    {% for rol in app.session.get('USUARIO_ROL') %}
+                       {% if rol.id == 'ORDING_ENTRADA' %}
+                         {% set permiteParametroEntrada = true %}
+                       {% endif %}
+                    {% endfor %}
+
+                   
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Parámetros</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <a class="dropdown-item cargando" href="{{ path('cuentas') }}"
+                                style="font-size: 12px !important;">Cuentas</a>
+
+                            <div class="dropdown-divider"></div>
+                                <a class="dropdown-item cargando" href="{{ path('sellado_index') }}"
+                                   style="font-size: 12px !important;">Parámetros Sellado</a>
+                            <div class="dropdown-divider"></div>
+
+                            {% if app.session.get('REPARTICION_ID') == 51 %}
+                                <a class="dropdown-item cargando" href="{{ path('clase_registro_conducir_index') }}"
+                                style="font-size: 12px !important;">Clases Registro Conducir</a>
+                            {% endif %}
+                            <!-- SETEA OPCIONES PARA EL CASO QUE SEAN PARAMETROS APP ENTRADAS -->
+                            {% if permiteParametroEntrada %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item cargando" href="{{ path('tipo_entrada_index') }}"
+                                    style="font-size: 12px !important;">Tipos de Entrada</a>
+                                <a class="dropdown-item cargando" href="{{ path('entrada_index') }}"
+                                    style="font-size: 12px !important;">Entradas</a>
+                                <div class="dropdown-divider"></div>
+                                {# <a class="dropdown-item cargando" href="{{ path('caja_index') }}"
+                                    style="font-size: 12px !important;">Cajas</a> #}
+                                <a class="dropdown-item cargando" href="{{ path('punto_de_venta_index') }}"
+                                    style="font-size: 12px !important;">Puntos de venta</a>
+                                <a class="dropdown-item cargando" href="{{ path('forma_de_pago_index') }}"
+                                    style="font-size: 12px !important;">Formas de pago</a>
+                                <a class="dropdown-item cargando" href="{{ path('tipo_movimiento_index') }}"
+                                    style="font-size: 12px !important;">Tipos de movimiento</a>
+                            {% endif %}
+
+                        </div>
+                    </li>
+
+                    {#<li class="nav-item">
+                        <a href="{{ path('cuentas') }}">Cuentas</a>
+                    </li>#}
+                    {#<li class="nav-item">
+                        <a href="{{ path('sellado_index') }}">Parámetros Sellado</a>
+                    </li>#}
+                    {%if acreditador %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Acreditaciones</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <a class="dropdown-item cargando" href="{{ path('lote_index') }}"
+                                style="font-size: 12px !important;"><i class="fa fa-database"></i> Lotes de Pagos</a>
+                            <a class="dropdown-item cargando" href="{{ path('novedad_index') }}"
+                                style="font-size: 12px !important;"><i class="fas fa-exclamation-circle"></i> Falla en
+                                Acreditaciones</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" onclick="fnUpload();" style="font-size: 12px !important;"><i
+                                    class="fa fa-upload"></i> Cargar Registros de Pagos</a>
+
+
+                        </div>
+                    </li>
+                    {%endif%}
+                    {% if cajero %}
+                        <li class="nav-item">
+                            <a class="cargando" href="{{ path('caja_index') }}">Cajas</a>
+                        </li>
+                    {% endif %}
+                    {%if acreditador %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Consulta N° Referencia</a>
+                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <form class="navbar-form" method="post" action="{{ path('referencia_consulta') }}">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-sm" maxlength="6"
+                                        name="nroReferencia" placeholder="Nº de Referencia">
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-outline-info cargando">Consultar</button>
+                            </form>
+                        </div>
+                    </li>
+
+                    {%endif%}
+                    <li class="nav-item"><a class="btn btn-sm btn-danger text-white cargando"
+                            {#href="{{ path('logout') }}" #} onclick="fnSalir();">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a></li>
+                    {%endif%}
+
+                    {% if app.session.get('dni') is defined and app.session.get('dni') is not null %}
+
+                    {# <li class="nav-item">
+                        <a class="dropdown-item" href="{{ path('orden_sellado') }}">Sellados</a>
+                    </li> #}
+                    <li class="nav-item"><a class="btn btn-sm btn-danger text-white" {#href="{{ path('logout') }}" #}
+                            onclick="fnSalirMiPna();">
+                            <i class="fas fa-sign-out-alt"></i>Salir
+                        </a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </nav>
+
+    </div>
+    <div class="barrita container">
+        <div class="d-none d-sm-flex cont">
+            <div class="barra" style="background-color: #47BCCA"></div>
+            <div class="barra" style="background-color: #66A1AA"></div>
+            <div class="barra" style="background-color: #005B88"></div>
+        </div>
+    </div>
+    <div class="container contenido">
+
+
+        {% for type, flashMessage in app.session.flashbag.all() %}
+        <div class="alert alert-dismissible {{type}} fade show" role="alert">
+            {% if flashMessage.title is defined %}
+            <span {%if type=='alert-danger' %}class="text-light" {%endif%}><strong>{{ flashMessage.title }}</strong> {{
+                flashMessage.message }}</span>
+            {% endif %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">×</span></button>
+        </div>
+        {% endfor %}
+    {% if errores is defined and errores|length > 0 %}
+        <div class="alert alert-danger" role="alert">
+            <h3>Ocurrieron los siguientes errores:</h3>
+            <ul>
+            {% for error in errores %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+            </ul>        
+        </div>
+        
+     {% endif %}
+
+
+
+    {% block body %}{% endblock %}
+</div>  
+<br/>
+<br/>
+<br/>
+<div class="hide">
+    <form method="post" action="" enctype="multipart/form-data" id="formUpload">
+        <label> Archivo </label>
+        <input type="file" name="archivo" required="required" id="archivo"/>
+        <input name="nombreArchivo" id="nombreArchivo"/>
+        <input type="submit" value="Subir" id="subir"/>
+    </form>
+</div>
+<footer class="footer">
+    <p>
+        &copy; Municipalidad de Paran&aacute; - Direcci&oacute;n General de Sistemas y Telecomunicaciones - 0.4.35
+    </p>
+</footer>
+</body>
+
+{{ encore_entry_script_tags('app') }}
+{% block javascripts %}
+<script type="text/javascript">
+     window.onload = function () {
+         var contenedor = document.getElementById('contenedor_carga');
+
+         contenedor.style.visibility = 'hidden';
+         contenedor.style.opacity = '0';
+     }
+
+    
+
+     $('.cargando').on('click', function () {
+         var contenedor = document.getElementById('contenedor_carga');
+
+         contenedor.style.visibility = 'visible';
+         contenedor.style.opacity = '1';
+
+         contenedor.style.visibility = 'hidden';
+         contenedor.style.opacity = '0';
+
+
+    });
+
+
+    function fnUpload() {
+        $('#archivo').click();
+    }
+
+    $('#archivo').change(function () {
+        var nombre = $('#archivo').val();
+        if (confirm('Desea cargar el archivo ' + nombre + '?')) {
+            $('#nombreArchivo').val(nombre);
+            $('#formUpload').submit();
+        } else {
+            return false;
+        }
+    });
+
+
+
+
+    function fnUppercase() {
+        $('input[type=text]').val(function () {
+            return this.value.toUpperCase();
+        })
+    }
+    $("form").submit(function (event) {
+        fnUppercase();
+    });
+
+    function fnSalirMiPna() {
+        if (confirm('¿Acepta salir de la consulta?')) {
+
+           
+
+            $.get(url).done(function (data) {
+                window.close();
+            });
+
+        }
+    }
+    function fnSalir() {
+        if (confirm('¿Acepta salir del sistema?')) {
+
+          
+
+            window.location.href = url;
+
+
+
+        }
+    }
+</script>
+{% endblock %}
+
 </html>

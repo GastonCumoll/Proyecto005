@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CapituloRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +33,7 @@ class Capitulo
 
     /**
      * @ORM\OneToMany(targetEntity=Tema::class, mappedBy="capitulo", orphanRemoval=true)
+     * @MaxDepth(2)
      */
     private $temas;
 

@@ -24,7 +24,7 @@ class DecretoType extends AbstractType
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas')
-        ->add('etiquetasE',TextType::class, [
+        ->add('nueva_etiqueta',TextType::class, [
                 'mapped' => false,
                 'required' =>false
         ])

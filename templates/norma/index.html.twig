@@ -3,7 +3,7 @@
 {% block title %}Norma index{% endblock %}
 
 {% block body %}
-    <h1>Norma index</h1>
+    {# <h1>Norma index</h1>
 
     <table class="table">
         <thead>
@@ -13,9 +13,9 @@
                 <th>Titulo</th>
                 <th>FechaSancion</th>
                 <th>FechaPublicacion</th>
-                {# <th>Resumen</th>
+                <th>Resumen</th>
+                <th>Etiquetas</th>
                 <th>actions</th>
-                <th>Etiquetas</th> #}
             </tr>
         </thead>
         <tbody>
@@ -23,22 +23,50 @@
             <tr>
                 <td>{{ norma.numero }}</td>
                 <td>{{norma.tipoNorma}}</td>
-                <td><a href="{{ path('norma_show', {'id': norma.id}) }}">{{ norma.titulo }}</a></td>
-                
+                <td>{{ norma.titulo }}</td>
                 <td>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</td>
                 <td>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</td>
-                {# <td>{{ norma.resumen }}</td>
+                <td>{{ norma.resumen }}</td>
+                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
                 <td>
                     <a href="{{ path('norma_show', {'id': norma.id}) }}">show</a>
                     <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
                 </td>
-                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
-            </tr> #}
+            </tr>
+
         {% else %}
             <tr>
                 <td colspan="12">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table> #}
+    {% for norma in normas %}
+    <div class="container mt-3 mb-3">
+        <div class="card text-center shadow mb-5 bg-white rounded">
+            <div class="card-header">
+                <th>{{norma.tipoNorma.nombre}} N° </th>
+                
+                {{ norma.numero }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ norma.titulo }}</h5>
+                {# <p class="card-text">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                <p class="card-text">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p> #}
+                <a href="{{path('norma_show', {'id': norma.id})  }}" class="btn btn-primary">Ver Norma</a>
+            </div>
+            {# <div class="card-footer text-muted">
+                <a href="{{ path('norma_index') }}">
+                    <button type="button" class="btn btn-info"> Back to list <i class="fas fa-arrow-left"></i> </button> 
+                </a>
+            </div> #}
+            <div class="card-footer text-muted">
+                
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+    <a href="{{ path('norma_nueva') }}">Create new</a>
+    
 {% endblock %}

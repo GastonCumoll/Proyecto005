@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TituloRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -26,6 +27,7 @@ class Titulo
 
     /**
      * @ORM\OneToMany(targetEntity=Capitulo::class, mappedBy="titulo", orphanRemoval=true)
+     * @MaxDepth(1)
      */
     private $capitulos;
 

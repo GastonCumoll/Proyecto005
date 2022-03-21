@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\NormaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +57,7 @@ class Norma
 
     /**
      * @ORM\ManyToMany(targetEntity=Tema::class, mappedBy="normas")
+     * @MaxDepth(1)
      */
     private $temas;
 
@@ -82,11 +84,13 @@ class Norma
 
     /**
      * @ORM\OneToMany(targetEntity=Relacion::class, mappedBy="norma")
+     * @MaxDepth(1)
      */
     private $complementa;
 
     /**
      * @ORM\OneToMany(targetEntity=Relacion::class, mappedBy="complementada")
+     * @MaxDepth(1)
      */
     private $relaciones;
 
@@ -97,6 +101,7 @@ protected $rela = false;
 
 /**
  * @ORM\ManyToMany(targetEntity=Etiqueta::class, inversedBy="normas")
+ * @MaxDepth(1)
  */
 private $etiquetas;
 

@@ -22,7 +22,20 @@ class InicioController extends AbstractController
      */
     public function index(TituloRepository $tituloRepository, CapituloRepository $capituloRepository, TemaRepository $temaRepository, NormaRepository $normaRepository): Response
     {
-        return $this->render('barra_de_navegacion/barra_de_navegacion.html.twig', [
+        return $this->render('indiceDigesto/indiceDigesto.html.twig', [
+            'titulos' => $tituloRepository->findAll(),
+            'capitulos' => $capituloRepository->findAll(),
+            'temas' => $temaRepository->findAll(),
+            'normas' => $normaRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/paginaPrincipal", name="pagina_principal", methods={"GET"})
+     */
+    public function paginaPrincipal(TituloRepository $tituloRepository, CapituloRepository $capituloRepository, TemaRepository $temaRepository, NormaRepository $normaRepository): Response
+    {
+        return $this->render('base.html.twig', [
             'titulos' => $tituloRepository->findAll(),
             'capitulos' => $capituloRepository->findAll(),
             'temas' => $temaRepository->findAll(),

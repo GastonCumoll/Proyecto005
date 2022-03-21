@@ -18,6 +18,8 @@ use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
 use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
+use App\Repository\TituloRepository;
+use App\Repository\CapituloRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
@@ -29,24 +31,43 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 
+
+// $encoders=[new XmlEncoder(),new JsonEncoder()];
+// $normalizers=[new ObjectNormalizer()];
+// $serializer=new Serializer($normalizers,$encoders);
 /**
  * @Route("/norma")
  */
 class NormaController extends AbstractController
 {
 
+
+    
+
     /**
      * @Route("/{id}/deTema", name="normas_de_tema", methods={"GET"})
      */
-    public function normasTema(NormaRepository $normaRepository,TemaRepository $temaRepository, $id): Response
+    public function normasTema(NormaRepository $normaRepository,TemaRepository $temaRepository, $id,TituloRepository $tituloRepository, CapituloRepository $capituloRepository): Response
     {
         $tema=$temaRepository->find($id);
         $normas=$tema->getNormas();
         
         
-        return $this->render('norma/normasDeTema.html.twig', [
-            'normas' => $normas
+        
+        
+        return $this->render('norma/index_dependencia.html.twig', [
+            'normasTema' => $normas,
+            'idTema' =>$id,
+            'titulos' => $tituloRepository->findAll(),
+            'capitulos' => $capituloRepository->findAll(),
+            'temas' => $temaRepository->findAll(),
+            'normas' => $normaRepository->findAll(),
         ]);
     }
 
@@ -55,10 +76,48 @@ class NormaController extends AbstractController
      */
     public function index(NormaRepository $normaRepository): Response
     {   
-        
         return $this->render('norma/index.html.twig', [
             'normas' => $normaRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
+     */
+    public function normasAjax(NormaRepository $normaRepository,TemaRepository $temaRepository,$id): Response
+    {
+        
+        $tema=$temaRepository->find($id);
+        $normas=$tema->getNormas()->toArray();
+        //dd($normas);
+        // foreach ($normas as $unaNorma) {
+        //     dd($unaNorma);
+        // }
+        //dd(json_encode($normas));
+        
+        
+            $jsonData = array();  
+            $idx = 0;  
+            foreach($normas as $unaNorma) {  
+                $temp = array(
+                    'numero' => $unaNorma->getNumero(),  
+                    'titulo' => $unaNorma->getTitulo(),  
+                    'tipo' => $unaNorma->getTipoNorma()->getNombre(),
+                    'id' => $unaNorma->getId(),
+
+                );   
+                $jsonData[$idx++] = $temp;  
+            }
+            //dd($jsonData);
+            return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
+            // return $this->render("indiceDigesto/indiceDigesto.html.twig",[
+            //     'arrayNormas' => $normas,
+            // ]); 
+        
+        
+        
+        
+        
     }
 
     /**
@@ -121,7 +180,7 @@ class NormaController extends AbstractController
             $norma->setEstado("Borrador");
             
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
-            $etiquetas = explode(", ", $form['etiquetasE']->getData());
+            $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
             $tema =$form['temas']->getData();
             
             foreach ($tema as $unTema) {
@@ -139,10 +198,13 @@ class NormaController extends AbstractController
                 $etiquetaSinEspacios="";
                 for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
                         if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
-                            $etiquetaSinEspacios.=$unaEtiqueta[$i];// aca concatenamos caracter por acaracter de unaEtiqueta a etiquetaSinEspacios que es un string
+                            $etiquetaSinEspacios.=$unaEtiqueta[$i];
                         }
                     }
                     
+                    $etiqueta=trim($etiquetaSinEspacios);
+                    $etiquetaSinEspacios = $etiqueta;
+
                 if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
                 {   
                     
@@ -225,7 +287,7 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $etiquetas = explode(", ", $form['etiquetasE']->getData());
+            $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             $tema =$form['temas']->getData();
             
             foreach ($tema as $unTema) {
