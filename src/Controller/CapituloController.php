@@ -21,13 +21,42 @@ class CapituloController extends AbstractController
      */
     public function capituloTitulo(CapituloRepository $capituloRepository,$id): Response
     {
-        $cap=$capituloRepository->findByTitulo($id);
-        //dd($cap);
+        $cap=$capituloRepository->find($id);
+        $temas=$cap->getTemas();
+
+        $nombreTit=$cap->getTitulo();
         
-        return $this->render('capitulo/capituloDeTitulo.html.twig', [
-            'capitulos'=>$cap
+        return $this->render('capitulo/showConArbolCapitulo.html.twig', [
+            'capi'=>$cap,
+            'titu' => $nombreTit,
+            'temas' =>$temas
         ]);
     }
+
+    // /**
+    //  * @Route("/{id}/deCapitulo", name="capitulos_de_titulo", methods={"GET"})
+    //  */
+    // public function capituloTitulo(NormaRepository $normaRepository,TemaRepository $temaRepository, $id,TituloRepository $tituloRepository, CapituloRepository $capituloRepository): Response
+    // {
+    //     $tema=$temaRepository->find($id);
+    //     $normas=$tema->getNormas();
+
+        
+    //     $nombreCap=$tema->getCapitulo();
+    //     $nombreTit=$tema->getCapitulo()->getTitulo();
+
+        
+        
+        
+    //     return $this->render('norma/showConArbolNorma.html.twig', [
+    //         'normasTema' => $normas,
+    //         'idTema' =>$id,
+    //         'tema' => $tema,
+            
+    //         'capi' => $nombreCap,
+    //         'titu' => $nombreTit
+    //     ]);
+    // }
 
     /**
      * @Route("/novedades", name="novedades", methods={"GET"})

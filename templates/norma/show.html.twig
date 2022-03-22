@@ -69,14 +69,18 @@
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             <div class="card-header">
-                <th>{{norma.tipoNorma.nombre}} N° </th>
+                <h4>
+                    <th>{{norma.tipoNorma.nombre}} N° </th>
                 
                 {{ norma.numero }}
+                </h4>
             </div>
             <div class="card-body">
-                <h4 class="card-title text-left">{{ norma.titulo }}</h4>
+                <h5 class="card-title text-left">{{ norma.titulo }}</h5>
                 <p class="card-text text-left">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+                <p class="card-text text-left">Resumen: </p>
+                <p class="card-text text-left">{{ norma.resumen }}></p>
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
             </div>
             <div class="card-footer text-left">
@@ -93,14 +97,23 @@
                 <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
             {% endfor %}
             </div>
-                <a href="{{ path('Inicio') }}">
-                    <button type="button" class="btn btn-info"> Back to list <i class="fas fa-arrow-left"></i> </button> 
+            <div class="container">
+                <div class="row mt-1">
+                    <div class="col-4 mt-4  text-left">
+                        <a href="{{ path('Inicio') }}">
+                    <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
                 </a>
-                <br>
-                <a href="{{ path('norma_edit', {'id': norma.id}) }} }}">
-                    <button type="button" class="btn btn-info"> Editar   </button> 
+                    </div>
+                    <div class="col-4 mt-4  text-center">
+                    <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
+                    <button type="button" class="btn btn-success"> Editar   </button> 
                 </a>
-                {{ include('norma/_delete_form.html.twig') }}
+                    </div>
+                    <div class="col-4 mt-4  text-right">
+                    {{ include('norma/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}

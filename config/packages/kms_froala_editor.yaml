@@ -4,3 +4,6 @@ twig:
 
 kms_froala_editor:
     language: es
+    saveURL: ""
+    saveInterval: 0
+    saveParam: "content"

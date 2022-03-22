@@ -26,9 +26,10 @@ class OrdenanzaType extends AbstractType
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas')
-        ->add('etiquetasE',TextType::class, [
-            'mapped' => false
-        ])
+        ->add('nueva_etiqueta',TextType::class, [
+            'mapped' => false,
+            'required' =>false
+    ])
         //->add('fechaPromulgacion')
         ->add('temas')
         ->add('rela', CheckboxType::class, array(

@@ -64,6 +64,7 @@
             $(".valor123").click(function(){
                 
                 var id = this.value;
+                
                 $.get("https://localhost:8000/norma/"+id+"/normasAjax",function(data){            
                     var c = $('<div class="card" id="tarjeta"></div >');  
                         $('#container').html('');  
@@ -72,8 +73,8 @@
                         for(i = 0; i < data.length; i++) {  
                             norma = data[i];
                             
-                            var c =$('<tr><td class=""id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
-                            var c =$('<div class="card text-center shadow mb-5 bg-white rounded"><div class="card-header"><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h5 class="card-title" id="titulo"></h5></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                            var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
+                            var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
                             
                             $('#tipoNorma', c).html(norma['tipo']);
                             $('#n',c).html(" N° ");
@@ -82,7 +83,7 @@
                             
                             $('#container').append(c);
                             var link = norma['id'];
-                            var link2= "/norma/"+link ;
+                            var link2= "/norma/"+link+"/"+id ;
                             
                             $('#verNorma', c).attr('href',link2);
                             $('#container').append(c);
@@ -90,6 +91,7 @@
                         //window.scrollTo(0, 1500);
                         var element = document.getElementById("container");
                         element.scrollIntoView({behavior: "smooth"});
+                        
                     })
             });
             

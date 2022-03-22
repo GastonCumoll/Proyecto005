@@ -27,6 +27,23 @@ class TituloController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/titu", name="titu", methods={"GET"})
+     */
+    public function titu(TituloRepository $tituloRepository,$id): Response
+    {
+        $titu=$tituloRepository->find($id);
+        $capitulos=$titu->getCapitulos();
+
+        // $nombreTit=$cap->getTitulo();
+        
+        return $this->render('titulo/showConArbolTitulo.html.twig', [
+            'capitulos'=>$capitulos,
+            'titu' => $titu,
+            
+        ]);
+    }
+
+    /**
      * @Route("/new", name="titulo_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response

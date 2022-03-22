@@ -3,7 +3,14 @@
 {% block title %}Norma index{% endblock %}
 
 {% block body %}
+<div class="container text-center">
+    
+    <h2 class ="mb-4">
+        Tipo de norma a cargar
+    </h2>
     {% for tipo_norma in tipo_normas %}
-    <a href="{{ path('norma_new', {'id': tipo_norma.id}) }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">{{tipo_norma.nombre}}</a>
+    <a href="{{ path('norma_new', {'id': tipo_norma.id}) }}" class="btn btn-primary btn-lg" role="button" aria-pressed="true">{{tipo_norma.nombre}}</a>
     {% endfor %}
+</div>
+    
 {% endblock %}

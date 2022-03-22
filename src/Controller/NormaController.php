@@ -57,19 +57,25 @@ class NormaController extends AbstractController
     {
         $tema=$temaRepository->find($id);
         $normas=$tema->getNormas();
+
+        
+        $nombreCap=$tema->getCapitulo();
+        $nombreTit=$tema->getCapitulo()->getTitulo();
+
         
         
         
-        
-        return $this->render('norma/index_dependencia.html.twig', [
+        return $this->render('norma/showConArbolNorma.html.twig', [
             'normasTema' => $normas,
             'idTema' =>$id,
-            'titulos' => $tituloRepository->findAll(),
-            'capitulos' => $capituloRepository->findAll(),
-            'temas' => $temaRepository->findAll(),
-            'normas' => $normaRepository->findAll(),
+            'tema' => $tema,
+            
+            'capi' => $nombreCap,
+            'titu' => $nombreTit
         ]);
     }
+
+    
 
     /**
      * @Route("/", name="norma_index", methods={"GET"})
@@ -240,17 +246,59 @@ class NormaController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/{t}", name="ver_norma_arbol", methods={"GET"})
+     */
+    public function verNorma(Norma $norma,$id,$t): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Relacion::class);
+        $complementa = $repository->findByNorma($id);
+        
+        $temaDeNorma=$norma->getTemas();
+        $nombreTema;
+        $nombreCap;
+        $nombreTit;
+        foreach ($temaDeNorma as $unTema) {
+            if($unTema->getId()==$t){
+                $nombreTema=$unTema;
+                $nombreCap=$unTema->getCapitulo();
+                $nombreTit=$unTema->getCapitulo()->getTitulo();
+            }
+            
+        }
+        // dd($temaDeNorma);
+
+        $complementada=$repository->findByComplementada($id);
+        
+        //dd($relaciones);
+        return $this->render('norma/showConArbol.html.twig', [
+            'tema' => $nombreTema,
+            'capi' => $nombreCap,
+            'titu' =>$nombreTit,
+            'norma' => $norma,
+            'complementaA' =>$complementa,
+            'complementadaPor'=>$complementada
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
      */
     public function show(Norma $norma,$id): Response
     {
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $complementa = $repository->findByNorma($id);
+        
+        $temaDeNorma=$norma->getTemas();
+        // foreach ($temaDeNorma as $unTema) {
+        //     dd($unTema->getCapitulo()->getTitulo()->getNombre());
+        // }
+        // dd($temaDeNorma);
 
         $complementada=$repository->findByComplementada($id);
         
         //dd($relaciones);
         return $this->render('norma/show.html.twig', [
+            'temas' => $temaDeNorma,
             'norma' => $norma,
             'complementaA' =>$complementa,
             'complementadaPor'=>$complementada

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norma{% endblock %}
+
+{% block body %}
+
+{{ parent() }} 
+
+
+
+<h5><a href="{{path('capitulo_de_titulo', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_de_titulo', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > <a href="{{path('normas_de_tema', {'id': tema.id})  }}">{{tema.getNombre()}}</a> > {{norma.tipoNorma.nombre}} N°  {{ norma.numero }} </h5>
+
+
+<div class="container mt-3 mb-3">
+    <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card-header">
+            <h4>
+                <th>{{norma.tipoNorma.nombre}} N° </th>
+            
+            {{ norma.numero }}
+            </h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title text-left">{{ norma.titulo }}</h5>
+            <p class="card-text text-left">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+            <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+            <p class="card-text text-left">Resumen: </p>
+            <p class="card-text text-left">{{ norma.resumen }}></p>
+            <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
+        </div>
+        <div class="card-footer text-left">
+            <th>Esta norma complementa o modifica a la/las normas:  </th>
+            <br>
+            {% for complementa in complementaA %}
+            <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
+        {% endfor %}
+        </div>
+        <div class="card-footer text-left">
+            <th>Esta norma es complementada o modificada por la/las normas: </th>
+            <br>
+            {% for complementada in complementadaPor %}
+            <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
+        {% endfor %}
+        </div>
+        <div class="container">
+            <div class="row mt-1">
+                <div class="col-4 mt-4  text-left">
+                    <a href="{{ path('Inicio') }}">
+                <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
+            </a>
+                </div>
+                <div class="col-4 mt-4  text-center">
+                <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
+                <button type="button" class="btn btn-success"> Editar   </button> 
+            </a>
+                </div>
+                <div class="col-4 mt-4  text-right">
+                {{ include('norma/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+{#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}
+
+{% endblock %}

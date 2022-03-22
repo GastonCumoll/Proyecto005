@@ -25,9 +25,10 @@ class LeyType extends AbstractType
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas')
-        ->add('etiquetasE',TextType::class, [
-                'mapped' => false
-        ])
+        ->add('nueva_etiqueta',TextType::class, [
+            'mapped' => false,
+            'required' =>false
+    ])
         ->add('decretoPromulgacion')
         ->add('fechaPromulgacion')
         ->add('temas')
