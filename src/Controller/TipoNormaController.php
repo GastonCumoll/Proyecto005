@@ -47,7 +47,7 @@ class TipoNormaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($tipoNorma);
+            
             $entityManager->persist($tipoNorma);
             $entityManager->flush();
 

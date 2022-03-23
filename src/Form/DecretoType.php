@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\Norma;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -19,6 +21,20 @@ class DecretoType extends AbstractType
         //->add('fechaSancion')
         //->add('fechaPublicacion')
         ->add('titulo')
+        ->add('pdfFile', FileType::class, [
+            'label' => 'Brochure (PDF file)',
+            'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1048576k',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid PDF document',
+                ])
+        ]])
+
         ->add('resumen')
         ->add('texto',  FroalaEditorType::class)
         //->add('fechaPublicacionBoletin')

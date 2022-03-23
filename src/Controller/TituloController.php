@@ -27,16 +27,16 @@ class TituloController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/titu", name="titu", methods={"GET"})
+     * @Route("/{id}/titulo/arbol", name="titulo_show_arbol", methods={"GET"})
      */
-    public function titu(TituloRepository $tituloRepository,$id): Response
+    public function tituloArbol(TituloRepository $tituloRepository,$id): Response
     {
         $titu=$tituloRepository->find($id);
         $capitulos=$titu->getCapitulos();
 
         // $nombreTit=$cap->getTitulo();
         
-        return $this->render('titulo/showConArbolTitulo.html.twig', [
+        return $this->render('titulo/tituloShowArbol.html.twig', [
             'capitulos'=>$capitulos,
             'titu' => $titu,
             

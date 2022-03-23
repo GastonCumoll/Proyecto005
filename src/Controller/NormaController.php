@@ -25,17 +25,19 @@ use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 
 // $encoders=[new XmlEncoder(),new JsonEncoder()];
@@ -46,36 +48,6 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
  */
 class NormaController extends AbstractController
 {
-
-
-    
-
-    /**
-     * @Route("/{id}/deTema", name="normas_de_tema", methods={"GET"})
-     */
-    public function normasTema(NormaRepository $normaRepository,TemaRepository $temaRepository, $id,TituloRepository $tituloRepository, CapituloRepository $capituloRepository): Response
-    {
-        $tema=$temaRepository->find($id);
-        $normas=$tema->getNormas();
-
-        
-        $nombreCap=$tema->getCapitulo();
-        $nombreTit=$tema->getCapitulo()->getTitulo();
-
-        
-        
-        
-        return $this->render('norma/showConArbolNorma.html.twig', [
-            'normasTema' => $normas,
-            'idTema' =>$id,
-            'tema' => $tema,
-            
-            'capi' => $nombreCap,
-            'titu' => $nombreTit
-        ]);
-    }
-
-    
 
     /**
      * @Route("/", name="norma_index", methods={"GET"})
@@ -139,7 +111,7 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository ,$id): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository ,$id, SluggerInterface $slugger): Response
     {
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
@@ -177,6 +149,12 @@ class NormaController extends AbstractController
                 $form = $this->createForm(CircularType::class, $norma);
                 $form->handleRequest($request);
                 break;
+            default:
+                $norma = new Norma();
+                $norma->setTipoNorma($idNorma);
+                $form = $this->createForm(CircularType::class, $norma);
+                $form->handleRequest($request);
+                break;
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -185,7 +163,32 @@ class NormaController extends AbstractController
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
             
+            $brochureFile = $form->get('pdfFile')->getData();
+
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $norma->setpdfFile($newFilename);
+            }
+
+            // ... persist the $product variable or any other work
+
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
+
             $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
             $tema =$form['temas']->getData();
             
@@ -246,41 +249,6 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{t}", name="ver_norma_arbol", methods={"GET"})
-     */
-    public function verNorma(Norma $norma,$id,$t): Response
-    {
-        $repository = $this->getDoctrine()->getRepository(Relacion::class);
-        $complementa = $repository->findByNorma($id);
-        
-        $temaDeNorma=$norma->getTemas();
-        $nombreTema;
-        $nombreCap;
-        $nombreTit;
-        foreach ($temaDeNorma as $unTema) {
-            if($unTema->getId()==$t){
-                $nombreTema=$unTema;
-                $nombreCap=$unTema->getCapitulo();
-                $nombreTit=$unTema->getCapitulo()->getTitulo();
-            }
-            
-        }
-        // dd($temaDeNorma);
-
-        $complementada=$repository->findByComplementada($id);
-        
-        //dd($relaciones);
-        return $this->render('norma/showConArbol.html.twig', [
-            'tema' => $nombreTema,
-            'capi' => $nombreCap,
-            'titu' =>$nombreTit,
-            'norma' => $norma,
-            'complementaA' =>$complementa,
-            'complementadaPor'=>$complementada
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
      */
     public function show(Norma $norma,$id): Response
@@ -293,7 +261,6 @@ class NormaController extends AbstractController
         //     dd($unTema->getCapitulo()->getTitulo()->getNombre());
         // }
         // dd($temaDeNorma);
-
         $complementada=$repository->findByComplementada($id);
         
         //dd($relaciones);
@@ -330,6 +297,10 @@ class NormaController extends AbstractController
             case 'Circular':
                 $form = $this->createForm(CircularType::class, $norma);
                 $form->handleRequest($request);
+            break;
+            default:
+            $form = $this->createForm(CircularType::class, $norma);
+            $form->handleRequest($request);
             break;
         }
 
@@ -373,6 +344,41 @@ class NormaController extends AbstractController
         return $this->renderForm('norma/edit.html.twig', [
             'norma' => $norma,
             'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{t}", name="norma_show_arbol", methods={"GET"})
+     */
+    public function normaArbol(Norma $norma,$id,$t): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(Relacion::class);
+        $complementa = $repository->findByNorma($id);
+        
+        $temaDeNorma=$norma->getTemas();
+        $nombreTema;
+        $nombreCap;
+        $nombreTit;
+        foreach ($temaDeNorma as $unTema) {
+            if($unTema->getId()==$t){
+                $nombreTema=$unTema;
+                $nombreCap=$unTema->getCapitulo();
+                $nombreTit=$unTema->getCapitulo()->getTitulo();
+            }
+            
+        }
+        // dd($temaDeNorma);
+
+        $complementada=$repository->findByComplementada($id);
+        
+        //dd($relaciones);
+        return $this->render('norma/normaShowArbol.html.twig', [
+            'tema' => $nombreTema,
+            'capi' => $nombreCap,
+            'titu' =>$nombreTit,
+            'norma' => $norma,
+            'complementaA' =>$complementa,
+            'complementadaPor'=>$complementada
         ]);
     }
 

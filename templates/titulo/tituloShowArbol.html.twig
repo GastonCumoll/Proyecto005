@@ -11,11 +11,16 @@
 {% for capitulo in capitulos %}
 <div class="container mt-3 mb-3">
     <div class="card text-center shadow mb-5 bg-white rounded">
-        <th>
-            <h5> <a href="{{path('capitulo_de_titulo', {'id': capitulo.id})  }}"> {{capitulo.nombre}} </a> </h5> 
-        </th>
+        <div class="card-header">
         </div>
+        <div class="card-body">
+            <h5 class="card-title">{{capitulo.nombre}} </h5> 
+            <a class="btn btn-primary" href="{{path('capitulo_show_arbol', {'id': capitulo.id})  }}"> Ver capitulo </a>
+        </div>
+        <div class="card-footer text-muted">
+        </div>    
     </div>
+</div>
     {% endfor %}
 
 {# <a href="{{ path('norma_nueva') }}">Create new</a> #}

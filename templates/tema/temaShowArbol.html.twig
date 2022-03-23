@@ -7,7 +7,7 @@
 {{ parent() }}
 
 
-<h5><a href="{{path('capitulo_de_titulo', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_de_titulo', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > {{tema.getNombre()}} </h5>
+<h5><a href="{{path('titulo_show_arbol', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_show_arbol', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > {{tema.getNombre()}} </h5>
 {% for norma in normasTema %}
 <div class="container mt-3 mb-3">
     <div class="card text-center shadow mb-5 bg-white rounded">

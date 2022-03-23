@@ -8,7 +8,7 @@
 
 
 
-<h5><a href="{{path('capitulo_de_titulo', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_de_titulo', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > <a href="{{path('normas_de_tema', {'id': tema.id})  }}">{{tema.getNombre()}}</a> > {{norma.tipoNorma.nombre}} N°  {{ norma.numero }} </h5>
+<h5><a href="{{path('titulo_show_arbol', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_show_arbol', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > <a href="{{path('tema_show_arbol', {'id': tema.id})  }}">{{tema.getNombre()}}</a> > {{norma.tipoNorma.nombre}} N°  {{ norma.numero }} </h5>
 
 
 <div class="container mt-3 mb-3">
@@ -25,7 +25,7 @@
             <p class="card-text text-left">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
             <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
             <p class="card-text text-left">Resumen: </p>
-            <p class="card-text text-left">{{ norma.resumen }}></p>
+            <p class="card-text text-left">{{ norma.resumen }}</p>
             <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
         </div>
         <div class="card-footer text-left">

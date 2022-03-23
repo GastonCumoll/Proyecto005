@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norma index{% endblock %}
+
+{% block body %}
+
+{{ parent() }}
+
+
+<h5><a href="{{path('titulo_show_arbol', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > {{capi.getNombre()}}</h5>
+{% for tema in temas %}
+<div class="container mt-3 mb-3">
+    <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+           
+           <h5 class="card-title">{{tema.nombre}}</h5> 
+           <a class="btn btn-primary" href="{{path('tema_show_arbol', {'id': tema.id})  }}"> Ver tema</a>
+       </div>
+       <div class="card-footer text-muted">
+       </div>    
+   </div>
+</div>
+    {% endfor %}
+
+{# <a href="{{ path('norma_nueva') }}">Create new</a> #}
+{% endblock %}

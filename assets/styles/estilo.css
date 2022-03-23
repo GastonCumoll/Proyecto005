@@ -1,3 +1,6 @@
+/* @import "~bootstrap/dist/css/bootrstrap.min.css";  */
+/* @import "~@fortawesome/fontawesome-free/css/all.css"; */
+
 /* 
     Created on : 30-ene-2020, 10:43:19
     Author     : Ariel
@@ -36,6 +39,9 @@ body{
 .btn-danger, .bg-danger, .alert-danger{
     background-color: #cb195e !important;
 }
+.btn-primary{
+    width: 15rem !important;
+} 
 
 #nav li a {
     text-decoration: none;
@@ -99,6 +105,8 @@ body{
 .page-link {
     color: black !important;
 }
+
+
 
 .footer{
     text-align: center;

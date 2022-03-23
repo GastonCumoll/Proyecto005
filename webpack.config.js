@@ -24,6 +24,7 @@ Encore
 
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
+    .addStyleEntry('boton', '/assets/styles/boton.css')
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

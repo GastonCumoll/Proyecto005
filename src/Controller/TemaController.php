@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Tema;
 use App\Form\TemaType;
 use App\Repository\TemaRepository;
+use App\Repository\NormaRepository;
+use App\Repository\TituloRepository;
+use App\Repository\CapituloRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/tema")
@@ -17,6 +20,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class TemaController extends AbstractController
 {
     
+    /**
+     * @Route("/{id}/tema/arbol", name="tema_show_arbol", methods={"GET"})
+     */
+    public function temaArbol(NormaRepository $normaRepository,TemaRepository $temaRepository, $id,TituloRepository $tituloRepository, CapituloRepository $capituloRepository): Response
+    {
+        $tema=$temaRepository->find($id);
+        $normas=$tema->getNormas();
+
+        
+        $nombreCap=$tema->getCapitulo();
+        $nombreTit=$tema->getCapitulo()->getTitulo();
+
+        
+        
+        
+        return $this->render('tema/temaShowArbol.html.twig', [
+            'normasTema' => $normas,
+            'idTema' =>$id,
+            'tema' => $tema,
+            
+            'capi' => $nombreCap,
+            'titu' => $nombreTit
+        ]);
+    }
+
     /**
      * @Route("/{id}/deCapitulo", name="tema_de_capitulo", methods={"GET"})
      */

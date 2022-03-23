@@ -6,64 +6,6 @@
 
 {{ parent() }}    
 
-    {# <table class="table">
-        <tbody>
-        <tr>
-                <th>Titulo</th>
-                <td>{{ norma.titulo }}</td>
-            </tr>
-        <tr>
-                <th>Numero</th>
-                <td>{{ norma.numero }}</td>
-            </tr>
-
-            <tr>
-                <th>FechaSancion</th>
-                <td>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>FechaPublicacion</th>
-                <td>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Texto</th>
-                    <td><a href="{{path('mostrar_texto', {'id': norma.id})  }}"> texto completo de la norma</a></td>
-            </tr>
-            <tr>
-                <th>Estado</th>
-                <td>{{ norma.estado }}</td>
-            </tr>
-            <tr>
-                <th>Etiquetas</th>
-                <td>{{ norma.etiquetas ? norma.etiquetas|join(', ') : '' }}</td>
-            </tr>
-            {% if norma.tipoNorma.nombre=="Ley" %}
-            <tr>
-                <th>FechaPromulgacion</th>
-                <td>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</td>
-            </tr>
-            {% endif %}
-            <tr> 
-            <th>Complementa o modifica a </th>
-            {% for complementa in complementaA %}
-                <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
-            {% endfor %}
-            <tr>
-            <th>Es complementada o modificada por </th>
-            {% for complementada in complementadaPor %}
-                <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
-            {% endfor %}
-            </tr>
-            <a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>
-        </tbody>
-    </table> #}
-{# <tr>
-
-    <a href="{{ path('norma_index') }}">back to list</a>
-
-    <a href="{{ path('norma_edit', {'id': norma.id}) }}">edit</a>
-
-    {{ include('norma/_delete_form.html.twig') }} #}
 
 
     <div class="container mt-3 mb-3">
@@ -80,7 +22,7 @@
                 <p class="card-text text-left">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: </p>
-                <p class="card-text text-left">{{ norma.resumen }}></p>
+                <p class="card-text text-left">{{ norma.resumen }}</p>
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
             </div>
             <div class="card-footer text-left">

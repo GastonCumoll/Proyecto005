@@ -17,46 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class CapituloController extends AbstractController
 {
     /**
-     * @Route("/{id}/deTitulo", name="capitulo_de_titulo", methods={"GET"})
+     * @Route("/{id}/capitulo/arbol", name="capitulo_show_arbol", methods={"GET"})
      */
-    public function capituloTitulo(CapituloRepository $capituloRepository,$id): Response
+    public function capituloArbol(CapituloRepository $capituloRepository,$id): Response
     {
         $cap=$capituloRepository->find($id);
         $temas=$cap->getTemas();
 
         $nombreTit=$cap->getTitulo();
         
-        return $this->render('capitulo/showConArbolCapitulo.html.twig', [
+        return $this->render('capitulo/capituloShowArbol.html.twig', [
             'capi'=>$cap,
             'titu' => $nombreTit,
             'temas' =>$temas
         ]);
     }
-
-    // /**
-    //  * @Route("/{id}/deCapitulo", name="capitulos_de_titulo", methods={"GET"})
-    //  */
-    // public function capituloTitulo(NormaRepository $normaRepository,TemaRepository $temaRepository, $id,TituloRepository $tituloRepository, CapituloRepository $capituloRepository): Response
-    // {
-    //     $tema=$temaRepository->find($id);
-    //     $normas=$tema->getNormas();
-
-        
-    //     $nombreCap=$tema->getCapitulo();
-    //     $nombreTit=$tema->getCapitulo()->getTitulo();
-
-        
-        
-        
-    //     return $this->render('norma/showConArbolNorma.html.twig', [
-    //         'normasTema' => $normas,
-    //         'idTema' =>$id,
-    //         'tema' => $tema,
-            
-    //         'capi' => $nombreCap,
-    //         'titu' => $nombreTit
-    //     ]);
-    // }
 
     /**
      * @Route("/novedades", name="novedades", methods={"GET"})

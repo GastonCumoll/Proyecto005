@@ -105,6 +105,11 @@ protected $rela = false;
  */
 private $etiquetas;
 
+/**
+ * @ORM\Column(type="string", length=255, nullable=true)
+ */
+private $pdfFile;
+
 public function getRela(): ?bool
 {
     return $this->rela;
@@ -376,6 +381,18 @@ public function setRela(?bool $rela): self
     public function removeEtiqueta(Etiqueta $etiqueta): self
     {
         $this->etiquetas->removeElement($etiqueta);
+
+        return $this;
+    }
+
+    public function getPdfFile(): ?string
+    {
+        return $this->pdfFile;
+    }
+
+    public function setPdfFile(?string $pdfFile): self
+    {
+        $this->pdfFile = $pdfFile;
 
         return $this;
     }
