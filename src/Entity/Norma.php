@@ -110,6 +110,11 @@ private $etiquetas;
  */
 private $pdfFile;
 
+/**
+ * @ORM\ManyToMany(targetEntity=Item::class, mappedBy="normas")
+ */
+private $items;
+
 public function getRela(): ?bool
 {
     return $this->rela;
@@ -134,6 +139,7 @@ public function setRela(?bool $rela): self
         $this->complementa = new ArrayCollection();
         $this->relaciones = new ArrayCollection();
         $this->etiquetas = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -393,6 +399,33 @@ public function setRela(?bool $rela): self
     public function setPdfFile(?string $pdfFile): self
     {
         $this->pdfFile = $pdfFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): self
+    {
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->addNorma($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            $item->removeNorma($this);
+        }
 
         return $this;
     }

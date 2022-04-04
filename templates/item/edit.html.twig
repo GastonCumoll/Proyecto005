@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Item{% endblock %}
+
+{% block body %}
+    <h1>Edit Item</h1>
+
+    {{ include('item/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('item_index') }}">back to list</a>
+
+    {{ include('item/_delete_form.html.twig') }}
+
+    <script>
+        var $padre = $('#item_idPadre');
+    
+    // When sport gets selected ...
+    $padre.change(function() {
+      let select = document.getElementById('item_dependencias');
+      while (select.firstChild) {
+        select.removeChild(select.firstChild);
+      }
+
+      //for (let index = 0; index < select.childNodes.length; index++) {
+        //select.removeAllChildren();
+        //select.removeChild(select.lastChild);
+        
+      //}
+
+      // ... retrieve the corresponding form.
+    var $form = $(this).closest('form');
+      // Simulate form data, but only include the selected sport value.
+    var data = {};
+    data[$padre.attr('idPadre')] = $padre.val();
+    var parametro = $padre.val();
+    var url="{{ path('item_ajax') }}";
+
+      
+    var parametros = {'id' : (this.value)};
+      // Submit data via AJAX to the form's action path.
+    $.post(
+      
+      url,
+      parametros,
+        //url = "/item/"+parametro+"/itemAjax", // esto anda
+        // url = "{{ path('item_ajax', {'id': 'parametro'}) }}",
+        // url = url.replace('parametro', parametro),
+    )
+    .done( (data) => {
+      //console.log(data);
+      let select = document.getElementById('item_dependencias');
+      const obj=JSON.parse(JSON.stringify(data));//probar con pasarle el objeto completo¿?
+      console.log(obj.nombre);
+      obj.forEach(unaData => {
+        let opcion1=document.createElement("option");
+        opcion1.setAttribute("value",unaData.id);
+        console.log("value: ",unaData.id);
+        let texto=document.createTextNode(unaData.nombre);
+        opcion1.appendChild(texto);
+        select.appendChild(opcion1);
+
+        // Replace current position field ...
+             //$('#item_dependencias').replaceWith(
+             // ... with the returned one from the AJAX response.
+             //$(unaData).find('#item_dependencias')
+             //);
+            
+           // Position field now displays the appropriate positions.
+      });
+      
+
+    });
+
+  });
+        // .done: function(html) {
+
+    </script>
+{% endblock %}

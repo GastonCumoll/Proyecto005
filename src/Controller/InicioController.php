@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ItemRepository;
 use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
 use App\Repository\TituloRepository;
@@ -20,13 +21,17 @@ class InicioController extends AbstractController
     /**
      * @Route("/", name="Inicio", methods={"GET"})
      */
-    public function index(TituloRepository $tituloRepository, CapituloRepository $capituloRepository, TemaRepository $temaRepository, NormaRepository $normaRepository): Response
+    public function index(ItemRepository $items, TituloRepository $tituloRepository, CapituloRepository $capituloRepository, TemaRepository $temaRepository, NormaRepository $normaRepository): Response
     {
+        
+
+
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             'titulos' => $tituloRepository->findAll(),
             'capitulos' => $capituloRepository->findAll(),
             'temas' => $temaRepository->findAll(),
             'normas' => $normaRepository->findAll(),
+            'items' => $items->findAll(),
         ]);
     }
 

@@ -24,12 +24,16 @@
                 <p class="card-text text-left">Resumen: </p>
                 <p class="card-text text-left">{{ norma.resumen }}</p>
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
+                <br>
+                <br>
+                <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
             </div>
             <div class="card-footer text-left">
                 <th>Esta norma complementa o modifica a la/las normas:  </th>
                 <br>
                 {% for complementa in complementaA %}
                 <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
+                
             {% endfor %}
             </div>
             <div class="card-footer text-left">
@@ -37,6 +41,7 @@
                 <br>
                 {% for complementada in complementadaPor %}
                 <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
+                <td> {{complementada.getDescripcion}} </td>
             {% endfor %}
             </div>
             <div class="container">

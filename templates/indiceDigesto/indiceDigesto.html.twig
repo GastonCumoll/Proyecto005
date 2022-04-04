@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
 
 {{ parent() }}
 
-<div class="container mt-2">
+{# <div class="container mt-2">
     {% set id = 0 %}
     <div class="accordion" id="accordionTitulo">
         {% for unTitulo in titulos %}
@@ -51,7 +52,101 @@
             </div>
         {% endfor %}
     </div>
+</div> #}
+{# <div class="accordion" id="accordionItem">
+    {% for unItem in items %}
+    {% if (unItem.getIdPadre == null) %}
+        <div class="card">
+            <div class="card-header" id="headingItem">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
+                        {{unItem.nombre}}
+                    </button>
+                </h2>
+            </div>
+        <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem" data-parent="#accordionItem">
+            <div class="card-body">
+                <div class="accordion" id="accordionNorma">
+                    {% for unaNorma in unItem.getNormas %}
+                        <div class="card">
+                            <div class="card-header" id="headingNorma">
+                                <h2 class="mb-0">
+                                    <a id="scroll" href="#item"><button class="valor123 btn btn-link boton" type="button" title="{{unaNorma.titulo}}" value="{{unaNorma.getId()}}">{{unaNorma.titulo}}</button></a>
+                                </h2>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div> #}
+{# funcion recursiva macro para acomodar el arbol #}
+{% macro recursiveItem(subitem) %}
+
+<div class="accordion" id="accordionSubitem{{subitem.getId()}}">
+    {% if subitem.getDependencias != null %}
+        {% for unSubitem in subitem.getDependencias %}
+            <div class="card ml-5 mr-5" >
+                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
+                            {{unSubitem.nombre}} 
+                        </button>
+                        <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
+                            Editar
+                        </a>
+                    </h2>
+                </div>
+                <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
+                    {{ _self.recursiveItem(unSubitem) }}
+                </div>
+            </div>
+        {% endfor %}
+        {% if subitem.getNormas()|length >= 1 %}
+            <div class="card ml-5 mr-5" >
+                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
+                    <h2 class="mb-0">
+                        <h5><a id="scroll" href="#item"><button class="valor123 btn btn-link boton " type="button" value="{{subitem.getId()}}">Ver normas realcionadas con "{{subitem.nombre}}"</button></a></h5>
+                    </h2>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
 </div>
+
+{% endmacro %}
+
+{% if items %}
+    <div class="container ">
+        <div class="accordion" id="accordionItem">
+            {% for unItem in items %}
+                {% if (unItem.idPadre == null) %}
+                    <div class="card">
+                        <div class="card-header" id="headingItem{{unItem.getId()}}">
+                            <h2 class="">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
+                                    {{unItem.nombre}}
+                                </button>
+                                <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
+                                    Editar
+                                </a>
+                            </h2>
+                        </div>
+                        <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
+                            {{ _self.recursiveItem(unItem) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %} 
+
+
+
 <div class="container"id="container">
 </div>
 
@@ -65,7 +160,7 @@
                 
                 var id = this.value;
                 
-                $.get("https://localhost:8000/norma/"+id+"/normasAjax",function(data){            
+                $.get("/norma/"+id+"/normasAjax",function(data){
                     var c = $('<div class="card" id="tarjeta"></div >');  
                         $('#container').html('');  
                         $('#container').append(c);
@@ -83,12 +178,16 @@
                             
                             $('#container').append(c);
                             var link = norma['id'];
-                            var link2= "/norma/"+link+"/"+id ;
+                            //var link 2 es el comentado no el noComentado
+                            var link2 = "/norma/"+link;
+                            // var link2= "/norma/"+link+"/"+id ;
                             
                             $('#verNorma', c).attr('href',link2);
                             $('#container').append(c);
                         }
+                        
                         //window.scrollTo(0, 1500);
+                        //scroll suave
                         var element = document.getElementById("container");
                         element.scrollIntoView({behavior: "smooth"});
                         

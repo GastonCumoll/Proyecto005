@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use DateTime;
+use Dompdf\Dompdf;
 use App\Entity\Tema;
 use App\Entity\Norma;
 use App\Form\LeyType;
@@ -16,6 +17,7 @@ use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
 use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
+use App\Repository\ItemRepository;
 use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
 use App\Repository\TituloRepository;
@@ -62,11 +64,17 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
      */
-    public function normasAjax(NormaRepository $normaRepository,TemaRepository $temaRepository,$id): Response
+    public function normasAjax(NormaRepository $normaRepository,TemaRepository $temaRepository,ItemRepository $itemRepository,$id): Response
     {
         
-        $tema=$temaRepository->find($id);
-        $normas=$tema->getNormas()->toArray();
+        //id = id de la norma 
+        //$tema=$temaRepository->find($id);
+        //$normas=$tema->getNormas()->toArray();
+        
+        //id=id del item
+        $item=$itemRepository->find($id);
+        $normas=$item->getNormas()->toArray();
+        
         //dd($normas);
         // foreach ($normas as $unaNorma) {
         //     dd($unaNorma);
@@ -185,8 +193,6 @@ class NormaController extends AbstractController
                 $norma->setpdfFile($newFilename);
             }
 
-            // ... persist the $product variable or any other work
-
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
 
             $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
@@ -263,9 +269,12 @@ class NormaController extends AbstractController
         // dd($temaDeNorma);
         $complementada=$repository->findByComplementada($id);
         
+        
+
+        
+        
         //dd($relaciones);
         return $this->render('norma/show.html.twig', [
-            'temas' => $temaDeNorma,
             'norma' => $norma,
             'complementaA' =>$complementa,
             'complementadaPor'=>$complementada

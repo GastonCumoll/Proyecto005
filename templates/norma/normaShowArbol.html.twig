@@ -27,6 +27,12 @@
             <p class="card-text text-left">Resumen: </p>
             <p class="card-text text-left">{{ norma.resumen }}</p>
             <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
+            <br>
+            <br>
+            {% if (norma.pdfFile) != null %}
+            <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
+            {% endif %}
+            
         </div>
         <div class="card-footer text-left">
             <th>Esta norma complementa o modifica a la/las normas:  </th>
