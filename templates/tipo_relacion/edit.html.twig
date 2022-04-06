@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TipoRelacion{% endblock %}
+
+{% block body %}
+    <h1>Edit TipoRelacion</h1>
+
+    {{ include('tipo_relacion/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('tipo_relacion_index') }}">back to list</a>
+
+    {{ include('tipo_relacion/_delete_form.html.twig') }}
+{% endblock %}

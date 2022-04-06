@@ -42,9 +42,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 
-// $encoders=[new XmlEncoder(),new JsonEncoder()];
-// $normalizers=[new ObjectNormalizer()];
-// $serializer=new Serializer($normalizers,$encoders);
 /**
  * @Route("/norma")
  */
@@ -196,15 +193,15 @@ class NormaController extends AbstractController
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
 
             $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
-            $tema =$form['temas']->getData();
+            //$tema =$form['temas']->getData();
             
-            foreach ($tema as $unTema) {
-                $newTema= new Tema();
-                $newTema=$unTema;
-                $norma->addTema($newTema);
-                $newTema->addNorma($norma); 
+            // foreach ($tema as $unTema) {
+            //     $newTema= new Tema();
+            //     $newTema=$unTema;
+            //     $norma->addTema($newTema);
+            //     $newTema->addNorma($norma); 
                 
-            }
+            // }
 
             $entityManager->persist($norma);
             $entityManager->flush();
@@ -260,24 +257,11 @@ class NormaController extends AbstractController
     public function show(Norma $norma,$id): Response
     {
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
-        $complementa = $repository->findByNorma($id);
+        $relacion= $repository->findByNorma($id);
         
-        $temaDeNorma=$norma->getTemas();
-        // foreach ($temaDeNorma as $unTema) {
-        //     dd($unTema->getCapitulo()->getTitulo()->getNombre());
-        // }
-        // dd($temaDeNorma);
-        $complementada=$repository->findByComplementada($id);
-        
-        
-
-        
-        
-        //dd($relaciones);
         return $this->render('norma/show.html.twig', [
             'norma' => $norma,
-            'complementaA' =>$complementa,
-            'complementadaPor'=>$complementada
+            'relacion' => $relacion,
         ]);
     }
 
@@ -316,7 +300,7 @@ class NormaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
-            $tema =$form['temas']->getData();
+            //$tema =$form['temas']->getData();
             
             foreach ($tema as $unTema) {
                 $newTema= new Tema();
@@ -361,11 +345,12 @@ class NormaController extends AbstractController
      */
     public function normaArbol(Norma $norma,$id,$t): Response
     {
+        
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
-        $complementa = $repository->findByNorma($id);
+        $relacion= $repository->findByNorma($id);
         
         $itemDeNorma=$norma->getItems();
-        
+        // dd($relacion);
         $item;
         foreach ($itemDeNorma as $unItem) {
             if($unItem->getId()==$t){
@@ -381,8 +366,7 @@ class NormaController extends AbstractController
         return $this->render('norma/normaShowArbol.html.twig', [
             'item' => $item,
             'norma' => $norma,
-            'complementaA' =>$complementa,
-            'complementadaPor'=>$complementada
+            'relacion' => $relacion,
         ]);
     }
 

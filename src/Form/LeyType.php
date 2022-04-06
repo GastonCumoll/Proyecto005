@@ -21,6 +21,7 @@ class LeyType extends AbstractType
         ->add('titulo')
         ->add('fechaSancion')
         ->add('pdfFile', FileType::class, [
+            'data_class' => null,
             'label' => 'Brochure (PDF file)',
             'required' => false,
             'constraints' => [
@@ -46,7 +47,7 @@ class LeyType extends AbstractType
     ])
         ->add('decretoPromulgacion')
         ->add('fechaPromulgacion')
-        ->add('temas')
+        //->add('temas')
         ->add('rela', CheckboxType::class, array(
             'required' => false,
             'value' => 1,

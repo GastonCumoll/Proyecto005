@@ -27,29 +27,29 @@ class ItemController extends AbstractController
             'items' => $itemRepository->findAll(),
         ]);
     }
-
-    /**
-     * @Route("/itemAjax", name="item_ajax", methods={"GET","POST"}, options={"expose"=true})
-     */
-    public function itemAjax(Request $request, EntityManagerInterface $entityManager,ItemRepository $itemRepository): Response
-    {
-        //return new JsonResponse($request->request->get('id'));
-        $item=$request->request->get('id');
-        $em=$itemRepository->find($item);
+    
+    // /**
+    //  * @Route("/itemAjax", name="item_ajax", methods={"GET","POST"}, options={"expose"=true})
+    //  */
+    // public function itemAjax(Request $request, EntityManagerInterface $entityManager,ItemRepository $itemRepository): Response
+    // {
+    //     //return new JsonResponse($request->request->get('id'));
+    //     $item=$request->request->get('id');
+    //     $em=$itemRepository->find($item);
         
-        $jsonData = array();  
-            $idx = 0;  
-            foreach($em->getDependencias() as $unaDependencia) {  
-                $temp = array(
-                    'id' => $unaDependencia->getId(),
-                    'padre' => $unaDependencia->getPadre(),
-                    'nombre' => $unaDependencia->getNombre(),
-                );   
-                $jsonData[$idx++] = $temp;  
-            }
-            //dd($jsonData);
-            return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
-    }
+    //     $jsonData = array();  
+    //         $idx = 0;  
+    //         foreach($em->getDependencias() as $unaDependencia) {  
+    //             $temp = array(
+    //                 'id' => $unaDependencia->getId(),
+    //                 'padre' => $unaDependencia->getPadre(),
+    //                 'nombre' => $unaDependencia->getNombre(),
+    //             );   
+    //             $jsonData[$idx++] = $temp;  
+    //         }
+    //         //dd($jsonData);
+    //         return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
+    // }
 
     /**
      * @Route("/new", name="item_new", methods={"GET", "POST"})
@@ -105,8 +105,17 @@ class ItemController extends AbstractController
     {
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
+        //dd($item);
+        $hijos=$item->getDependencias();
+        // dd($hijos);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($hijos as $unHijo) {
+                $unHijo->setPadre($item);
+                $item->addDependencia($unHijo);
+                $entityManager->persist($item);
+                $entityManager->persist($unHijo);
+            }    
             $entityManager->flush();
 
             return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TipoRelacion{% endblock %}
+
+{% block body %}
+    <h1>TipoRelacion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tipo_relacion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ tipo_relacion.nombre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('tipo_relacion_index') }}">back to list</a>
+
+    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}">edit</a>
+
+    {{ include('tipo_relacion/_delete_form.html.twig') }}
+{% endblock %}

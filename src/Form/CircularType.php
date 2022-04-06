@@ -21,6 +21,7 @@ class CircularType extends AbstractType
             ->add('numero')
             ->add('titulo')
             ->add('pdfFile', FileType::class, [
+                'data_class' => null,
                 'label' => 'Brochure (PDF file)',
                 'required' => false,
                 'constraints' => [
@@ -46,7 +47,7 @@ class CircularType extends AbstractType
                 'required' =>false
         ])
             //->add('fechaPromulgacion')
-            ->add('temas')
+            //->add('temas')
             ->add('rela', CheckboxType::class, array(
                 'required' => false,
                 'value' => 1,

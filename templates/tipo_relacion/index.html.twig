@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TipoRelacion index{% endblock %}
+
+{% block body %}
+    <h1>TipoRelacion index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tipo_relacion in tipo_relacions %}
+            <tr>
+                <td>{{ tipo_relacion.id }}</td>
+                <td>{{ tipo_relacion.nombre }}</td>
+                <td>
+                    <a href="{{ path('tipo_relacion_show', {'id': tipo_relacion.id}) }}">show</a>
+                    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tipo_relacion_new') }}">Create new</a>
+{% endblock %}

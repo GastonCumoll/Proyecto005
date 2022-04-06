@@ -63,20 +63,12 @@
             {% endif %}
             
         </div>
-        <div class="card-footer text-left">
-            <th>Esta norma complementa o modifica a la/las normas:  </th>
-            <br>
-            {% for complementa in complementaA %}
-            <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
+        
+        {% for rela in relacion %}
+            <td>{{rela.getTipoRelacion.getNombre}}</td>
+            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId})  }}">{{rela.getComplementada.getTitulo}}</a></td>
         {% endfor %}
-        </div>
-        <div class="card-footer text-left">
-            <th>Esta norma es complementada o modificada por la/las normas: </th>
-            <br>
-            {% for complementada in complementadaPor %}
-            <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
-        {% endfor %}
-        </div>
+        
         <div class="container">
             <div class="row mt-1">
                 <div class="col-4 mt-4  text-left">

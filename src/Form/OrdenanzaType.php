@@ -22,6 +22,7 @@ class OrdenanzaType extends AbstractType
         ->add('titulo')
         ->add('pdfFile', FileType::class, [
             'label' => 'Brochure (PDF file)',
+            'data_class' => null,
             'required' => false,
             'constraints' => [
                 new File([
@@ -46,7 +47,7 @@ class OrdenanzaType extends AbstractType
             'required' =>false
     ])
         //->add('fechaPromulgacion')
-        ->add('temas')
+        //->add('temas')
         ->add('rela', CheckboxType::class, array(
             'required' => false,
             'value' => 1,

@@ -115,6 +115,7 @@ private $pdfFile;
  */
 private $items;
 
+
 public function getRela(): ?bool
 {
     return $this->rela;
@@ -140,6 +141,7 @@ public function setRela(?bool $rela): self
         $this->relaciones = new ArrayCollection();
         $this->etiquetas = new ArrayCollection();
         $this->items = new ArrayCollection();
+
     }
 
     public function getId(): ?int

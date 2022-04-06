@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Norma;
+use App\Form\ItemType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -22,7 +23,11 @@ class DecretoType extends AbstractType
         //->add('fechaPublicacion')
         ->add('titulo')
         ->add('pdfFile', FileType::class, [
-            'label' => 'Brochure (PDF file)',
+            'attr' =>[
+                'placeholder' => 'seleccione un archivo',
+            ],
+            'data_class' => null,
+            'label' => '(PDF file)',
             'required' => false,
             'constraints' => [
                 new File([
@@ -46,7 +51,8 @@ class DecretoType extends AbstractType
         ])
         
         //->add('fechaPromulgacion')
-        ->add('temas')
+        
+        //->add('temas')
         ->add('rela', CheckboxType::class, array(
             'required' => false,
             'value' => 1,

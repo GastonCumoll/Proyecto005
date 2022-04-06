@@ -3,23 +3,35 @@
 namespace App\Controller;
 
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Norma;
+use App\Form\LeyType;
+use App\Form\NormaType;
 use App\Entity\Relacion;
+use App\Entity\TipoNorma;
+use App\Form\DecretoType;
+use App\Form\CircularType;
 use App\Form\RelacionType;
+use App\Form\OrdenanzaType;
+use App\Form\TipoNormaType;
+use App\Form\ResolucionType;
 use App\Repository\NormaRepository;
 use App\Repository\RelacionRepository;
+use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TipoRelacionRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/relacion")
  */
-class RelacionController extends AbstractController
+class RelacionOriginalController extends AbstractController
 {
+
     /**
      * @Route("/", name="relacion_index", methods={"GET"})
      */
@@ -31,11 +43,19 @@ class RelacionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="relacion_new", methods={"GET", "POST"})
+     * @Route("/{id}/agregarRelacion", name="agregar_relacion", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function agregarRelacion(Request $request, EntityManagerInterface $entityManager, NormaRepository $repository, $id): Response
     {
-        $relacion = new Relacion();
+        $today=new DateTime();
+        $relacion=new Relacion();
+
+        $repository= $this->getDoctrine()->getRepository(Norma::class);
+        $norma=$repository->find($id);
+        $relacion->setFechaRelacion($today);
+        
+        $relacion->setNorma($norma);
+
         $form = $this->createForm(RelacionType::class, $relacion);
         $form->handleRequest($request);
 
@@ -45,27 +65,16 @@ class RelacionController extends AbstractController
 
             return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('relacion/new.html.twig', [
             'relacion' => $relacion,
             'form' => $form,
         ]);
     }
-
+    
     /**
-     * @Route("/{id}", name="relacion_show", methods={"GET"})
+     * @Route("/relaForm", name="form_rela_original", methods={"GET", "POST"})
      */
-    public function show(Relacion $relacion): Response
-    {
-        return $this->render('relacion/show.html.twig', [
-            'relacion' => $relacion,
-        ]);
-    }
-
-    /**
-     * @Route("/relaForm", name="form_rela", methods={"GET", "POST"})
-     */
-    public function relacionForm(TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
+    public function relacionForm(RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
     {
         $today=new DateTime();
         $relacion=new Relacion();
@@ -82,33 +91,6 @@ class RelacionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($relacion);
-
-            $relacionInversa= new Relacion();
-            $normaOrigen = $form['complementada']->getData();
-            $relacionInversa->setNorma($normaOrigen);
-            $normaDestino = $form['norma']->getData();
-            $relacionInversa->setComplementada($normaDestino);
-            $relacionInversa->setFechaRelacion($today);
-            $relacionInversa->setDescripcion($relacion->getDescripcion());
-            $relacionInversa->setResumen($relacion->getResumen());
-            $relacionInversa->setUsuario($relacion->getUsuario());
-            
-
-            $tipoRela=$form['tipoRelacion']->getData();
-
-            if($tipoRela->getNombre()=='Complementa a'){
-                $repo=$tipoRelaRepository->find($tipoRela->getId()+1);
-                $relacionInversa->setTipoRelacion($repo);
-            }
-            if($tipoRela->getNombre()=='Modifica a'){
-                dd("modificada por");
-            }
-            if($tipoRela->getNombre()=='Deroga a'){
-                dd("derogada por");
-            }
-            $entityManager->persist($relacionInversa);
-            
-
             $entityManager->flush();
 
             return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
@@ -117,6 +99,38 @@ class RelacionController extends AbstractController
         return $this->renderForm('relacion/new.html.twig', [
             'relacion' => $relacion,
             'form' => $form,
+        ]);
+    }
+    
+    // /**
+    //  * @Route("/new", name="relacion_new", methods={"GET", "POST"})
+    //  */
+    // public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // {
+    //     $relacion = new Relacion();
+    //     $form = $this->createForm(RelacionType::class, $relacion);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($relacion);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->renderForm('relacion/new.html.twig', [
+    //         'relacion' => $relacion,
+    //         'form' => $form,
+    //     ]);
+    // }
+
+    /**
+     * @Route("/{id}", name="relacion_show", methods={"GET"})
+     */
+    public function show(Relacion $relacion): Response
+    {
+        return $this->render('relacion/show.html.twig', [
+            'relacion' => $relacion,
         ]);
     }
 

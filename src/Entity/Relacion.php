@@ -47,6 +47,12 @@ class Relacion
      */
     private $complementada;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TipoRelacion::class, inversedBy="rela")
+     */
+    private $tipoRelacion;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +126,18 @@ class Relacion
     public function setComplementada(?Norma $complementada): self
     {
         $this->complementada = $complementada;
+
+        return $this;
+    }
+
+    public function getTipoRelacion(): ?TipoRelacion
+    {
+        return $this->tipoRelacion;
+    }
+
+    public function setTipoRelacion(?TipoRelacion $tipoRelacion): self
+    {
+        $this->tipoRelacion = $tipoRelacion;
 
         return $this;
     }

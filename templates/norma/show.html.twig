@@ -28,27 +28,9 @@
                 <br>
                 <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
             </div>
-            {% for complementa in complementaA %}
-            <div class="card-footer text-left">
-                <th>{{complementa.getDescripcion}}</th>
-                <br>
-                
-                <td> <a href="{{path('norma_show', {'id': complementa.getComplementada.getId})  }}">{{complementa.getComplementada.getTitulo}}</a></td>
-                <br>
-                <td>{{complementa.getResumen}}</td>
-                
-            {% endfor %}
-            </div>
-            {% for complementada in complementadaPor %}
-            <div class="card-footer text-left">
-                <th>Esta norma es complementada o modificada por la/las normas: </th>
-                <br>
-                
-                <td> <a href="{{path('norma_show', {'id': complementada.getNorma.getId})  }}">{{complementada.getNorma.getTitulo}}</a></td>
-                <br>
-                <td> {{complementada.getDescripcion}} </td>
-            
-            </div>
+            {% for rela in relacion %}
+            <td>{{rela.getTipoRelacion.getNombre}}</td>
+            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId})  }}">{{rela.getComplementada.getTitulo}}</a></td>
             {% endfor %}
             <div class="container">
                 <div class="row mt-1">
