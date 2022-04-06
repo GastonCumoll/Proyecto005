@@ -9,7 +9,7 @@
     
     {% block script %}
         <script>
-            var $padre = $('#item_idPadre');
+            var $padre = $('#item_padre');
             // When sport gets selected ...
             $padre.change(function() {
                 let select = document.getElementById('item_dependencias');
@@ -20,7 +20,7 @@
                 var $form = $(this).closest('form');
                 // Simulate form data, but only include the selected sport value.
                 var data = {};
-                data[$padre.attr('idPadre')] = $padre.val();
+                data[$padre.attr('padre')] = $padre.val();
                 var url="{{ path('item_ajax') }}";
                 var parametros = {'id' : (this.value)};
                 // Submit data via AJAX to the form's action path.

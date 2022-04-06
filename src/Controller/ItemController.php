@@ -42,7 +42,7 @@ class ItemController extends AbstractController
             foreach($em->getDependencias() as $unaDependencia) {  
                 $temp = array(
                     'id' => $unaDependencia->getId(),
-                    'idPadre' => $unaDependencia->getIdPadre(),
+                    'padre' => $unaDependencia->getPadre(),
                     'nombre' => $unaDependencia->getNombre(),
                 );   
                 $jsonData[$idx++] = $temp;  
@@ -73,7 +73,7 @@ class ItemController extends AbstractController
             $entityManager->flush();
             for($i=0;$i<$tam;$i++){
                 $item->addDependencia($depen[$i]);
-                $depen[$i]->setIdPadre($item);
+                $depen[$i]->setPadre($item);
                 $entityManager->persist($depen[$i]);
             }
             $entityManager->persist($item);
@@ -124,9 +124,39 @@ class ItemController extends AbstractController
     public function delete(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($item);
+            //creo vector que contiene los hijos y un obj que contiene padre
+            $hijos=$item->getDependencias();
+            $padre = $item->getPadre();
 
-            $entityManager->flush();
+            //pregunto si tiene normas
+            if($item->getNormas() != null){
+                $normas=$item->getNormas();
+                //seteo las normas del que quiero borrar a su padre
+                foreach ($normas as $unaNorma) {
+                    $padre->addNorma($unaNorma);
+                }
+            }
+            
+
+            
+            
+            //remuevo el item
+            $entityManager->remove($item);
+            //$entityManager->flush();
+
+            if($hijos != null){
+                foreach ($hijos as $hijo) {
+                    // dd($item->getDependencias());
+                    //dump($hijo);
+                    //dump($item->getPadre());
+                    $hijo->setPadre($padre);
+                    $entityManager->persist($hijo);
+                }
+                $entityManager->flush();
+            }
+
+            //dd($item);
+            
         }
 
         return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);

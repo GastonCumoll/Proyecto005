@@ -5,10 +5,12 @@ namespace App\Form;
 use App\Entity\Norma;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class LeyType extends AbstractType
 {
@@ -18,6 +20,19 @@ class LeyType extends AbstractType
         ->add('numero')
         ->add('titulo')
         ->add('fechaSancion')
+        ->add('pdfFile', FileType::class, [
+            'label' => 'Brochure (PDF file)',
+            'required' => false,
+            'constraints' => [
+                new File([
+                    'maxSize' => '1048576k',
+                    'mimeTypes' => [
+                        'application/pdf',
+                        'application/x-pdf',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid PDF document',
+                ])
+        ]])
         //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  FroalaEditorType::class)

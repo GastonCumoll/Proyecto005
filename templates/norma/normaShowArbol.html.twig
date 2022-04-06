@@ -5,10 +5,39 @@
 {% block body %}
 
 {{ parent() }} 
+{% macro mostrarNorma(norma) %}
+    {{norma.titulo}}
+{% endmacro %}
 
+{% macro recursiveCategory(itemHijo, norma ) %}
+    
+    {% import _self as self %} 
+    
+        {% if itemHijo.padre != null %}
+        
+            {{ self.recursiveCategory(itemHijo.padre, norma) }} >
+            {{itemHijo.nombre}}
+        {% else %}
+        
+            {{ itemHijo.nombre }}
+        {% endif %}
+        
+{% endmacro %}
 
+{% from _self import recursiveCategory %}
+    {% from _self import mostrarNorma %}
+<div id="arbol">
+    <ul>{% if item.padre != null %}
+            {{ recursiveCategory(item, norma) }}
+            > {{ mostrarNorma(norma)}}
+        {% else %}
+                {{item.nombre}} > {{norma.titulo}}
+        {% endif %}
 
-<h5><a href="{{path('titulo_show_arbol', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_show_arbol', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > <a href="{{path('tema_show_arbol', {'id': tema.id})  }}">{{tema.getNombre()}}</a> > {{norma.tipoNorma.nombre}} N°  {{ norma.numero }} </h5>
+    </ul>
+</div>
+
+{# <h5><a href="{{path('titulo_show_arbol', {'id': titu.id})  }}">{{titu.getNombre()}}</a> > <a href="{{path('capitulo_show_arbol', {'id': capi.id})  }}">{{capi.getNombre()}}</a> > <a href="{{path('tema_show_arbol', {'id': tema.id})  }}">{{tema.getNombre()}}</a> > {{norma.tipoNorma.nombre}} N°  {{ norma.numero }} </h5> #}
 
 
 <div class="container mt-3 mb-3">

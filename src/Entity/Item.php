@@ -36,10 +36,10 @@ class Item
      * @ORM\ManyToOne(targetEntity=Item::class, inversedBy="dependencias")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idPadre;
+    private $padre;
 
     /**
-     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="idPadre", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Item::class, mappedBy="padre", orphanRemoval=true)
      * @OrderBy({"orden" = "DESC"})
      */
     private $dependencias;
@@ -73,7 +73,7 @@ class Item
     {
         $this->dependencias = new ArrayCollection();
         $this->normas = new ArrayCollection();
-        $this->idPadre = null;
+        $this->padre = null;
         $this->orden = 0;
         
     }
@@ -111,14 +111,14 @@ class Item
         return $this;
     }
 
-    public function getIdPadre(): ?self
+    public function getPadre(): ?self
     {
-        return $this->idPadre;
+        return $this->padre;
     }
 
-    public function setIdPadre(?self $idPadre): self
+    public function setPadre(?self $padre): self
     {
-        $this->idPadre = $idPadre;
+        $this->padre = $padre;
 
         return $this;
     }
@@ -135,7 +135,7 @@ class Item
     {
         if (!$this->dependencias->contains($dependencia)) {
             $this->dependencias[] = $dependencia;
-            $dependencia->setIdPadre($this);
+            $dependencia->setPadre($this);
         }
 
         return $this;
@@ -145,8 +145,8 @@ class Item
     {
         if ($this->dependencias->removeElement($dependencia)) {
             // set the owning side to null (unless already changed)
-            if ($dependencia->getIdPadre() === $this) {
-                $dependencia->setIdPadre(null);
+            if ($dependencia->getPadre() === $this) {
+                $dependencia->setPadre(null);
             }
         }
 

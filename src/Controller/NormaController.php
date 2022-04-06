@@ -364,15 +364,12 @@ class NormaController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $complementa = $repository->findByNorma($id);
         
-        $temaDeNorma=$norma->getTemas();
-        $nombreTema;
-        $nombreCap;
-        $nombreTit;
-        foreach ($temaDeNorma as $unTema) {
-            if($unTema->getId()==$t){
-                $nombreTema=$unTema;
-                $nombreCap=$unTema->getCapitulo();
-                $nombreTit=$unTema->getCapitulo()->getTitulo();
+        $itemDeNorma=$norma->getItems();
+        
+        $item;
+        foreach ($itemDeNorma as $unItem) {
+            if($unItem->getId()==$t){
+                $item = $unItem;
             }
             
         }
@@ -382,9 +379,7 @@ class NormaController extends AbstractController
         
         //dd($relaciones);
         return $this->render('norma/normaShowArbol.html.twig', [
-            'tema' => $nombreTema,
-            'capi' => $nombreCap,
-            'titu' =>$nombreTit,
+            'item' => $item,
             'norma' => $norma,
             'complementaA' =>$complementa,
             'complementadaPor'=>$complementada

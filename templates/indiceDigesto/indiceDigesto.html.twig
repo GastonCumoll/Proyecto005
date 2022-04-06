@@ -55,7 +55,7 @@
 </div> #}
 {# <div class="accordion" id="accordionItem">
     {% for unItem in items %}
-    {% if (unItem.getIdPadre == null) %}
+    {% if (unItem.getPadre == null) %}
         <div class="card">
             <div class="card-header" id="headingItem">
                 <h2 class="mb-0">
@@ -98,6 +98,9 @@
                         <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
                             Editar
                         </a>
+                        <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
+                            Eliminar
+                        </a>
                     </h2>
                 </div>
                 <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
@@ -109,7 +112,7 @@
             <div class="card ml-5 mr-5" >
                 <div class="card-header" id="headingSubitem{{subitem.getId()}}">
                     <h2 class="mb-0">
-                        <h5><a id="scroll" href="#item"><button class="valor123 btn btn-link boton " type="button" value="{{subitem.getId()}}">Ver normas realcionadas con "{{subitem.nombre}}"</button></a></h5>
+                        <h5><a id="scroll" href="#item"><button class="valor123 btn btn-light" type="button" value="{{subitem.getId()}}">Ver normas realcionadas con "{{subitem.nombre}}"</button></a></h5>
                     </h2>
                 </div>
             </div>
@@ -123,7 +126,7 @@
     <div class="container ">
         <div class="accordion" id="accordionItem">
             {% for unItem in items %}
-                {% if (unItem.idPadre == null) %}
+                {% if (unItem.padre == null) %}
                     <div class="card">
                         <div class="card-header" id="headingItem{{unItem.getId()}}">
                             <h2 class="">
@@ -133,6 +136,7 @@
                                 <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
                                     Editar
                                 </a>
+
                             </h2>
                         </div>
                         <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
@@ -142,6 +146,10 @@
                 {% endif %}
             {% endfor %}
         </div>
+        <br>
+        <a class="btn btn-outline-secondary btn-sm ml-1" type="button" href="{{path('item_new')}}">
+            Agregar Item
+        </a>
     </div>
 {% endif %} 
 
@@ -179,7 +187,7 @@
                             $('#container').append(c);
                             var link = norma['id'];
                             //var link 2 es el comentado no el noComentado
-                            var link2 = "/norma/"+link;
+                            var link2 = "/norma/"+link+"/"+id;
                             // var link2= "/norma/"+link+"/"+id ;
                             
                             $('#verNorma', c).attr('href',link2);

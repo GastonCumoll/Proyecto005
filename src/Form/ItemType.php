@@ -20,7 +20,7 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('idPadre', EntityType::class, [
+            ->add('padre', EntityType::class, [
                 'class' => Item::class,
                 'placeholder' => '',
                 'required' =>false,
@@ -54,7 +54,7 @@ class ItemType extends AbstractType
                 
             }
         );
-        $builder->get('idPadre')->addEventListener(
+        $builder->get('padre')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 // It's important here to fetch $event->getForm()->getData(), as

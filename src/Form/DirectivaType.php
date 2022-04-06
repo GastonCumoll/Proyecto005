@@ -7,8 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Validator\Constraints\File;
 
 class DirectivaType extends AbstractType
 {
@@ -17,6 +19,19 @@ class DirectivaType extends AbstractType
         $builder
             ->add('numero')
             ->add('titulo')
+            ->add('pdfFile', FileType::class, [
+                'label' => 'Brochure (PDF file)',
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1048576k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+            ]])
             //->add('fechaSancion')
             //->add('fechaPublicacion')
             
