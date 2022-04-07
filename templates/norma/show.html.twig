@@ -26,12 +26,17 @@
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
                 <br>
                 <br>
-                <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
+                {% if (norma.pdfFile) != null %}
+            <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
+            {% endif %}
             </div>
-            {% for rela in relacion %}
-            <td>{{rela.getTipoRelacion.getNombre}}</td>
-            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId})  }}">{{rela.getComplementada.getTitulo}}</a></td>
+            <div class="card-footer text-left">
+                {% for rela in relacion %}
+                <td >{{rela.getTipoRelacion.getNombre}}</td>
+                <td > <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                <br>
             {% endfor %}
+            </div>
             <div class="container">
                 <div class="row mt-1">
                     <div class="col-4 mt-4  text-left">
@@ -49,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+            
         </div>
     {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}
 

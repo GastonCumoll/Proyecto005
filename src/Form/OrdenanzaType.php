@@ -48,9 +48,11 @@ class OrdenanzaType extends AbstractType
     ])
         //->add('fechaPromulgacion')
         //->add('temas')
+        ->add('items')
         ->add('rela', CheckboxType::class, array(
             'required' => false,
             'value' => 1,
+            'label' => '¿Está relacionada con otra norma?'
         ))
         //->add('decretoPromulgacion')
     ;

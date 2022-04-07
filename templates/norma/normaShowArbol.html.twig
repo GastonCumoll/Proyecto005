@@ -63,11 +63,14 @@
             {% endif %}
             
         </div>
-        
-        {% for rela in relacion %}
+        <div class="card-footer text-left">
+            {% for rela in relacion %}
             <td>{{rela.getTipoRelacion.getNombre}}</td>
-            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId})  }}">{{rela.getComplementada.getTitulo}}</a></td>
+            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+            <br>
         {% endfor %}
+        </div>
+        
         
         <div class="container">
             <div class="row mt-1">

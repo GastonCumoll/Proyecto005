@@ -29,6 +29,16 @@ class TipoRelacion
      */
     private $rela;
 
+    /**
+     * @ORM\OneToOne(targetEntity=TipoRelacion::class, cascade={"persist", "remove"})
+     */
+    private $inverso;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $prioridad;
+
     public function __toString()
     {
         return $this->nombre;
@@ -82,6 +92,30 @@ class TipoRelacion
                 $rela->setTipoRelacion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInverso(): ?self
+    {
+        return $this->inverso;
+    }
+
+    public function setInverso(?self $inverso): self
+    {
+        $this->inverso = $inverso;
+
+        return $this;
+    }
+
+    public function getPrioridad(): ?int
+    {
+        return $this->prioridad;
+    }
+
+    public function setPrioridad(?int $prioridad): self
+    {
+        $this->prioridad = $prioridad;
 
         return $this;
     }

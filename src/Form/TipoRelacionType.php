@@ -13,6 +13,8 @@ class TipoRelacionType extends AbstractType
     {
         $builder
             ->add('nombre')
+            ->add('prioridad')
+            ->add('inverso')
         ;
     }
 

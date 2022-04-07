@@ -65,19 +65,19 @@ class ItemController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form['dependencias']->getData());
-            $depen=$form['dependencias']->getData();
-            $tam=sizeof($depen);
+            //$depen=$form['dependencias']->getData();
+            //$tam=sizeof($depen);
             
             
             $entityManager->persist($item);
             $entityManager->flush();
-            for($i=0;$i<$tam;$i++){
-                $item->addDependencia($depen[$i]);
-                $depen[$i]->setPadre($item);
-                $entityManager->persist($depen[$i]);
-            }
-            $entityManager->persist($item);
-            $entityManager->flush();
+            // for($i=0;$i<$tam;$i++){
+            //     $item->addDependencia($depen[$i]);
+            //     $depen[$i]->setPadre($item);
+            //     $entityManager->persist($depen[$i]);
+            // }
+            // $entityManager->persist($item);
+            // $entityManager->flush();
 
             return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
         }

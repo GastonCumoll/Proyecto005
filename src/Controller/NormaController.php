@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use DateTime;
 use Dompdf\Dompdf;
+use App\Entity\Item;
 use App\Entity\Tema;
 use App\Entity\Norma;
 use App\Form\LeyType;
@@ -193,15 +194,15 @@ class NormaController extends AbstractController
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
 
             $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
-            //$tema =$form['temas']->getData();
+            $item =$form['items']->getData();
             
-            // foreach ($tema as $unTema) {
-            //     $newTema= new Tema();
-            //     $newTema=$unTema;
-            //     $norma->addTema($newTema);
-            //     $newTema->addNorma($norma); 
-                
-            // }
+            foreach ($item as $unItem) {
+                $newItem= new Item();
+                $newItem=$unItem;
+                $norma->addItem($newItem);
+                $newItem->addNorma($norma); 
+                $entityManager->persist($newItem);
+            }
 
             $entityManager->persist($norma);
             $entityManager->flush();
@@ -300,14 +301,15 @@ class NormaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
-            //$tema =$form['temas']->getData();
-            
-            foreach ($tema as $unTema) {
-                $newTema= new Tema();
-                $newTema=$unTema;
-                $norma->addTema($newTema);
-                $newTema->addNorma($norma); 
+            $item =$form['items']->getData();
+            foreach ($item as $unItem) {
+                $newItem= new Item();
+                $newItem=$unItem;
+                $norma->addItem($newItem);
+                $newItem->addNorma($norma); 
+                $entityManager->persist($newItem);
             }
+            
             $entityManager->persist($norma);
             $entityManager->flush();
 
@@ -331,6 +333,15 @@ class NormaController extends AbstractController
             }
             $entityManager->flush();
 
+            if($norma->getRela()==true){
+                
+                $id=$norma->getId();
+                $session=$request->getSession();
+                $session->set('id',$id);
+                
+                return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
+            }
+            
             return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
         }
 

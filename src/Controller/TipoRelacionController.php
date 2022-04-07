@@ -29,13 +29,23 @@ class TipoRelacionController extends AbstractController
     /**
      * @Route("/new", name="tipo_relacion_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,TipoRelacionRepository $tipoRelacionRepository): Response
     {
         $tipoRelacion = new TipoRelacion();
         $form = $this->createForm(TipoRelacionType::class, $tipoRelacion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $inverso =$form['inverso']->getData();
+            if($inverso!=null){
+                // $idInv=$inverso->getId();
+                // $em=$tipoRelacionRepository->find($idInv);
+                $inverso->setInverso($tipoRelacion);
+                $entityManager->persist($tipoRelacion);
+                $entityManager->persist($inverso);
+            }
+
             $entityManager->persist($tipoRelacion);
             $entityManager->flush();
 

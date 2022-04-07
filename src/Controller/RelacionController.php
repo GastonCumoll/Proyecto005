@@ -25,8 +25,57 @@ class RelacionController extends AbstractController
      */
     public function index(RelacionRepository $relacionRepository): Response
     {
+        
         return $this->render('relacion/index.html.twig', [
             'relacions' => $relacionRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/relaForm", name="form_rela", methods={"GET", "POST"})
+     */
+    public function relacionForm(TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
+    {
+        $today=new DateTime();
+        $relacion=new Relacion();
+
+        $relacion->setFechaRelacion($today);
+        $session=$request->getSession();
+        $id=$session->get('id');
+        $repository = $this->getDoctrine()->getRepository(Norma::class);
+        $norma = $repository->find($id);
+        $relacion->setNorma($norma);
+        $opcion=$tipoRelaRepository->findByPrioridad(1);
+        //dd($opcion);
+        $form = $this->createForm(RelacionType::class, $relacion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($relacion);
+            
+            $relacionInversa= new Relacion();
+            $normaOrigen = $form['complementada']->getData();
+            $relacionInversa->setNorma($normaOrigen);
+            $normaDestino = $form['norma']->getData();
+            $relacionInversa->setComplementada($normaDestino);
+            $relacionInversa->setFechaRelacion($today);
+            $relacionInversa->setDescripcion($relacion->getDescripcion());
+            $relacionInversa->setResumen($relacion->getResumen());
+            $relacionInversa->setUsuario($relacion->getUsuario());
+            
+            $tipoRela=$form['tipoRelacion']->getData();
+            
+            $relacionInversa->setTipoRelacion($tipoRela->getInverso());
+            
+            $entityManager->persist($relacionInversa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+        }
+        
+        return $this->renderForm('relacion/new.html.twig', [
+            'relacion' => $relacion,
+            'form' => $form,
         ]);
     }
 
@@ -62,63 +111,7 @@ class RelacionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/relaForm", name="form_rela", methods={"GET", "POST"})
-     */
-    public function relacionForm(TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
-    {
-        $today=new DateTime();
-        $relacion=new Relacion();
-
-        $relacion->setFechaRelacion($today);
-        $session=$request->getSession();
-        $id=$session->get('id');
-        $repository = $this->getDoctrine()->getRepository(Norma::class);
-        $norma = $repository->find($id);
-        $relacion->setNorma($norma);
-        //$session->invalidate();
-        $form = $this->createForm(RelacionType::class, $relacion);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($relacion);
-
-            $relacionInversa= new Relacion();
-            $normaOrigen = $form['complementada']->getData();
-            $relacionInversa->setNorma($normaOrigen);
-            $normaDestino = $form['norma']->getData();
-            $relacionInversa->setComplementada($normaDestino);
-            $relacionInversa->setFechaRelacion($today);
-            $relacionInversa->setDescripcion($relacion->getDescripcion());
-            $relacionInversa->setResumen($relacion->getResumen());
-            $relacionInversa->setUsuario($relacion->getUsuario());
-            
-
-            $tipoRela=$form['tipoRelacion']->getData();
-
-            if($tipoRela->getNombre()=='Complementa a'){
-                $repo=$tipoRelaRepository->find($tipoRela->getId()+1);
-                $relacionInversa->setTipoRelacion($repo);
-            }
-            if($tipoRela->getNombre()=='Modifica a'){
-                dd("modificada por");
-            }
-            if($tipoRela->getNombre()=='Deroga a'){
-                dd("derogada por");
-            }
-            $entityManager->persist($relacionInversa);
-            
-
-            $entityManager->flush();
-
-            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
-        }
-        
-        return $this->renderForm('relacion/new.html.twig', [
-            'relacion' => $relacion,
-            'form' => $form,
-        ]);
-    }
+    
 
     /**
      * @Route("/{id}/edit", name="relacion_edit", methods={"GET", "POST"})
