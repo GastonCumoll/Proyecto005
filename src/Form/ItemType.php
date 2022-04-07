@@ -28,7 +28,7 @@ class ItemType extends AbstractType
             ->add('orden', IntegerType::class,[
                 'required' =>false,
             ])
-            ->add('dependencias')
+            //->add('dependencias')
             ->add('normas') 
         ;
         

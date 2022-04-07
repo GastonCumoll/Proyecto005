@@ -56,10 +56,8 @@ class DecretoType extends AbstractType
         ->add('rela', CheckboxType::class, array(
             'required' => false,
             'value' => 1,
+            'label' => '¿Está relacionada con otra norma?',
         ))
-        //->add('decretoPromulgacion')
-        //->add('cA')
-        //->add('cPor')
         ;
     }
 
