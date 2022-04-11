@@ -64,11 +64,26 @@
             
         </div>
         <div class="card-footer text-left">
-            {% for rela in relacion %}
-            <td>{{rela.getTipoRelacion.getNombre}}</td>
-            <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-            <br>
-        {% endfor %}
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Relacion</th>
+                        <th scope="col">Norma</th>
+                    </tr>
+                </thead>
+                        {% for rela in relacion %}
+                        <tbody>
+                            <tr>
+                                <td>{{rela.getTipoRelacion.getNombre}}</td>
+                                <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Observaciones</td>
+                                <td>{{rela.getDescripcion}}</td>
+                        </tbody>
+                    {% endfor %}
+            </table>
         </div>
         
         

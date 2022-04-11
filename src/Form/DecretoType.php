@@ -19,7 +19,7 @@ class DecretoType extends AbstractType
     {
         $builder
         ->add('numero')
-        //->add('fechaSancion')
+        ->add('fechaSancion')
         //->add('fechaPublicacion')
         ->add('titulo')
         ->add('pdfFile', FileType::class, [
