@@ -269,7 +269,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger): Response
     {
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
@@ -300,6 +300,28 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $brochureFile = $form->get('pdfFile')->getData();
+
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $norma->setpdfFile($newFilename);
+            }
+
             $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             $item =$form['items']->getData();
             foreach ($item as $unItem) {

@@ -111,7 +111,52 @@ class RelacionController extends AbstractController
         ]);
     }
 
-    
+    /**
+     * @Route("/{id}/relaFormEdit", name="form_rela_edit", methods={"GET", "POST"})
+     */
+    public function relacionFormEditar($id,TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
+    {
+        $today=new DateTime();
+        $relacion=new Relacion();
+
+        $relacion->setFechaRelacion($today);
+        
+        $repository = $this->getDoctrine()->getRepository(Norma::class);
+        $norma = $repository->find($id);
+        $relacion->setNorma($norma);
+        $opcion=$tipoRelaRepository->findByPrioridad(1);
+        //dd($opcion);
+        $form = $this->createForm(RelacionType::class, $relacion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($relacion);
+            
+            $relacionInversa= new Relacion();
+            $normaOrigen = $form['complementada']->getData();
+            $relacionInversa->setNorma($normaOrigen);
+            $normaDestino = $form['norma']->getData();
+            $relacionInversa->setComplementada($normaDestino);
+            $relacionInversa->setFechaRelacion($today);
+            $relacionInversa->setDescripcion($relacion->getDescripcion());
+            $relacionInversa->setResumen($relacion->getResumen());
+            $relacionInversa->setUsuario($relacion->getUsuario());
+            
+            $tipoRela=$form['tipoRelacion']->getData();
+            
+            $relacionInversa->setTipoRelacion($tipoRela->getInverso());
+            
+            $entityManager->persist($relacionInversa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+        }
+        
+        return $this->renderForm('relacion/new.html.twig', [
+            'relacion' => $relacion,
+            'form' => $form,
+        ]);
+    }
 
     /**
      * @Route("/{id}/edit", name="relacion_edit", methods={"GET", "POST"})

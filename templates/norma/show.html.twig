@@ -54,17 +54,22 @@
             </div>
             <div class="container">
                 <div class="row mt-1">
-                    <div class="col-4 mt-4  text-left">
+                    <div class="col-3 mt-4  text-left">
                         <a href="{{ path('Inicio') }}">
                     <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
                 </a>
                     </div>
-                    <div class="col-4 mt-4  text-center">
+                    <div class="col-3 mt-4  text-center">
                     <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
                     <button type="button" class="btn btn-success"> Editar   </button> 
                 </a>
                     </div>
-                    <div class="col-4 mt-4  text-right">
+                    <div class="col-3 mt-4  text-center">
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} ">
+                        <button type="button" class="btn btn-success"> Editar Relaciones   </button> 
+                    </a>
+                        </div>
+                    <div class="col-3 mt-4  text-right">
                     {{ include('norma/_delete_form.html.twig') }}
                     </div>
                 </div>
