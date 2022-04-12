@@ -1,5 +1,5 @@
-/* @import "~bootstrap/dist/css/bootstrap.min.css";   */
-/* @import "~@fortawesome/fontawesome-free/css/all.css"; */
+@import "~bootstrap/dist/css/bootstrap.min.css";  
+/* @import "~@fortawesome/fontawesome-free/css/all.css";   */
 
 /* 
     Created on : 30-ene-2020, 10:43:19
@@ -75,8 +75,22 @@ body{
     margin-top: 20px;
 }
 
-.card{
-    margin-top: 25px;
+
+.card .card-header button{
+    width: auto;
+    display: inline !important;
+}
+.card .card-header a {
+    width: auto;
+    display: inline !important;
+}
+.card .card-header a button{
+    width: auto;
+    display: inline !important;
+}
+.card .card-header span{
+    color: blue;
+    float: right !important;
 }
 .card .card-body{
     margin-left: 25px;

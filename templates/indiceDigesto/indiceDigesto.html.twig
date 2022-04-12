@@ -2,89 +2,11 @@
 
 
 {% block body %}
-    
+
 {{ parent() }}
 
-{# <div class="container mt-2">
-    {% set id = 0 %}
-    <div class="accordion" id="accordionTitulo">
-        {% for unTitulo in titulos %}
-            <div class="card">
-                <div class="card-header" id="headingTitulo">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTitulo{{unTitulo.getId()}}" aria-expanded="false" aria-controls="collapseTitulo{{unTitulo.getId()}}">
-                            {{unTitulo.nombre}}
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapseTitulo{{unTitulo.getId()}}" class="collapse" aria-labelledby="headingTitulo" data-parent="#accordionTitulo">
-                    <div class="card-body">
-                        <div class="accordion" id="accordionCapitulo">
-                            {% for unCapitulo in unTitulo.getCapitulos %}
-                                <div class="card">
-                                    <div class="card-header" id="headingCapitulo">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseCapitulo{{unCapitulo.getId()}}" aria-expanded="false" aria-controls="collapseCapitulo{{unCapitulo.getId()}}">
-                                                {{unCapitulo.nombre}}
-                                            </button>
-                                        </h2>
-                                    </div>
-                                <div id="collapseCapitulo{{unCapitulo.getId()}}" class="collapse" aria-labelledby="headingCapitulo" data-parent="#accordionCapitulo">
-                                    <div class="card-body">
-                                        <div class="accordion" id="accordionTema">
-                                            {% for unTema in unCapitulo.getTemas %}
-                                                <div class="card">
-                                                    <div class="card-header" id="headingTema">
-                                                        <h2 class="mb-0">
-                                                            <a id="scroll" href="#item"><button class="valor123 btn btn-link boton" type="button" title="{{unTema.nombre}}" value="{{unTema.getId()}}">{{unTema.nombre}}</button></a>
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div> #}
-{# <div class="accordion" id="accordionItem">
-    {% for unItem in items %}
-    {% if (unItem.getPadre == null) %}
-        <div class="card">
-            <div class="card-header" id="headingItem">
-                <h2 class="mb-0">
-                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
-                        {{unItem.nombre}}
-                    </button>
-                </h2>
-            </div>
-        <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem" data-parent="#accordionItem">
-            <div class="card-body">
-                <div class="accordion" id="accordionNorma">
-                    {% for unaNorma in unItem.getNormas %}
-                        <div class="card">
-                            <div class="card-header" id="headingNorma">
-                                <h2 class="mb-0">
-                                    <a id="scroll" href="#item"><button class="valor123 btn btn-link boton" type="button" title="{{unaNorma.titulo}}" value="{{unaNorma.getId()}}">{{unaNorma.titulo}}</button></a>
-                                </h2>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    {% endfor %}
-</div> #}
 {# funcion recursiva macro para acomodar el arbol #}
-{% macro recursiveItem(subitem) %}
+{# {% macro recursiveItem(subitem) %}
 
 <div class="accordion" id="accordionSubitem{{subitem.getId()}}">
     {% if subitem.getDependencias != null %}
@@ -147,9 +69,87 @@
                                 </div>
                                     
                                 <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
-                                    <i class="fas fa-edit"></i>
+                                    Editar 
                                 </a>
                                 
+                            
+                        </div>
+                        <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
+                            {{ _self.recursiveItem(unItem) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br>
+        <a class="btn btn-outline-secondary btn-sm ml-1" type="button" href="{{path('item_new')}}">
+            Agregar Item
+        </a>
+    </div>
+{% endif %}  #}
+{% macro recursiveItem(subitem) %}
+
+<div class="accordion" id="accordionSubitem{{subitem.getId()}}">
+    {% if subitem.getDependencias != null %}
+        {% for unSubitem in subitem.getDependencias %}
+            <div class="card ml-5 mr-5" >
+                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
+                    <div class="">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
+                            {{unSubitem.nombre}} 
+                            
+                        </button>
+                        <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+
+                            <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
+                                Editar
+                            </a>
+                            <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
+                                Eliminar
+                            </a>
+    
+                            {% if unSubitem.getNormas()|length >= 1 %}
+                                <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
+                            {% endif %}
+                    </div>
+                    
+                </div>
+                <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
+                    {{ _self.recursiveItem(unSubitem) }}
+                </div>
+            </div>
+        {% endfor %}
+        
+    {% endif %}
+</div>
+
+{% endmacro %}
+
+{% if items %}
+    <div class="container ">
+        <div class="accordion" id="accordionItem">
+            {% for unItem in items %}
+                {% if (unItem.padre == null) %}
+                    <div class="card">
+                        <div class="card-header"  id="headingItem{{unItem.getId()}}">
+                                <div class="">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
+                                        {{unItem.nombre}}
+                                        
+                                            
+                                        
+                                    </button>
+                                    <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
+                                        Editar
+                                    </a>
+                                    <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+
+                                    {% if unItem.getNormas()|length >= 1 %}
+                                        <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
+                                    {% endif %}
+                                </div>
                             
                         </div>
                         <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
@@ -167,62 +167,64 @@
 {% endif %} 
 
 
-
 <div class="container"id="container">
 </div>
 
 
-{% block script %}
-    <script>
-        $("#accordionItem").on("hide.bs.collapse show.bs.collapse", e => {
-            $(e.target)
-            .prev()
-            .find("i:last-child")
-            .toggleClass("fa-minus fa-plus");
-        });
+{% block javascripts %}
+{{ parent() }}
+{{encore_entry_script_tags('indiceJs')}}
+    {#<script>
+    //     $("#accordionItem").on("hide.bs.collapse show.bs.collapse", e => {
+    //         $(e.target)
+    //         .prev()
+    //         .find("i:last-child")
+    //         .toggleClass("fa-minus fa-plus");
+    //     });
         
-        $(document).ready(function()
-        {
-            var variable = document.getElementsByClassName("valor123");
-            $(".valor123").click(function(){
+    //     $(document).ready(function()
+    //     {
+    //         var variable = document.getElementsByClassName("valor123");
+    //         $(".valor123").click(function(){
                 
-                var id = this.value;
+    //             var id = this.value;
                 
-                $.get("/norma/"+id+"/normasAjax",function(data){
-                    var c = $('<div class="card" id="tarjeta"></div >');  
-                        $('#container').html('');  
-                        $('#container').append(c);
+    //             $.get("/norma/"+id+"/normasAjax",function(data){
+    //                 var c = $('<div class="card" id="tarjeta"></div >');  
+    //                     $('#container').html('');  
+    //                     $('#container').append(c);
                         
-                        for(i = 0; i < data.length; i++) {  
-                            norma = data[i];
+    //                     for(i = 0; i < data.length; i++) {  
+    //                         norma = data[i];
                             
-                            var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
-                            var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+    //                         var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
+    //                         var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
                             
-                            $('#tipoNorma', c).html(norma['tipo']);
-                            $('#n',c).html(" N° ");
-                            $('#numero', c).html(norma['numero']);
-                            $('#titulo', c).html(norma['titulo']);
+    //                         $('#tipoNorma', c).html(norma['tipo']);
+    //                         $('#n',c).html(" N° ");
+    //                         $('#numero', c).html(norma['numero']);
+    //                         $('#titulo', c).html(norma['titulo']);
                             
-                            $('#container').append(c);
-                            var link = norma['id'];
-                            //var link 2 es el comentado no el noComentado
-                            var link2 = "/norma/"+link+"/"+id;
-                            // var link2= "/norma/"+link+"/"+id ;
+    //                         $('#container').append(c);
+    //                         var link = norma['id'];
+    //                         //var link 2 es el comentado no el noComentado
+    //                         var link2 = "/norma/"+link+"/"+id;
+    //                         // var link2= "/norma/"+link+"/"+id ;
                             
-                            $('#verNorma', c).attr('href',link2);
-                            $('#container').append(c);
-                        }
+    //                         $('#verNorma', c).attr('href',link2);
+    //                         $('#container').append(c);
+    //                     }
                         
-                        //window.scrollTo(0, 1500);
-                        //scroll suave
-                        var element = document.getElementById("container");
-                        element.scrollIntoView({behavior: "smooth"});
+    //                     //window.scrollTo(0, 1500);
+    //                     //scroll suave
+    //                     var element = document.getElementById("container");
+    //                     element.scrollIntoView({behavior: "smooth"});
                         
-                    })
-            });
+    //                 })
+    //         });
             
-        });
-    </script>
+    //     });
+    // </script>#}
+
 {% endblock %}
 {% endblock %}

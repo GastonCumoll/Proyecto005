@@ -13,11 +13,16 @@ use App\Entity\Etiqueta;
 use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
+use App\Form\LeyTypeEdit;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
 use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
+use App\Form\DecretoTypeEdit;
+use App\Form\CircularTypeEdit;
+use App\Form\OrdenanzaTypeEdit;
+use App\Form\ResolucionTypeEdit;
 use App\Repository\ItemRepository;
 use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
@@ -273,27 +278,23 @@ class NormaController extends AbstractController
     {
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
-                $form = $this->createForm(DecretoType::class, $norma);
+                $form = $this->createForm(DecretoTypeEdit::class, $norma);
                 $form->handleRequest($request);
             break;
             case 'Ordenanza':
-                $form = $this->createForm(OrdenanzaType::class, $norma);
+                $form = $this->createForm(OrdenanzaTypeEdit::class, $norma);
                 $form->handleRequest($request);
             break;
             case 'Resolucion':
-                $form = $this->createForm(ResolucionType::class, $norma);
+                $form = $this->createForm(ResolucionTypeEdit::class, $norma);
                 $form->handleRequest($request);
             break;
             case 'Ley':
-                $form = $this->createForm(LeyType::class, $norma);
-                $form->handleRequest($request);
-            break;
-            case 'Circular':
-                $form = $this->createForm(CircularType::class, $norma);
+                $form = $this->createForm(LeyTypeEdit::class, $norma);
                 $form->handleRequest($request);
             break;
             default:
-            $form = $this->createForm(CircularType::class, $norma);
+            $form = $this->createForm(CircularTypeEdit::class, $norma);
             $form->handleRequest($request);
             break;
         }
@@ -355,14 +356,14 @@ class NormaController extends AbstractController
             }
             $entityManager->flush();
 
-            if($norma->getRela()==true){
+            // if($norma->getRela()==true){
                 
-                $id=$norma->getId();
-                $session=$request->getSession();
-                $session->set('id',$id);
+            //     $id=$norma->getId();
+            //     $session=$request->getSession();
+            //     $session->set('id',$id);
                 
-                return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
-            }
+            //     return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
+            // }
             
             return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
         }

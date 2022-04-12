@@ -7,7 +7,12 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 //import './styles/app.css';
+import $ from 'jquery';
 
+global.$ = global.jQuery = $;
 
+import 'bootstrap';
 // start the Stimulus application
+import './styles/estilo.css';
+
 import './bootstrap';
