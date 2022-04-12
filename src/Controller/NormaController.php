@@ -14,6 +14,7 @@ use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
+use App\Entity\ArchivoPdf;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
@@ -128,7 +129,7 @@ class NormaController extends AbstractController
         $idNorma = $repository->find($id);
         
         $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
-
+        
         switch ($idNorma->getNombre()){
             case 'Decreto':
                 $norma = new Norma();
@@ -169,32 +170,16 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
+            //dd($form->get('archivo')->getData());
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
             
-            $brochureFile = $form->get('pdfFile')->getData();
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $norma->setpdfFile($newFilename);
-            }
+            //$archivos=$form->get('archivo')->getData();
+            //posicion original de brochureFile aca abajo
+            //aca
+            
 
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
 
@@ -212,6 +197,38 @@ class NormaController extends AbstractController
             $entityManager->persist($norma);
             $entityManager->flush();
             
+            $brochureFile = $form->get('archivo')->getData();
+
+            if ($brochureFile) {
+                foreach ($brochureFile as $unArchivo) {
+                    $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $unArchivo->move(
+                            $this->getParameter('brochures_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    $archi=new ArchivoPdf();
+                    $archi->setRuta($newFilename);
+                    $archi->setNorma($norma);
+
+                    
+
+                    $entityManager->persist($archi);
+                    $norma->addArchivosPdf($archi);
+                }
+            }
+
+
             foreach ($etiquetas as $unaEtiqueta) {
                 $etiquetaSinEspacios="";
                 for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
