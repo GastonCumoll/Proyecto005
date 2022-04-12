@@ -2,25 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\TipoNorma;
+use App\Entity\Oficina;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TipoNormaType extends AbstractType
+class OficinaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nombre')
-            ->add('oficina')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => TipoNorma::class,
+            'data_class' => Oficina::class,
         ]);
     }
 }

@@ -58,9 +58,11 @@
             <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
             <br>
             <br>
-            {% if (norma.pdfFile) != null %}
-            <a href="{{asset('uploads/pdf/' ~ norma.pdfFile)  }}" class="btn btn-danger">Ver texto en PDF</a>
-            {% endif %}
+            {% for unPdf in norma.archivosPdf %}
+                <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="btn btn-danger">Ver texto en PDF</a>
+                <br>
+            {% endfor %}
+
             
         </div>
         <div class="card-footer text-left">

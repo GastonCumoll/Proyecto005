@@ -175,14 +175,8 @@ class NormaController extends AbstractController
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
-            
-            //$archivos=$form->get('archivo')->getData();
-            //posicion original de brochureFile aca abajo
-            //aca
-            
 
             //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
-
             $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
             $item =$form['items']->getData();
             
@@ -318,27 +312,7 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $brochureFile = $form->get('pdfFile')->getData();
-
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('brochures_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $norma->setpdfFile($newFilename);
-            }
+            
 
             $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             $item =$form['items']->getData();
@@ -352,6 +326,36 @@ class NormaController extends AbstractController
             
             $entityManager->persist($norma);
             $entityManager->flush();
+            $brochureFile = $form->get('archivo')->getData();
+
+            if ($brochureFile) {
+                foreach ($brochureFile as $unArchivo) {
+                    $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $unArchivo->move(
+                            $this->getParameter('brochures_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    $archi=new ArchivoPdf();
+                    $archi->setRuta($newFilename);
+                    $archi->setNorma($norma);
+
+                    
+
+                    $entityManager->persist($archi);
+                    $norma->addArchivosPdf($archi);
+                }
+            }
 
             $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
             foreach ($etiquetas as $unaEtiqueta) {

@@ -20,20 +20,12 @@ class LeyTypeEdit extends AbstractType
         ->add('numero')
         ->add('titulo')
         ->add('fechaSancion')
-        ->add('pdfFile', FileType::class, [
-            'data_class' => null,
-            'label' => 'Brochure (PDF file)',
-            'required' => false,
-            'constraints' => [
-                new File([
-                    'maxSize' => '1048576k',
-                    'mimeTypes' => [
-                        'application/pdf',
-                        'application/x-pdf',
-                    ],
-                    'mimeTypesMessage' => 'Please upload a valid PDF document',
-                ])
-        ]])
+        ->add('archivo', FileType::class,[
+            'label'=> 'archivo',
+            'multiple'=>true,
+            'mapped'=>false,
+            'required'=>false
+        ])
         //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  FroalaEditorType::class)

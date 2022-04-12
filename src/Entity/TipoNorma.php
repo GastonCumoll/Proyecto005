@@ -28,6 +28,11 @@ class TipoNorma
      * @ORM\OneToMany(targetEntity=Norma::class, mappedBy="tipoNorma", orphanRemoval=true)
      */
     private $normas;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Oficina::class, inversedBy="tipoNorma")
+     */
+    private $oficina;
     public function __toString()
     {
         return $this->nombre;
@@ -81,6 +86,18 @@ class TipoNorma
                 $norma->setTipoNorma(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOficina(): ?Oficina
+    {
+        return $this->oficina;
+    }
+
+    public function setOficina(?Oficina $oficina): self
+    {
+        $this->oficina = $oficina;
 
         return $this;
     }

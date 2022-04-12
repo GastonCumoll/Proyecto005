@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Oficina{% endblock %}
+
+{% block body %}
+    <h1>Edit Oficina</h1>
+
+    {{ include('oficina/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('oficina_index') }}">back to list</a>
+
+    {{ include('oficina/_delete_form.html.twig') }}
+{% endblock %}
