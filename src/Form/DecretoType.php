@@ -24,9 +24,13 @@ class DecretoType extends AbstractType
         ->add('titulo')
         ->add('archivo', FileType::class,[
             'label'=> 'archivo',
+            'label_attr'=>[
+                'id'=>'subirArchi'
+            ],
             'multiple'=>true,
             'mapped'=>false,
-            'required'=>false
+            'required'=>false,
+            'attr' => ['id'=>'archi']
         ])
         
         // ->add('pdfFile', FileType::class, [
@@ -60,7 +64,6 @@ class DecretoType extends AbstractType
         
         //->add('fechaPromulgacion')
         
-        //->add('temas')
         ->add('items')
         ->add('rela', CheckboxType::class, array(
             'required' => false,

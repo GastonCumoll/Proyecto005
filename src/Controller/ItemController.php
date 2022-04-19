@@ -28,29 +28,6 @@ class ItemController extends AbstractController
         ]);
     }
     
-    // /**
-    //  * @Route("/itemAjax", name="item_ajax", methods={"GET","POST"}, options={"expose"=true})
-    //  */
-    // public function itemAjax(Request $request, EntityManagerInterface $entityManager,ItemRepository $itemRepository): Response
-    // {
-    //     //return new JsonResponse($request->request->get('id'));
-    //     $item=$request->request->get('id');
-    //     $em=$itemRepository->find($item);
-        
-    //     $jsonData = array();  
-    //         $idx = 0;  
-    //         foreach($em->getDependencias() as $unaDependencia) {  
-    //             $temp = array(
-    //                 'id' => $unaDependencia->getId(),
-    //                 'padre' => $unaDependencia->getPadre(),
-    //                 'nombre' => $unaDependencia->getNombre(),
-    //             );   
-    //             $jsonData[$idx++] = $temp;  
-    //         }
-    //         //dd($jsonData);
-    //         return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
-    // }
-
     /**
      * @Route("/new", name="item_new", methods={"GET", "POST"})
      */

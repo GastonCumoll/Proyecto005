@@ -92,7 +92,7 @@
 <div class="accordion" id="accordionSubitem{{subitem.getId()}}">
     {% if subitem.getDependencias != null %}
         {% for unSubitem in subitem.getDependencias %}
-            <div class="card ml-5 mr-5" >
+            <div class="card ml-2 mr-2" >
                 <div class="card-header" id="headingSubitem{{subitem.getId()}}">
                     <div class="">
                         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
@@ -110,7 +110,7 @@
                             </a>
     
                             {% if unSubitem.getNormas()|length >= 1 %}
-                                <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
+                                <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
                             {% endif %}
                     </div>
                     
@@ -143,11 +143,14 @@
                                     <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
                                         Editar
                                     </a>
+                                    <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
+                                        Eliminar
+                                    </a>
                                     <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
 
                                     {% if unItem.getNormas()|length >= 1 %}
-                                        <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
+                                        <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
                                     {% endif %}
                                 </div>
                             

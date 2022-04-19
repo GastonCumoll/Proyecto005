@@ -5,7 +5,6 @@ namespace App\Controller;
 use DateTime;
 use Dompdf\Dompdf;
 use App\Entity\Item;
-use App\Entity\Tema;
 use App\Entity\Norma;
 use App\Form\LeyType;
 use App\Form\NormaType;
@@ -25,13 +24,11 @@ use App\Form\CircularTypeEdit;
 use App\Form\OrdenanzaTypeEdit;
 use App\Form\ResolucionTypeEdit;
 use App\Repository\ItemRepository;
-use App\Repository\TemaRepository;
 use App\Repository\NormaRepository;
-use App\Repository\TituloRepository;
-use App\Repository\CapituloRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
+use App\Repository\ArchivoPdfRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Serializer;
@@ -68,14 +65,9 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
      */
-    public function normasAjax(NormaRepository $normaRepository,TemaRepository $temaRepository,ItemRepository $itemRepository,$id): Response
+    public function normasAjax(NormaRepository $normaRepository,ItemRepository $itemRepository,$id): Response
     {
-        
-        //id = id de la norma 
-        //$tema=$temaRepository->find($id);
-        //$normas=$tema->getNormas()->toArray();
-        
-        //id=id del item
+
         $item=$itemRepository->find($id);
         $normas=$item->getNormas()->toArray();
         
@@ -108,6 +100,112 @@ class NormaController extends AbstractController
         
         
         
+    }
+
+    /**
+     * @Route("/{id}/mostrarPDF", name="mostrar_pdf")
+     */
+
+    public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id): Response
+    {
+        $norma=$normaRepository->find($id);
+        $normaNombre=$norma->getTitulo();
+        $tipoNorma=$norma->getTipoNorma()->getNombre();
+        // Crea una instancia de Dompdf
+        $dompdf = new Dompdf();
+        $today = new DateTime();
+        $result = $today->format('d-m-Y');
+        // Recupere el HTML generado en nuestro archivo twig
+        $html = $this->renderView('norma/textoPdf.html.twig', [
+            //'texto' => $norma->getTexto(),
+            'id' => $normaRepository->find($id)
+        ]);
+        
+        // Cargar HTML en Dompdf
+        $dompdf->loadHtml($html);
+        
+        // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Renderiza el HTML como PDF
+        $dompdf->render();
+
+        
+        // Envíe el PDF generado al navegador (descarga forzada)
+        $dompdf->stream($tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
+            "Attachment" => false
+        ]);
+        
+        // return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
+        exit(1);
+    }
+
+    /**
+     * @Route("/{id}/generarPDF", name="generar_pdf")
+     */
+
+    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id): Response
+    {
+        $norma=$normaRepository->find($id);
+        $normaNombre=$norma->getTitulo();
+        $tipoNorma=$norma->getTipoNorma()->getNombre();
+        
+        // Crea una instancia de Dompdf
+        $dompdf = new Dompdf();
+        $today = new DateTime();
+        $result = $today->format('d-m-Y');
+        // Recupere el HTML generado en nuestro archivo twig
+        $html = $this->renderView('norma/textoPdf.html.twig', [
+            //'texto' => $norma->getTexto(),
+            'id' => $normaRepository->find($id)
+        ]);
+        
+        // Cargar HTML en Dompdf
+        $dompdf->loadHtml($html);
+        
+        // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Renderiza el HTML como PDF
+        $dompdf->render();
+
+        // Store PDF Binary Data
+        $output = $dompdf->output();
+        
+        // In this case, we want to write the file in the public directory
+        $publicDirectory = 'uploads/pdf';
+        // e.g /var/www/project/public/mypdf.pdf
+        $nombre="/".$tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf";
+        $ruta=$tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf";
+        $pdfFilepath =  $publicDirectory . $nombre;
+        
+        // Write file to the desired path
+        file_put_contents($pdfFilepath, $output);
+
+        $archi=new ArchivoPdf();
+        $archi->setNorma($norma);
+        $archi->setRuta($ruta);
+        $archi->setNombre($normaNombre);
+        
+        $archivos=$archivoPdfRepository->findByNorma($id);
+        foreach ($archivos as $unArchi) {
+            if($unArchi->getRuta()==$ruta){
+                $entityManager->remove($unArchi);
+            }
+        }
+        
+        $entityManager->persist($archi);
+        $norma->addArchivosPdf($archi);
+        $entityManager->persist($norma);
+        $entityManager->flush();
+
+        // Envíe el PDF generado al navegador (descarga forzada)
+        // $dompdf->stream("Norma-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
+        //     "Attachment" => false
+        // ]);
+        
+        return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
+        exit(1);
     }
 
     /**
@@ -214,6 +312,7 @@ class NormaController extends AbstractController
                     $archi=new ArchivoPdf();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
+                    $archi->setNombre($originalFilename);
 
                     
 
@@ -249,16 +348,17 @@ class NormaController extends AbstractController
                 
             }
             $entityManager->flush();
-            
-            if($norma->getRela()==true){
+            $idNorma=$norma->getId();
+            //REDIRECCIONAMIENTO SI LA NORMA TIENE RELACION
+            // if($norma->getRela()==true){
                 
-                $id=$norma->getId();
-                $session=$request->getSession();
-                $session->set('id',$id);
+            //     $id=$norma->getId();
+            //     $session=$request->getSession();
+            //     $session->set('id',$id);
                 
-                return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
-            }
-            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            //     return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
+            // }
+            return $this->redirectToRoute('norma_show', ['id'=>$idNorma], Response::HTTP_SEE_OTHER);
             
         }
         
@@ -285,7 +385,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger): Response
+    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
@@ -349,6 +449,9 @@ class NormaController extends AbstractController
                     $archi=new ArchivoPdf();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
+                    //$nombreArchivo=$norma->getTipoNorma()->getNombre()."N°".$norma->getNumero();
+                    // dd($nombreArchivo);
+                    $archi->setNombre($originalFilename);
 
                     
 
@@ -411,19 +514,15 @@ class NormaController extends AbstractController
             if($unItem->getId()==$t){
                 $item = $unItem;
             }
-            
-        }
-        // dd($temaDeNorma);
-
-        $complementada=$repository->findByComplementada($id);
+            $complementada=$repository->findByComplementada($id);
         
-        //dd($relaciones);
-        return $this->render('norma/normaShowArbol.html.twig', [
-            'item' => $item,
-            'norma' => $norma,
-            'relacion' => $relacion,
-        ]);
-    }
+            return $this->render('norma/normaShowArbol.html.twig', [
+                'item' => $item,
+                'norma' => $norma,
+                'relacion' => $relacion,
+            ]);
+        }
+}   
 
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})

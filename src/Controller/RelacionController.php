@@ -70,7 +70,7 @@ class RelacionController extends AbstractController
             $entityManager->persist($relacionInversa);
             $entityManager->flush();
 
-            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('norma_show', [], Response::HTTP_SEE_OTHER);
         }
         
         return $this->renderForm('relacion/new.html.twig', [
@@ -149,7 +149,7 @@ class RelacionController extends AbstractController
             $entityManager->persist($relacionInversa);
             $entityManager->flush();
 
-            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
         }
         
         return $this->renderForm('relacion/new.html.twig', [

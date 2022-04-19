@@ -20,7 +20,7 @@
     {% block addStyleSheets %}
     {{ encore_entry_link_tags('base') }}
     {{ encore_entry_link_tags('estilo') }}
-    {{ encore_entry_link_tags('boton') }}
+    {{ encore_entry_link_tags('boton') }} 
     {% endblock %}
 </head>
 
@@ -59,16 +59,16 @@
                                 style="font-size: 12px !important;">Alta de norma</a>
 
                             <!--  <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item cargando" href="{#{{ path('sellado_index') }}#}" style="font-size: 12px !important;">Controlar Uso</a>
-                                     <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item cargando" href="{#{{ path('clase_registro_conducir_index') }}#}" style="font-size: 12px !important;">Consultar Ordenes</a>
-                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item cargando" href="{#{{ path('sellado_index') }}#}" style="font-size: 12px !important;">Controlar Uso</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item cargando" href="{#{{ path('clase_registro_conducir_index') }}#}" style="font-size: 12px !important;">Consultar Ordenes</a>
+                                    <div class="dropdown-divider"></div>
                                     -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item cargando" href="{{ path('tipo_norma_new') }}"
                                 style="font-size: 12px !important;">Crear tipo de norma</a>
                             <div class="dropdown-divider"></div>
-
+                        </div>
 
                             
                             {# <div class="dropdown-divider"></div>
@@ -372,14 +372,14 @@
 <br/>
 <br/>
 <br/>
-<div class="hide">
+{# <div class="hide">
     <form method="post" action="" enctype="multipart/form-data" id="formUpload">
         <label> Archivo </label>
         <input type="file" name="archivo" required="required" id="archivo"/>
         <input name="nombreArchivo" id="nombreArchivo"/>
         <input type="submit" value="Subir" id="subir"/>
     </form>
-</div>
+</div> #}
 <footer class="footer">
     <p>
         &copy; Municipalidad de Paran&aacute; - Direcci&oacute;n General de Sistemas y Telecomunicaciones - 0.4.35

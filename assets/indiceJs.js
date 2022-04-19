@@ -36,7 +36,7 @@ $(document).ready(function()
                             $('#container').append(c);
                             var link = norma['id'];
                             //var link 2 es el comentado no el noComentado
-                            var link2 = "/norma/"+link+"/"+id;
+                            var link2 = "/norma/"+link;
                             // var link2= "/norma/"+link+"/"+id ;
                             
                             $('#verNorma', c).attr('href',link2);

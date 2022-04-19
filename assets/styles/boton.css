@@ -1,6 +1,14 @@
 @import "~bootstrap/dist/css/bootstrap.min.css"; 
 
-.btn-boton{
-    width: 8rem !important;
+.btn-primary{
+    width: 20rem !important;
+    margin:0.5rem !important;
+}
+.btn-danger{
+    width: 20rem !important;
+    margin:0.5rem !important;
+}
+.btn-info{
+    width: 15rem !important;
     margin:0.5rem !important;
 }

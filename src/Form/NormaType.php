@@ -22,7 +22,7 @@ class NormaType extends AbstractType
             ->add('etiquetas')
             ->add('numero')
             ->add('fechaPromulgacion')
-            //->add('temas')
+
             ->add('items')
             //->add('tipoNorma')
             ->add('decretoPromulgacion')

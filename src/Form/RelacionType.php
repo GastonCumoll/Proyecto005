@@ -16,10 +16,6 @@ class RelacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('fechaRelacion')
-            ->add('descripcion')
-            ->add('resumen')
-            ->add('usuario')
             ->add('norma')
             ->add('complementada')
             ->add('tipoRelacion',EntityType::class,[
@@ -35,7 +31,11 @@ class RelacionType extends AbstractType
                     },
                     'tipoRelacion'
                 )
-                ]);
+                ])
+            ->add('fechaRelacion')
+            ->add('descripcion')
+            ->add('resumen')
+            ->add('usuario');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

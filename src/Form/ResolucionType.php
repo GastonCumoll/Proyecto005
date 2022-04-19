@@ -38,7 +38,7 @@ class ResolucionType extends AbstractType
                 'required' =>false
         ])
             //->add('fechaPromulgacion')
-            //->add('temas')
+
             ->add('items')
             ->add('rela', CheckboxType::class, array(
                 'required' => false,

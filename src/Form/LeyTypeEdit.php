@@ -28,7 +28,8 @@ class LeyTypeEdit extends AbstractType
         ])
         //->add('fechaPublicacion')
         ->add('resumen')
-        ->add('texto',  FroalaEditorType::class)
+        ->add('texto',  FroalaEditorType::class
+        )
         
         //->add('fechaPublicacionBoletin')
         //->add('estado')
@@ -39,7 +40,7 @@ class LeyTypeEdit extends AbstractType
     ])
         ->add('decretoPromulgacion')
         ->add('fechaPromulgacion')
-        //->add('temas')
+
         ->add('items')
         // ->add('rela', CheckboxType::class, array(
         //     'required' => false,

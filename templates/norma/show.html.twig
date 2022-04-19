@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Norma{% endblock %}
+{% block addStyleSheets %}
+{{ encore_entry_link_tags('boton') }}
 
+{% endblock %}
 {% block body %}
 
 {{ parent() }}    
@@ -23,16 +26,40 @@
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: </p>
                 <p class="card-text text-left">{{ norma.resumen }}</p>
-                <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto completo</a>
+                <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto ordenado</a>
+                <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                 <br>
+                <a href="{{path('generar_pdf', {'id':norma.id})}}">generar pdf</a>
                 <br>
-
-                {% for unPdf in norma.archivosPdf %}
-                    <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="btn btn-danger">Ver texto en PDF</a>
+                
+                {# {% for unPdf in norma.archivosPdf %}
+                    <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">Ver texto en PDF</a>
                     <br>
-                {% endfor %}
+                {% endfor %} #}
 
-            </div>
+                <div class="container">
+                    <div class="row mt-1">
+                        <div class="col-3 mt-4  text-left">
+                            <a href="{{ path('Inicio') }}">
+                        <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
+                    </a>
+                        </div>
+                        <div class="col-3 mt-4  text-center">
+                        <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
+                        <button type="button" class="btn btn-success"> Editar   </button> 
+                    </a>
+                        </div>
+                        <div class="col-3 mt-4  text-center">
+                            <a href="{{ path('form_rela_edit', {'id': norma.id}) }} ">
+                            <button type="button" class="btn btn-success"> Agregar relacion</button> 
+                        </a>
+                            </div>
+                        <div class="col-3 mt-4  text-right">
+                        {{ include('norma/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+
             <div class="card-footer text-left">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
@@ -55,28 +82,17 @@
                         {% endfor %}
                 </table>
             </div>
-            <div class="container">
-                <div class="row mt-1">
-                    <div class="col-3 mt-4  text-left">
-                        <a href="{{ path('Inicio') }}">
-                    <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
-                </a>
-                    </div>
-                    <div class="col-3 mt-4  text-center">
-                    <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
-                    <button type="button" class="btn btn-success"> Editar   </button> 
-                </a>
-                    </div>
-                    <div class="col-3 mt-4  text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} ">
-                        <button type="button" class="btn btn-success"> Editar Relaciones   </button> 
-                    </a>
-                        </div>
-                    <div class="col-3 mt-4  text-right">
-                    {{ include('norma/_delete_form.html.twig') }}
-                    </div>
+            <div class="card " style="width: 100%;text-align:justify">
+                <div class="card-body">
+                    <h5 class="card-title text-center ">Archivos adjuntos</h5>
+                    {% for unPdf in norma.archivosPdf %}
+                <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                <br>
+                
+            {% endfor %}
                 </div>
             </div>
+            
             
         </div>
     {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}

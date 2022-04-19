@@ -5,9 +5,14 @@
 {% block body %}
     <h1>Edit Norma</h1>
 
-    {{ include('norma/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('norma/_form.html.twig') }}
 
     <a href="{{ path('norma_index') }}">back to list</a>
 
     {{ include('norma/_delete_form.html.twig') }}
+    
 {% endblock %}
+{# {% block javascripts %}
+        {{ parent() }}
+        {{encore_entry_script_tags('normaEdit')}}
+    {% endblock  %}  #}

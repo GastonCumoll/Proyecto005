@@ -56,12 +56,6 @@ class Norma
     private $estado;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tema::class, mappedBy="normas")
-     * @MaxDepth(1)
-     */
-    private $temas;
-
-    /**
      * @ORM\ManyToOne(targetEntity=TipoNorma::class, inversedBy="normas")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -136,7 +130,6 @@ public function setRela(?bool $rela): self
 
     public function __construct()
     {
-        $this->temas = new ArrayCollection();
         $this->normasPromulgadas = new ArrayCollection();
         $this->complementa = new ArrayCollection();
         $this->relaciones = new ArrayCollection();
@@ -231,34 +224,6 @@ public function setRela(?bool $rela): self
     public function setEstado(string $estado): self
     {
         $this->estado = $estado;
-
-        return $this;
-    }
-
-
-    /**
-     * @return Collection|Tema[]
-     */
-    public function getTemas(): Collection
-    {
-        return $this->temas;
-    }
-
-    public function addTema(Tema $tema): self
-    {
-        if (!$this->temas->contains($tema)) {
-            $this->temas[] = $tema;
-            $tema->addNorma($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTema(Tema $tema): self
-    {
-        if ($this->temas->removeElement($tema)) {
-            $tema->removeNorma($this);
-        }
 
         return $this;
     }
