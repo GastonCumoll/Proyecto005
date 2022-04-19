@@ -7,4 +7,5 @@ kms_froala_editor:
     saveURL: ""
     saveInterval: 0
     saveParam: "content"
+    imageUploadFolder: "/upload/Froala"
 

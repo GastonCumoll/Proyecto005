@@ -4,21 +4,20 @@ import 'bootstrap';
 
 $(document).ready(function()
 {
-    var boton=document.getElementById("botonario");
-    boton.disabled=true;
-//     var textario= new FroalaEditor('#textario',{
-//         events: {
-//             'charCounter.update':function(){
-//                 boton.disabled=false;
-//             }
-//         }
-//     });
-    var textario=document.getElementsByClassName("fr-wrapper");
-    console.log(textario);
-
-    $(".fr-wrapper").change(function(){
-    boton.disabled=false;
-    });
+    var a=document.getElementById("editar");
+    a.onclick = alerta;
+    function alerta(){
+        
+        if (confirm('¿Desea generar un pdf del texto ordenado?')) {
+            
+            var link2 = "/norma/"+link+"/generarPDF";
+            $("#hla")attr.('href',link2);
+            console.log('Thing was saved to the database.');
+        } else {
+            // Do nothing!
+            console.log('Thing was not saved to the database.');
+        }
+    }
 
 });
  import './bootstrap';

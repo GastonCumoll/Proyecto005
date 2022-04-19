@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-3 mt-4  text-center">
                         <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
-                        <button type="button" class="btn btn-success"> Editar   </button> 
+                        <button type="button" class="btn btn-success" id="editar"> Editar   </button> 
                     </a>
                         </div>
                         <div class="col-3 mt-4  text-center">
@@ -98,3 +98,7 @@
     {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}
 
 {% endblock %}
+{% block javascripts %}
+        {{ parent() }}
+        {{encore_entry_script_tags('normaEdit')}}
+    {% endblock  %}  

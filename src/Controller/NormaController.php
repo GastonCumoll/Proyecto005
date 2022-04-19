@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use Spipu\Html2Pdf\Html2Pdf;
 use DateTime;
 use Dompdf\Dompdf;
 use App\Entity\Item;
@@ -108,6 +110,7 @@ class NormaController extends AbstractController
 
     public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id): Response
     {
+        
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $tipoNorma=$norma->getTipoNorma()->getNombre();
@@ -123,8 +126,11 @@ class NormaController extends AbstractController
         
         // Cargar HTML en Dompdf
         $dompdf->loadHtml($html);
+        $base_path="/upload/Froala/2603abc80d9e97b1e58d97ebc520c660f0763ad2.jpg";
         
+        $dompdf->setBasePath($base_path);
         // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
+        
         $dompdf->setPaper('A4', 'portrait');
 
         // Renderiza el HTML como PDF
@@ -148,7 +154,8 @@ class NormaController extends AbstractController
     {
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
-        $tipoNorma=$norma->getTipoNorma()->getNombre();
+        $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
+        
         
         // Crea una instancia de Dompdf
         $dompdf = new Dompdf();
@@ -175,8 +182,10 @@ class NormaController extends AbstractController
         // In this case, we want to write the file in the public directory
         $publicDirectory = 'uploads/pdf';
         // e.g /var/www/project/public/mypdf.pdf
-        $nombre="/".$tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf";
-        $ruta=$tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf";
+        $nombre='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+        $ruta=$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+        
+        
         $pdfFilepath =  $publicDirectory . $nombre;
         
         // Write file to the desired path
