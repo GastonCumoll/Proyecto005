@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use DateTime;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Item;
 use App\Entity\Norma;
 use App\Form\LeyType;
@@ -115,10 +116,12 @@ class NormaController extends AbstractController
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $tipoNorma=$norma->getTipoNorma()->getNombre();
+        $options = new Options();
+        $options->set('isRemoteEnabled',true);
         // Crea una instancia de Dompdf
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf($options);
         $today = new DateTime();
-        $result = $today->format('d-m-Y');
+        $result = $today->format('d-m-Y H:i:s');
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
@@ -158,10 +161,12 @@ class NormaController extends AbstractController
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
         
         
+        $options = new Options();
+        $options->set('isRemoteEnabled',true);
         // Crea una instancia de Dompdf
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf($options);
         $today = new DateTime();
-        $result = $today->format('d-m-Y');
+        $result = $today->format('d-m-Y H-i-s');
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
