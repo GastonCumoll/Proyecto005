@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 
-use Spipu\Html2Pdf\Html2Pdf;
 use DateTime;
 use Dompdf\Dompdf;
 use App\Entity\Item;
@@ -19,8 +18,10 @@ use App\Entity\ArchivoPdf;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
+use App\Form\TextoEditType;
 use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
+use Spipu\Html2Pdf\Html2Pdf;
 use App\Form\DecretoTypeEdit;
 use App\Form\CircularTypeEdit;
 use App\Form\OrdenanzaTypeEdit;
@@ -213,7 +214,7 @@ class NormaController extends AbstractController
         //     "Attachment" => false
         // ]);
         
-        return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
         exit(1);
     }
 
@@ -389,6 +390,25 @@ class NormaController extends AbstractController
             'norma' => $norma,
             'relacion' => $relacion,
         ]);
+    }
+
+    /**
+     * @Route("/{id}/editTexto", name="texto_edit", methods={"GET", "POST"})
+     */
+    public function editTexto(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    {
+                $form = $this->createForm(TextoEditType::class, $norma);
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid())
+                {
+                    $entityManager->persist($norma);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+                }
+                return $this->renderForm('norma/edit.html.twig', [
+                    'norma' => $norma,
+                    'form' => $form,
+                ]);
     }
 
     /**

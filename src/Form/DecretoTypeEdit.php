@@ -30,7 +30,7 @@ class DecretoTypeEdit extends AbstractType
         ])
 
         ->add('resumen')
-        ->add('texto',  FroalaEditorType::class)
+        //->add('texto',  FroalaEditorType::class)
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas')

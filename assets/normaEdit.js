@@ -5,19 +5,24 @@ import 'bootstrap';
 $(document).ready(function()
 {
     var a=document.getElementById("editar");
+    console.log(a.value);
     a.onclick = alerta;
+
     function alerta(){
-        
+        var link= "/norma/"+a.value+"/generarPDF";
+        console.log(link);
+        var link2="/norma/"+a.value+"/edit";
         if (confirm('¿Desea generar un pdf del texto ordenado?')) {
             
-            var link2 = "/norma/"+link+"/generarPDF";
-            $("#hla")attr.('href',link2);
+            window.location.href = link;
+            
+            
             console.log('Thing was saved to the database.');
         } else {
-            // Do nothing!
+            window.location.href = link2;
             console.log('Thing was not saved to the database.');
         }
     }
 
 });
- import './bootstrap';
+import './bootstrap';

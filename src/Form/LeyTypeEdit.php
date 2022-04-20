@@ -28,8 +28,7 @@ class LeyTypeEdit extends AbstractType
         ])
         //->add('fechaPublicacion')
         ->add('resumen')
-        ->add('texto',  FroalaEditorType::class
-        )
+        //->add('texto',  FroalaEditorType::class)
         
         //->add('fechaPublicacionBoletin')
         //->add('estado')

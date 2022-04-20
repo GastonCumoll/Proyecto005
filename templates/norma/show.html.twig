@@ -29,24 +29,17 @@
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto ordenado</a>
                 <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                 <br>
-                <a href="{{path('generar_pdf', {'id':norma.id})}}">generar pdf</a>
-                <br>
                 
-                {# {% for unPdf in norma.archivosPdf %}
-                    <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">Ver texto en PDF</a>
-                    <br>
-                {% endfor %} #}
 
                 <div class="container">
                     <div class="row mt-1">
                         <div class="col-3 mt-4  text-left">
                             <a href="{{ path('Inicio') }}">
-                        <button type="button" class="btn btn-info"> Volver <i class="fas fa-arrow-left"></i> </button> 
+                        <button type="button" class="btn btn-primary">  <i class="fas fa-arrow-left"></i> Volver</button> 
                     </a>
                         </div>
                         <div class="col-3 mt-4  text-center">
-                        <a href="{{ path('norma_edit', {'id': norma.id}) }} ">
-                        <button type="button" class="btn btn-success" id="editar"> Editar   </button> 
+                        <button type="button" class="btn btn-success" value="{{norma.id}}" id="editar">Editar   </button> 
                     </a>
                         </div>
                         <div class="col-3 mt-4  text-center">
@@ -66,6 +59,7 @@
                         <tr>
                             <th scope="col">Relacion</th>
                             <th scope="col">Norma</th>
+                            <th scope="col">Edit</th>
                         </tr>
                     </thead>
                             {% for rela in relacion %}
@@ -73,11 +67,13 @@
                                 <tr>
                                     <td>{{rela.getTipoRelacion.getNombre}}</td>
                                     <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-                                    <td></td>
+                                    <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>Observaciones</td>
                                     <td>{{rela.getDescripcion}}</td>
+                                </tr>
+
                             </tbody>
                         {% endfor %}
                 </table>
