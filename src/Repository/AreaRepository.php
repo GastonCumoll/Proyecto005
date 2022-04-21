@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Oficina;
+use App\Entity\Area;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Oficina|null find($id, $lockMode = null, $lockVersion = null)
- * @method Oficina|null findOneBy(array $criteria, array $orderBy = null)
- * @method Oficina[]    findAll()
- * @method Oficina[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Area|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Area|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Area[]    findAll()
+ * @method Area[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OficinaRepository extends ServiceEntityRepository
+class AreaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Oficina::class);
+        parent::__construct($registry, Area::class);
     }
 
     // /**
-    //  * @return Oficina[] Returns an array of Oficina objects
+    //  * @return Area[] Returns an array of Area objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class OficinaRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Oficina
+    public function findOneBySomeField($value): ?Area
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.exampleField = :val')

@@ -30,9 +30,9 @@ class TipoNorma
     private $normas;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Oficina::class, inversedBy="tipoNorma")
+     * @ORM\ManyToOne(targetEntity=Area::class, inversedBy="tipoNorma")
      */
-    private $oficina;
+    private $area;
     public function __toString()
     {
         return $this->nombre;
@@ -90,14 +90,14 @@ class TipoNorma
         return $this;
     }
 
-    public function getOficina(): ?Oficina
+    public function getArea(): ?Area
     {
-        return $this->oficina;
+        return $this->area;
     }
 
-    public function setOficina(?Oficina $oficina): self
+    public function setArea(?Area $area): self
     {
-        $this->oficina = $oficina;
+        $this->area = $area;
 
         return $this;
     }

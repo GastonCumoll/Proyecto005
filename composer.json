@@ -13,6 +13,8 @@
         "dompdf/dompdf": "^1.2",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "kms/froala-editor-bundle": "^4.0",
+        "knplabs/knp-snappy": "^1.4",
+        "sasedev/mpdf-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^6.2",
         "spipu/html2pdf": "^5.2",
         "symfony/asset": "5.4.*",

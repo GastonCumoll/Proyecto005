@@ -11,5 +11,5 @@ return [
     Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     KMS\FroalaEditorBundle\KMSFroalaEditorBundle::class => ['all' => true],
-    KMS\FroalaEditorBundle\KMSFroalaEditorBundle::class => ['all' => true],
+    Sasedev\MpdfBundle\SasedevMpdfBundle::class => ['all' => true],
 ];

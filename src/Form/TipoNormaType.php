@@ -13,7 +13,7 @@ class TipoNormaType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('oficina')
+            ->add('area')
         ;
     }
 

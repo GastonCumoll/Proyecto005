@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Oficina index{% endblock %}
+{% block title %}Area index{% endblock %}
 
 {% block body %}
-    <h1>Oficina index</h1>
+    <h1>Area index</h1>
 
     <table class="table">
         <thead>
@@ -14,13 +14,13 @@
             </tr>
         </thead>
         <tbody>
-        {% for oficina in oficinas %}
+        {% for area in areas %}
             <tr>
-                <td>{{ oficina.id }}</td>
-                <td>{{ oficina.nombre }}</td>
+                <td>{{ area.id }}</td>
+                <td>{{ area.nombre }}</td>
                 <td>
-                    <a href="{{ path('oficina_show', {'id': oficina.id}) }}">show</a>
-                    <a href="{{ path('oficina_edit', {'id': oficina.id}) }}">edit</a>
+                    <a href="{{ path('area_show', {'id': area.id}) }}">show</a>
+                    <a href="{{ path('area_edit', {'id': area.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('oficina_new') }}">Create new</a>
+    <a href="{{ path('area_new') }}">Create new</a>
 {% endblock %}

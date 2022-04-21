@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\OficinaRepository;
+use App\Repository\AreaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=OficinaRepository::class)
+ * @ORM\Entity(repositoryClass=AreaRepository::class)
  */
-class Oficina
+class Area
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class Oficina
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity=TipoNorma::class, mappedBy="oficina")
+     * @ORM\OneToMany(targetEntity=TipoNorma::class, mappedBy="area")
      */
     private $tipoNorma;
 
@@ -68,7 +68,7 @@ class Oficina
     {
         if (!$this->tipoNorma->contains($tipoNorma)) {
             $this->tipoNorma[] = $tipoNorma;
-            $tipoNorma->setOficina($this);
+            $tipoNorma->setArea($this);
         }
 
         return $this;
@@ -78,8 +78,8 @@ class Oficina
     {
         if ($this->tipoNorma->removeElement($tipoNorma)) {
             // set the owning side to null (unless already changed)
-            if ($tipoNorma->getOficina() === $this) {
-                $tipoNorma->setOficina(null);
+            if ($tipoNorma->getArea() === $this) {
+                $tipoNorma->setArea(null);
             }
         }
 
