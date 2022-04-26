@@ -24,6 +24,7 @@ Encore
     .addEntry('indiceJs', './assets/indiceJs.js')
     .addEntry('normaEdit', './assets/normaEdit.js')
     .addEntry('normaEditTexto', './assets/normaEditTexto.js')
+    .addEntry('generarPDF','./assets/generarPDF.js')
 
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')

@@ -22,7 +22,6 @@ use App\Form\OrdenanzaType;
 use App\Form\TextoEditType;
 use App\Form\TipoNormaType;
 use App\Form\ResolucionType;
-use Spipu\Html2Pdf\Html2Pdf;
 use App\Form\DecretoTypeEdit;
 use App\Form\CircularTypeEdit;
 use App\Form\OrdenanzaTypeEdit;
@@ -65,6 +64,14 @@ class NormaController extends AbstractController
         return $this->render('norma/index.html.twig', [
             'normas' => $normaRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/moverArchivo/{name}", name="mover_archivo", methods={"GET", "POST"}, options={"expose"=true})
+     */
+    public function moverArchivo(NormaRepository $normaRepository, $id, $name): Response
+    {   
+        
     }
 
     /**
@@ -111,65 +118,13 @@ class NormaController extends AbstractController
      * @Route("/{id}/PDF", name="pdf")
      */
 
-    public function pdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id,  MpdfFactory $MpdfFactory, Request $request): Response
+    public function pdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id, Request $request): Response
     {
         
         $norma=$normaRepository->find($id);
-        $normaNombre=$norma->getTitulo();
-        $tipoNorma=$norma->getTipoNorma()->getNombre();
-        $options = new Options();
-        $options->set('isRemoteEnabled',true);
-        $options->set('isHtml5ParserEnable',true);
+        dd($norma);
         
-        // // Crea una instancia de Dompdf
-        // $dompdf = new Dompdf($options);
-        $today = new DateTime();
-        $result = $today->format('d-m-Y H:i:s');
-
-        // Recupere el HTML generado en nuestro archivo twig
-        $html = $this->renderView('norma/textoPdf.html.twig', [
-            //'texto' => $norma->getTexto(),
-            'id' => $normaRepository->find($id)
-        ]);
-        $id= $normaRepository->find($id);
-        $mPdf = $MpdfFactory->createMpdfObject([
-            'mode' => 'utf-8',
-            'format' => 'A4',
-            'margin_header' => 5,
-            'margin_footer' => 5,
-            'orientation' => 'P'
-            ]);
-            $data = "<img src='https://localhost:8000/upload/google.png'";
-            $mPdf->SetTopMargin("50");
-            //$mPdf->SetHTMLHeader($this->renderView('twigfolder/pdf/pdf_header.html.twig', $TwigVars));
-            //$mPdf->SetFooter($this->renderView('twigfolder/pdf/pdf_footer.html.twig', $TwigVars));
-            $mPdf->Image('upload/google.png', 0, 0, 210, 297, 'jpg', '', true, false);
-            $mPdf->writeHTML($html);
-            $mPdf->Output();
-            return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
-            
-
-
-        // Cargar HTML en Dompdf
-        //$dompdf->loadHtml($html);
-        //$base_path="/upload";
         
-        //$dompdf->setBasePath($base_path);
-        // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
-        
-        //$dompdf->setPaper('A4', 'portrait');
-
-        // Renderiza el HTML como PDF
-        //$dompdf->render();
-
-        
-        // Envíe el PDF generado al navegador (descarga forzada)
-        //$dompdf->stream($tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
-          //  "Attachment" => false
-        //]);
-        
-        // return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-        //exit(1);
     }
 
     /**
@@ -183,11 +138,19 @@ class NormaController extends AbstractController
         $normaNombre=$norma->getTitulo();
         $tipoNorma=$norma->getTipoNorma()->getNombre();
         $options = new Options();
-        $options->set('isRemoteEnabled',true);
+        $options->set('isRemoteEnabled',false);
         $options->set('isHtml5ParserEnable',true);
-        
+        $options->set('defaultFont','helvetica');
+        $bp='/var/www/vhosts/proyectodigesto/public';
+        //$options->set('chroot','C:/xampp/htdocs/proyectodigesto/public');
         // Crea una instancia de Dompdf
         $dompdf = new Dompdf($options);
+        $dompdf->getOptions()->setChroot('C:\\xampp\\htdocs\\proyectoDigesto\\public');
+        // $dompdf->getOptions()->set([
+        //     'defaultFont' => 'helvetica',
+        //     'chroot' => '/var/www/proyectodigesto/public/upload',
+        // ]);
+
         $today = new DateTime();
         $result = $today->format('d-m-Y H:i:s');
         // Recupere el HTML generado en nuestro archivo twig
@@ -196,11 +159,17 @@ class NormaController extends AbstractController
             'id' => $normaRepository->find($id)
         ]);
         dd($html);
+        //$data = "https://localhost:8000/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg";
+
+        //$ruta='<img src="localhost:8000';
         // Cargar HTML en Dompdf
+        // $html5=str_replace('<img src="',$ruta,$html);
+        //$html5=str_replace('/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg',$data,$html);
+        // dd($html5);
         $dompdf->loadHtml($html);
-        $base_path="/upload";
         
-        $dompdf->setBasePath($base_path);
+
+
         // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
         
         $dompdf->setPaper('A4', 'portrait');
@@ -227,19 +196,25 @@ class NormaController extends AbstractController
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
+
         
-        
+
         $options = new Options();
         $options->set('isRemoteEnabled',true);
+        $options->setIsHtml5ParserEnabled(true);
+        
         // Crea una instancia de Dompdf
         $dompdf = new Dompdf($options);
         $today = new DateTime();
         $result = $today->format('d-m-Y H-i-s');
+
+        
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
+        
         
         // Cargar HTML en Dompdf
         $dompdf->loadHtml($html);
@@ -481,6 +456,7 @@ class NormaController extends AbstractController
                 return $this->renderForm('norma/edit.html.twig', [
                     'norma' => $norma,
                     'form' => $form,
+                    'id' => $id,
                 ]);
     }
 

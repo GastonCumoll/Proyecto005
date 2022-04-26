@@ -26,7 +26,7 @@
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: </p>
                 <p class="card-text text-left">{{ norma.resumen }}</p>
-                <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary">Ver texto ordenado</a>
+                <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary" >Ver texto ordenado</a>
                 <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                 <br>
                 
@@ -96,6 +96,10 @@
 
 {% endblock %}
 {% block javascripts %}
+
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}
+
+
+
     {% endblock  %}  

@@ -3,6 +3,11 @@
 {% block title %}{{id.getTitulo}}{% endblock %}
 
 {% block body %}
+<a id="btnCrearPdf"><button class="botonPDF btn btn-danger"value="{{id.titulo}}">Descargar PDF</button></a>
 {{froala_display(id.texto)}}
 
+{% endblock %}
+{% block javascripts %}
+{{ parent() }}
+{{encore_entry_script_tags('generarPDF')}}
 {% endblock %}

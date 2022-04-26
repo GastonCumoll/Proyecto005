@@ -7,7 +7,7 @@ kms_froala_editor:
     saveURL: ""
     saveInterval: 0
     saveParam: "content"
-    imageUploadFolder: "/public/upload"
+    imageUploadFolder: "/upload"
     # imageUploadRemoteUrls: false
     imageUploadPath: ""
     publicDir: "/public"
