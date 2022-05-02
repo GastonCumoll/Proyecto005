@@ -106,9 +106,9 @@ private $etiquetas;
 private $items;
 
 /**
- * @ORM\OneToMany(targetEntity=ArchivoPdf::class, mappedBy="norma")
+ * @ORM\OneToMany(targetEntity=Archivo::class, mappedBy="norma")
  */
-private $archivosPdf;
+private $archivos;
 
 
 public function getRela(): ?bool
@@ -388,29 +388,29 @@ public function setRela(?bool $rela): self
     }
 
     /**
-     * @return Collection|ArchivoPdf[]
+     * @return Collection|Archivo[]
      */
-    public function getArchivosPdf(): Collection
+    public function getArchivos(): Collection
     {
-        return $this->archivosPdf;
+        return $this->archivos;
     }
 
-    public function addArchivosPdf(ArchivoPdf $archivosPdf): self
+    public function addArchivos(Archivo $archivos): self
     {
-        if (!$this->archivosPdf->contains($archivosPdf)) {
-            $this->archivosPdf[] = $archivosPdf;
-            $archivosPdf->setNorma($this);
+        if (!$this->archivos->contains($archivos)) {
+            $this->archivos[] = $archivos;
+            $archivos->setNorma($this);
         }
 
         return $this;
     }
 
-    public function removeArchivosPdf(ArchivoPdf $archivosPdf): self
+    public function removeArchivos(Archivo $archivos): self
     {
-        if ($this->archivosPdf->removeElement($archivosPdf)) {
+        if ($this->archivos->removeElement($archivos)) {
             // set the owning side to null (unless already changed)
-            if ($archivosPdf->getNorma() === $this) {
-                $archivosPdf->setNorma(null);
+            if ($archivos->getNorma() === $this) {
+                $archivos->setNorma(null);
             }
         }
 

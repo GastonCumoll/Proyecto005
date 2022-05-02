@@ -56,7 +56,7 @@ class ItemController extends AbstractController
             // $entityManager->persist($item);
             // $entityManager->flush();
 
-            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/new.html.twig', [
@@ -95,7 +95,7 @@ class ItemController extends AbstractController
             }    
             $entityManager->flush();
 
-            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/edit.html.twig', [
@@ -118,8 +118,10 @@ class ItemController extends AbstractController
             if($item->getNormas() != null){
                 $normas=$item->getNormas();
                 //seteo las normas del que quiero borrar a su padre
-                foreach ($normas as $unaNorma) {
-                    $padre->addNorma($unaNorma);
+                if($padre){
+                    foreach ($normas as $unaNorma) {
+                        $padre->addNorma($unaNorma);
+                    }
                 }
             }
             
@@ -145,6 +147,6 @@ class ItemController extends AbstractController
             
         }
 
-        return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
     }
 }

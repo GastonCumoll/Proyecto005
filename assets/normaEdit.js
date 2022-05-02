@@ -9,7 +9,7 @@ $(document).ready(function()
     a.onclick = alerta;
 
     function alerta(){
-        var link= "/norma/"+a.value+"/editTexto";
+        var link= "/norma/"+a.value+"/generarPDF";
         console.log(a);
         var link2="/norma/"+a.value+"/edit";
         if (confirm('¿Desea generar un pdf del texto ordenado?')) {

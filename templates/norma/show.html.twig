@@ -82,7 +82,7 @@
             <div class="card " style="width: 100%;text-align:justify">
                 <div class="card-body">
                     <h5 class="card-title text-center ">Archivos adjuntos</h5>
-                    {% for unPdf in norma.archivosPdf %}
+                    {% for unPdf in norma.archivos %}
                 <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
                 <br>
                 

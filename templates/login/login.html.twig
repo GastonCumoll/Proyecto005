@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <form class="form-signin" id="login" method="POST" action="{{ path('autenticar') }}">
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h3 class="text-center">Sistema de Formulación Presupuestaria</h3>
+            </div>
+        </div>
+        
+        <div class="row">           
+            <div class="col-md-4 offset-md-4">
+                <hr>
+                <label for="usuario" class="sr-only">Usuario</label>
+                <input type="text" class="form-control" name="username" placeholder="Usuario" required autofocus>
+                <br>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" name="password" placeholder="Contraseña" required>
+                <br>
+                <hr>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+            </div>
+        </div>
+        
+        
+        
+    </form>
+
+
+{% endblock %}
+
+{#{% block js %}
+    {{ encore_entry_script_tags('js/validate') }} 
+
+    <script type="text/javascript">
+        $(function () {
+            $('#login').validate({
+                highlight: function (input) {
+                    console.log(input);
+                    $(input).parents('.form-line').addClass('error');
+                },
+                unhighlight: function (input) {
+                    $(input).parents('.form-line').removeClass('error');
+                },
+                errorPlacement: function (error, element) {
+                    $(element).parents('.input-group').append(error);
+                }
+            });
+        });
+    </script>    
+{% endblock %}#}

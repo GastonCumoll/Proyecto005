@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\ArchivoPdf;
+use App\Entity\Archivo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ArchivoPdf|null find($id, $lockMode = null, $lockVersion = null)
- * @method ArchivoPdf|null findOneBy(array $criteria, array $orderBy = null)
- * @method ArchivoPdf[]    findAll()
- * @method ArchivoPdf[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Archivo|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Archivo|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Archivo[]    findAll()
+ * @method Archivo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ArchivoPdfRepository extends ServiceEntityRepository
+class ArchivoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ArchivoPdf::class);
+        parent::__construct($registry, Archivo::class);
     }
 
     // /**
-    //  * @return ArchivoPdf[] Returns an array of ArchivoPdf objects
+    //  * @return Archivo[] Returns an array of Archivo objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ArchivoPdfRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ArchivoPdf
+    public function findOneBySomeField($value): ?Archivo
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

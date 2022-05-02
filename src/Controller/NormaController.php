@@ -15,7 +15,7 @@ use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
-use App\Entity\ArchivoPdf;
+use App\Entity\Archivo;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
@@ -31,7 +31,7 @@ use App\Repository\NormaRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
-use App\Repository\ArchivoPdfRepository;
+use App\Repository\ArchivoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Serializer;
@@ -70,8 +70,7 @@ class NormaController extends AbstractController
      * @Route("/{id}/moverArchivo/{name}", name="mover_archivo", methods={"GET", "POST"}, options={"expose"=true})
      */
     public function moverArchivo(NormaRepository $normaRepository, $id, $name): Response
-    {   
-        
+    {
     }
 
     /**
@@ -115,23 +114,10 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/PDF", name="pdf")
-     */
-
-    public function pdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id, Request $request): Response
-    {
-        
-        $norma=$normaRepository->find($id);
-        dd($norma);
-        
-        
-    }
-
-    /**
      * @Route("/{id}/mostrarPDF", name="mostrar_pdf")
      */
 
-    public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id): Response
+    public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id): Response
     {
         
         $norma=$normaRepository->find($id);
@@ -140,12 +126,14 @@ class NormaController extends AbstractController
         $options = new Options();
         $options->set('isRemoteEnabled',false);
         $options->set('isHtml5ParserEnable',true);
-        $options->set('defaultFont','helvetica');
-        $bp='/var/www/vhosts/proyectodigesto/public';
+        // $options->set('defaultFont','helvetica');
+        // $bp='/var/www/vhosts/proyectodigesto/public';
         //$options->set('chroot','C:/xampp/htdocs/proyectodigesto/public');
         // Crea una instancia de Dompdf
         $dompdf = new Dompdf($options);
-        $dompdf->getOptions()->setChroot('C:\\xampp\\htdocs\\proyectoDigesto\\public');
+        //$dompdf->getOptions()->setChroot('C:\\xampp\\htdocs\\proyectoDigesto\\public');
+
+        
         // $dompdf->getOptions()->set([
         //     'defaultFont' => 'helvetica',
         //     'chroot' => '/var/www/proyectodigesto/public/upload',
@@ -158,7 +146,8 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        dd($html);
+
+        // dd($html);
         //$data = "https://localhost:8000/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg";
 
         //$ruta='<img src="localhost:8000';
@@ -166,9 +155,9 @@ class NormaController extends AbstractController
         // $html5=str_replace('<img src="',$ruta,$html);
         //$html5=str_replace('/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg',$data,$html);
         // dd($html5);
+        //$dompdf->loadHtml($html);
         $dompdf->loadHtml($html);
-        
-
+        // dd($retorno);
 
         // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
         
@@ -191,7 +180,7 @@ class NormaController extends AbstractController
      * @Route("/{id}/generarPDF", name="generar_pdf")
      */
 
-    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoPdfRepository $archivoPdfRepository ,$id): Response
+    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id): Response
     {
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
@@ -214,7 +203,7 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        
+        // dd($html);
         
         // Cargar HTML en Dompdf
         $dompdf->loadHtml($html);
@@ -240,12 +229,12 @@ class NormaController extends AbstractController
         // Write file to the desired path
         file_put_contents($pdfFilepath, $output);
 
-        $archi=new ArchivoPdf();
+        $archi=new Archivo();
         $archi->setNorma($norma);
         $archi->setRuta($ruta);
         $archi->setNombre($normaNombre);
         
-        $archivos=$archivoPdfRepository->findByNorma($id);
+        $archivos=$archivoRepository->findByNorma($id);
         foreach ($archivos as $unArchi) {
             if($unArchi->getRuta()==$ruta){
                 $entityManager->remove($unArchi);
@@ -253,7 +242,7 @@ class NormaController extends AbstractController
         }
         
         $entityManager->persist($archi);
-        $norma->addArchivosPdf($archi);
+        $norma->addArchivos($archi);
         $entityManager->persist($norma);
         $entityManager->flush();
 
@@ -367,7 +356,7 @@ class NormaController extends AbstractController
                     }
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
-                    $archi=new ArchivoPdf();
+                    $archi=new Archivo();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
                     $archi->setNombre($originalFilename);
@@ -375,7 +364,7 @@ class NormaController extends AbstractController
                     
 
                     $entityManager->persist($archi);
-                    $norma->addArchivosPdf($archi);
+                    $norma->addArchivos($archi);
                 }
             }
 
@@ -524,7 +513,7 @@ class NormaController extends AbstractController
                     }
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
-                    $archi=new ArchivoPdf();
+                    $archi=new Archivo();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
                     //$nombreArchivo=$norma->getTipoNorma()->getNombre()."N°".$norma->getNumero();
@@ -534,7 +523,7 @@ class NormaController extends AbstractController
                     
 
                     $entityManager->persist($archi);
-                    $norma->addArchivosPdf($archi);
+                    $norma->addArchivos($archi);
                 }
             }
 
