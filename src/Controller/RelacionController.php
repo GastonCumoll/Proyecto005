@@ -82,6 +82,61 @@ class RelacionController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/{idA}/{idR}/edit", name="relacion_edit", methods={"GET", "POST"})
+     */
+    public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request, Relacion $relacion,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
+    {
+        $today=new DateTime();
+        //buscar la relacion ya creada entre las dos normas y eliminarla ($idR)
+        $relacion=$relacionRepository->find($idR);//relacion=id de la primera relacion entre las dos normas
+        $relacion->setFechaRelacion($today);
+        
+        $repository = $this->getDoctrine()->getRepository(Norma::class);
+        $norma = $repository->find($id);
+        $relacion->setNorma($norma);
+        $opcion=$tipoRelaRepository->findByPrioridad(1);
+        
+        $normaC=$normaRepositorty->find($idA);
+        $relacion->setComplementada($normaC);
+        // dd($normaC); $normaC= norma complementada(la segunda)
+
+        $form = $this->createForm(RelacionType::class, $relacion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $relacionInversa=$relacionRepository->find($idR+1);//relacionInversa=id de la segunda relacion entre las normas
+            $normaOrigen = $form['complementada']->getData();
+            $relacionInversa->setNorma($normaOrigen);
+            $tipoRela=$form['tipoRelacion']->getData();
+            $relacion->setTipoRelacion($tipoRela);
+            $relacionInversa->setTipoRelacion($tipoRela->getInverso());
+            $relacion->setFechaRelacion($today);
+            $relacionInversa->setFechaRelacion($today);
+            $desc=$form['descripcion']->getData();
+            $relacion->setDescripcion($desc);
+            $relacionInversa->setDescripcion($desc);
+            $user=$form['usuario']->getData();
+            $relacion->setUsuario($user);
+            $relacionInversa->setUsuario($user);
+            $resumen=$form['resumen']->getData();
+            $relacion->setResumen($resumen);
+            $relacionInversa->setResumen($resumen);
+
+            $entityManager->persist($relacion);
+            $entityManager->persist($relacionInversa);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }
+        
+        return $this->renderForm('relacion/new.html.twig', [
+            'relacion' => $relacion,
+            'form' => $form,
+        ]);
+    }
+
+    /**
      * @Route("/new", name="relacion_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -182,60 +237,7 @@ class RelacionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/{idA}/{idR}/edit", name="relacion_edit", methods={"GET", "POST"})
-     */
-    public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request, Relacion $relacion,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
-    {
-        $today=new DateTime();
-        //buscar la relacion ya creada entre las dos normas y eliminarla ($idR)
-        $relacion=$relacionRepository->find($idR);//relacion=id de la primera relacion entre las dos normas
-        $relacion->setFechaRelacion($today);
-        
-        $repository = $this->getDoctrine()->getRepository(Norma::class);
-        $norma = $repository->find($id);
-        $relacion->setNorma($norma);
-        $opcion=$tipoRelaRepository->findByPrioridad(1);
-        
-        $normaC=$normaRepositorty->find($idA);
-        $relacion->setComplementada($normaC);
-        // dd($normaC); $normaC= norma complementada(la segunda)
-
-        $form = $this->createForm(RelacionType::class, $relacion);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $relacionInversa=$relacionRepository->find($idR+1);//relacionInversa=id de la segunda relacion entre las normas
-            $normaOrigen = $form['complementada']->getData();
-            $relacionInversa->setNorma($normaOrigen);
-            $tipoRela=$form['tipoRelacion']->getData();
-            $relacion->setTipoRelacion($tipoRela);
-            $relacionInversa->setTipoRelacion($tipoRela->getInverso());
-            $relacion->setFechaRelacion($today);
-            $relacionInversa->setFechaRelacion($today);
-            $desc=$form['descripcion']->getData();
-            $relacion->setDescripcion($desc);
-            $relacionInversa->setDescripcion($desc);
-            $user=$form['usuario']->getData();
-            $relacion->setUsuario($user);
-            $relacionInversa->setUsuario($user);
-            $resumen=$form['resumen']->getData();
-            $relacion->setResumen($resumen);
-            $relacionInversa->setResumen($resumen);
-
-            $entityManager->persist($relacion);
-            $entityManager->persist($relacionInversa);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
-        }
-        
-        return $this->renderForm('relacion/new.html.twig', [
-            'relacion' => $relacion,
-            'form' => $form,
-        ]);
-    }
+    
 
     /**
      * @Route("/{id}", name="relacion_delete", methods={"POST"})

@@ -9,13 +9,13 @@ use Dompdf\Options;
 use App\Entity\Item;
 use App\Entity\Norma;
 use App\Form\LeyType;
+use App\Entity\Archivo;
 use App\Form\NormaType;
 use App\Entity\Etiqueta;
 use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
-use App\Entity\Archivo;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
@@ -26,14 +26,16 @@ use App\Form\DecretoTypeEdit;
 use App\Form\CircularTypeEdit;
 use App\Form\OrdenanzaTypeEdit;
 use App\Form\ResolucionTypeEdit;
+use App\Service\SeguridadService;
 use App\Repository\ItemRepository;
 use App\Repository\NormaRepository;
+use App\Repository\ArchivoRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
-use App\Repository\ArchivoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
+use Sasedev\MpdfBundle\Factory\MpdfFactory;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +49,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Sasedev\MpdfBundle\Factory\MpdfFactory;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 /**
@@ -418,14 +420,18 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
      */
-    public function show(Norma $norma,$id): Response
+    public function show(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
-        
+        $sesion=$this->get('session');
+        $id=$sesion->get('session_id')*1;
+        $roles=json_decode($seguridad->getListRolAction($id), true);
+        $rol=$roles[0]['id'];
         return $this->render('norma/show.html.twig', [
             'norma' => $norma,
             'relacion' => $relacion,
+            'rol' => $rol
         ]);
     }
 

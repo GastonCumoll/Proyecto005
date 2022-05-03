@@ -62,7 +62,7 @@ class Norma
     private $tipoNorma;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $numero;
 

@@ -10,25 +10,18 @@ use App\Service\SeguridadService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class GeneralController extends AbstractController
-
-
 {
 
-        /**
-     * @Route("/prueba", name="prueba")
-     */
-    public function prueba(){
-        return $this->render('prueba.html.twig');
-    }
+
     /**
      * @Route("/", name="login")
      */
     public function index(Request $request): Response
     {
         if ($request->getSession()->get('active') == 1)
-            return $this->redirectToRoute('plan_index');
+            return $this->redirectToRoute('Inicio');
         else
-            return $this->render('login/login.html.twig');
+            return $this->render('general/login.html.twig');
     }
 
     /**
@@ -54,7 +47,7 @@ class GeneralController extends AbstractController
     {
         //$seguridad = new SeguridadService();  // ESTO ESTÁ MUY MAL, MUY PERO MUY MAL. NO HACER NUNCA
         $session_id = $seguridad->loginAction($request->get('username'), $request->get('password'), $this->get('session'));
-
+        
         
         //Script para testear
         /*dump("Lista de roles:\n".$seguridad->getListaRolesDeSistemaAction(157));
@@ -86,9 +79,9 @@ class GeneralController extends AbstractController
             $session->set('session_id', $session_id);
             $session->set('userId', $seguridad->getUserIdAction($session_id));
             $session->set('username', $request->get('username'));
-
+            
             // Para dumpear lista de roles en el sistema
-            //dd($seguridad->getListaRolesDeSistemaAction(157));
+            //dd($seguridad->getListaRolesDeSistemaAction(114));
 
             // Para dumpear los roles del usuario logueado
             //dd($seguridad->getListRolAction($session_id));
@@ -124,48 +117,48 @@ class GeneralController extends AbstractController
             $rol = explode('_', $roles[0]['id']);
 
             // Sintaxis: FP_[autoridad]_[cargo]
-            if ($rol[1] != 'ADMIN') {
-                // Actualización: se muestra el rol del usuario en pantalla
-                $cargo = NULL;
-                $nombreRol = NULL;
+            // if ($rol[1] != 'ADMIN') {
+            //     // Actualización: se muestra el rol del usuario en pantalla
+            //     $cargo = NULL;
+            //     $nombreRol = NULL;
 
-                if ($rol[1] == 'OPE') {
-                    $session->set('esOperador', '1');
-                    $cargo = 'Operador de ';
-                }
-                else {
-                    $session->set('esOperador', '0');
-                    $cargo = 'Director de ';
-                }
+            //     if ($rol[1] == 'OPE') {
+            //         $session->set('esOperador', '1');
+            //         $cargo = 'Operador de ';
+            //     }
+            //     else {
+            //         $session->set('esOperador', '0');
+            //         $cargo = 'Director de ';
+            //     }
 
-                switch ($rol[2]) {
-                    case 'PRESU':
-                        $session->set('rolType', '-1'); // -1 = Presupuesto
-                        $nombreRol = 'Presupuesto';
-                        break;
-                    case 'SECRE':
-                        $session->set('rolType', '0'); // 0 = Secretaría
-                        $nombreRol = 'Secretaría';
-                        break;
-                    case 'REPAR':
-                        $session->set('rolType', '1'); // 1 = Repartición
-                        $nombreRol = 'Repartición';
-                        break;
-                }
+            //     switch ($rol[2]) {
+            //         case 'PRESU':
+            //             $session->set('rolType', '-1'); // -1 = Presupuesto
+            //             $nombreRol = 'Presupuesto';
+            //             break;
+            //         case 'SECRE':
+            //             $session->set('rolType', '0'); // 0 = Secretaría
+            //             $nombreRol = 'Secretaría';
+            //             break;
+            //         case 'REPAR':
+            //             $session->set('rolType', '1'); // 1 = Repartición
+            //             $nombreRol = 'Repartición';
+            //             break;
+            //     }
 
-                // Verifico el caso excepcional del rol de Secretaría
-                if ($nombreRol == 'Secretaría' && $cargo == 'Director de ')
-                    $cargo = 'Secretario de ';
+            //     // Verifico el caso excepcional del rol de Secretaría
+            //     if ($nombreRol == 'Secretaría' && $cargo == 'Director de ')
+            //         $cargo = 'Secretario de ';
                 
-                // Concatenación
-                $session->set('rolName', $cargo . $nombreRol);
-            }
-            else {
-                $session->set('rolType', '9'); // 9 = Administrador
-                $session->set('esOperador', '0');
-                // Actualización: se muestra el rol del usuario en pantalla
-                $session->set('rolName', 'Administrador');
-            }
+            //     // Concatenación
+            //     $session->set('rolName', $cargo . $nombreRol);
+            // }
+            // else {
+            //     $session->set('rolType', '9'); // 9 = Administrador
+            //     $session->set('esOperador', '0');
+            //     // Actualización: se muestra el rol del usuario en pantalla
+            //     $session->set('rolName', 'Administrador');
+            // }
 
             // Setear el ID
             // Obtener el ID de la repartición del usuario logueado
@@ -179,30 +172,30 @@ class GeneralController extends AbstractController
             */
 
             // Solicitud a la API del Municipio en busca de la repartición y su secretaría
-            $remote_url = $this->getParameter('ws_rrhh')."/api/1.0/reparticiones/".$idReparticion;
+            //$remote_url = $this->getParameter('ws_rrhh')."/api/1.0/reparticiones/".$idReparticion;
             // Este array es por un error surgido cuando se cambió el ws de rrhh
-            $arrContextOptions=array(
-                "ssl"=>array(
-                    "verify_peer"=>false,
-                    "verify_peer_name"=>false,
-                ),
-            ); 
-            $ws = file_get_contents($remote_url, false, stream_context_create($arrContextOptions));
-            $reparticion = json_decode($ws, true);  // El segundo parámetro le indica a la función que devuelva un array
+            // $arrContextOptions=array(
+            //     "ssl"=>array(
+            //         "verify_peer"=>false,
+            //         "verify_peer_name"=>false,
+            //     ),
+            // ); 
+            // $ws = file_get_contents($remote_url, false, stream_context_create($arrContextOptions));
+            // $reparticion = json_decode($ws, true);  // El segundo parámetro le indica a la función que devuelva un array
 
-            // Actualización: se muestra la repartición del usuario en pantalla
-            $session->set('nombreReparticion', $reparticion[0]['nombre']);
+            // // Actualización: se muestra la repartición del usuario en pantalla
+            // $session->set('nombreReparticion', $reparticion[0]['nombre']);
 
-            // Verificar el caso de Secretaría, para el cual también necesito el ID de la misma
-            if ($session->get('rolType') == 0) {
-                // Setear el ID de Secretaría
-                $session->set('rolIdSecretaria', $reparticion[0]['secretaria']['idSecretaria']);
-                /*
-                $session->set('rolIdSecretaria', 110104);
-                */
-            }
+            // // Verificar el caso de Secretaría, para el cual también necesito el ID de la misma
+            // if ($session->get('rolType') == 0) {
+            //     // Setear el ID de Secretaría
+            //     $session->set('rolIdSecretaria', $reparticion[0]['secretaria']['idSecretaria']);
+            //     /*
+            //     $session->set('rolIdSecretaria', 110104);
+            //     */
+            // }
 
-            return $this->redirectToRoute('plan_index');
+            return $this->redirectToRoute('Inicio');
         }
         else return $this->redirectToRoute('login');
     }

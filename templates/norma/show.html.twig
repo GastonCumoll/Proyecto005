@@ -38,7 +38,8 @@
                         <button type="button" class="btn btn-primary">  <i class="fas fa-arrow-left"></i> Volver</button> 
                     </a>
                         </div>
-                        <div class="col-3 mt-4  text-center">
+                        {% if rol == "DIG_OPERADOR" %}
+                            <div class="col-3 mt-4  text-center">
                         <button type="button" class="btn btn-success" value="{{norma.id}}" id="editar">Editar   </button> 
                     </a>
                         </div>
@@ -51,6 +52,9 @@
                         <div class="col-3 mt-4  text-right">
                         {{ include('norma/_delete_form.html.twig') }}
                         </div>
+                        {% endif %}
+                        
+
                     </div>
                 </div>
 
@@ -89,8 +93,6 @@
             {% endfor %}
                 </div>
             </div>
-            
-            
         </div>
     {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}
 
