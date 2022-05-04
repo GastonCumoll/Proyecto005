@@ -50,6 +50,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\EventSubscriber\SecuritySubscriber;
 
 
 /**
@@ -57,7 +58,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class NormaController extends AbstractController
 {
-
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
@@ -66,13 +66,6 @@ class NormaController extends AbstractController
         return $this->render('norma/index.html.twig', [
             'normas' => $normaRepository->findAll(),
         ]);
-    }
-
-    /**
-     * @Route("/{id}/moverArchivo/{name}", name="mover_archivo", methods={"GET", "POST"}, options={"expose"=true})
-     */
-    public function moverArchivo(NormaRepository $normaRepository, $id, $name): Response
-    {
     }
 
     /**
@@ -422,16 +415,20 @@ class NormaController extends AbstractController
      */
     public function show(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
+        
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         $sesion=$this->get('session');
-        $id=$sesion->get('session_id')*1;
-        $roles=json_decode($seguridad->getListRolAction($id), true);
+        $idSession=$sesion->get('session_id')*1;
+        // dd($idSession);
+        $roles=json_decode($seguridad->getListRolAction($idSession), true);
+        // dd($roles);
         $rol=$roles[0]['id'];
+        // dd($rol);
         return $this->render('norma/show.html.twig', [
             'norma' => $norma,
             'relacion' => $relacion,
-            'rol' => $rol
+            'rol'=>$rol,
         ]);
     }
 
@@ -595,7 +592,7 @@ class NormaController extends AbstractController
                 'relacion' => $relacion,
             ]);
         }
-}   
+    }   
 
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})

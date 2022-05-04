@@ -245,7 +245,7 @@ public function setRela(?bool $rela): self
         return $this->numero;
     }
 
-    public function setNumero(string $numero): self
+    public function setNumero(?string $numero): self
     {
         $this->numero = $numero;
 

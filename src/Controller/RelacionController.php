@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class RelacionController extends AbstractController
 {
+    
     /**
      * @Route("/", name="relacion_index", methods={"GET"})
      */
@@ -30,61 +31,12 @@ class RelacionController extends AbstractController
             'relacions' => $relacionRepository->findAll(),
         ]);
     }
-
+    
+    //editar relacion existente en 2 normas
     /**
-     * @Route("/relaForm", name="form_rela", methods={"GET", "POST"})
+     * @Route("/edit/{id}/{idA}/{idR}", name="relacion_edit", methods={"GET","POST"})
      */
-    public function relacionForm($idAux,TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
-    {
-        $today=new DateTime();
-        $relacion=new Relacion();
-
-        $relacion->setFechaRelacion($today);
-        $session=$request->getSession();
-        
-        $id=$session->get('id');
-        
-        $repository = $this->getDoctrine()->getRepository(Norma::class);
-        $norma = $repository->find($id);
-        $relacion->setNorma($norma);
-        $opcion=$tipoRelaRepository->findByPrioridad(1);
-        //dd($opcion);
-        $form = $this->createForm(RelacionType::class, $relacion);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($relacion);
-            
-            $relacionInversa= new Relacion();
-            $normaOrigen = $form['complementada']->getData();
-            $relacionInversa->setNorma($normaOrigen);
-            $normaDestino = $form['norma']->getData();
-            $relacionInversa->setComplementada($normaDestino);
-            $relacionInversa->setFechaRelacion($today);
-            $relacionInversa->setDescripcion($relacion->getDescripcion());
-            $relacionInversa->setResumen($relacion->getResumen());
-            $relacionInversa->setUsuario($relacion->getUsuario());
-            
-            $tipoRela=$form['tipoRelacion']->getData();
-            
-            $relacionInversa->setTipoRelacion($tipoRela->getInverso());
-            
-            $entityManager->persist($relacionInversa);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('norma_show', [], Response::HTTP_SEE_OTHER);
-        }
-        
-        return $this->renderForm('relacion/new.html.twig', [
-            'relacion' => $relacion,
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/{idA}/{idR}/edit", name="relacion_edit", methods={"GET", "POST"})
-     */
-    public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request, Relacion $relacion,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
+    public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
     {
         $today=new DateTime();
         //buscar la relacion ya creada entre las dos normas y eliminarla ($idR)
@@ -168,6 +120,8 @@ class RelacionController extends AbstractController
         ]);
     }
 
+
+    //agregarle una relacion a una norma
     /**
      * @Route("/{id}/relaFormEdit", name="form_rela_edit", methods={"GET", "POST"})
      */
@@ -216,35 +170,13 @@ class RelacionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="relacion_edit_original", methods={"GET", "POST"})
-     */
-    public function editOriginal(Request $request, Relacion $relacion, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(RelacionType::class, $relacion);
-        $form->handleRequest($request);
-
-        
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('relacion/edit.html.twig', [
-            'relacion' => $relacion,
-            'form' => $form,
-        ]);
-    }
-
-    
-
-    /**
      * @Route("/{id}", name="relacion_delete", methods={"POST"})
      */
+    
     public function delete(Request $request, Relacion $relacion, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$relacion->getId(), $request->request->get('_token'))) {
+            
             $entityManager->remove($relacion);
             $entityManager->flush();
         }
