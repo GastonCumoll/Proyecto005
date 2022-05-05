@@ -30,55 +30,88 @@ class SecuritySubscriber implements EventSubscriberInterface
 
     public function onRequestEvent(RequestEvent $event) {
         // Verificación de sesión expirada
-        // if (!$this->seguridad->checkSessionActive($this->session->get('session_id'))) {
-        //     $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
-        //     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
-        //     $event->setResponse(new RedirectResponse('/logout'));
+        
+        //  if (!$this->seguridad->checkSessionActive($this->session->get('session_id'))) {
+        //      $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
+        //      $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
+        //      $event->setResponse(new RedirectResponse('/logout'));
         // }
         // else {
             $request = $event->getRequest();
             $routeName = $request->attributes->get('_route');
+            //dd($this->session->get('session_id'));
+            //dd($this->session);
             //$routeParameters = $request->attributes->get('_route_params');
-
+            // dd($routeParameters);
             // Sintaxis: nombreRuta => [roles]
             // Lista de roles: FP_ADMIN(-1), FP_DIR_PRESU(-1), FP_OPE_PRESU(-1), FP_SEC_SECRE(0), FP_OPE_SECRE(0), FP_DIR_REPAR(1), FP_OPE_REPAR(1)
             $routeList = [
 
                 //Norma
-                'norma_index'=>['DIG_OPERADOR'],
-                'norma_show'=>['DIG_OPERADOR'],
+                'norma_index'=>[],
+                'norma_show'=>[],
                 'norma_edit'=>['DIG_OPERADOR'],
                 'texto_edit'=>['DIG_OPERADOR'],
-                //'normas_ajax'=>['DIG_OPERADOR'],
-                'mostrar_pdf'=>['DIG_OPERADOR'],
+                'normas_ajax'=>[],
+                'mostrar_pdf'=>[],
                 'generar_pdf'=>['DIG_OPERADOR'],
                 'norma_new'=>['DIG_OPERADOR'],
-                'mostrar_texto'=>['DIG_OPERADOR'],
+                'mostrar_texto'=>[],
                 'norma_delete'=>['DIG_OPERADOR'],
 
                 //Relacion
-                ''=>[''],
+                'relacion_delete'=>['DIG_OPERADOR'],
+                'relacion_edit'=>['DIG_OPERADOR'],
+                'relacion_new'=>['DIG_OPERADOR'],
+                'form_rela_edit'=>['DIG_OPERADOR'],
 
                 //Tipo Norma
-                ''=>[''],
+                'tipo_norma_index'=>['DIG_OPERADOR'],
+                'norma_nueva'=>['DIG_OPERADOR'],
+                'tipo_norma_new'=>['DIG_OPERADOR'],
+                'tipo_norma_show'=>['DIG_OPERADOR'],
+                'tipo_norma_edit'=>['DIG_OPERADOR'],
+                'tipo_norma_delete'=>['DIG_OPERADOR'],
 
-                //Tipo Relacion
-                ''=>[''],
+                // //Tipo Relacion
+                'tipo_relacion_index'=>['DIG_OPERADOR'],
+                'tipo_relacion_new'=>['DIG_OPERADOR'],
+                'tipo_relacion_show'=>['DIG_OPERADOR'],
+                'tipo_relacion_delete'=>['DIG_OPERADOR'],
+                'tipo_relacion_edit'=>['DIG_OPERADOR'],
 
-                //Item
-                ''=>[''],
+
+                // //Item
+                'item_index'=>['DIG_OPERADOR'],
+                'item_new'=>['DIG_OPERADOR'],
+                'item_show'=>['DIG_OPERADOR'],
+                'item_edit'=>['DIG_OPERADOR'],
+                'item_delete'=>['DIG_OPERADOR'],
+
 
                 //Inicio 
-                ''=>[''],
+                'Inicio'=>[],
 
-                //General
-                ''=>[''],
+                // //General
+                'login'=>[],
+                '404'=>[],
+                'error'=>[],
+                'autenticar'=>[],
+                'logout'=>[],//ojo con este
 
-                //Etiqueta
-                ''=>[''],
+                // //Etiqueta
+                'etiqueta_index'=>['DIG_OPERADOR'],
+                'etiqueta_new'=>['DIG_OPERADOR'],
+                'etiqueta_show'=>['DIG_OPERADOR'],
+                'etiqueta_edit'=>['DIG_OPERADOR'],
+                'etiqueta_delete'=>['DIG_OPERADOR'],
 
-                //Area
-                ''=>[''],
+                // //Area
+                'area_index'=>['DIG_OPERADOR'],
+                'area_new'=>['DIG_OPERADOR'],
+                'area_show'=>['DIG_OPERADOR'],
+                'area_edit'=>['DIG_OPERADOR'],
+                'area_delete'=>['DIG_OPERADOR'],
 
 
 
@@ -94,154 +127,34 @@ class SecuritySubscriber implements EventSubscriberInterface
                 // 'plan_imprimir_proyecto' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
                 // 'plan_imprimir_obras' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
 
-                // // SecretariaHabilitada
-                // 'secretaria_habilitada_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'secretaria_habilitada_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'secretaria_habilitada_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'secretaria_habilitada_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'secretaria_habilitada_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-
-                // // ReparticionHabilitada
-                // 'reparticion_habilitada_por_secretaria_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'reparticion_habilitada_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // //'reparticion_habilitada_show' => [],  // En desuso
-                // //'reparticion_habilitada_edit' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],    // En desuso
-                // 'reparticion_habilitada_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // TopeGasto
-                // 'tope_gasto_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'tope_gasto_edit' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'tope_gasto_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // Programa
-                // 'programa_index' => [],
-                // 'programa_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'programa_show' => [],
-                // //'programa_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'programa_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'secretariasHabilitadas_programas_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // Formulacion
-                // //'formulacion_index' => [], // Visible para todos
-                // //'formulacion_rejecteds' => [], // Visible para todos
-                // 'formulacion_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // //'formulacion_show' => [],  // Visible para todos
-                // 'formulacion_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'formulacion_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'formulacion_save' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'formulacion_send' => ['FP_ADMIN', 'FP_DIR_REPAR'],
-                // 'formulacion_rectify' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-
-                // // Partida
-                // //'partida_index' => [], // Visible para todos
-                // 'partida_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'partida_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'partida_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-
-                // // Observacion
-                // //'observacion_index' => [],    // Visible para todos
-                // //'observacion_new' => [],  // Visible para todos
-                // //'observacion_edit' => [], // Visible para todos
-                // //'observacion_delete' => [],   // Visible para todos
-
-                // // AReparticion
-                // //'a_reparticion_index' => [], // Visible para todos
-                // 'a_reparticion_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // //'a_reparticion_new_action' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'], // A definir
-                // //'a_reparticion_show' => [], // Visible para todos
-                // //'a_reparticion_edit' => [], // Deshabilitado por el momento
-                // 'a_reparticion_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'a_reparticion_send' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_DIR_REPAR'],
-                // 'a_reparticion_accept' => ['FP_ADMIN', 'FP_SEC_SECRE'],
-                // 'a_reparticion_reject' => ['FP_ADMIN', 'FP_SEC_SECRE'],
-                // 'a_reparticion_rectify' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // 'a_reparticion_excel_action' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_DIR_REPAR', 'FP_OPE_REPAR'],
-                // //'a_reparticion_excel_download_action' => [],  // Visible para todos
-
-                // // ASecretaria
-                // //'a_secretaria_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'], // En desuso
-                // 'a_secretaria_index_p' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'a_secretaria_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // //'a_secretaria_new_action' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'], // A definir
-                // //'a_secretaria_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'a_secretaria_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'a_secretaria_send' => ['FP_ADMIN', 'FP_SEC_SECRE'],
-                // 'a_secretaria_accept' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // //'a_secretaria_reject' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],    // En desuso
-
-                // // GastoComun
-                // 'gasto_comun_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_comun_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_comun_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_comun_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-
-                // // GastoPlan
-                // 'gasto_plan_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_plan_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_plan_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'gasto_plan_delete' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-
-                // // DetalleAnteproyecto
-                // 'detalle_anteproyecto_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'detalle_anteproyecto_new' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'detalle_anteproyecto_edit' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'detalle_imprimir_anteproyecto' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // ObraPublica
-                // 'obra_publica_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'obra_publica_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'obra_publica_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'obra_publica_edit' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'obra_publica_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // Avance
-                // 'avance_index' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'avance_new' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'avance_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'avance_edit' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-                // 'avance_delete' => ['FP_ADMIN', 'FP_SEC_SECRE', 'FP_OPE_SECRE'],
-
-                // // Parámetros
-
-                // // Cuenta
-                // 'cuenta_load' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // //'cuenta_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // //'cuenta_edit' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // //'cuenta_delete' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-
-                // // Estado
-                // 'estado_new' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // //'estado_show' => ['FP_ADMIN', 'FP_DIR_PRESU', 'FP_OPE_PRESU'],
-                // 'estado_edit' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // 'estado_delete' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-
-                // // TipoGasto
-                // 'tipo_gasto_new' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // 'tipo_gasto_edit' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // 'tipo_gasto_delete' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-
-                // // GastoComun
-                // 'gasto_comun_new' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // 'gasto_comun_edit' => ['FP_ADMIN', 'FP_DIR_PRESU'],
-                // 'gasto_comun_delete' => ['FP_ADMIN', 'FP_DIR_PRESU'],
             ];
             
             // Verifico que la ruta esté en la lista, de no estarlo se entiende que no se quiere aplicar una restricción de seguridad a la misma
             if (array_key_exists($routeName, $routeList)) {
                 $roles = $routeList[$routeName];
+                
                 $status = 0;
-
+                //dd($roles);
                 // Recorro la lista de roles asignados a la ruta
                 foreach ($roles as $rol) {
+                    //si no hay nadie logeado=$this->session->get('sesion_id')=0;
+                    //si hay alguien logeado=$this->session->get('sesion_id')=float;
+                    //$rol es un rol del array de arriba
+                    //this->session= a una sesion
                     $status = $this->seguridad->checkAccessAction($this->session->get('session_id'), $rol, $this->session, false);
-
                     // Posibles valores:
                     // 0 = no posee este rol
                     // 1 = posee el rol, no sigo iterando
                     // 2 = sesión caducada, no sigo iterando
+                    
                     if ($status != 0) break;
                 }
-
+                if($this->session->get('session_id')==null && empty($roles)){
+                    $status=1;
+                }
+                if($this->session->get('session_id')!=null && empty($roles)){
+                    $status=1;
+                }
                 switch ($status) {
                     case 0:
                         // Si no tengo ninguno de los roles admitidos, redirijo a 404 Not Found
@@ -265,6 +178,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     ($this->seguridad->checkAccessAction($this->session->get('session_id'), 'DIG_OPERADOR', $this->session, false) == 2)
                     && ($routeName != 'logout') // Esta línea de código es extremadamente importante, evita un loop infinito cuando expira la sesión
                 ) {
+                    //entra si existe sesion_id (alguien se logueó) y la sesion expiro y no esta en logout y la ruta en la que se encuentra no esta en routeList
                     $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout'));
@@ -272,7 +186,7 @@ class SecuritySubscriber implements EventSubscriberInterface
             }
         // }
     }
-
+    
     public static function getSubscribedEvents()
     {
         return [

@@ -58,6 +58,7 @@ use App\EventSubscriber\SecuritySubscriber;
  */
 class NormaController extends AbstractController
 {
+
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
@@ -418,12 +419,19 @@ class NormaController extends AbstractController
         
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
+        
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
-        // dd($idSession);
-        $roles=json_decode($seguridad->getListRolAction($idSession), true);
-        // dd($roles);
-        $rol=$roles[0]['id'];
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         // dd($rol);
         return $this->render('norma/show.html.twig', [
             'norma' => $norma,

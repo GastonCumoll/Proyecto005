@@ -87,7 +87,7 @@
         </a>
     </div>
 {% endif %}  #}
-{% macro recursiveItem(subitem) %}
+{% macro recursiveItem(subitem,rol) %}
 
 <div class="accordion" id="accordionSubitem{{subitem.getId()}}">
     {% if subitem.getDependencias != null %}
@@ -101,14 +101,14 @@
                         </button>
                         <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
-
-                            <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
-                                Editar
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
-                                Eliminar
-                            </a>
-    
+                            {% if rol == "DIG_OPERADOR" %}
+                                <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
+                                    Editar
+                                </a>
+                                <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
+                                    Eliminar
+                                </a>
+                            {% endif %}
                             {% if unSubitem.getNormas()|length >= 1 %}
                                 <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
                             {% endif %}
@@ -116,7 +116,7 @@
                     
                 </div>
                 <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
-                    {{ _self.recursiveItem(unSubitem) }}
+                    {{ _self.recursiveItem(unSubitem,rol) }}
                 </div>
             </div>
         {% endfor %}
@@ -140,12 +140,14 @@
                                             
                                         
                                     </button>
-                                    <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
-                                        Editar
-                                    </a>
-                                    <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
-                                        Eliminar
-                                    </a>
+                                    {% if rol == "DIG_OPERADOR" %}
+                                        <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
+                                            Editar
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
+                                            Eliminar
+                                        </a>
+                                    {% endif %}
                                     <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
 
@@ -156,7 +158,7 @@
                             
                         </div>
                         <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
-                            {{ _self.recursiveItem(unItem) }}
+                            {{ _self.recursiveItem(unItem,rol) }}
                         </div>
                     </div>
                 {% endif %}

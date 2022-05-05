@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use App\EventSubscriber\SecuritySubscriber;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -23,16 +24,22 @@ class InicioController extends AbstractController
      */
     public function index(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
     {
-        // $sesion=$this->get('session');
-        // $id=$sesion->get('session_id')*1;
-        // dd($id);
-        // $session_id = $seguridad->loginAction($request->get('username'), $request->get('password'), $this->get('session'));
-        // dd($session_id);
-        // $rol=$seguridad->getListRolAction($session_id);
-        // dd($rol);
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             'normas' => $normaRepository->findAll(),
             'items' => $items->findAll(),
+            'rol' => $rol,
         ]);
     }
 

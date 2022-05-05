@@ -48,8 +48,12 @@ class SeguridadService extends AbstractController {
 
     public function checkAccessAction($session_id, $permiso, $session = null, $usaMensaje = true) { 
         
-        if (!$session_id) $respuesta = 0;
+        if (!$session_id) $respuesta = 0;//si no hay sesion return 0
+
         else $respuesta = $this->clienteSoap->__soapCall('WsController.checkAccess', array($session_id, $permiso, $this->codSistema));
+        //WsController.checkAccess  =0: acceso denegado
+        //"                         =1:acceso concedido
+        //"                         =2:sesion expirada
         if ($usaMensaje) {
             $mensaje = NULL;
             switch ($respuesta) {
@@ -119,7 +123,7 @@ class SeguridadService extends AbstractController {
         return '';
     }
 
-    public function getListRolAction($session_id) {
+    function getListRolAction($session_id) {
         $listaRoles = $this->clienteSoap->__soapCall('WsController.getListRol', array($session_id, $this->codSistema));
         return $listaRoles;
     }
