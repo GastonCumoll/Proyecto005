@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login{% endblock %}
-
 {% block body %}
-<h1>Error 404 No tenes los roles permitidos para acceder a esta pagina</h1>
+    <h1>Page not found</h1>
+
+    <p>
+        No tiene los permisos para ingresar a la pagina solicitada.Si quiere ingresar
+        con un usuario habilitado, redirigase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
+    </p>
 {% endblock %}

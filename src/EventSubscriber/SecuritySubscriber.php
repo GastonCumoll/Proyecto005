@@ -89,8 +89,8 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'item_delete'=>['DIG_OPERADOR'],
 
 
-                //Inicio 
-                'Inicio'=>[],
+                //indice 
+                'indice'=>[],
 
                 // //General
                 'login'=>[],

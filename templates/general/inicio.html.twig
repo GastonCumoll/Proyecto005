@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio Administracion{% endblock %}
+{% block body %}
+
+<div class="container mt-3 mb-3">
+    <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card-body" >
+        <h1> Bienvenido al digesto de la ciudad de Paraná  </h1>
+        <a class="btn btn-primary" type="button" href="{{ path('login')  }}">
+            Ingresar
+        </a>
+        <a class="btn btn-primary" type="button" href="{{ path('indice')  }}">
+            Digesto
+        </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

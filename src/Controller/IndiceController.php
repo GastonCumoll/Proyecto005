@@ -15,12 +15,12 @@ use App\EventSubscriber\SecuritySubscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/inicio")
+ * @Route("/indice")
  */
-class InicioController extends AbstractController
+class IndiceController extends AbstractController
 {
     /**
-     * @Route("/", name="Inicio", methods={"GET"})
+     * @Route("/", name="indice", methods={"GET"})
      */
     public function index(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
     {

@@ -56,7 +56,7 @@ class ItemController extends AbstractController
             // $entityManager->persist($item);
             // $entityManager->flush();
 
-            return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/new.html.twig', [
@@ -95,7 +95,7 @@ class ItemController extends AbstractController
             }    
             $entityManager->flush();
 
-            return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/edit.html.twig', [
@@ -147,6 +147,6 @@ class ItemController extends AbstractController
             
         }
 
-        return $this->redirectToRoute('Inicio', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
     }
 }

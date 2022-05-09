@@ -14,16 +14,42 @@ class GeneralController extends AbstractController
 
 
     /**
-     * @Route("/", name="login")
+     * @Route("/login", name="login")
      */
     public function index(Request $request): Response
     {
         if ($request->getSession()->get('active') == 1)
-            return $this->redirectToRoute('Inicio');
+            return $this->redirectToRoute('inicio_admin');
         else
             return $this->render('general/login.html.twig');
     }
 
+    /**
+     * @Route("inicio", name="inicio")
+     */
+    public function inicio(Request $request): Response
+    {
+
+        
+        return $this->render('general/inicio.html.twig');
+
+    }
+
+    /**
+     * @Route("/admin/inicio", name="inicio_admin")
+     */
+    public function inicioAdministracion(Request $request,SeguridadService $seguridad): Response
+    {
+        $session = $this->get('session');
+        $session_id = $session->get('session_id') * 1;
+        $usuario = $session->get('username');
+        
+        
+        return $this->render('general/inicioAdmin.html.twig',[
+            'user' => $usuario
+        ]);
+
+    }
     /**
      * @Route("/404", name="404")
      */
@@ -195,7 +221,7 @@ class GeneralController extends AbstractController
             //     */
             // }
 
-            return $this->redirectToRoute('Inicio');
+            return $this->redirectToRoute('inicio_admin');
         }
         else return $this->redirectToRoute('login');
     }
