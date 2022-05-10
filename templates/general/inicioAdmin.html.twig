@@ -2,5 +2,69 @@
 
 {% block title %}Inicio Administracion{% endblock %}
 {% block body %}
-<h1>Bienvenido {{user}} </h1>
+<h5>Bienvenido {{user}} </h5>
+
+<div class="barraNavegacion">
+    <ul class="nav nav-pills">
+        {# <li class="nav-item">
+            <a class="nav-link active" href="#">Active</a>
+        </li> #}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('norma_nueva') }}">Alta de norma</a>
+                <a class="dropdown-item" href="{{ path('norma_index') }}">Ver normas</a>
+                {#<a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a> #}
+            </div>
+        </li>
+    
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Índice</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('item_new') }}">Alta item de índice</a>
+                <a class="dropdown-item" href="{{ path('item_index') }}">Ver índice</a>
+            </div>
+        </li>
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Tipo de relación</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('tipo_relacion_new') }}">Alta de relación</a>
+                <a class="dropdown-item" href="{{ path('tipo_relacion_index') }}">Ver relaciones</a>
+            </div>
+        </li>
+    
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Etiqueta</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('etiqueta_new') }}">Alta de etiqueta</a>
+                <a class="dropdown-item" href="{{ path('etiqueta_index') }}">Ver etiquetas</a>
+            </div>
+        </li>
+    
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Tipo de norma</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ path('tipo_norma_new') }}">Alta de tipo norma</a>
+                <a class="dropdown-item" href="{{ path('tipo_norma_index') }}">Ver tipos de norma</a>
+            </div>
+        </li>
+        <div class="busqueda">
+            <div class="ml-auto">
+            <form class="form-inline my-2 my-lg-0" >
+                <input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+            </form>
+            </div>
+            <div id="normasRelacionadas">
+                <li>hola</li>
+                <li>hola</li>
+                <li>hola</li>
+            </div>
+        </div>
+        
+    </ul>
+    </div>
 {% endblock %}

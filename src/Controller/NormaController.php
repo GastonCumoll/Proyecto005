@@ -16,6 +16,7 @@ use App\Entity\Relacion;
 use App\Entity\TipoNorma;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
+use App\Form\BusquedaType;
 use App\Form\CircularType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
@@ -107,6 +108,55 @@ class NormaController extends AbstractController
         
         
         
+    }
+
+    /**
+     * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
+     */
+    public function busquedaRapida(NormaRepository $normaRepository,$palabra):Response
+    {
+        //dd($palabra);
+        
+        $palabra=str_replace("§","/",$palabra);
+
+        //$palabra es el string que quiero buscar
+        $titulosDeNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        //return new JsonResponse($titulosDeNormas);
+
+        return $this->render('busqueda/busquedaRapida.html.twig', [
+            'normas' => $titulosDeNormas,
+        ]);
+        
+    }
+
+    /**
+     * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
+     */
+    public function busquedaAvanzada(NormaRepository $normaRepository,Request $request):Response
+    {
+
+        $form = $this->createForm(BusquedaType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+        $titulo=$form->get('titulo')->getData();
+        $tipo=$form->get('tipo')->getData();
+        $numero=$form->get('numero')->getData();
+        $año=$form->get('anio')->getData();
+        $etiquetas=$form->get('etiquetas')->getData();
+
+        return $this->renderForm('busqueda/resultadoBusquedaA.html.twig', [
+            
+            'form' => $form,
+        ]);
+        
+
+        }
+        return $this->renderForm('busqueda/busquedaAvanzada.html.twig', [
+            
+            'form' => $form,
+        ]);
     }
 
     /**

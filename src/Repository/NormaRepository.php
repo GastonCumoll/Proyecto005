@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Norma|null findOneBy(array $criteria, array $orderBy = null)
  * @method Norma[]    findAll()
  * @method Norma[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * 
  */
 class NormaRepository extends ServiceEntityRepository
 {
@@ -35,6 +36,13 @@ class NormaRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findUnaPalabraDentroDelTitulo($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->orderBy('p.titulo','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
 
     /*
     public function findOneBySomeField($value): ?Norma

@@ -3,9 +3,9 @@
 {% block title %}Inicio Administracion{% endblock %}
 {% block body %}
 
-<div class="container mt-3 mb-3">
-    <div class="card text-center shadow mb-5 bg-white rounded">
-        <div class="card-body" >
+<div class="container mt-3 mb-3" id="containerC">
+    <div class="card shadow mb-5 bg-white rounded">
+        <div class="card-body text-center" >
         <h1> Bienvenido al digesto de la ciudad de Paraná  </h1>
         <a class="btn btn-primary" type="button" href="{{ path('login')  }}">
             Ingresar
@@ -13,7 +13,23 @@
         <a class="btn btn-primary" type="button" href="{{ path('indice')  }}">
             Digesto
         </a>
+        
+        <div class="input-group float-right">
+            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Busqueda por titulo" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+            <div class="input-group-prepend">
+                <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="far fa-search"></i></button>
+                </div>
+                
+            </div>
+        {# <form class="form-inline my-2 my-lg-0 float-right" >
+            <input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form> #}
         </div>
     </div>
 </div>
+{% block javascripts %}
+{{ parent() }}
+{{encore_entry_script_tags('busquedaJs')}}
+{% endblock %}
 {% endblock %}
