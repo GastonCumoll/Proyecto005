@@ -20,9 +20,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class IndiceController extends AbstractController
 {
     /**
-     * @Route("/", name="indice", methods={"GET"})
+     * @Route("/Vigentes", name="indice_vigente", methods={"GET"})
      */
-    public function index(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
+    public function indexVigente(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -36,9 +36,35 @@ class IndiceController extends AbstractController
         }else {
             $rol="";
         }
+        $items=$items->findByNombre("NORMAS VIGENTES");//los items vigetes
+
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
-            'normas' => $normaRepository->findAll(),
-            'items' => $items->findAll(),
+            //'normas' => $normaRepository->findAll(),
+            'items' => $items,
+            'rol' => $rol,
+        ]);
+    }
+    /**
+     * @Route("/NoVigentes", name="indice_no_vigente", methods={"GET"})
+     */
+    public function indexNoVigente(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
+    {
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $items=$items->findByNombre("NORMAS NO VIGENTES");
+        return $this->render('indiceDigesto/indiceDigesto.html.twig', [
+            //'normas' => $normaRepository->findAll(),
+            'items' => $items,
             'rol' => $rol,
         ]);
     }

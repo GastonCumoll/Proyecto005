@@ -7,11 +7,14 @@
     <div class="card shadow mb-5 bg-white rounded">
         <div class="card-body text-center" >
         <h1> Bienvenido al digesto de la ciudad de Paraná  </h1>
-        <a class="btn btn-primary" type="button" href="{{ path('login')  }}">
-            Ingresar
+        <a class="btn btn-primary" type="button" href="{{ path('indice_vigente')  }}">
+            Normas vigentes
         </a>
-        <a class="btn btn-primary" type="button" href="{{ path('indice')  }}">
-            Digesto
+        <a class="btn btn-primary" type="button" href="{{ path('indice_no_vigente')  }}">
+            Normas no vigentes
+        </a>
+        <a class="btn btn-primary" type="button" href="{{ path('busqueda_avanzada')  }}">
+            Busqueda avanzada
         </a>
         
         <div class="input-group float-right">
@@ -21,10 +24,7 @@
                 </div>
                 
             </div>
-        {# <form class="form-inline my-2 my-lg-0 float-right" >
-            <input class="form-control mr-sm-2" name="busqueda" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form> #}
+
         </div>
     </div>
 </div>

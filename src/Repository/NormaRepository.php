@@ -44,6 +44,22 @@ class NormaRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findUnNumero($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.numero LIKE :numero')->setParameter('numero','%'.$palabra.'%')->orderBy('p.titulo','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
+
+    public function findUnAño($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$palabra.'%')->orderBy('p.titulo','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
+
+
+
     /*
     public function findOneBySomeField($value): ?Norma
     {

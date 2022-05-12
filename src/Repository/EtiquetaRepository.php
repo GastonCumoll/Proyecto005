@@ -35,6 +35,12 @@ class EtiquetaRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findUnaEtiqueta($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.nombre LIKE :etiqueta')->setParameter('etiqueta','%'.$palabra.'%')->orderBy('p.nombre','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
 
     /*
     public function findOneBySomeField($value): ?Etiqueta

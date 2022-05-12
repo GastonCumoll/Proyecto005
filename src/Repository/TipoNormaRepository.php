@@ -19,6 +19,12 @@ class TipoNormaRepository extends ServiceEntityRepository
         parent::__construct($registry, TipoNorma::class);
     }
 
+    public function findUnTipo($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.nombre = :tipoNorma')->setParameter('tipoNorma','%'.$palabra.'%')->orderBy('p.nombre','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
     // /**
     //  * @return TipoNorma[] Returns an array of TipoNorma objects
     //  */

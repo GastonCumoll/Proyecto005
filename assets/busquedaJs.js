@@ -13,23 +13,18 @@ $(document).ready(function(){
         const palabraNueva=idPalabra.replace('/','§');
         var urlController="/norma/"+palabraNueva+"/busquedaRapida";
         window.location.href = urlController
-        // $.ajax({
-        //     method: 'POST',
-        //     url: urlController,
-        //     success: ,
-        // })
-        
         }
+
         $("#botonLupita").click(function(){
             //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
             var id=document.getElementById("busquedaRapida");
             
             var idPalabra=id.value;
             const palabraNueva=idPalabra.replace('/','§');
+            
             var urlController="/norma/"+palabraNueva+"/busquedaRapida";
             window.location.href = urlController
         })
-
         })
         //$("#busquedaRapida").keyup(function(){
             //me va trayendo las coincidencias

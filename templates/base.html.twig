@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% endblock %}
     {% block addStyleSheets %}
-    {{ encore_entry_link_tags('base') }}
+    {# {{ encore_entry_link_tags('base') }} #}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('boton') }} 
     {% endblock %}
@@ -37,10 +37,10 @@
 
         <nav class="navbar navbar-expand-lg  navbar-light bg-white" id="nav">
             <div class="d-flex flex-grow-1">
-                <a class="navbar-brand" href="{{ path('indice') }}" >
+                <a class="navbar-brand" href="{{ path('inicio') }}" >
                     <img src="{{asset('/municipalidad.png')}}" width="173" height="auto" alt="">
                 </a>
-
+                
 
                 <div class="w-100 mt-auto mb-auto text-right">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
@@ -48,33 +48,28 @@
                     </button>
                 </div>
             </div>
+            <div >
+                
+                    <h3 class="text-center mt-2">Digesto Paraná</h3>
+                
+            </div>
+            
             <div class="collapse navbar-collapse text-right" id="myNavbar">
                 <ul class="navbar-nav ml-auto">
-
-
+                {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="false">Normas</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-user">{{ app.session.get('username')}}</i>
+                        </a>
                         <div class="dropdown-menu text-right border-right-0 border-left-0">
-                            <a class="dropdown-item cargando" href="{{ path('norma_nueva') }}"
-                                style="font-size: 12px !important;">Alta de norma</a>
-
-                            <!--  <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item cargando" href="{#{{ path('sellado_index') }}#}" style="font-size: 12px !important;">Controlar Uso</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item cargando" href="{#{{ path('clase_registro_conducir_index') }}#}" style="font-size: 12px !important;">Consultar Ordenes</a>
-                                    <div class="dropdown-divider"></div>
-                                    -->
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item cargando" href="{{ path('tipo_norma_new') }}"
-                                style="font-size: 12px !important;">Crear tipo de norma</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item cargando" href="{{ path('logout') }}"
-                                style="font-size: 12px !important;">Salir</a>
-                            <div class="dropdown-divider"></div>
-
-                            </a></li>
-                        </div>
+                            <a class="dropdown-item cargando" href="{{ path('logout') }}"style="font-size: 12px !important;">Salir</a>
+                        
+                    </li>
+                    {% else %}
+                        <a class="btn btn-info" type="button" href="{{ path('login') }}"><i class="far fa-user">Ingresar</i></a>
+                {% endif %}
+                </ul>
+            </div>
 
                             
                             {# <div class="dropdown-divider"></div>

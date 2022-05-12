@@ -3,6 +3,8 @@ twig:
     form_themes:
         - '@KMSFroalaEditor/Form/froala_widget.html.twig'
         - 'bootstrap_4_layout.html.twig'
+    globals:
+        usuario: '@App\Service\SeguridadService'
 
 when@test:
     twig:

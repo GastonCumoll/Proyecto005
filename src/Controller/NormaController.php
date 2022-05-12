@@ -63,9 +63,22 @@ class NormaController extends AbstractController
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
-    public function index(NormaRepository $normaRepository): Response
+    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request): Response
     {   
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         return $this->render('norma/index.html.twig', [
+            'rol' => $rol,
             'normas' => $normaRepository->findAll(),
         ]);
     }
@@ -113,18 +126,43 @@ class NormaController extends AbstractController
     /**
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaRapida(NormaRepository $normaRepository,$palabra):Response
+    public function busquedaRapida(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad):Response
     {
         //dd($palabra);
         
         $palabra=str_replace("§","/",$palabra);
+        // $normas=[];
+        // if(str_contains($palabra," ")){
+        //     $palabrasSeparadas=explode(" ",$palabra);
+        //     foreach ($palabrasSeparadas as $unaPalabraSeparada) {
+        //         $normas=array_merge($normas,$normaRepository->findUnaPalabraDentroDelTitulo($unaPalabraSeparada));
+        //     }
+        //     //$normasSeparadas=$normaRepository->findPorVariasPalabras();
+        // }else{
+        //     //$palabra es el string que quiero buscar
+        //     $normas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        // }
 
+        // $normas=array_unique($normas);
         //$palabra es el string que quiero buscar
-        $titulosDeNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
-        //return new JsonResponse($titulosDeNormas);
+        $normas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
 
-        return $this->render('busqueda/busquedaRapida.html.twig', [
-            'normas' => $titulosDeNormas,
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
+        return $this->render('busqueda/busqueda.html.twig', [
+            'normas' => $normas,
+            'rol' => $rol
         ]);
         
     }
@@ -132,29 +170,129 @@ class NormaController extends AbstractController
     /**
      * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
      */
-    public function busquedaAvanzada(NormaRepository $normaRepository,Request $request):Response
+    public function busquedaAvanzada(TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {
-
+        $normasMerged=[];
+        $normasEtiquetas=[];
+        $normas=[];
+        $nTitulo = [];
+        $nTipo = [];
+        $nNumero = [];
+        $nAño = [];
+        $nEtiqueta = [];
         $form = $this->createForm(BusquedaType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
-        $titulo=$form->get('titulo')->getData();
-        $tipo=$form->get('tipo')->getData();
-        $numero=$form->get('numero')->getData();
-        $año=$form->get('anio')->getData();
-        $etiquetas=$form->get('etiquetas')->getData();
+            $titulo = $form->get('titulo')->getData();
+            $tipo = $form->get('tipo')->getData();
+            $numero = $form->get('numero')->getData();
+            $año = $form->get('anio')->getData();
+            $etiquetas = $form->get('etiquetas')->getData();
 
-        return $this->renderForm('busqueda/resultadoBusquedaA.html.twig', [
-            
-            'form' => $form,
-        ]);
-        
+            if($etiquetas!=null){
+                $em=$etiquetaRepository->findUnaEtiqueta($etiquetas);//todas las etiquetas que tienen "$etiquetas" contenido en su nombre
+                //$em array de objetos etiquetas;
+                $cualquiera=[];
+                foreach ($em as $unaEtiqueta) {
+                    //$unaEtiqueta=(id,nombre y normas)
+                    $cualquiera=$unaEtiqueta->getNormas()->toArray();
+                    $normasMerged=array_merge($normasMerged,$cualquiera);
+                }
+            }
+            if($tipo != null){
+                $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo);
+                $nTipo=$tipoNorma->getNormas()->toArray();
+                
 
+                
+            }
+
+            if(($titulo != null)){
+
+                //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
+
+                $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
+                $normas=$nTitulo;
+                if(($tipo!=null)){
+                    
+                    $normas=array_intersect($normas,$nTipo);
+                }
+                if($numero!=null){
+                    $nNumero=$normaRepository->findUnNumero($numero);
+                    $normas=array_intersect($normas,$nNumero);
+                }
+                if($año != null){
+                    $nAño=$normaRepository->findUnAño($año);
+                    $normas=array_intersect($normas,$nAño);
+                }
+                if($normasMerged!=null){
+                    $normas=array_intersect($normas,$normasMerged);
+                }
+            }
+            else{
+                    if(($tipo!=null)){
+                        
+                        $normas=$nTipo;
+                        if($numero!=null){
+                            $nNumero=$normaRepository->findUnNumero($numero);
+                            $normas=array_intersect($normas,$nNumero);
+                        }
+                        if($año != null){
+                            $nAño=$normaRepository->findUnAño($año);
+                            $normas=array_intersect($normas,$nAño);
+                        }
+                        if($normasMerged!=null){
+                            $normas=array_intersect($normas,$normasMerged);
+                        }
+                }
+                else{
+                        if($numero!=null){
+                            $nNumero=$normaRepository->findUnNumero($numero);
+                            $normas=$nNumero;
+                            if($año != null){
+                                $nAño=$normaRepository->findUnAño($año);
+                                $normas=array_intersect($normas,$nAño);
+                            }
+                            if($normasMerged!=null){
+                                $normas=array_intersect($normas,$normasMerged);
+                            }
+                        }
+                        else{
+                            if($año != null){
+                                $nAño=$normaRepository->findUnAño($año);
+                                $normas=$nAño;
+                            }
+                            else{
+                                if($normasMerged!=null){
+                                    $normas=$normasMerged;
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+
+                $sesion=$this->get('session');
+                $idSession=$sesion->get('session_id')*1;
+                if($seguridad->checkSessionActive($idSession)){
+                    
+                    // dd($idSession);
+                    $roles=json_decode($seguridad->getListRolAction($idSession), true);
+                    // dd($roles);
+                    $rol=$roles[0]['id'];
+                    // dd($rol);
+                }else {
+                    $rol="";
+                }
+
+            return $this->renderForm('busqueda/busqueda.html.twig', [
+                'normas' => $normas,
+                'rol' => $rol,
+            ]);
         }
         return $this->renderForm('busqueda/busquedaAvanzada.html.twig', [
-            
             'form' => $form,
         ]);
     }

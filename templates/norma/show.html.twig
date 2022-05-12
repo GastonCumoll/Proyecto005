@@ -1,18 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Norma{% endblock %}
-{% block addStyleSheets %}
-{{ encore_entry_link_tags('boton') }}
-
-{% endblock %}
-{% block body %}
-
-{{ parent() }}    
-
-
-    
+{# {% block addStyleSheets %}
+{# {{ encore_entry_link_tags('boton') }} #}
+{# {{ parent() }}    #}
+{#{% endblock %} #}
+{% block body %}    
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
+            {% if norma.numero != null  %}
             <div class="card-header">
                 <h4>
                     <th>{{norma.tipoNorma.nombre}} N° </th>
@@ -20,36 +16,35 @@
                 {{ norma.numero }}
                 </h4>
             </div>
+            {% endif %}
+            
             <div class="card-body">
-                <h5 class="card-title text-left">{{ norma.titulo }}</h5>
-                <p class="card-text text-left">Fecha de sansión: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                <h5 class="card-title text-center">{{ norma.titulo }}</h5>
+                <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
-                <p class="card-text text-left">Resumen: </p>
-                <p class="card-text text-left">{{ norma.resumen }}</p>
+                <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
+                
                 <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary" >Ver texto ordenado</a>
                 <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
+                <br>
                 <br>
                 
 
                 <div class="container">
                     <div class="row mt-1">
-                        <div class="col-3 mt-4  text-left">
-                            <a href="{{ path('indice') }}">
-                        <button type="button" class="btn btn-primary">  <i class="fas fa-arrow-left"></i> Volver</button> 
-                    </a>
-                        </div>
+                        
                         {% if rol == "DIG_OPERADOR" %}
-                            <div class="col-3 mt-4  text-center">
+                            <div class="col-4 mt-3  text-center">
                         <button type="button" class="btn btn-success" value="{{norma.id}}" id="editar">Editar   </button> 
                     </a>
                         </div>
-                        <div class="col-3 mt-4  text-center">
+                        <div class="col-4 mt-3  text-center">
                             <a href="{{ path('form_rela_edit', {'id': norma.id}) }} ">
                             <button type="button" class="btn btn-success"> Agregar relacion</button> 
                         </a>
                         
                             </div>
-                        <div class="col-3 mt-4  text-right">
+                        <div class="col-4 mt-3  text-right">
                         {{ include('norma/_delete_form.html.twig') }}
                         </div>
                         {% endif %}
@@ -64,7 +59,9 @@
                         <tr>
                             <th scope="col">Relacion</th>
                             <th scope="col">Norma</th>
+                            {% if rol == "DIG_OPERADOR" %}
                             <th scope="col">Edit</th>
+                            {% endif %}
                         </tr>
                     </thead>
                             {% for rela in relacion %}
@@ -72,7 +69,9 @@
                                 <tr>
                                     <td>{{rela.getTipoRelacion.getNombre}}</td>
                                     <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                    {% if rol == "DIG_OPERADOR" %}
                                     <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
+                                    {% endif %}
                                 </tr>
                                 <tr>
                                     <td>Observaciones</td>
@@ -88,20 +87,21 @@
                     <h5 class="card-title text-center ">Archivos adjuntos</h5>
                     {% for unPdf in norma.archivos %}
                 <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
-                <br>
+                
                 
             {% endfor %}
                 </div>
             </div>
+            <div class="col-3 mt-4  text-left">
+                <a href="{{ path('inicio') }}">
+            <button type="button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Volver</button> 
+        </a>
+            </div>
         </div>
-    {#<a href="{{path('agregar_relacion', {'id': norma.id})  }}">agregar relacion</a>#}
-
-{% endblock %}
+        </div>
+    </div>
 {% block javascripts %}
-
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}
-
-
-
     {% endblock  %}  
+{% endblock %}
