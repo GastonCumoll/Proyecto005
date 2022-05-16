@@ -131,21 +131,11 @@ class NormaController extends AbstractController
         //dd($palabra);
         
         $palabra=str_replace("§","/",$palabra);
-        // $normas=[];
-        // if(str_contains($palabra," ")){
-        //     $palabrasSeparadas=explode(" ",$palabra);
-        //     foreach ($palabrasSeparadas as $unaPalabraSeparada) {
-        //         $normas=array_merge($normas,$normaRepository->findUnaPalabraDentroDelTitulo($unaPalabraSeparada));
-        //     }
-        //     //$normasSeparadas=$normaRepository->findPorVariasPalabras();
-        // }else{
-        //     //$palabra es el string que quiero buscar
-        //     $normas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
-        // }
-
-        // $normas=array_unique($normas);
+        
+        // 
         //$palabra es el string que quiero buscar
         $normas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        $normas=array_unique($normas);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -159,8 +149,9 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-
+        $cant=count($normas);
         return $this->render('busqueda/busqueda.html.twig', [
+            'cant' =>$cant,
             'normas' => $normas,
             'rol' => $rol
         ]);
@@ -172,7 +163,7 @@ class NormaController extends AbstractController
      */
     public function busquedaAvanzada(TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {
-        $normasMerged=[];
+        $normasEtiquetasMerged=[];
         $normasEtiquetas=[];
         $normas=[];
         $nTitulo = [];
@@ -180,6 +171,8 @@ class NormaController extends AbstractController
         $nNumero = [];
         $nAño = [];
         $nEtiqueta = [];
+        $etiquetas = [];
+        $nombreEtiqueta=[];
         $form = $this->createForm(BusquedaType::class);
         $form->handleRequest($request);
 
@@ -188,25 +181,36 @@ class NormaController extends AbstractController
             $tipo = $form->get('tipo')->getData();
             $numero = $form->get('numero')->getData();
             $año = $form->get('anio')->getData();
-            $etiquetas = $form->get('etiquetas')->getData();
+            $etiquetasDeForm = $form['etiquetas']->getData();
 
-            if($etiquetas!=null){
-                $em=$etiquetaRepository->findUnaEtiqueta($etiquetas);//todas las etiquetas que tienen "$etiquetas" contenido en su nombre
-                //$em array de objetos etiquetas;
-                $cualquiera=[];
-                foreach ($em as $unaEtiqueta) {
-                    //$unaEtiqueta=(id,nombre y normas)
-                    $cualquiera=$unaEtiqueta->getNormas()->toArray();
-                    $normasMerged=array_merge($normasMerged,$cualquiera);
+
+            
+            //seccion etiquetas
+            if($etiquetasDeForm[0]!=null){
+                foreach ($etiquetasDeForm as $e) {
+                    $nombreEtiqueta[]=$e->getNombre();
+
                 }
+
+                    $arrayEtiquetas=[];
+                    foreach ($nombreEtiqueta as $unaEtiquetaSeparada) {
+                        //$unaEtiquetaSeparada=trim($unaEtiquetaSeparada);
+                        $arrayEtiquetas=array_merge($arrayEtiquetas,$etiquetaRepository->findUnaEtiqueta($unaEtiquetaSeparada));
+                        
+                        foreach ($arrayEtiquetas as $unaEtiqueta) {
+                            $normasDeUnaEtiqueta=$unaEtiqueta->getNormas()->toArray();
+                            
+                            $normasEtiquetasMerged=array_merge($normasDeUnaEtiqueta,$normasEtiquetasMerged);
+                        }
+                    }
             }
+            $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
+            //seccion tipo
             if($tipo != null){
                 $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo);
                 $nTipo=$tipoNorma->getNormas()->toArray();
-                
-
-                
             }
+
 
             if(($titulo != null)){
 
@@ -226,8 +230,8 @@ class NormaController extends AbstractController
                     $nAño=$normaRepository->findUnAño($año);
                     $normas=array_intersect($normas,$nAño);
                 }
-                if($normasMerged!=null){
-                    $normas=array_intersect($normas,$normasMerged);
+                if($normasEtiquetasMerged!=null){
+                    $normas=array_intersect($normas,$normasEtiquetasMerged);
                 }
             }
             else{
@@ -242,8 +246,8 @@ class NormaController extends AbstractController
                             $nAño=$normaRepository->findUnAño($año);
                             $normas=array_intersect($normas,$nAño);
                         }
-                        if($normasMerged!=null){
-                            $normas=array_intersect($normas,$normasMerged);
+                        if($normasEtiquetasMerged!=null){
+                            $normas=array_intersect($normas,$normasEtiquetasMerged);
                         }
                 }
                 else{
@@ -254,8 +258,8 @@ class NormaController extends AbstractController
                                 $nAño=$normaRepository->findUnAño($año);
                                 $normas=array_intersect($normas,$nAño);
                             }
-                            if($normasMerged!=null){
-                                $normas=array_intersect($normas,$normasMerged);
+                            if($normasEtiquetasMerged!=null){
+                                $normas=array_intersect($normas,$normasEtiquetasMerged);
                             }
                         }
                         else{
@@ -264,8 +268,8 @@ class NormaController extends AbstractController
                                 $normas=$nAño;
                             }
                             else{
-                                if($normasMerged!=null){
-                                    $normas=$normasMerged;
+                                if($normasEtiquetasMerged!=null){
+                                    $normas=$normasEtiquetasMerged;
                                 }
                             }
                         }
@@ -286,8 +290,9 @@ class NormaController extends AbstractController
                 }else {
                     $rol="";
                 }
-
+                $cant=count($normas);
             return $this->renderForm('busqueda/busqueda.html.twig', [
+                'cant' =>$cant,
                 'normas' => $normas,
                 'rol' => $rol,
             ]);

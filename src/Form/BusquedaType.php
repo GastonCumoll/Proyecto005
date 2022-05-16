@@ -27,6 +27,7 @@ class BusquedaType extends AbstractType
     // }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         // $etiquetas = $options['etiquetas']; // $etiquetas es un array
         // $etiquetasChoices = array();
         // foreach($etiquetas as $etiqueta) {
@@ -54,20 +55,22 @@ class BusquedaType extends AbstractType
                 'label' => 'Año'
                 ])
             ->add('etiquetas',EntityType::class,[
-                // 'class' => Etiqueta::class,
+                'class' => Etiqueta::class,
                 'required' => false,
-                'mapped' => false,
-                // 'query_builder' => function(EtiquetaRepository $etiquetaRepository){
-                //     return $etiquetaRepository->findAll();
-                // },
+                
+                'query_builder' => function(EtiquetaRepository $etiquetaRepository){
+                    return $etiquetaRepository->createQueryBuilder('nombre')->orderBy('nombre.nombre', 'ASC');
+                },
+                'choice_label' => 'nombre',
+                'multiple' => true,
                 ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         // $resolver->setDefaults([
-        //     'data_class' => EtiquetaRepository::class,
+        //     'data_class' => Etiqueta::class,
         // ]);
     }
 }

@@ -9,8 +9,9 @@
 <a type="button" href="{{ path('norma_nueva') }}">Create new</a>
 
 {% endif %}
-
-    {% for norma in normas %}
+<h5>Normas encontradas: {{cant}}</h5>
+{% if normas != null %}
+{% for norma in normas %}
     <div class="container mt-2 mb-2">
         <div class="card text-center shadow mb-2 bg-white rounded">
             <div class="card-body text-left" >
@@ -19,6 +20,11 @@
         </div>
     </div>
         {% endfor %}
+        {% else %}
+            <h1>No se encontraron normas con su criterio de busqueda...</h1>
+            <a type="button" href="{{path('busqueda_avanzada')}}">Buscar nuevamente</a>
+{% endif %}
+    
 
     
     
