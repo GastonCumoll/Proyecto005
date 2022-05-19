@@ -3,14 +3,28 @@
 {% block title %}Item index{% endblock %}
 
 {% block body %}
-    <h1>Item index</h1>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{% if rol == "DIG_OPERADOR" %}
+<br>
+<a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-dark btn-sm"> Alta de Item</button> </a>
+<br>
+{% endif %}
 
-    <table class="table">
+{% for item in items %}
+    <div class="container mt-2 mb-2">
+        <div class="card text-center shadow mb-2 bg-white rounded">
+            <div class="card-body text-left" >
+                <a  href="{{path('item_show', {'id': item.id})  }}">{{ item.nombre }}</a>
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+
+    {# <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                <th>Orden</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,7 +33,6 @@
             <tr>
                 <td>{{ item.id }}</td>
                 <td>{{ item.nombre }}</td>
-                <td>{{ item.orden }}</td>
                 <td>
                     <a href="{{ path('item_show', {'id': item.id}) }}">show</a>
                     <a href="{{ path('item_edit', {'id': item.id}) }}">edit</a>
@@ -31,7 +44,14 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table> #}
+
+    
+
+    
+
+    
+    
 
     <a href="{{ path('item_new') }}">Create new</a>
 {% endblock %}

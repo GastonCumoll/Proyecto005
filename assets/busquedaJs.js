@@ -4,6 +4,7 @@ import './app.js';
 import 'bootstrap';
 
 $(document).ready(function(){
+
     $("#busquedaRapida").keypress(function(event){
         //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
         var keycode=(event.keyCode ? event.keyCode : event.which);
@@ -14,7 +15,7 @@ $(document).ready(function(){
         var urlController="/norma/"+palabraNueva+"/busquedaRapida";
         window.location.href = urlController
         }
-
+        })
         $("#botonLupita").click(function(){
             //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
             var id=document.getElementById("busquedaRapida");
@@ -24,7 +25,6 @@ $(document).ready(function(){
             
             var urlController="/norma/"+palabraNueva+"/busquedaRapida";
             window.location.href = urlController
-        })
         })
         //$("#busquedaRapida").keyup(function(){
             //me va trayendo las coincidencias

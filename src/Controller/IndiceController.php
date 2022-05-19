@@ -22,7 +22,7 @@ class IndiceController extends AbstractController
     /**
      * @Route("/Vigentes", name="indice_vigente", methods={"GET"})
      */
-    public function indexVigente(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
+    public function indexVigente(ItemRepository $itemRepo, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -36,8 +36,11 @@ class IndiceController extends AbstractController
         }else {
             $rol="";
         }
-        $items=$items->findByNombre("NORMAS VIGENTES");//los items vigetes
-
+        $item=$itemRepo->findByNombre("NORMAS VIGENTES");//los items vigentes
+        foreach ($item as $unItem) {
+            $items=$unItem->getDependencias();
+        }
+        
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             //'normas' => $normaRepository->findAll(),
             'items' => $items,
@@ -47,7 +50,7 @@ class IndiceController extends AbstractController
     /**
      * @Route("/NoVigentes", name="indice_no_vigente", methods={"GET"})
      */
-    public function indexNoVigente(ItemRepository $items, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
+    public function indexNoVigente(ItemRepository $itemRepo, NormaRepository $normaRepository,Request $request, SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -61,7 +64,10 @@ class IndiceController extends AbstractController
         }else {
             $rol="";
         }
-        $items=$items->findByNombre("NORMAS NO VIGENTES");
+        $item=$itemRepo->findByNombre("NORMAS NO VIGENTES");//los items vigentes
+        foreach ($item as $unItem) {
+            $items=$unItem->getDependencias();
+        }
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             //'normas' => $normaRepository->findAll(),
             'items' => $items,

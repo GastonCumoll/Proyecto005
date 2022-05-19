@@ -5,88 +5,7 @@
 
 {{ parent() }}
 
-{# funcion recursiva macro para acomodar el arbol #}
-{# {% macro recursiveItem(subitem) %}
 
-<div class="accordion" id="accordionSubitem{{subitem.getId()}}">
-    {% if subitem.getDependencias != null %}
-        {% for unSubitem in subitem.getDependencias %}
-            <div class="card ml-5 mr-5" >
-                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
-                            {{unSubitem.nombre}} 
-                            <div class="text-right">
-                                <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
-                            </div>
-                        </button>
-                        <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
-                            Editar
-                        </a>
-                        <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
-                            Eliminar
-                        </a>
-                    </h2>
-                </div>
-                <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
-                    {{ _self.recursiveItem(unSubitem) }}
-                </div>
-            </div>
-        {% endfor %}
-        {% if subitem.getNormas()|length >= 1 %}
-            <div class="card ml-5 mr-5" >
-                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
-                    <h2 class="mb-0">
-                        <h5><a id="scroll" href="#item"><button class="valor123 btn btn-light" type="button" value="{{subitem.getId()}}">Ver normas realcionadas con "{{subitem.nombre}}"</button></a></h5>
-                    </h2>
-                </div>
-            </div>
-        {% endif %}
-    {% endif %}
-</div>
-
-{% endmacro %}
-
-{% if items %}
-    <div class="container ">
-        <div class="accordion" id="accordionItem">
-            {% for unItem in items %}
-                {% if (unItem.padre == null) %}
-                    <div class="card">
-                        <div class="card-header"  id="headingItem{{unItem.getId()}}">
-                            
-                                <div >
-                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
-                                        {{unItem.nombre}}
-                                        <div class="text-right">
-                                            <span class="fa-stack fa-sm text-right" ><i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
-                                        </div>
-                                            
-                                        
-                                    </button>
-                                </div>
-                                    
-                                <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
-                                    Editar 
-                                </a>
-                                
-                            
-                        </div>
-                        <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
-                            {{ _self.recursiveItem(unItem) }}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <br>
-        <a class="btn btn-outline-secondary btn-sm ml-1" type="button" href="{{path('item_new')}}">
-            Agregar Item
-        </a>
-    </div>
-{% endif %}  #}
 {% macro recursiveItem(subitem,rol) %}
 
 <div class="accordion" id="accordionSubitem{{subitem.getId()}}">
@@ -130,7 +49,7 @@
     <div class="container ">
         <div class="accordion" id="accordionItem">
             {% for unItem in items %}
-                {% if (unItem.padre == null) %}
+                {# {% if (unItem.padre == null) %} #}
                     <div class="card">
                         <div class="card-header"  id="headingItem{{unItem.getId()}}">
                                 <div class="">
@@ -160,7 +79,7 @@
                             {{ _self.recursiveItem(unItem,rol) }}
                         </div>
                     </div>
-                {% endif %}
+                {# {% endif %} #}
             {% endfor %}
         </div>
     </div>

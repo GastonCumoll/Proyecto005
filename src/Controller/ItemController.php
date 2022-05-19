@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Item;
 use App\Form\ItemType;
+use App\Service\SeguridadService;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,10 +22,23 @@ class ItemController extends AbstractController
     /**
      * @Route("/", name="item_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository): Response
+    public function index(ItemRepository $itemRepository,Request $request, SeguridadService $seguridad): Response
     {
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         return $this->render('item/index.html.twig', [
             'items' => $itemRepository->findAll(),
+            'rol' =>$rol,
         ]);
     }
     

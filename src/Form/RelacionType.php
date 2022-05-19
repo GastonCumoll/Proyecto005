@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Norma;
 use App\Entity\Relacion;
 use App\Entity\TipoRelacion;
+use App\Repository\NormaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,7 +19,15 @@ class RelacionType extends AbstractType
     {
         $builder
             ->add('norma')
-            ->add('complementada')
+            ->add('complementada',EntityType::class,[
+                'class' => Norma::class,
+                'query_builder' =>function(NormaRepository $normaRepo){
+                    return $normaRepo->createQueryBuilder('norma')->orderBy('norma.titulo','ASC');
+                },
+                'choice_label' => 'titulo',
+                'multiple' => false,
+                'required' => true
+            ])
             ->add('tipoRelacion',EntityType::class,[
                 'class' => TipoRelacion::class,
                 'placeholder' => '',

@@ -3,45 +3,9 @@
 {% block title %}Inicio Administracion{% endblock %}
 {% block body %}
 
-<div class="barraNavegacion">
-    <ul class="nav nav-pills">
 
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ path('norma_nueva') }}">Alta de norma</a>
-                <a class="dropdown-item" href="{{ path('norma_index') }}">Ver normas</a>
-            </div>
-        </li>
-    
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Índice</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ path('item_new') }}">Alta item de índice</a>
-                <a class="dropdown-item" href="{{ path('item_index') }}">Ver índice</a>
-            </div>
-        </li>
-        
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Parametros</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ path('etiqueta_index') }}">Etiquetas</a>
-                <a class="dropdown-item" href="{{ path('tipo_relacion_index') }}">Relaciones</a>
-                <a class="dropdown-item" href="{{ path('tipo_norma_index') }}">Tipos de norma</a>
-            </div>
-        </li>
-        <div class="input-group float-right ml-auto mr-2">
-            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Busqueda por titulo" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-            <div class="input-group-prepend">
-                <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="far fa-search"></i></button>
-                </div>
-                
-            </div>
-        
-    </ul>
-    </div>
-    {% block javascripts %}
-{{ parent() }}
-{{encore_entry_script_tags('busquedaJs')}}
-{% endblock %}
+<body>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+</body>
+
 {% endblock %}

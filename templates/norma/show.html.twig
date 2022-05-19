@@ -87,13 +87,12 @@
                     <h5 class="card-title text-center ">Archivos adjuntos</h5>
                     {% for unPdf in norma.archivos %}
                 <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
-                
-                
             {% endfor %}
                 </div>
             </div>
+            
             <div class="col-3 mt-4  text-left">
-                <a href="{{ path('inicio') }}">
+                <a href="{{app.request.headers.get('referer')}}">
             <button type="button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Volver</button> 
         </a>
             </div>

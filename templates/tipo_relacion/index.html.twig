@@ -3,24 +3,28 @@
 {% block title %}TipoRelacion index{% endblock %}
 
 {% block body %}
-    <h1>TipoRelacion index</h1>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+    <h1>Tipos de Relaciones</h1>
 
-    <table class="table">
-        <thead>
+    <a href="{{ path('tipo_relacion_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de relacion</button> </a>
+    <br>
+    <br>
+    <table class="table table-hover table-sm table-bordered ">
+        <thead class="table-dark">
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>actions</th>
+                <th>Descripcion</th>
+                <th>acciones</th>
             </tr>
         </thead>
         <tbody>
-        {% for tipo_relacion in tipo_relacions %}
+            {% for tipo_relacion in tipo_relacions %}
             <tr>
-                <td>{{ tipo_relacion.id }}</td>
-                <td>{{ tipo_relacion.nombre }}</td>
+
                 <td>
-                    <a href="{{ path('tipo_relacion_show', {'id': tipo_relacion.id}) }}">show</a>
-                    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}">edit</a>
+                    <a href="{{ path('tipo_relacion_show', {'id': tipo_relacion.id}) }}">{{tipo_relacion.nombre}}</a>
+                </td>
+                <td>
+                    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}">editar</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tipo_relacion_new') }}">Create new</a>
+    
 {% endblock %}

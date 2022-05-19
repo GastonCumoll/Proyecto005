@@ -3,23 +3,27 @@
 {% block title %}TipoNorma index{% endblock %}
 
 {% block body %}
-    <h1>TipoNorma index</h1>
-
-    <table class="table">
-        <thead>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+    <h1>Tipos de norma</h1>
+    <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de norma</button> </a>
+    <br>
+    <br>
+    <table class="table table-hover table-sm table-bordered ">
+        <thead class="table-dark">
             <tr>
-                <th>Id</th>
+
                 <th>Nombre</th>
-                <th>actions</th>
+                <th>acciones</th>
             </tr>
         </thead>
         <tbody>
-        {% for tipo_norma in tipo_normas %}
+            {% for tipo_norma in tipo_normas %}
             <tr>
-                <td>{{ tipo_norma.id }}</td>
-                <td>{{ tipo_norma.nombre }}</td>
+
                 <td>
-                    <a href="{{ path('tipo_norma_show', {'id': tipo_norma.id}) }}">show</a>
+                    <a href="{{ path('tipo_norma_show', {'id': tipo_norma.id}) }}">{{tipo_norma.nombre}}</a>
+                </td>
+                <td>
                     <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}">edit</a>
                 </td>
             </tr>
@@ -30,6 +34,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('tipo_norma_new') }}">Create new</a>
+ 
 {% endblock %}

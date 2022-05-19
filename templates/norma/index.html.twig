@@ -3,11 +3,12 @@
 {% block title %}Norma index{% endblock %}
 
 {% block body %}
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
 
 {% if rol == "DIG_OPERADOR" %}
-
-<a type="button" href="{{ path('norma_nueva') }}">Create new</a>
-
+<br>
+<a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-dark btn-sm"> Alta de Norma</button> </a>
+<br>
 {% endif %}
 
     {% for norma in normas %}

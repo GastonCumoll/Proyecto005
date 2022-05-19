@@ -9,10 +9,9 @@ import 'bootstrap/js/dist/collapse';
 
 
 
+
 $(document).ready(function()
         {   
-            
-
             var variable = document.getElementsByClassName("valor123");
             $(".valor123").click(function(){
                 //para obtener el id de un obj colocamos el valor en el atributo value de una etiqueta <button> y no en una etiqueta <a>, porque no devuelve value

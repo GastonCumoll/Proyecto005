@@ -4,12 +4,14 @@ namespace App\Form;
 use App\Entity\Norma;
 
 use App\Entity\Etiqueta;
+use App\Entity\TipoNorma;
 use App\Repository\EtiquetaRepository;
+use App\Repository\TipoNormaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,9 +42,14 @@ class BusquedaType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('tipo',TextType::class,[
+            ->add('tipo',EntityType::class,[
                 'required' => false,
-                'mapped' => false
+                'class' => TipoNorma::class,
+                'query_builder' => function(TipoNormaRepository $tnRep){
+                    return $tnRep->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+                },
+                'choice_label' => 'nombre',
+                'multiple' => false
                 ])
             ->add('numero',TextType::class,[
                 'required' => false,

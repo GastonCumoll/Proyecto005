@@ -27,6 +27,7 @@ Encore
     .addEntry('generarPDF','./assets/generarPDF.js')
     .addEntry('busquedaJs','./assets/busquedaJs.js')
 
+    .addStyleEntry('busquedaAvanzada','/assets/styles/busquedaAvanzada.css')
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
     .addStyleEntry('boton', '/assets/styles/boton.css')

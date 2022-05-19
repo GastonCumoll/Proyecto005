@@ -207,7 +207,8 @@ class NormaController extends AbstractController
             $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
             //seccion tipo
             if($tipo != null){
-                $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo);
+                $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo->getNombre());
+                //dd($tipoNorma);
                 $nTipo=$tipoNorma->getNormas()->toArray();
             }
 
