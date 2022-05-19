@@ -4,27 +4,32 @@
 
 {% block body %}
 <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
-    <h1>Tipos de Relaciones</h1>
+    <h1>Tipos de relaciones</h1>
 
-    <a href="{{ path('tipo_relacion_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de relacion</button> </a>
+    
     <br>
     <br>
-    <table class="table table-hover table-sm table-bordered ">
+    <div class="table-responsive">
+    <table class="table table-hover ">
         <thead class="table-dark">
             <tr>
+                <th>Id</th>
                 <th>Descripcion</th>
-                <th>acciones</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
             {% for tipo_relacion in tipo_relacions %}
             <tr>
-
                 <td>
-                    <a href="{{ path('tipo_relacion_show', {'id': tipo_relacion.id}) }}">{{tipo_relacion.nombre}}</a>
+                    {{tipo_relacion.id}}
                 </td>
                 <td>
-                    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}">editar</a>
+                    {{tipo_relacion.nombre}}
+                </td>
+                <td>
+                    <a href="{{ path('tipo_relacion_edit', {'id': tipo_relacion.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{ path('tipo_relacion_show', {'id': tipo_relacion.id}) }}"><i class="fa-solid fa-binoculars"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -34,6 +39,8 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
+    <br>
+<a href="{{ path('tipo_relacion_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     
 {% endblock %}

@@ -9,22 +9,27 @@
     <a href="{{ path('etiqueta_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Nueva etiqueta</button> </a>
     <br>
     <br>
-
-    <table class="table table-hover table-sm table-bordered ">
-        <thead class="table-dark">
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="table-dark">
             <tr>
+                <th>Id</th>
                 <th>Nombre</th>
-                <th>actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for etiquetum in etiquetas %}
                 <tr>
                     <td>
-                        <a href="{{ path('etiqueta_show', {'id': etiquetum.id}) }}">{{etiquetum.nombre}}</a>
+                        {{etiquetum.id}}
                     </td>
                     <td>
-                        <a href="{{ path('etiqueta_edit', {'id': etiquetum.id}) }}">edit</a>
+                        {{etiquetum.nombre}}
+                    </td>
+                    <td>                        
+                        <a href="{{ path('etiqueta_show', {'id': etiquetum.id}) }}"><i class="fa-solid fa-binoculars"></i></a>
+                        <a href="{{ path('etiqueta_edit', {'id': etiquetum.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                     </td>
                 </tr>
             {% else %}
@@ -34,7 +39,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+    </div>
     
 
     

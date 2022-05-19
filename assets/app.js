@@ -10,6 +10,8 @@
 require('@fortawesome/fontawesome-free/js/all.js');
 import $ from 'jquery';
 
+
+
 global.$ = global.jQuery = $;
 
 import 'bootstrap';

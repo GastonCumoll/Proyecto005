@@ -8,23 +8,25 @@
     <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de norma</button> </a>
     <br>
     <br>
-    <table class="table table-hover table-sm table-bordered ">
-        <thead class="table-dark">
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="table-dark">
             <tr>
-
+                <th>Id</th>
                 <th>Nombre</th>
-                <th>acciones</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for tipo_norma in tipo_normas %}
             <tr>
-
+                <td>{{tipo_norma.id}}</td>
                 <td>
-                    <a href="{{ path('tipo_norma_show', {'id': tipo_norma.id}) }}">{{tipo_norma.nombre}}</a>
+                    {{tipo_norma.nombre}}
                 </td>
                 <td>
-                    <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}">edit</a>
+                    <a href="{{ path('tipo_norma_show', {'id': tipo_norma.id}) }}"><i class="fa-solid fa-binoculars"></i></a>
+                    <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -34,5 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
  
 {% endblock %}

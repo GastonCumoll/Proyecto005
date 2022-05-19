@@ -3,55 +3,50 @@
 {% block title %}Item index{% endblock %}
 
 {% block body %}
+
+
 <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+<h1>Indice</h1>
 {% if rol == "DIG_OPERADOR" %}
-<br>
+
 <a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-dark btn-sm"> Alta de Item</button> </a>
 <br>
 {% endif %}
+<br>
 
-{% for item in items %}
-    <div class="container mt-2 mb-2">
-        <div class="card text-center shadow mb-2 bg-white rounded">
-            <div class="card-body text-left" >
-                <a  href="{{path('item_show', {'id': item.id})  }}">{{ item.nombre }}</a>
-            </div>
-        </div>
-    </div>
-        {% endfor %}
+<div class="table-responsive">
+    <table class="table table-hover ">
+        <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Opciones</th>
 
-    {# <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        </tr>
+    </thead>
+    <tbody>
         {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.nombre }}</td>
-                <td>
-                    <a href="{{ path('item_show', {'id': item.id}) }}">show</a>
-                    <a href="{{ path('item_edit', {'id': item.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table> #}
+        <tr>
 
-    
+            <td>
+                {{item.id}}
+            </td>
+            <td>
+               {{ item.nombre }}
+            </td>
+            <td>
+                <a  href="{{path('item_show', {'id': item.id})  }}"><i class="fa-solid fa-binoculars"></i></a>
+                <a  href="{{path('item_edit', {'id': item.id})  }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            </td>
 
-    
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="3">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
 
-    
-    
-
-    <a href="{{ path('item_new') }}">Create new</a>
 {% endblock %}

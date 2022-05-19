@@ -3,7 +3,9 @@
 {% block title %}New TipoRelacion{% endblock %}
 
 {% block body %}
-    <h1>Create new TipoRelacion</h1>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+
+    <h1>Crear un nuevo tipo de relacion</h1>
 
     {{ include('tipo_relacion/_form.html.twig') }}
 

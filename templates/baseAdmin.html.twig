@@ -6,16 +6,18 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ path('norma_nueva') }}">Alta de norma</a>
-                <a class="dropdown-item" href="{{ path('norma_index') }}">Ver normas</a>
+                <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
+                <a class="dropdown-item" href="{{ path('norma_nueva') }}">Nueva</a>
+                
             </div>
         </li>
     
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Índice</a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ path('item_new') }}">Alta item de índice</a>
-                <a class="dropdown-item" href="{{ path('item_index') }}">Ver índice</a>
+                <a class="dropdown-item" href="{{ path('item_index') }}">Ver todos</a>
+                <a class="dropdown-item" href="{{ path('item_new') }}">Nuevo</a>
+                
             </div>
         </li>
         
@@ -37,7 +39,6 @@
     </ul>
     </div>
     {% block javascripts %}
-
 {{encore_entry_script_tags('busquedaJs')}}
 {% endblock %}
 

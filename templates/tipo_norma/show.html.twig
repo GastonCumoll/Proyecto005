@@ -3,7 +3,9 @@
 {% block title %}TipoNorma{% endblock %}
 
 {% block body %}
-    <h1>TipoNorma</h1>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+
+    <h1>Tipo de norma</h1>
 
     <table class="table">
         <tbody>
@@ -18,9 +20,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('tipo_norma_index') }}">back to list</a>
-
-    <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}">edit</a>
+    <a href="{{ path('tipo_norma_index') }}">Volver a la lista </a>
+    <br>
+    <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}">Editar</a>
 
     {{ include('tipo_norma/_delete_form.html.twig') }}
 {% endblock %}

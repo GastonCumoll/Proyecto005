@@ -3,9 +3,10 @@
 {% block title %}New Item{% endblock %}
 
 {%  block body %}
-    <h1>Create new Item</h1>
+<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+    <h1>Cargar nuevo item del indice</h1>
     {{ include('item/_form.html.twig') }}
-    <a href="{{ path('item_index') }}">back to list</a>
+    <a href="{{ path('item_index') }}">Volver a la lista</a>
     
     {# {% block script %}
         <script>

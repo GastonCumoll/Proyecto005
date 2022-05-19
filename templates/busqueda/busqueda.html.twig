@@ -9,13 +9,29 @@
 <a type="button" href="{{ path('norma_nueva') }}">Create new</a>
 
 {% endif %}
-<h5>Normas encontradas: {{cant}}</h5>
+<div class="container">
+    <div class="left"><h5>Normas encontradas: {{cant}}</h5></div>
+    <div class="right"><div class="btn-group dropright">
+        <button class="btn-sm" data-toggle="dropdown" aria-expanded="false">
+            Ordenar por >
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{{ path('ordenamiento',{'id': 1}) }}">Nombre</a>
+            <a class="dropdown-item" href="{{ path('ordenamiento', {'id': 2}) }}">Fecha</a>
+            <a class="dropdown-item" href="{{ path('ordenamiento',{'id': 3}) }}">Numero</a>
+        </div>
+    </div>
+    </div>
+</div>
+<br>
+<br>
+
 {% if normas != null %}
 {% for norma in normas %}
     <div class="container mt-2 mb-2">
         <div class="card text-center shadow mb-2 bg-white rounded">
-            <div class="card-body text-left" >
-                <a  href="{{path('norma_show', {'id': norma.id})  }}">{{ norma.titulo }}</a>
+            <div class="card-body text-left" id="{{norma.id}}" >
+                <a class="norma" value="{{norma.id}}" href="{{path('norma_show', {'id': norma.id})  }}">{{ norma }}</a>
             </div>
         </div>
     </div>
@@ -24,8 +40,9 @@
             <h1>No se encontraron normas con su criterio de busqueda...</h1>
             <a type="button" href="{{path('busqueda_avanzada')}}">Buscar nuevamente</a>
 {% endif %}
-    
 
-    
-    
+{% block javascripts %}
+    {{ parent() }}
+    {{encore_entry_script_tags('ordenamiento')}}
+    {% endblock %}
 {% endblock %}

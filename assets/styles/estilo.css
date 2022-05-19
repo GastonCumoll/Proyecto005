@@ -145,6 +145,19 @@ body{
     margin-left: 70%;
     position:absolute !important;
 } */
+.left {
+    float: left;
+    width: auto;
+    text-align: right;
+    margin: 2px 10px;
+    display: inline;
+}  
+.right {
+    float: right;
+    text-align: left;
+    margin: 2px 10px;
+    display: inline;
+}
 
 .footer{
     text-align: center;

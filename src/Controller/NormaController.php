@@ -77,10 +77,17 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-        return $this->render('norma/index.html.twig', [
+        return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normaRepository->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/orden/{id}", name="ordenamiento", methods={"GET","POST"})
+     */
+    public function ordenamiento(){
+        
     }
 
     /**
