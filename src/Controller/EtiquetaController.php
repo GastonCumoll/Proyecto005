@@ -6,10 +6,12 @@ use App\Entity\Etiqueta;
 use App\Form\EtiquetaType;
 use App\Repository\EtiquetaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/etiqueta")
@@ -19,10 +21,30 @@ class EtiquetaController extends AbstractController
     /**
      * @Route("/", name="etiqueta_index", methods={"GET"})
      */
-    public function index(EtiquetaRepository $etiquetaRepository): Response
+    public function index(EtiquetaRepository $etiquetaRepository,Request $request, PaginatorInterface $paginator): Response
     {
+        // Recuperar el administrador de entidades de Doctrine
+        $em = $this->getDoctrine()->getManager();
+        
+        // Obtener algún repositorio de datos, en nuestro caso tenemos una entidad de Citas
+        $etiqueta = $em->getRepository(Etiqueta::class);
+                
+        // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
+        $allAppointmentsQuery = $etiqueta->createQueryBuilder('p')
+            ->getQuery();
+        
+        // Paginar los resultados de la consulta
+        $appointments = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $allAppointmentsQuery,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
         return $this->render('etiqueta/index.html.twig', [
-            'etiquetas' => $etiquetaRepository->findAll(),
+            //'etiquetas' => $etiquetaRepository->findAll(),
+            'etiquetas' => $appointments,
         ]);
     }
 

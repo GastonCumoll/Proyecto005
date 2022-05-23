@@ -35,7 +35,9 @@ use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\EventSubscriber\SecuritySubscriber;
 use Doctrine\Common\Collections\Collection;
+use Knp\Component\Pager\PaginatorInterface;
 use Sasedev\MpdfBundle\Factory\MpdfFactory;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,14 +46,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Session\Session;
-use App\EventSubscriber\SecuritySubscriber;
 
 
 /**
@@ -63,8 +64,21 @@ class NormaController extends AbstractController
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
-    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request): Response
+    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator): Response
     {   
+        $todasNormas=$normaRepository->createQueryBuilder('p')
+        ->getQuery();
+
+        // Paginar los resultados de la consulta
+        $normas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todasNormas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -79,7 +93,7 @@ class NormaController extends AbstractController
         }
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
-            'normas' => $normaRepository->findAll(),
+            'normas' => $normas,
         ]);
     }
 

@@ -5,11 +5,7 @@
 {% block body %}
 <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
     <h1>Normas</h1>
-    {% if rol == "DIG_OPERADOR" %}
     
-    <a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-dark btn-sm"> Alta de Norma</button> </a>
-    <br>
-    {% endif %}
     <br>
     <div class="table-responsive">
         <table class="table table-hover ">
@@ -37,6 +33,13 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(normas) }}
     </div>
-
+    </div>
+{% if rol == "DIG_OPERADOR" %}
+    
+    <a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-dark btn-sm">Agregar <i class="fa-solid fa-plus"></i></button></a>
+    <br>
+    {% endif %}
 {% endblock %}

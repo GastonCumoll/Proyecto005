@@ -5,8 +5,7 @@
 {% block body %}
 <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
     <h1>Tipos de norma</h1>
-    <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de norma</button> </a>
-    <br>
+    
     <br>
     <div class="table-responsive">
         <table class="table table-hover ">
@@ -37,5 +36,7 @@
         </tbody>
     </table>
     </div>
+    <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+    <br>
  
 {% endblock %}

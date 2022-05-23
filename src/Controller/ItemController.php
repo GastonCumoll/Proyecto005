@@ -7,6 +7,7 @@ use App\Form\ItemType;
 use App\Service\SeguridadService;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,8 +23,22 @@ class ItemController extends AbstractController
     /**
      * @Route("/", name="item_index", methods={"GET"})
      */
-    public function index(ItemRepository $itemRepository,Request $request, SeguridadService $seguridad): Response
+    public function index(ItemRepository $itemRepository,Request $request, SeguridadService $seguridad,PaginatorInterface $paginator): Response
     {
+
+        $itemsAll = $itemRepository->createQueryBuilder('p')
+            ->getQuery();
+
+        // Paginar los resultados de la consulta
+        $items = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $itemsAll,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -37,7 +52,8 @@ class ItemController extends AbstractController
             $rol="";
         }
         return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findAll(),
+            'items' => $items,
+            //'items' => $itemRepository->findAll(),
             'rol' =>$rol,
         ]);
     }
