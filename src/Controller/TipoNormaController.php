@@ -6,10 +6,11 @@ use App\Entity\TipoNorma;
 use App\Form\TipoNormaType;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/tipo/norma")
@@ -19,10 +20,26 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/", name="tipo_norma_index", methods={"GET"})
      */
-    public function index(TipoNormaRepository $tipoNormaRepository): Response
+    public function index(TipoNormaRepository $tipoNormaRepository,Request $request, PaginatorInterface $paginator): Response
     {
+
+                
+        // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
+        $todosTipos = $tipoNormaRepository->createQueryBuilder('p')
+            ->getQuery();
+        
+        // Paginar los resultados de la consulta
+        $tiposNormas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todosTipos,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        
         return $this->render('tipo_norma/index.html.twig', [
-            'tipo_normas' => $tipoNormaRepository->findAll(),
+            'tipo_normas' => $tiposNormas,
         ]);
     }
 

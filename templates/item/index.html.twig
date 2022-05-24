@@ -9,13 +9,23 @@
 <h1>Indice</h1>
 
 <br>
-
+<div class="container">
+    <div class="input-group float-right ml-auto mr-2">
+    <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+    <div class="input-group-prepend">
+        <button class="boton btn-info btn-sm" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </div>
+</div>
+<br>
+    <br>
+    <br>
 <div class="table-responsive">
     <table class="table table-hover ">
-        <thead class="table-dark">
+        <thead class="table-active" >
         <tr>
-            <th>Id</th>
-            <th>Nombre</th>
+            <th>{{ knp_pagination_sortable(items, 'Id', 'p.id') }}</th>
+            <th>{{knp_pagination_sortable(items, 'Nombre', 'p.nombre')}}</th>
             <th>Opciones</th>
 
         </tr>
@@ -31,14 +41,14 @@
                 {{ item.nombre }}
             </td>
             <td>
-                <a  href="{{path('item_show', {'id': item.id})  }}"><i class="fa-solid fa-binoculars"></i></a>
-                <a  href="{{path('item_edit', {'id': item.id})  }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a  href="{{path('item_show', {'id': item.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                <a  href="{{path('item_edit', {'id': item.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
             </td>
 
         </tr>
     {% else %}
         <tr>
-            <td colspan="3">no records found</td>
+            <td colspan="3">no se encontraron registros</td>
         </tr>
     {% endfor %}
     </tbody>
@@ -50,7 +60,10 @@
 <br>
 {% if rol == "DIG_OPERADOR" %}
 
-<a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+<a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
 <br>
 {% endif %}
+{% block javascripts %}
+    {{encore_entry_script_tags('busquedaParamItem')}}
+    {% endblock %}
 {% endblock %}

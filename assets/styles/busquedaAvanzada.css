@@ -115,7 +115,9 @@
         margin-right: 5% !important;
         margin-left: 5% !important;
     }
-
+    #busquedaParam{
+        width: 2rem!important;
+    }
     #busqueda{
         margin: 2rem !important;
     }

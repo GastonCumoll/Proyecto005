@@ -9,5 +9,5 @@ knp_paginator:
         filter_value_name: filterValue  # nombre de parámetro de consulta de valor de filtro
     template:
         pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig'     # plantilla de controles de paginación deslizante
-        sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # ordenar plantilla de enlace
+        sortable: '@KnpPaginator/Pagination/bootstrap_v5_fa_sortable_link.html.twig' # ordenar plantilla de enlace
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # plantilla de filtros

@@ -94,15 +94,123 @@ class NormaController extends AbstractController
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normas,
+            //'pagination' => $pagination,
         ]);
     }
 
+    // /**
+    //  * @Route("/ordId", name="ordenar_norma_id", methods={"GET","POST"})
+    //  */
+    // public function ordenamientoId(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator){
+
+    //     $todasNormas=$normaRepository->createQueryBuilder('p')->orderBy('p.id','DESC')
+    //     ->getQuery();
+
+    //     // Paginar los resultados de la consulta
+    //     $normas = $paginator->paginate(
+    //         // Consulta Doctrine, no resultados
+    //         $todasNormas,
+    //         // Definir el parámetro de la página
+    //         $request->query->getInt('page', 1),
+    //         // Items per page
+    //         10
+    //     );
+    //     $sesion=$this->get('session');
+    //     $idSession=$sesion->get('session_id')*1;
+    //     if($seguridad->checkSessionActive($idSession)){
+            
+    //         // dd($idSession);
+    //         $roles=json_decode($seguridad->getListRolAction($idSession), true);
+    //         // dd($roles);
+    //         $rol=$roles[0]['id'];
+    //         // dd($rol);
+    //     }else {
+    //         $rol="";
+    //     }
+    //     return $this->render('norma/indexAdmin.html.twig', [
+    //         'rol' => $rol,
+    //         'normas' => $normas,
+    //     ]);
+    // }
+
     /**
-     * @Route("/orden/{id}", name="ordenamiento", methods={"GET","POST"})
+     * @Route("/{palabra}/busquedaParam", name="busqueda_param", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function ordenamiento(){
+    public function busquedaParam(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    {
+        //dd($palabra);
+        
+        $palabra=str_replace("§","/",$palabra);
+        
+        // 
+        //$palabra es el string que quiero buscar
+        $todasNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        $todasNormas=array_unique($todasNormas);
+
+        // Paginar los resultados de la consulta
+        $normas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todasNormas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $cant=count($normas);
+        return $this->render('norma/indexAdmin.html.twig', [
+            'rol' => $rol,
+            'normas' => $normas,
+        ]);
         
     }
+
+    // /**
+    //  * @Route("/ordTitulo", name="ordenar_norma_titulo", methods={"GET","POST"})
+    //  */
+    // public function ordenamientoTitulo(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator){
+
+    //     $todasNormas=$normaRepository->createQueryBuilder('p')->orderBy('p.titulo','ASC')
+    //     ->getQuery();
+
+    //     // Paginar los resultados de la consulta
+    //     $normas = $paginator->paginate(
+    //         // Consulta Doctrine, no resultados
+    //         $todasNormas,
+    //         // Definir el parámetro de la página
+    //         $request->query->getInt('page', 1),
+    //         // Items per page
+    //         10
+    //     );
+    //     $sesion=$this->get('session');
+    //     $idSession=$sesion->get('session_id')*1;
+    //     if($seguridad->checkSessionActive($idSession)){
+            
+    //         // dd($idSession);
+    //         $roles=json_decode($seguridad->getListRolAction($idSession), true);
+    //         // dd($roles);
+    //         $rol=$roles[0]['id'];
+    //         // dd($rol);
+    //     }else {
+    //         $rol="";
+    //     }
+    //     return $this->render('norma/indexAdmin.html.twig', [
+    //         'rol' => $rol,
+    //         'normas' => $normas,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})

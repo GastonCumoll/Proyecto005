@@ -5,14 +5,33 @@
 {% block body %}
 <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
     <h1>Normas</h1>
-    
+
+    <div class="container">
+        {# <div class="input-group float-right ml-auto mr-2">
+        <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="Titulo" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+        <div class="input-group-prepend">
+            <button class="boton btn-info btn-sm small rounded" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div> #}
+        <div class="row">
+            <div class="col-sm-12">
+                <a class="btn btn-outline-info btn-sm dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Filtros <span class="caret"></span>
+                </a>
+                <div class="collapse" id="collapseExample">
+                    <div class="card shadow-sm">
+                        <div class="card-body sm">
+                        </div></div></div></div></div></div>
+    <br>
+    <br>
     <br>
     <div class="table-responsive">
         <table class="table table-hover ">
-            <thead class="table-dark">
+            <thead class="table-active">
             <tr>
-                <th>Id</th>
-                <th>Titulo</th>
+                <th>{{knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
+                <th>{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -22,7 +41,8 @@
                 <td>{{norma.id}}</td>
                 <td>{{norma.titulo}}</td>
                 <td>
-                    <a  href="{{path('norma_show', {'id': norma.id})  }}"><i class="fa-solid fa-binoculars"></i></a>
+                    <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                    <a  href="{{path('norma_edit', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
                 </td>
 
             </tr>
@@ -39,7 +59,12 @@
     </div>
 {% if rol == "DIG_OPERADOR" %}
     
-    <a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-dark btn-sm">Agregar <i class="fa-solid fa-plus"></i></button></a>
+    <a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button></a>
     <br>
+    </div>
+    
     {% endif %}
+    {% block javascripts %}
+{{encore_entry_script_tags('busquedaParamNorma')}}
+{% endblock %}
 {% endblock %}

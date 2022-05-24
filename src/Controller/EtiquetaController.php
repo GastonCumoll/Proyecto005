@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etiqueta;
 use App\Form\EtiquetaType;
+use App\Service\SeguridadService;
 use App\Repository\EtiquetaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -46,6 +47,49 @@ class EtiquetaController extends AbstractController
             //'etiquetas' => $etiquetaRepository->findAll(),
             'etiquetas' => $appointments,
         ]);
+    }
+
+    /**
+     * @Route("/{palabra}/busquedaParam", name="busqueda_param_etiqueta", methods={"GET","POST"}, options={"expose"=true})
+     */
+    public function busquedaParam(EtiquetaRepository $etiquetaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    {
+        //dd($palabra);
+        
+        $palabra=str_replace("§","/",$palabra);
+        
+        // 
+        //$palabra es el string que quiero buscar
+        $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//array
+        $todasEtiquetas=array_unique($todasEtiquetas);
+
+        // Paginar los resultados de la consulta
+        $etiquetas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todasEtiquetas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('etiqueta/index.html.twig', [
+            'rol' => $rol,
+            'etiquetas' => $etiquetas,
+        ]);
+        
     }
 
     /**

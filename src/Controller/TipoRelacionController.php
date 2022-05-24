@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\TipoRelacion;
 use App\Form\TipoRelacionType;
-use App\Repository\TipoRelacionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\TipoRelacionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/tipo/relacion")
@@ -19,10 +20,24 @@ class TipoRelacionController extends AbstractController
     /**
      * @Route("/", name="tipo_relacion_index", methods={"GET"})
      */
-    public function index(TipoRelacionRepository $tipoRelacionRepository): Response
+    public function index(TipoRelacionRepository $tipoRelacionRepository,Request $request, PaginatorInterface $paginator): Response
     {
+        // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
+        $todosTipos = $tipoRelacionRepository->createQueryBuilder('p')
+            ->getQuery();
+        
+        // Paginar los resultados de la consulta
+        $tiposRelacion = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todosTipos,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        
         return $this->render('tipo_relacion/index.html.twig', [
-            'tipo_relacions' => $tipoRelacionRepository->findAll(),
+            'tipo_relacions' => $tiposRelacion,
         ]);
     }
 

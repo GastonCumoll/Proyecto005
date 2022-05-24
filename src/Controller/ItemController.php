@@ -59,6 +59,49 @@ class ItemController extends AbstractController
     }
     
     /**
+     * @Route("/{palabra}/busquedaParam", name="busqueda_param_item", methods={"GET","POST"}, options={"expose"=true})
+     */
+    public function busquedaParam(ItemRepository $itemRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    {
+        //dd($palabra);
+        
+        $palabra=str_replace("§","/",$palabra);
+        
+        // 
+        //$palabra es el string que quiero buscar
+        $todosItems=$itemRepository->findUnItem($palabra);//array
+        $todosItems=array_unique($todosItems);
+
+        // Paginar los resultados de la consulta
+        $items = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todosItems,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('item/index.html.twig', [
+            'rol' => $rol,
+            'items' => $items,
+        ]);
+        
+    }
+
+    /**
      * @Route("/new", name="item_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response

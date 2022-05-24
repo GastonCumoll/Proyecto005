@@ -35,7 +35,12 @@ class ItemRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function findUnItem($palabra): array
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.nombre LIKE :item')->setParameter('item','%'.$palabra.'%')->orderBy('p.nombre','ASC');
+        $query=$retorno->getQuery();
+        return $query->execute();
+    }
     /*
     public function findOneBySomeField($value): ?Item
     {
