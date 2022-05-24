@@ -3,9 +3,16 @@
 {% block title %}New Area{% endblock %}
 
 {% block body %}
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
+
     <h1>Create new Area</h1>
 
     {{ include('area/_form.html.twig') }}
 
-    <a href="{{ path('area_index') }}">back to list</a>
+    <a href="{{ path('area_index') }}" class="btn btn-primary">Cancelar</a>
 {% endblock %}
+

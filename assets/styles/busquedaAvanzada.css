@@ -1,8 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-
-
-@media (max-width: 992px) {  
-    
+/* @media (max-width: 300px) {
     #containerBusquedaAvanzada div{
     
         background-color: #b7b7b7;
@@ -10,16 +7,16 @@
     }
 
     input{
-        width: 20rem !important;
+        width: 5rem !important;
     }
 
     #busqueda_tipo{
-        width: 20rem !important;
+        width: 5rem !important;
         height: 3rem !important;
     }
 
     #busqueda_etiquetas{
-        width: 20rem !important;
+        width: 5rem !important;
         height: 3rem !important;
     }
 
@@ -41,8 +38,92 @@
     form{
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: medium;
-    }
+    } 
 }
+@media (max-width: 512px){
+    #containerBusquedaAvanzada div{
+    
+        background-color: #b7b7b7;
+        text-align: center;
+    }
+
+    input{
+        width: 10rem !important;
+    }
+
+    #busqueda_tipo{
+        width: 10rem !important;
+        height: 3rem !important;
+    }
+
+    #busqueda_etiquetas{
+        width: 10rem !important;
+        height: 3rem !important;
+    } 
+
+    .form-group{
+        display: inline-block !important;
+        text-align: center;
+        margin-right: 5% !important;
+        margin-left: 5% !important;
+    }
+
+    #busqueda{
+        margin: 2rem !important;
+    }
+
+    .btn-success{
+        border-color: #dcdcdc !important;
+    }
+
+    form{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: medium;
+    } 
+}
+
+@media (min-width: 992px) {
+    #containerBusquedaAvanzada div{
+    
+        background-color: #b7b7b7;
+        text-align: center;
+    }
+
+    input{
+        width: 15rem !important;
+    }
+
+    #busqueda_tipo{
+        width: 15rem !important;
+        height: 3rem !important;
+    }
+
+    #busqueda_etiquetas{
+        width: 15rem !important;
+        height: 3rem !important;
+    }
+
+    .form-group{
+        display: inline-block !important;
+        text-align: center;
+        margin-right: 5% !important;
+        margin-left: 5% !important;
+    }
+
+    #busqueda{
+        margin: 2rem !important;
+    }
+
+    .btn-success{
+        border-color: #dcdcdc !important;
+    }
+
+    form{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: medium;
+    } 
+}
+
 
 @media (min-width: 992px) {  
     
@@ -85,10 +166,10 @@
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: medium;
     }
-}
+} 
 
 @media (min-width: 1400px) { 
-
+*/
     #containerBusquedaAvanzada div{
     
         background-color: #b7b7b7;
@@ -107,7 +188,7 @@
     #busqueda_etiquetas{
         width: 45.5rem !important;
         height: 3rem !important;
-    }
+    } 
 
     .form-group{
         display: inline-block !important;
@@ -115,15 +196,15 @@
         margin-right: 5% !important;
         margin-left: 5% !important;
     }
-    #busquedaParam{
-        width: 2rem!important;
-    }
+
     #busqueda{
         margin: 2rem !important;
     }
 
     .btn-success{
         border-color: #dcdcdc !important;
+        width: 20% !important;
+    
     }
 
     form{
@@ -131,4 +212,89 @@
         font-size: medium;
     }
 
+@media (max-width: 991px) {
+    #containerBusquedaAvanzada div{
+    
+        background-color: #b7b7b7;
+        text-align: center;
+    }
+
+    input{
+        width: 20rem !important;
+    }
+
+    #busqueda_tipo{
+        width: 20rem !important;
+        height: 3rem !important;
+    }
+
+    #busqueda_etiquetas{
+        width: 20rem !important;
+        height: 3rem !important;
+    } 
+
+    .form-group{
+        display: inline-block !important;
+        text-align: center;
+        margin-right: 5% !important;
+        margin-left: 5% !important;
+    }
+
+    #busqueda{
+        margin: 2rem !important;
+    }
+
+    .btn-success{
+        border-color: #dcdcdc !important;
+        width: 30% !important;
+    }
+
+    form{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: medium;
+    }
 }
+
+@media (max-width: 510px) {
+    #containerBusquedaAvanzada div{
+    
+        background-color: #b7b7b7;
+        text-align: center;
+    }
+
+    input{
+        width: 50vw !important;
+    }
+
+    #busqueda_tipo{
+        width: 50vw !important;
+        height: 3rem !important;
+    }
+
+    #busqueda_etiquetas{
+        width: 50vw !important;
+        height: 3rem !important;
+    } 
+
+    .form-group{
+        display: inline-block !important;
+        text-align: center;
+        margin-right: 5% !important;
+        margin-left: 5% !important;
+    }
+
+    #busqueda{
+        margin: 2rem !important;
+    }
+
+    .btn-success{
+        border-color: #dcdcdc !important;
+        width: 30vw !important;
+    }
+
+    form{
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: medium;
+    }
+}
+/*} */

@@ -3,11 +3,15 @@
 {% block title %}New TipoRelacion{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
 
-    <h1>Crear un nuevo tipo de relacion</h1>
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
+
+    <h1>Create new TipoRelacion</h1>
 
     {{ include('tipo_relacion/_form.html.twig') }}
 
-    <a href="{{ path('tipo_relacion_index') }}">back to list</a>
+    <a href="{{ path('tipo_relacion_index') }}" class="btn btn-primary">Cancelar</a>
 {% endblock %}

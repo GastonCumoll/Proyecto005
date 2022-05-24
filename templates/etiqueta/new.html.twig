@@ -3,9 +3,14 @@
 {% block title %}New Etiqueta{% endblock %}
 
 {% block body %}
-    <h1>Create new Etiqueta</h1>
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
+    <h1>Crear Etiqueta</h1>
 
     {{ include('etiqueta/_form.html.twig') }}
 
-    <a href="{{ path('etiqueta_index') }}">back to list</a>
+    <a href="{{ path('etiqueta_index') }}" class="btn btn-primary">Cancelar</a>
 {% endblock %}

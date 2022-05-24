@@ -1,0 +1,51 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 350px) {
+
+}
+@media (max-width: 563px) {
+    #casilleroBusqueda{
+        width: 92% !important;
+        margin-top: 2% !important;
+        margin-right: 4% !important;
+    }
+    
+    #contenedor{
+        text-align: center !important;
+    }
+
+    .btn-primary{
+        width: 92% !important;
+        margin-top: 2% !important;
+    }
+}
+
+@media (max-width: 767px) {
+        #casilleroBusqueda{
+            width: 92% !important;
+            margin-top: 2% !important;
+            margin-right: 4% !important;
+        }
+        
+        #contenedor{
+            text-align: center !important;
+        }
+
+        .btn-primary{
+            margin-top: 2% !important;
+        }
+}
+
+@media (max-width: 991px) {
+
+    #casilleroBusqueda{
+        width: 92% !important;
+        margin-top: 2% !important;
+        margin-right: 4% !important;
+    }   
+
+    #contenedor{
+        text-align: center !important;
+    }
+
+}

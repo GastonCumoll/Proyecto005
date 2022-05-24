@@ -3,14 +3,17 @@
 {% block title %}Edit Item{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
-    <h1>Editar item del indice</h1>
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
+
+    <h1>Edit Item</h1>
     {{ include('item/_form.html.twig', {'button_label': 'Guardar'}) }}
 
-    <a href="{{ path('item_index') }}">Volver a la lista</a>
+    <a href="{{ path('item_index') }}" class="btn btn-primary">Cancelar</a>
     
-
-    {{ include('item/_delete_form.html.twig') }}
 
     {#{% block script %}
         <script>

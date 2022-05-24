@@ -1,0 +1,70 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 350px) {
+    .btn-success{
+        float: left;
+    }
+
+    .btn-primary{
+        margin-left: 60% !important;
+    }
+    
+    .btn{
+        width: 20% !important;
+    }
+}
+@media (max-width: 504px) {
+    .btn-success{
+        float: left;
+    }
+
+    .btn-primary{
+        margin-left: 60% !important;
+    }
+    
+    .btn{
+        width: 20% !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .btn-success{
+        float: left;
+    }
+
+    .btn-primary{
+        margin-left: 60% !important;
+    }
+    
+    .btn{
+        width: 20% !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .btn-success{
+        float: left;
+    }
+
+    .btn-primary{
+        margin-left: 60% !important;
+    }
+    
+    .btn{
+        width: 20% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .btn-success{
+        float: left;
+    }
+
+    .btn-primary{
+        margin-left: 60% !important;
+    }
+    
+    .btn{
+        width: 20% !important;
+    }
+}

@@ -1,21 +1,26 @@
 @import "~bootstrap/dist/css/bootstrap.min.css"; 
 
-/* .btn-primary{
+.btn-primary{
     width: 11rem !important;
-
+   
 }
 .btn-danger{
     width: 11rem !important;
 
 }
-.btn-info{
+/* .btn-info{
     width: 11rem !important;
     
-} 
+} */
+/* .btn-info{
+    width:9rem !important;
+    font-size: large !important;
+} */
 .btn-success{
     width: 11rem !important;
     
 }
-.btn-l{
+
+/* .btn-l{
     width: fit-content;
-}   */
+}  */

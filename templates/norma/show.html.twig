@@ -5,7 +5,12 @@
 {# {{ encore_entry_link_tags('boton') }} #}
 {# {{ parent() }}    #}
 {#{% endblock %} #}
-{% block body %}    
+{% block body %}
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('normaShow') }}
+{% endblock %}
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             {% if norma.numero != null  %}
@@ -24,36 +29,38 @@
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
                 
-                <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary" >Ver texto ordenado</a>
-                <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
+                
                 <br>
                 <br>
                 
 
-                <div class="container">
-                    <div class="row mt-1">
-                        
-                        {% if rol == "DIG_OPERADOR" %}
-                            <div class="col-4 mt-3  text-center">
-                        <button type="button" class="btn btn-success" value="{{norma.id}}" id="editar">Editar   </button> 
-                    </a>
+                <div class="container" id="containerBotones">
+                    
+                        <div class="divBotones mt-3 mr-2">
+                            <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
                         </div>
-                        <div class="col-4 mt-3  text-center">
-                            <a href="{{ path('form_rela_edit', {'id': norma.id}) }} ">
-                            <button type="button" class="btn btn-success"> Agregar relacion</button> 
-                        </a>
                         
-                            </div>
-                        <div class="col-4 mt-3  text-right">
-                        {{ include('norma/_delete_form.html.twig') }}
+                        <div class="divBotones mt-3 mr-2">
+                            <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                         </div>
-                        {% endif %}
-                        
 
-                    </div>
+                        {% if rol == "DIG_OPERADOR" %}
+                            <div class="divBotones mt-3 mr-2">
+                                <a><button type="button" class="btn btn-success botones" value="{{norma.id}}" id="editar">Editar</button></a>
+                            </div>
+
+                            <div class="divBotones mt-3 mr-2">
+                                <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
+                            </div>
+
+                            <div class="divBotones mt-3 mr-2">
+                                {{ include('norma/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
+                    
                 </div>
 
-            <div class="card-footer text-left">
+            <div class="card-footer text-left mt-3">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr>
@@ -87,14 +94,13 @@
                     <h5 class="card-title text-center ">Archivos adjuntos</h5>
                     {% for unPdf in norma.archivos %}
                 <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                
+                
             {% endfor %}
-                </div>
             </div>
-            
-            <div class="col-3 mt-4  text-left">
-                <a href="{{app.request.headers.get('referer')}}">
-            <button type="button" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Volver</button> 
-        </a>
+            </div>
+            <div class=" divBotonVolver mt-4  text-left">
+                <a href="{{ path('inicio') }}"><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
             </div>
         </div>
         </div>

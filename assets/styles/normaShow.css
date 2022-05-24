@@ -1,0 +1,94 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 504px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+    .divBotones{
+        width: 100% !important;
+    }
+
+    .botones{
+        margin: auto;
+        width: 50% !important;
+        height: 5em !important;
+    }
+
+    #botonVolver{
+        width: 100% !important;
+    }
+
+    .divBotonVolver{
+        width: 100% !important;
+        
+    }
+
+}
+
+@media (max-width: 767px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+    .divBotones{
+        width: 100% !important;
+    }
+
+    .botones{
+        width: 50% !important;
+    }
+
+    #botonVolver{
+        width: 40% !important;
+    }
+
+    .divBotonVolver{
+        width: 100% !important;
+    }
+
+}
+
+@media (min-width: 768px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    }
+
+    .botones{
+        width: 80% !important;
+    }
+
+    #botonVolver{
+        width: 30% !important;
+    }
+
+    .divBotonVolver{
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .divBotones{
+        display: inline-block;
+        width: 18% !important;
+    }
+
+    .botones{
+        width: 100% !important;
+    }
+
+    #botonVolver{
+        width: 20% !important;
+    }
+
+    .divBotonVolver{
+        width: 100% !important;
+    }
+}
