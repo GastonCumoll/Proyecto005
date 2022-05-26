@@ -3,7 +3,7 @@
 {% block title %}Norma index{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
     <h1>Normas</h1>
 
     <div class="container">
@@ -22,15 +22,110 @@
                 <div class="collapse" id="collapseExample">
                     <div class="card shadow-sm">
                         <div class="card-body sm">
-                        </div></div></div></div></div></div>
+                            <form action="{{path('busqueda_filtro')}}" method="get">
+                                <div class="form-row mb-2">
+                                <div class="col-6">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <strong>Titulo:</strong>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" id="titulo" name="titulo"
+                                                    placeholder="titulo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <strong>Tipo</strong>
+                                        </div>
+                                        <div class="col">
+                                            {# <input class="form-control form-control-sm" id="responsable"
+                                            name="responsable" placeholder="responsable" /> #}
+                                            <div class="input-group">
+                                                <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                                    <option value = '' selected></option>
+                                                    {% for tipo in tipoNormas %}
+                                                        <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
+                                                    {% endfor %}
+                                                </select>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row mb-2">
+                                <div class="col-6">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <strong>Numero:</strong>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control form-control-sm" id="numero" name="numero"
+                                                    placeholder="numero" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <strong>Año:</strong>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control form-control-sm" id="año" name="año"
+                                                        placeholder="año" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="form-row align-items-center">
+                                    <div class="col-auto">
+                                        <strong>Etiquetas</strong>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <select name="etiquetas" id="etiquetas" class="form-control selectpicker" data-live-search="true" multiple="true">
+                                                <option value = '-' selected></option>
+                                                {% for etiqueta in etiquetas %}
+                                                    <option value={{etiqueta.getId()}}>{{etiqueta.getNombre()}}</option>    
+                                                {% endfor %}
+                                            </select>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary cargando" ><i
+                                    class="fa fa-search"></i> Buscar</button>
+                            </div>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
-
     <div class="table-responsive">
         <table class="table table-hover ">
             <thead class="table-active">
             <tr>
                 <th>{{knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
+                <th>{{knp_pagination_sortable(normas, 'Tipo', 'p.tipoNorma')}}</th>
                 <th>{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
+                <th>{{knp_pagination_sortable(normas, 'Numero', 'p.numero')}}</th>
+                <th>{{knp_pagination_sortable(normas, 'Año', 'p.fechaPublicacion')}}</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -38,12 +133,17 @@
             {% for norma in normas %}
             <tr>
                 <td>{{norma.id}}</td>
+                <td>{{norma.tipoNorma}}</td>
                 <td>{{norma.titulo}}</td>
+                <td>{{norma.numero}}</td>
+                <td>{{norma.fechaPublicacion|date('Y-m-d')}}</td>
+
+                
+
                 <td>
-                    <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                    <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
                     <a  href="{{path('norma_edit', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
                 </td>
-
             </tr>
         {% else %}
             <tr>

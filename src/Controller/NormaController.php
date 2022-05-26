@@ -64,7 +64,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
-    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator): Response
+    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {   
         $todasNormas=$normaRepository->createQueryBuilder('p')
         ->getQuery();
@@ -94,49 +94,15 @@ class NormaController extends AbstractController
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normas,
-            //'pagination' => $pagination,
+            'tipoNormas' => $tipoNorma->findAll(),
+            'etiquetas' =>$etiquetas->findAll(),
         ]);
     }
-
-    // /**
-    //  * @Route("/ordId", name="ordenar_norma_id", methods={"GET","POST"})
-    //  */
-    // public function ordenamientoId(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator){
-
-    //     $todasNormas=$normaRepository->createQueryBuilder('p')->orderBy('p.id','DESC')
-    //     ->getQuery();
-
-    //     // Paginar los resultados de la consulta
-    //     $normas = $paginator->paginate(
-    //         // Consulta Doctrine, no resultados
-    //         $todasNormas,
-    //         // Definir el parámetro de la página
-    //         $request->query->getInt('page', 1),
-    //         // Items per page
-    //         10
-    //     );
-    //     $sesion=$this->get('session');
-    //     $idSession=$sesion->get('session_id')*1;
-    //     if($seguridad->checkSessionActive($idSession)){
-            
-    //         // dd($idSession);
-    //         $roles=json_decode($seguridad->getListRolAction($idSession), true);
-    //         // dd($roles);
-    //         $rol=$roles[0]['id'];
-    //         // dd($rol);
-    //     }else {
-    //         $rol="";
-    //     }
-    //     return $this->render('norma/indexAdmin.html.twig', [
-    //         'rol' => $rol,
-    //         'normas' => $normas,
-    //     ]);
-    // }
 
     /**
      * @Route("/{palabra}/busquedaParam", name="busqueda_param", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaParam(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    public function busquedaParam(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator,TipoNormaRepository $tipoNorma):Response
     {
         //dd($palabra);
         
@@ -173,44 +139,10 @@ class NormaController extends AbstractController
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normas,
+            
         ]);
         
     }
-
-    // /**
-    //  * @Route("/ordTitulo", name="ordenar_norma_titulo", methods={"GET","POST"})
-    //  */
-    // public function ordenamientoTitulo(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator){
-
-    //     $todasNormas=$normaRepository->createQueryBuilder('p')->orderBy('p.titulo','ASC')
-    //     ->getQuery();
-
-    //     // Paginar los resultados de la consulta
-    //     $normas = $paginator->paginate(
-    //         // Consulta Doctrine, no resultados
-    //         $todasNormas,
-    //         // Definir el parámetro de la página
-    //         $request->query->getInt('page', 1),
-    //         // Items per page
-    //         10
-    //     );
-    //     $sesion=$this->get('session');
-    //     $idSession=$sesion->get('session_id')*1;
-    //     if($seguridad->checkSessionActive($idSession)){
-            
-    //         // dd($idSession);
-    //         $roles=json_decode($seguridad->getListRolAction($idSession), true);
-    //         // dd($roles);
-    //         $rol=$roles[0]['id'];
-    //         // dd($rol);
-    //     }else {
-    //         $rol="";
-    //     }
-    //     return $this->render('norma/indexAdmin.html.twig', [
-    //         'rol' => $rol,
-    //         'normas' => $normas,
-    //     ]);
-    // }
 
     /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
@@ -288,12 +220,134 @@ class NormaController extends AbstractController
     }
 
     /**
+     * @Route("/busquedaFiltro", name="busqueda_filtro", methods={"GET","POST"})
+     */
+    public function busquedaFiltro(PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
+    {   
+        $titulo=$request->query->get('titulo');//string
+        $tipo=$request->query->get('tipoNorma');//string
+        $numero=$request->query->get('numero');//string
+        $año=$request->query->get('año');//string
+        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
+
+
+        //seccion TipoNorma
+        $nTipo = [];
+        if($tipo != ""){
+            $tipoNorma=$tipoNormaRepository->findById($tipo);
+            
+            $nTipo=$tipoNorma[0]->getNormas()->toArray();
+        }
+        
+        
+        if(($titulo != "")){
+
+            //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
+            
+            $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
+            $normas=$nTitulo;
+            
+            if(($tipo!="")){
+                
+                $normas=array_intersect($normas,$nTipo);
+            }
+            if($numero!=""){
+                $nNumero=$normaRepository->findUnNumero($numero);
+                $normas=array_intersect($normas,$nNumero);
+            }
+            if($año != ""){
+                $nAño=$normaRepository->findUnAño($año);
+                $normas=array_intersect($normas,$nAño);
+            }
+            // if($normasEtiquetasMerged!=""){
+            //     $normas=array_intersect($normas,$normasEtiquetasMerged);
+            // }
+        }else{
+            if(($tipo!="")){
+                
+                $normas=$nTipo;
+                if($numero!=""){
+                    $nNumero=$normaRepository->findUnNumero($numero);
+                    $normas=array_intersect($normas,$nNumero);
+                }
+                if($año != ""){
+                    $nAño=$normaRepository->findUnAño($año);
+                    $normas=array_intersect($normas,$nAño);
+                }
+                // if($normasEtiquetasMerged!=""){
+                //     $normas=array_intersect($normas,$normasEtiquetasMerged);
+                // }
+        }
+        else{
+                if($numero!=""){
+                    $nNumero=$normaRepository->findUnNumero($numero);
+                    $normas=$nNumero;
+                    if($año != ""){
+                        $nAño=$normaRepository->findUnAño($año);
+                        $normas=array_intersect($normas,$nAño);
+                    }
+                    // if($normasEtiquetasMerged!=""){
+                    //     $normas=array_intersect($normas,$normasEtiquetasMerged);
+                    // }
+                }
+                else{
+                    if($año != ""){
+                        $nAño=$normaRepository->findUnAño($año);
+                        $normas=$nAño;
+                    }
+                    // else{
+                    //     if($normasEtiquetasMerged!=null){
+                    //         $normas=$normasEtiquetasMerged;
+                    //     }
+                    // }
+                }
+                
+            }
+            
+        }
+        
+        $sesion=$this->get('session');
+                $idSession=$sesion->get('session_id')*1;
+                if($seguridad->checkSessionActive($idSession)){
+                    
+                    // dd($idSession);
+                    $roles=json_decode($seguridad->getListRolAction($idSession), true);
+                    // dd($roles);
+                    $rol=$roles[0]['id'];
+                    // dd($rol);
+                }else {
+                    $rol="";
+                }
+
+                //seccion paginator
+                // Paginar los resultados de la consulta
+                $normasP = $paginator->paginate(
+                // Consulta Doctrine, no resultados
+                $normas,
+                // Definir el parámetro de la página
+                $request->query->getInt('page', 1),
+                // Items per page
+                10
+                );
+                return $this->renderForm('norma/indexAdmin.html.twig', [
+                    'etiquetas' => $etiquetaRepository->findAll(),
+                    'tipoNormas' =>$tipoNormaRepository->findAll(),
+                    'normas' => $normasP,
+                    'rol' => $rol,
+                ]);
+
+
+
+
+    }
+
+    /**
      * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
      */
-    public function busquedaAvanzada(TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
+    public function busquedaAvanzada(PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {
         $normasEtiquetasMerged=[];
-        $normasEtiquetas=[];
+        //$normasEtiquetas=[];
         $normas=[];
         $nTitulo = [];
         $nTipo = [];
@@ -312,13 +366,10 @@ class NormaController extends AbstractController
             $año = $form->get('anio')->getData();
             $etiquetasDeForm = $form['etiquetas']->getData();
 
-
-            
             //seccion etiquetas
             if($etiquetasDeForm[0]!=null){
                 foreach ($etiquetasDeForm as $e) {
                     $nombreEtiqueta[]=$e->getNombre();
-
                 }
 
                     $arrayEtiquetas=[];
@@ -343,7 +394,6 @@ class NormaController extends AbstractController
 
 
             if(($titulo != null)){
-
                 //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
 
                 $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
@@ -420,10 +470,22 @@ class NormaController extends AbstractController
                 }else {
                     $rol="";
                 }
+                
+                // Paginar los resultados de la consulta
+        $normasP = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $normas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
                 $cant=count($normas);
-            return $this->renderForm('busqueda/busqueda.html.twig', [
-                'cant' =>$cant,
-                'normas' => $normas,
+            return $this->renderForm('norma/indexAdmin.html.twig', [
+                'etiquetas' => $etiquetaRepository->findAll(),
+                    'tipoNormas' =>$tipoNormaRepository->findAll(),
+                    'normas' => $normasP,
+                
                 'rol' => $rol,
             ]);
         }

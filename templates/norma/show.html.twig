@@ -100,7 +100,7 @@
             </div>
             </div>
             <div class=" divBotonVolver mt-4  text-left">
-                <a href="{{ path('inicio') }}"><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+                <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
             </div>
         </div>
         </div>

@@ -3,7 +3,7 @@
 {% block title %}Etiqueta index{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
     <h1>Etiquetas</h1>
     <br>
     <div class="container">
@@ -36,7 +36,7 @@
                         {{etiquetum.nombre}}
                     </td>
                     <td> 
-                        <a  href="{{path('etiqueta_show', {'id': etiquetum.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                        <a  href="{{path('etiqueta_show', {'id': etiquetum.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
                         <a  href="{{path('etiqueta_edit', {'id': etiquetum.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
                     </td>
                 </tr>

@@ -13,5 +13,5 @@
 
     {{ include('relacion/_form.html.twig') }}
 
-    <a class="btn btn-primary" href="{{ path('relacion_index') }}">Cancelar</a>
+    <a class="btn btn-primary" href={{app.request.headers.get('referer')}}">Cancelar</a>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}TipoRelacion index{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
     <h1>Tipos de relaciones</h1>
 
     
@@ -38,7 +38,7 @@
                     {{tipo_relacion.nombre}}
                 </td>
                 <td>
-                    <a  href="{{path('tipo_relacion_show', {'id': tipo_relacion.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                    <a  href="{{path('tipo_relacion_show', {'id': tipo_relacion.id})  }}"><button class="btn btn-info btn-sm"<i class="far fa-eye"></i></button></a>
                     <a  href="{{path('tipo_relacion_edit', {'id': tipo_relacion.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
                 </td>
             </tr>

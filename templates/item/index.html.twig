@@ -5,7 +5,7 @@
 {% block body %}
 
 
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 <h1>Indice</h1>
 
 <br>
@@ -41,7 +41,7 @@
                 {{ item.nombre }}
             </td>
             <td>
-                <a  href="{{path('item_show', {'id': item.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                <a  href="{{path('item_show', {'id': item.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
                 <a  href="{{path('item_edit', {'id': item.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
             </td>
 

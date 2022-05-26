@@ -3,7 +3,7 @@
 {% block title %}TipoNorma index{% endblock %}
 
 {% block body %}
-<header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
     <h1>Tipos de norma</h1>
     
     <br>
@@ -32,7 +32,7 @@
                     {{tipo_norma.nombre}}
                 </td>
                 <td>
-                    <a  href="{{path('tipo_norma_show', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-binoculars"></i></button></a>
+                    <a  href="{{path('tipo_norma_show', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
                     <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square"></i></button></a>
                 </td>
             </tr>
