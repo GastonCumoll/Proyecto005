@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Item;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Item|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,11 +36,11 @@ class ItemRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findUnItem($palabra): array
+    public function findUnItem($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.nombre LIKE :item')->setParameter('item','%'.$palabra.'%')->orderBy('p.nombre','ASC');
         $query=$retorno->getQuery();
-        return $query->execute();
+        return $query;
     }
     /*
     public function findOneBySomeField($value): ?Item

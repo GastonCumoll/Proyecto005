@@ -61,15 +61,19 @@ class BusquedaType extends AbstractType
                 'mapped' => false,
                 'label' => 'Año'
                 ])
-            ->add('etiquetas',EntityType::class,[
-                'class' => Etiqueta::class,
-                'required' => false,
-                
-                'query_builder' => function(EtiquetaRepository $etiquetaRepository){
-                    return $etiquetaRepository->createQueryBuilder('nombre')->orderBy('nombre.nombre', 'ASC');
-                },
-                'choice_label' => 'nombre',
-                'multiple' => true,
+                ->add('etiquetas',EntityType::class,[
+                    'required' => false,
+                    'class' => Etiqueta::class,
+                        'query_builder' => function(EtiquetaRepository $eti){
+                            return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+                        },
+                        'choice_label' => 'nombre',
+                        'multiple' => true,
+                        'attr' =>[
+                            'class'=>'selectpicker',
+                            'data-size'=>'10',
+                            'data-live-search'=>true,
+                        ]
                 ])
         ;
     }

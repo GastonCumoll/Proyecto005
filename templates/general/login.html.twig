@@ -3,12 +3,13 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+
     <form class="form-signin" id="login" method="POST" action="{{ path('autenticar') }}">
 
         
-        
-        <div class="row">           
-            <div class="col-md-4 offset-md-4">
+
+        <div class="row ">           
+            <div class="col-md-4 offset-md-4 mt-5 mb-5">
                 <hr>
                 <label for="usuario" class="sr-only">Usuario</label>
                 <input type="text" class="form-control" name="username" placeholder="Usuario" required autofocus>
@@ -20,31 +21,10 @@
                 <button style="width:100% !important;" class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
             </div>
         </div>
-        
+
         
         
     </form>
 
 
 {% endblock %}
-
-{#{% block js %}
-    {{ encore_entry_script_tags('js/validate') }} 
-
-    <script type="text/javascript">
-        $(function () {
-            $('#login').validate({
-                highlight: function (input) {
-                    console.log(input);
-                    $(input).parents('.form-line').addClass('error');
-                },
-                unhighlight: function (input) {
-                    $(input).parents('.form-line').removeClass('error');
-                },
-                errorPlacement: function (error, element) {
-                    $(element).parents('.input-group').append(error);
-                }
-            });
-        });
-    </script>    
-{% endblock %}#}

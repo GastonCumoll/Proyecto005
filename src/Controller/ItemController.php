@@ -70,13 +70,13 @@ class ItemController extends AbstractController
         if($palabra==" "){
             $todosItems=[];
         }else{
-            $todosItems=$itemRepository->findUnItem($palabra);//array
+            $todosItems=$itemRepository->findUnItem($palabra);//ORMQuery
         }
 
         // 
         
         
-        $todosItems=array_unique($todosItems);
+        //$todosItems=array_unique($todosItems);
 
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(

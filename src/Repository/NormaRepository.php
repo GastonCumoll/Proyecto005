@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Norma;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Norma|null find($id, $lockMode = null, $lockVersion = null)
@@ -37,11 +38,11 @@ class NormaRepository extends ServiceEntityRepository
     }
     */
 
-    public function findUnaPalabraDentroDelTitulo($palabra): array
+    public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->orderBy('p.titulo','ASC');
         $query=$retorno->getQuery();
-        return $query->execute();
+        return $query;
     }
 
     public function findUnNumero($palabra): array

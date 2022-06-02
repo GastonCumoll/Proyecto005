@@ -60,23 +60,17 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class NormaController extends AbstractController
 {
-/**
-     * @Route("/hola", name="hola", methods={"GET"})
-     */
-    public function hola(EtiquetaRepository $eti): Response
-    {   
-        return $this->render('busqueda/resultadoBusquedaA.html.twig',[
-            'etiquetas' =>$eti->findAll(),
-        ]);
-    }
+
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
     public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {   
+
         $todasNormas=$normaRepository->createQueryBuilder('p')
-        ->getQuery();
-       
+        ->getQuery();   
+        
+        //dd($normaRepository);
 
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
@@ -87,7 +81,6 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
-        //dd($normas->getItems()->getTipoNorma()->getNombre());
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -107,6 +100,55 @@ class NormaController extends AbstractController
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
         ]);
+    }
+
+    /**
+     * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
+     */
+    public function busquedaRapida(TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    {
+        //dd($palabra);
+        
+        $palabra=str_replace("§","/",$palabra);
+        
+        
+        //$palabra es el string que quiero buscar
+        $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+
+        //$todasNormas=$normasQuery->getResult();//getResult()convierte el query en un array == ->execute();
+        //$todasNormas=array_unique($todasNormas);
+        //dd($todasNormas);
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
+        // Paginar los resultados de la consulta
+        $normas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $normasQuery,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        return $this->render('norma/indexAdmin.html.twig', [
+            
+            'normas' => $normas,
+            'rol' => $rol,
+            'tipoNormas' => $tipo->findAll(),
+
+        ]);
+        
     }
 
     /**
@@ -191,53 +233,6 @@ class NormaController extends AbstractController
         
         
         
-        
-    }
-
-    /**
-     * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
-     */
-    public function busquedaRapida(TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
-    {
-        //dd($palabra);
-        
-        $palabra=str_replace("§","/",$palabra);
-        
-        // 
-        //$palabra es el string que quiero buscar
-        $todasNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
-        $todasNormas=array_unique($todasNormas);
-
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
-        // $cant=count($normas);
-
-        // Paginar los resultados de la consulta
-        $normas = $paginator->paginate(
-            // Consulta Doctrine, no resultados
-            $todasNormas,
-            // Definir el parámetro de la página
-            $request->query->getInt('page', 1),
-            // Items per page
-            10
-        );
-        return $this->render('norma/indexAdmin.html.twig', [
-            
-            'normas' => $normas,
-            'rol' => $rol,
-            'tipoNormas' => $tipo->findAll(),
-
-        ]);
         
     }
 
@@ -378,6 +373,15 @@ class NormaController extends AbstractController
         $nEtiqueta = [];
         $etiquetas = [];
         $nombreEtiqueta=[];
+
+        // $variablePost = $request->request->get('var');  // $_POST[]
+        // $variableGet = $request->query->get('var'); // $_GET[]
+
+        // if ($variableGet)
+        //     $resultado = $repo->findAlgunos($variableGet);
+        // else
+        //     $resultado = $repo->findTodos();
+
         $form = $this->createForm(BusquedaType::class);
         $form->handleRequest($request);
 
@@ -502,12 +506,11 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
-                $cant=count($normas);
+
             return $this->renderForm('norma/indexAdmin.html.twig', [
                 'etiquetas' => $etiquetaRepository->findAll(),
-                    'tipoNormas' =>$tipoNormaRepository->findAll(),
-                    'normas' => $normasP,
-                
+                'tipoNormas' =>$tipoNormaRepository->findAll(),
+                'normas' => $normasP,
                 'rol' => $rol,
             ]);
         }

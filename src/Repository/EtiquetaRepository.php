@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use Doctrine\ORM\Query;
 use App\Entity\Etiqueta;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Etiqueta|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,11 +36,11 @@ class EtiquetaRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findUnaEtiqueta($palabra): array
+    public function findUnaEtiqueta($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.nombre LIKE :etiqueta')->setParameter('etiqueta','%'.$palabra.'%')->orderBy('p.nombre','ASC');
         $query=$retorno->getQuery();
-        return $query->execute();
+        return $query;
     }
 
     /*

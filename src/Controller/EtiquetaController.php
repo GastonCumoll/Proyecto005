@@ -60,12 +60,12 @@ class EtiquetaController extends AbstractController
         if($palabra==" "){
             $todasEtiquetas=[];
         }else{
-            $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//array
+            $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//ORMQuery
         }
         // 
         
         
-        $todasEtiquetas=array_unique($todasEtiquetas);
+        //$todasEtiquetas=array_unique($todasEtiquetas);
 
         // Paginar los resultados de la consulta
         $etiquetas = $paginator->paginate(
