@@ -56,6 +56,10 @@
 }
 
 @media (min-width: 1200px) {
+    .dropdown-menu{
+        width: 100% !important;
+        
+    } 
     .btn-success{
         float: left;
     }

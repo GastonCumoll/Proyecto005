@@ -64,12 +64,18 @@ class ItemController extends AbstractController
     public function busquedaParam(ItemRepository $itemRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
-        
+        //$palabra es el string que quiero buscar
         $palabra=str_replace("§","/",$palabra);
         
+        if($palabra==" "){
+            $todosItems=[];
+        }else{
+            $todosItems=$itemRepository->findUnItem($palabra);//array
+        }
+
         // 
-        //$palabra es el string que quiero buscar
-        $todosItems=$itemRepository->findUnItem($palabra);//array
+        
+        
         $todosItems=array_unique($todosItems);
 
         // Paginar los resultados de la consulta

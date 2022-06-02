@@ -8,9 +8,12 @@
     {{ parent() }}
     {{ encore_entry_link_tags('createCss') }}
 {% endblock %}
-    <h1>Crear Etiqueta</h1>
+    <h1>Nueva Etiqueta</h1>
 
     {{ include('etiqueta/_form.html.twig') }}
 
     <a href="{{ path('etiqueta_index') }}" class="btn btn-primary">Cancelar</a>
+    {% block javascripts %}
+        {{ parent() }}
+    {% endblock %}
 {% endblock %}

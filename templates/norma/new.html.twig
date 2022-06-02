@@ -20,28 +20,9 @@
         </div>
     </div>
 
-     {% block javascript %} 
-        <!--<script>
-
-       
-
-        $(document).ready(function(){
-            
-            $('#decreto_archivo').on('change',function(){
-                var valor=document.getElementById("decreto_archivo");
-                const elemento=$("#decreto_archivo :selected")
-                console.log(valor);
-                console.log(valor.length);
-            //    // console.log($(this).value);
-              //  var fileName= $(this).val().split("\\").pop();
-                //console.log($(this).length);
-                // console.log($(this).options);
-                //$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-
-            })
-        }
-        )
-        </script>-->
-    {% endblock  %} 
+    {% block javascripts %}
+    {{ parent() }}
+    {{encore_entry_script_tags('etiquetasNorma')}}
+{% endblock  %} 
 
 {% endblock %}

@@ -60,7 +60,15 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class NormaController extends AbstractController
 {
-
+/**
+     * @Route("/hola", name="hola", methods={"GET"})
+     */
+    public function hola(EtiquetaRepository $eti): Response
+    {   
+        return $this->render('busqueda/resultadoBusquedaA.html.twig',[
+            'etiquetas' =>$eti->findAll(),
+        ]);
+    }
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
@@ -68,6 +76,7 @@ class NormaController extends AbstractController
     {   
         $todasNormas=$normaRepository->createQueryBuilder('p')
         ->getQuery();
+       
 
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
@@ -78,6 +87,7 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
+        //dd($normas->getItems()->getTipoNorma()->getNombre());
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -187,7 +197,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaRapida(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad):Response
+    public function busquedaRapida(TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
         
@@ -195,8 +205,8 @@ class NormaController extends AbstractController
         
         // 
         //$palabra es el string que quiero buscar
-        $normas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
-        $normas=array_unique($normas);
+        $todasNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        $todasNormas=array_unique($todasNormas);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -210,11 +220,23 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-        $cant=count($normas);
-        return $this->render('busqueda/busqueda.html.twig', [
-            'cant' =>$cant,
+        // $cant=count($normas);
+
+        // Paginar los resultados de la consulta
+        $normas = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $todasNormas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        return $this->render('norma/indexAdmin.html.twig', [
+            
             'normas' => $normas,
-            'rol' => $rol
+            'rol' => $rol,
+            'tipoNormas' => $tipo->findAll(),
+
         ]);
         
     }
@@ -229,7 +251,7 @@ class NormaController extends AbstractController
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
-
+        $normas=[];
 
         //seccion TipoNorma
         $nTipo = [];
@@ -696,7 +718,7 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
@@ -745,7 +767,9 @@ class NormaController extends AbstractController
                     
 
                     $entityManager->persist($archi);
+                    //dd($archi);
                     $norma->addArchivos($archi);
+                    $entityManager->persist($norma);
                 }
             }
 
@@ -772,9 +796,22 @@ class NormaController extends AbstractController
                     $entityManager->persist($etiquetaNueva);
                 }
                 
+                
+            
                 $entityManager->persist($norma);
                 
             }
+            $etiquetasDeNorma=$form['etiquetas_de_norma']->getData();
+            //foreach para asignarle nuevas etiquetas ya creadas a Norma
+            if($etiquetasDeNorma != null){
+                foreach ($etiquetasDeNorma as $eti) {
+                $eti->addNorma($norma);
+                $norma->addEtiqueta($eti);
+                $entityManager->persist($eti);
+            }
+            $entityManager->persist($norma);
+            }
+            
             $entityManager->flush();
             $idNorma=$norma->getId();
             //REDIRECCIONAMIENTO SI LA NORMA TIENE RELACION
@@ -850,6 +887,7 @@ class NormaController extends AbstractController
      */
     public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
+
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
                 $form = $this->createForm(DecretoTypeEdit::class, $norma);
@@ -875,6 +913,7 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $etiquetasDeNorma=$form['etiquetas_de_norma']->getData();
             
 
             $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
@@ -941,6 +980,13 @@ class NormaController extends AbstractController
             }
                 $entityManager->persist($norma);   
             }
+            //foreach para asignarle nuevas etiquetas ya creadas a Norma
+            foreach ($etiquetasDeNorma as $eti) {
+                $eti->addNorma($norma);
+                $norma->addEtiqueta($eti);
+                $entityManager->persist($eti);
+            }
+            $entityManager->persist($norma);
             $entityManager->flush();
 
             // if($norma->getRela()==true){

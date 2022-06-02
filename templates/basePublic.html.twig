@@ -1,0 +1,36 @@
+
+<header class="headerBusqueda">
+    <br>
+    <div class="barraNavegacion">
+        <ul class="nav nav-pills">
+    
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Normas</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{{ path('indice_vigente') }}">Vigentes</a>
+                    <a class="dropdown-item" href="{{ path('indice_no_vigente') }}">No vigentes</a>
+                    
+                </div>
+            </li>
+        
+            <li class="nav-item">
+                <a class="nav-link"href="{{ path('busqueda_avanzada') }}" role="button" aria-expanded="false">Búsqueda</a>
+                
+            </li>
+
+            <div class="input-group float-right ml-auto mr-2">
+                <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Buscar norma" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                <div class="input-group-prepend">
+                    <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div> 
+            
+        </ul>
+        </div>
+
+
+    {% block javascripts %}
+    {{encore_entry_script_tags('busquedaJs')}}
+{% endblock %}
+
+</header>

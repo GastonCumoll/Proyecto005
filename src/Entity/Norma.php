@@ -397,10 +397,11 @@ public function setRela(?bool $rela): self
 
     public function addArchivos(Archivo $archivos): self
     {
-        if (!$this->archivos->contains($archivos)) {
-            $this->archivos[] = $archivos;
+        //antes:sin comentarios;
+        // if (!$this->archivos->contains($archivos)) {
+        //     $this->archivos[] = $archivos;
             $archivos->setNorma($this);
-        }
+        //}
 
         return $this;
     }

@@ -1,9 +1,11 @@
 @import "~bootstrap/dist/css/bootstrap.min.css"; 
-
+@import "~bootstrap-select/dist/css/bootstrap-select.css";
 /* .btn-primary{
     width: 11rem !important;
 
 }
+
+
 .btn-danger{
     width: 11rem !important;
 
@@ -19,3 +21,7 @@
 .btn-l{
     width: fit-content;
 }   */
+
+.columnaOp{
+    width: 9% !important;
+}

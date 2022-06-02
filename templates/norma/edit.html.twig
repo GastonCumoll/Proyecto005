@@ -10,7 +10,7 @@
 {% endblock %}
 
     <h1>Editar Norma</h1>
-
+    
     {{ include('norma/_form.html.twig') }}
     <input type="hidden" id="id" value="{{norma.id}}">
     <input type="hidden" id="idNombre" value="{{norma.titulo}}">
@@ -18,7 +18,7 @@
 
     {% block javascripts %}
         {{ parent() }}
-        {# {{encore_entry_script_tags('normaEditTexto')}} #}
+        {{encore_entry_script_tags('etiquetasNormaEdit')}}
     {% endblock  %} 
 {% endblock %}
     

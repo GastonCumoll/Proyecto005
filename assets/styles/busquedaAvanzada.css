@@ -200,8 +200,12 @@
     #busqueda{
         margin: 2rem !important;
     }
+    
+    #botonLupita{
+        display: inline !important;
+    }
 
-    .btn-success{
+    #botonGuardadoFormulario{
         border-color: #dcdcdc !important;
         width: 20% !important;
     

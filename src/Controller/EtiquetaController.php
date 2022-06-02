@@ -55,12 +55,16 @@ class EtiquetaController extends AbstractController
     public function busquedaParam(EtiquetaRepository $etiquetaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
-        
-        $palabra=str_replace("§","/",$palabra);
-        
-        // 
         //$palabra es el string que quiero buscar
-        $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//array
+        $palabra=str_replace("§","/",$palabra);
+        if($palabra==" "){
+            $todasEtiquetas=[];
+        }else{
+            $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//array
+        }
+        // 
+        
+        
         $todasEtiquetas=array_unique($todasEtiquetas);
 
         // Paginar los resultados de la consulta
@@ -72,7 +76,7 @@ class EtiquetaController extends AbstractController
             // Items per page
             10
         );
-
+        
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -100,10 +104,19 @@ class EtiquetaController extends AbstractController
         $etiquetum = new Etiqueta();
         $form = $this->createForm(EtiquetaType::class, $etiquetum);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $normas=$form['normas']->getData();
+            //dd($normas);
+            $entityManager->persist($etiquetum);
+            foreach ($normas as $unaNorma) {
+                $etiquetum->addNorma($unaNorma);
+                $unaNorma->addEtiqueta($etiquetum);
+                $entityManager->persist($unaNorma);
+            }
             $entityManager->persist($etiquetum);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('etiqueta_index', [], Response::HTTP_SEE_OTHER);
         }

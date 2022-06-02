@@ -8,14 +8,22 @@
 // any CSS you import will output into a single css file (app.css in this case)
 //import './styles/app.css';
 require('@fortawesome/fontawesome-free/js/all.js');
+
 import $ from 'jquery';
-
-
+import 'bootstrap';
+import 'bootstrap-select';
 
 global.$ = global.jQuery = $;
 
-import 'bootstrap';
+
+
 // start the Stimulus application
 import './styles/estilo.css';
 
 import './bootstrap';
+
+import 'bootstrap-select/dist/css/bootstrap-select.css';
+
+$(function () {
+    $('#selectpicker').selectpicker();
+});

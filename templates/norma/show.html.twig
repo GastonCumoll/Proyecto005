@@ -95,9 +95,14 @@
                     {% for unPdf in norma.archivos %}
                 <a href="{{asset('uploads/pdf/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
                 
-                
             {% endfor %}
             </div>
+            </div>
+            <div style="text-align:left ;">
+                <i class="fa-solid fa-tags"></i>Etiquetas:
+                {% for etiqueta in norma.etiquetas %}
+                    {{etiqueta}},
+                {% endfor %}
             </div>
             <div class=" divBotonVolver mt-4  text-left">
                 <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>

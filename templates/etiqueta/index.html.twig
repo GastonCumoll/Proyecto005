@@ -3,7 +3,7 @@
 {% block title %}Etiqueta index{% endblock %}
 
 {% block body %}
-{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
+
     <h1>Etiquetas</h1>
     <br>
     <div class="container">
@@ -13,6 +13,21 @@
             <button class="boton btn-info btn-sm" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
+
+
+        {# //selectpicker
+            <div class="container">
+            <div class="row">
+                <div class="col-7 col-md-5">
+                    <button class="boton btn-info btn-sm" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <select id="selectpickerEti" class="selectpicker" name="selecEtiqueta" data-live-search="true">
+                            {% for unaEtiqueta in etiquetas %}
+                                <option data-tokens="a" value="{{unaEtiqueta.nombre}}" id="etiquetaId">{{unaEtiqueta}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div> #}
     </div>
     <br>
     <br>
@@ -50,11 +65,13 @@
     <div class="navigation">
         {{ knp_pagination_render(etiquetas) }}
     </div>
-    <a href="{{ path('tipo_relacion_new') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+    <a href="{{ path('etiqueta_new') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     </div>
     
     {% block javascripts %}
+    {{ parent() }}
     {{encore_entry_script_tags('busquedaParamEtiqueta')}}
+    
     {% endblock %}
     
 {% endblock %}

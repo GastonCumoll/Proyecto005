@@ -30,6 +30,8 @@ Encore
     .addEntry('busquedaParamNorma','./assets/busquedaParamNorma.js')
     .addEntry('busquedaParamEtiqueta','./assets/busquedaParamEtiqueta.js')
     .addEntry('busquedaParamItem','./assets/busquedaParamItem.js')
+    .addEntry('etiquetasNorma', './assets/etiquetasNorma.js')
+    .addEntry('etiquetasNormaEdit', './assets/etiquetasNormaEdit.js')
 
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
@@ -40,6 +42,7 @@ Encore
     .addStyleEntry('createTipoNorma', '/assets/styles/createTipoNorma.css')
     .addStyleEntry('inicio', '/assets/styles/inicio.css')
     .addStyleEntry('inicioAdmin', '/assets/styles/inicioAdmin.css')
+    .addStyleEntry('botonKnp', '/assets/styles/botonKnp.css')
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Item;
+use App\Entity\Norma;
 use App\Form\ItemType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -24,12 +25,30 @@ class ItemType extends AbstractType
                 'class' => Item::class,
                 'placeholder' => '',
                 'required' =>false,
+                'choice_label' => 'nombre',
+                'attr' => [
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
+
             ])
             ->add('orden', IntegerType::class,[
                 'required' =>false,
             ])
             //->add('dependencias')
-            ->add('normas') 
+            ->add('normas',EntityType::class, [
+                'class' => Norma::class,
+                'multiple' => true,
+                'placeholder' => '',
+                'required' =>false,
+                'choice_label' => 'titulo',
+                'attr' => [
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
+            ]) 
         ;
         
             }

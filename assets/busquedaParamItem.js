@@ -12,8 +12,13 @@ $(document).ready(function(){
         var idPalabra=id.value;
         const palabraNueva=idPalabra.replace('/','§');
         //console.log(palabraNueva);
-        var urlController="/item/"+palabraNueva+"/busquedaParam";
+        if(idPalabra==""){
+            var urlController="/item/ /busquedaParam";
+        }else{
+            var urlController="/item/"+palabraNueva+"/busquedaParam";
+        }
         window.location.href = urlController
+        
         }
         })
         $("#btnBusquedaParam").click(function(){
@@ -23,7 +28,11 @@ $(document).ready(function(){
             var idPalabra=id.value;
             const palabraNueva=idPalabra.replace('/','§');
             //console.log(palabraNueva);
-            var urlController="/item/"+palabraNueva+"/busquedaParam";
+            if(idPalabra==""){
+                var urlController="/item/ /busquedaParam";
+            }else{
+                var urlController="/item/"+palabraNueva+"/busquedaParam";
+            }
             window.location.href = urlController
         })
     }
