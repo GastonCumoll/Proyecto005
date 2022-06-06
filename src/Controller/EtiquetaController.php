@@ -6,6 +6,7 @@ use App\Entity\Etiqueta;
 use App\Form\EtiquetaType;
 use App\Service\SeguridadService;
 use App\Repository\EtiquetaRepository;
+use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,62 @@ class EtiquetaController extends AbstractController
             //'etiquetas' => $etiquetaRepository->findAll(),
             'etiquetas' => $appointments,
         ]);
+    }
+
+    /**
+     * @Route("/{id}/busquedaId", name="busqueda_id_etiqueta", methods={"GET","POST"}, options={"expose"=true})
+     */
+    public function busquedaId(EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    {
+
+        //dd($palabra);
+        //$palabra es el string que quiero buscar
+        //$palabra=str_replace("§","/",$palabra);
+        // if($palabra==" "){
+        //     $todasEtiquetas=[];
+        // }else{
+        //     $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//ORMQuery
+        // }
+        $etiqueta=$etiquetaRepository->findById($id);//array
+        // foreach ($etiqueta as $unaEtiqueta) {
+        //     dd($unaEtiqueta->getNormas());    
+        // }
+        // $normas=[];
+        // foreach ($etiqueta as $unaEtiqueta) {
+        //     $normas=array_merge($normas,$unaEtiqueta->getNormas()->toArray());
+        // }
+        $normas=$etiqueta[0]->getNormas();
+        dd($etiqueta[0]->getNormas()->getValues());
+        //$todasEtiquetas=array_unique($todasEtiquetas);
+
+        // Paginar los resultados de la consulta
+        $norma = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $normas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('norma/indexAdmin.html.twig', [
+            'tipoNormas' => $tipoRepository->findAll(),
+            'rol' => $rol,
+            'normas' => $norma,
+        ]);
+        
     }
 
     /**

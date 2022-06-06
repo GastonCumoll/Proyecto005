@@ -42,6 +42,13 @@ class EtiquetaRepository extends ServiceEntityRepository
         $query=$retorno->getQuery();
         return $query;
     }
+    
+    public function findUnaEtiquetaPorId($id): Query
+    {
+        $retorno=$this->createQueryBuilder('p')->where('p.id LIKE :etiqueta')->setParameter('etiqueta','%'.$id.'%')->orderBy('p.id','ASC');
+        $query=$retorno->getQuery();
+        return $query;
+    }
 
     /*
     public function findOneBySomeField($value): ?Etiqueta

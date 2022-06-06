@@ -40,7 +40,7 @@ class Item
 
     /**
      * @ORM\OneToMany(targetEntity=Item::class, mappedBy="padre", orphanRemoval=true)
-     * @OrderBy({"orden" = "DESC"})
+     * @OrderBy({"nombre" = "ASC"})
      */
     private $dependencias;
 

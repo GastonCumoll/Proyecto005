@@ -130,7 +130,10 @@ body{
 #botonLupita{
     width: 5rem!important;
     margin-left: 2px;
+    display: inline !important;
 }
+
+
 .barraNavegacion{
     font-size: medium;
     border: 2px solid !important;
@@ -141,10 +144,6 @@ body{
     box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.2);
     margin-bottom: 1rem !important;
     position: relative !important;
-}
-
-#containerBusquedaAvanzada div{
-    
 }
 
 

@@ -113,7 +113,7 @@ class NormaController extends AbstractController
         
         
         //$palabra es el string que quiero buscar
-        $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
+        $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
 
         //$todasNormas=$normasQuery->getResult();//getResult()convierte el query en un array == ->execute();
         //$todasNormas=array_unique($todasNormas);
@@ -392,6 +392,8 @@ class NormaController extends AbstractController
             $año = $form->get('anio')->getData();
             $etiquetasDeForm = $form['etiquetas']->getData();
 
+            $normita=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
+            //dd($normita->getResult());
             //seccion etiquetas
             if($etiquetasDeForm[0]!=null){
                 foreach ($etiquetasDeForm as $e) {
@@ -410,79 +412,79 @@ class NormaController extends AbstractController
                         }
                     }
             }
-            $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
-            //seccion tipo
-            if($tipo != null){
-                $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo->getNombre());
-                //dd($tipoNorma);
-                $nTipo=$tipoNorma->getNormas()->toArray();
-            }
+            // $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
+            // //seccion tipo
+            // if($tipo != null){
+            //     $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo->getNombre());
+            //     //dd($tipoNorma);
+            //     $nTipo=$tipoNorma->getNormas()->toArray();
+            // }
 
 
-            if(($titulo != null)){
-                //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
+            // if(($titulo != null)){
+            //     //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
 
-                $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
-                $normas=$nTitulo;
-                if(($tipo!=null)){
+            //     $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
+            //     $normas=$nTitulo;
+            //     if(($tipo!=null)){
                     
-                    $normas=array_intersect($normas,$nTipo);
-                }
-                if($numero!=null){
-                    $nNumero=$normaRepository->findUnNumero($numero);
-                    $normas=array_intersect($normas,$nNumero);
-                }
-                if($año != null){
-                    $nAño=$normaRepository->findUnAño($año);
-                    $normas=array_intersect($normas,$nAño);
-                }
-                if($normasEtiquetasMerged!=null){
-                    $normas=array_intersect($normas,$normasEtiquetasMerged);
-                }
-            }
-            else{
-                    if(($tipo!=null)){
+            //         $normas=array_intersect($normas,$nTipo);
+            //     }
+            //     if($numero!=null){
+            //         $nNumero=$normaRepository->findUnNumero($numero);
+            //         $normas=array_intersect($normas,$nNumero);
+            //     }
+            //     if($año != null){
+            //         $nAño=$normaRepository->findUnAño($año);
+            //         $normas=array_intersect($normas,$nAño);
+            //     }
+            //     if($normasEtiquetasMerged!=null){
+            //         $normas=array_intersect($normas,$normasEtiquetasMerged);
+            //     }
+            // }
+            // else{
+            //         if(($tipo!=null)){
                         
-                        $normas=$nTipo;
-                        if($numero!=null){
-                            $nNumero=$normaRepository->findUnNumero($numero);
-                            $normas=array_intersect($normas,$nNumero);
-                        }
-                        if($año != null){
-                            $nAño=$normaRepository->findUnAño($año);
-                            $normas=array_intersect($normas,$nAño);
-                        }
-                        if($normasEtiquetasMerged!=null){
-                            $normas=array_intersect($normas,$normasEtiquetasMerged);
-                        }
-                }
-                else{
-                        if($numero!=null){
-                            $nNumero=$normaRepository->findUnNumero($numero);
-                            $normas=$nNumero;
-                            if($año != null){
-                                $nAño=$normaRepository->findUnAño($año);
-                                $normas=array_intersect($normas,$nAño);
-                            }
-                            if($normasEtiquetasMerged!=null){
-                                $normas=array_intersect($normas,$normasEtiquetasMerged);
-                            }
-                        }
-                        else{
-                            if($año != null){
-                                $nAño=$normaRepository->findUnAño($año);
-                                $normas=$nAño;
-                            }
-                            else{
-                                if($normasEtiquetasMerged!=null){
-                                    $normas=$normasEtiquetasMerged;
-                                }
-                            }
-                        }
+            //             $normas=$nTipo;
+            //             if($numero!=null){
+            //                 $nNumero=$normaRepository->findUnNumero($numero);
+            //                 $normas=array_intersect($normas,$nNumero);
+            //             }
+            //             if($año != null){
+            //                 $nAño=$normaRepository->findUnAño($año);
+            //                 $normas=array_intersect($normas,$nAño);
+            //             }
+            //             if($normasEtiquetasMerged!=null){
+            //                 $normas=array_intersect($normas,$normasEtiquetasMerged);
+            //             }
+            //     }
+            //     else{
+            //             if($numero!=null){
+            //                 $nNumero=$normaRepository->findUnNumero($numero);
+            //                 $normas=$nNumero;
+            //                 if($año != null){
+            //                     $nAño=$normaRepository->findUnAño($año);
+            //                     $normas=array_intersect($normas,$nAño);
+            //                 }
+            //                 if($normasEtiquetasMerged!=null){
+            //                     $normas=array_intersect($normas,$normasEtiquetasMerged);
+            //                 }
+            //             }
+            //             else{
+            //                 if($año != null){
+            //                     $nAño=$normaRepository->findUnAño($año);
+            //                     $normas=$nAño;
+            //                 }
+            //                 else{
+            //                     if($normasEtiquetasMerged!=null){
+            //                         $normas=$normasEtiquetasMerged;
+            //                     }
+            //                 }
+            //             }
                         
-                    }
+            //         }
                     
-                }
+            //     }
 
                 $sesion=$this->get('session');
                 $idSession=$sesion->get('session_id')*1;
@@ -497,10 +499,11 @@ class NormaController extends AbstractController
                     $rol="";
                 }
                 
+               
                 // Paginar los resultados de la consulta
-        $normasP = $paginator->paginate(
+            $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
-            $normas,
+            $normita,
             // Definir el parámetro de la página
             $request->query->getInt('page', 1),
             // Items per page
@@ -510,7 +513,7 @@ class NormaController extends AbstractController
             return $this->renderForm('norma/indexAdmin.html.twig', [
                 'etiquetas' => $etiquetaRepository->findAll(),
                 'tipoNormas' =>$tipoNormaRepository->findAll(),
-                'normas' => $normasP,
+                'normas' => $normas,
                 'rol' => $rol,
             ]);
         }
