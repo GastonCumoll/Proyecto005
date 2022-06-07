@@ -246,82 +246,8 @@ class NormaController extends AbstractController
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
-        $normas=[];
-
-        //seccion TipoNorma
-        $nTipo = [];
-        if($tipo != ""){
-            $tipoNorma=$tipoNormaRepository->findById($tipo);
-            
-            $nTipo=$tipoNorma[0]->getNormas()->toArray();
-        }
-        
-        
-        if(($titulo != "")){
-
-            //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
-            
-            $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
-            $normas=$nTitulo;
-            
-            if(($tipo!="")){
-                
-                $normas=array_intersect($normas,$nTipo);
-            }
-            if($numero!=""){
-                $nNumero=$normaRepository->findUnNumero($numero);
-                $normas=array_intersect($normas,$nNumero);
-            }
-            if($año != ""){
-                $nAño=$normaRepository->findUnAño($año);
-                $normas=array_intersect($normas,$nAño);
-            }
-            // if($normasEtiquetasMerged!=""){
-            //     $normas=array_intersect($normas,$normasEtiquetasMerged);
-            // }
-        }else{
-            if(($tipo!="")){
-                
-                $normas=$nTipo;
-                if($numero!=""){
-                    $nNumero=$normaRepository->findUnNumero($numero);
-                    $normas=array_intersect($normas,$nNumero);
-                }
-                if($año != ""){
-                    $nAño=$normaRepository->findUnAño($año);
-                    $normas=array_intersect($normas,$nAño);
-                }
-                // if($normasEtiquetasMerged!=""){
-                //     $normas=array_intersect($normas,$normasEtiquetasMerged);
-                // }
-        }
-        else{
-                if($numero!=""){
-                    $nNumero=$normaRepository->findUnNumero($numero);
-                    $normas=$nNumero;
-                    if($año != ""){
-                        $nAño=$normaRepository->findUnAño($año);
-                        $normas=array_intersect($normas,$nAño);
-                    }
-                    // if($normasEtiquetasMerged!=""){
-                    //     $normas=array_intersect($normas,$normasEtiquetasMerged);
-                    // }
-                }
-                else{
-                    if($año != ""){
-                        $nAño=$normaRepository->findUnAño($año);
-                        $normas=$nAño;
-                    }
-                    // else{
-                    //     if($normasEtiquetasMerged!=null){
-                    //         $normas=$normasEtiquetasMerged;
-                    //     }
-                    // }
-                }
-                
-            }
-            
-        }
+        dd($titulo);
+        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
         
         $sesion=$this->get('session');
                 $idSession=$sesion->get('session_id')*1;
@@ -352,30 +278,90 @@ class NormaController extends AbstractController
                     'normas' => $normasP,
                     'rol' => $rol,
                 ]);
-
-
-
-
     }
+
+
+    /**
+     * @Route("/formularioBusqueda", name="formulario_busqueda", methods={"GET","POST"})
+     */
+    public function formBusqueda(EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
+    {
+
+        
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('busqueda/formBusqueda.html.twig', [
+            'etiquetas' => $etiquetaRepository->findAll(),
+            'tipoNormas' =>$tipoNormaRepository->findAll(),
+            'rol' => $rol,
+        ]);
+    }
+
+    /**
+     * @Route("/formularioBusquedaResult", name="formulario_busqueda_result", methods={"GET","POST"})
+     */
+    public function formBusquedaResult(Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
+    {
+
+        $titulo=$request->query->get('titulo');//string
+        $tipo=$request->query->get('tipoNorma');//string
+        $numero=$request->query->get('numero');//string
+        $año=$request->query->get('año');//string
+        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
+        
+        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
+
+        //seccion paginator
+        // Paginar los resultados de la consulta
+        $normasP = $paginator->paginate(
+            // Consulta Doctrine, no resultados
+            $normas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('norma/indexAdmin.html.twig', [
+            'etiquetas' => $etiquetaRepository->findAll(),
+            'tipoNormas' =>$tipoNormaRepository->findAll(),
+            'normas' => $normasP,
+            'rol' => $rol,
+        ]);
+    }
+
 
     /**
      * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
      */
-    public function busquedaAvanzada(PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
+    public function busquedaAvanzada(PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad)
     {
-        $normasEtiquetasMerged=[];
-        //$normasEtiquetas=[];
-        $normas=[];
-        $nTitulo = [];
-        $nTipo = [];
-        $nNumero = [];
-        $nAño = [];
-        $nEtiqueta = [];
-        $etiquetas = [];
-        $nombreEtiqueta=[];
-
-        // $variablePost = $request->request->get('var');  // $_POST[]
-        // $variableGet = $request->query->get('var'); // $_GET[]
+        //$variablePost = $request->request->get('titulo');  // $_POST[]
+        //dd($variablePost);
+        //$variableGet = $request->query->get('titulo'); // $_GET[]
 
         // if ($variableGet)
         //     $resultado = $repo->findAlgunos($variableGet);
@@ -386,32 +372,37 @@ class NormaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $titulo = $form->get('titulo')->getData();
             $tipo = $form->get('tipo')->getData();
             $numero = $form->get('numero')->getData();
             $año = $form->get('anio')->getData();
-            $etiquetasDeForm = $form['etiquetas']->getData();
+            //$etiquetasDeForm = $form['etiquetas']->getData();
+            
 
-            $normita=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
-            //dd($normita->getResult());
+            $normita=$normaRepository->findNormas($titulo,$numero,$año,$tipo->getId());//FIND NORMAS= METODO EN EL REPOSITORIO PARA BUSCAR LAS NORMAS DE A CUERDO A LOS PARAMETROS;
+            //dd($normita->getResult());//->getResult() para convertir el ORM Query($normita) a array;
+
+            //BUSQEUDA VIEJA---------------------------------------------------------------------------
             //seccion etiquetas
-            if($etiquetasDeForm[0]!=null){
-                foreach ($etiquetasDeForm as $e) {
-                    $nombreEtiqueta[]=$e->getNombre();
-                }
+            // if($etiquetasDeForm[0]!=null){
+            //     foreach ($etiquetasDeForm as $e) {
+            //         $nombreEtiqueta[]=$e->getNombre();
+            //     }
 
-                    $arrayEtiquetas=[];
-                    foreach ($nombreEtiqueta as $unaEtiquetaSeparada) {
-                        //$unaEtiquetaSeparada=trim($unaEtiquetaSeparada);
-                        $arrayEtiquetas=array_merge($arrayEtiquetas,$etiquetaRepository->findUnaEtiqueta($unaEtiquetaSeparada));
+            //         $arrayEtiquetas=[];
+            //         foreach ($nombreEtiqueta as $unaEtiquetaSeparada) {
+            //             //$unaEtiquetaSeparada=trim($unaEtiquetaSeparada);
+            //             $arrayEtiquetas=array_merge($arrayEtiquetas,$etiquetaRepository->findUnaEtiqueta($unaEtiquetaSeparada));
                         
-                        foreach ($arrayEtiquetas as $unaEtiqueta) {
-                            $normasDeUnaEtiqueta=$unaEtiqueta->getNormas()->toArray();
+            //             foreach ($arrayEtiquetas as $unaEtiqueta) {
+            //                 $normasDeUnaEtiqueta=$unaEtiqueta->getNormas()->toArray();
                             
-                            $normasEtiquetasMerged=array_merge($normasDeUnaEtiqueta,$normasEtiquetasMerged);
-                        }
-                    }
-            }
+            //                 $normasEtiquetasMerged=array_merge($normasDeUnaEtiqueta,$normasEtiquetasMerged);
+            //             }
+            //         }
+            // }
+            
             // $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
             // //seccion tipo
             // if($tipo != null){
@@ -485,6 +476,7 @@ class NormaController extends AbstractController
             //         }
                     
             //     }
+            //-------------------------------------------------------------------------------------------
 
                 $sesion=$this->get('session');
                 $idSession=$sesion->get('session_id')*1;
@@ -499,7 +491,6 @@ class NormaController extends AbstractController
                     $rol="";
                 }
                 
-               
                 // Paginar los resultados de la consulta
             $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -510,6 +501,7 @@ class NormaController extends AbstractController
             10
         );
 
+        //return $this->redirectToRoute('busqueda_avanzada_result', ['normas' => $normas], Response::HTTP_SEE_OTHER);
             return $this->renderForm('norma/indexAdmin.html.twig', [
                 'etiquetas' => $etiquetaRepository->findAll(),
                 'tipoNormas' =>$tipoNormaRepository->findAll(),
@@ -517,6 +509,7 @@ class NormaController extends AbstractController
                 'rol' => $rol,
             ]);
         }
+        
         return $this->renderForm('busqueda/busquedaAvanzada.html.twig', [
             'form' => $form,
         ]);
@@ -667,10 +660,15 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/mostrarTexto", name="mostrar_texto", methods={"GET"})
      */
-    public function mostrarTexto(NormaRepository $normaRepository ,$id): Response
+    public function mostrarTexto(NormaRepository $normaRepository ,$id,EntityManagerInterface $entityManager): Response
     {
+
+        $norma=$normaRepository->find($id);
+        $texto=$norma->getTexto();
+
+
         return $this->render('norma/mostrarTexto.html.twig', [
-            'id' => $normaRepository->find($id),
+            'texto' =>$texto,
         ]);
     }
     

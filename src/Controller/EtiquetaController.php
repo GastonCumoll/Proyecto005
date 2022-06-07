@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etiqueta;
 use App\Form\EtiquetaType;
 use App\Service\SeguridadService;
+use App\Repository\NormaRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,7 +54,7 @@ class EtiquetaController extends AbstractController
     /**
      * @Route("/{id}/busquedaId", name="busqueda_id_etiqueta", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaId(EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    public function busquedaId(NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
 
         //dd($palabra);
@@ -64,7 +65,15 @@ class EtiquetaController extends AbstractController
         // }else{
         //     $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//ORMQuery
         // }
-        $etiqueta=$etiquetaRepository->findById($id);//array
+        $etiqueta=$etiquetaRepository->find($id);//array
+        //dd($etiqueta->getNormas());
+        // foreach($etiqueta[0]->getNormas() as $unaNorma){
+        //     dump($unaNorma);
+        // }
+        // foreach ($etiqueta[0]->getNormas() as $unaNorma) {
+        //     $normas=$normaRepository->findUnaPalabraDentroDelTitulo($unaNorma->getTitulo());
+        // }
+        
         // foreach ($etiqueta as $unaEtiqueta) {
         //     dd($unaEtiqueta->getNormas());    
         // }
@@ -72,14 +81,14 @@ class EtiquetaController extends AbstractController
         // foreach ($etiqueta as $unaEtiqueta) {
         //     $normas=array_merge($normas,$unaEtiqueta->getNormas()->toArray());
         // }
-        $normas=$etiqueta[0]->getNormas();
-        dd($etiqueta[0]->getNormas()->getValues());
+        // $normas=$etiqueta[0]->getNormas();
+        // dd($etiqueta[0]->getNormas()->getValues());
         //$todasEtiquetas=array_unique($todasEtiquetas);
 
         // Paginar los resultados de la consulta
         $norma = $paginator->paginate(
             // Consulta Doctrine, no resultados
-            $normas,
+            $etiqueta->getNormas(),
             // Definir el parámetro de la página
             $request->query->getInt('page', 1),
             // Items per page
@@ -100,6 +109,7 @@ class EtiquetaController extends AbstractController
         }
         return $this->render('norma/indexAdmin.html.twig', [
             'tipoNormas' => $tipoRepository->findAll(),
+            'etiquetas' =>$etiquetaRepository->findAll(),
             'rol' => $rol,
             'normas' => $norma,
         ]);

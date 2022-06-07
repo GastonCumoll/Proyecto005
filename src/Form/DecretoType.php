@@ -9,14 +9,15 @@ use App\Entity\Etiqueta;
 use App\Repository\ItemRepository;
 use App\Repository\EtiquetaRepository;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
-use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DecretoType extends AbstractType
 {
@@ -58,7 +59,12 @@ class DecretoType extends AbstractType
         // ]])
 
         ->add('resumen')
-        ->add('texto',  FroalaEditorType::class)
+        ->add('texto',  CKEditorType::class,[
+            'config' => [
+                'uiColor' =>  '#FFFFFF',
+            ],
+            'purify_html' => true,
+        ])
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas',EntityType::class,[

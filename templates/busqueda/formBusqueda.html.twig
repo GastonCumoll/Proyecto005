@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Norma index{% endblock %}
+
+{% block body %}
+
+<div class="card shadow-sm">
+    <div class="card-body sm">
+        <form action="{{path('formulario_busqueda_result')}}" method="get">
+            <div class="form-row mb-2">
+            <div class="col-6">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <strong>Titulo:</strong>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="titulo" name="titulo"
+                                placeholder="titulo" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <strong>Tipo</strong>
+                    </div>
+                    <div class="col">
+                        {# <input class="form-control form-control-sm" id="responsable"
+                        name="responsable" placeholder="responsable" /> #}
+                        <div class="input-group">
+                            <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                <option value = '' selected></option>
+                                {% for tipo in tipoNormas %}
+                                    <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
+                                {% endfor %}
+                            </select>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row mb-2">
+            <div class="col-6">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <strong>Numero:</strong>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" id="numero" name="numero"
+                                placeholder="numero" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <strong>Año:</strong>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <div class="input-group">
+                                <input type="number" class="form-control form-control-sm" id="año" name="año"
+                                    placeholder="año" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <strong>Etiquetas</strong>
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <select name="etiquetas" id="etiquetas" class="form-control selectpicker" data-live-search="true" multiple="true">
+                            <option value = '-' selected></option>
+                            {% for etiqueta in etiquetas %}
+                                <option value={{etiqueta.getId()}}>{{etiqueta.getNombre()}}</option>    
+                            {% endfor %}
+                        </select>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-sm btn-outline-secondary cargando" ><i
+                class="fa fa-search"></i> Buscar</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+{% block javascripts %}
+        {{encore_entry_script_tags('busquedaParamNorma')}}
+        {{encore_entry_script_tags('normaEdit')}}
+    {% endblock %}
+{% endblock %}

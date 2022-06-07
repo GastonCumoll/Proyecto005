@@ -38,16 +38,15 @@ class NormaRepository extends ServiceEntityRepository
     }
     */
 
-    public function findUnaPalabraDentroDelTitulo($palabra): array
+    public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->orderBy('p.titulo','ASC');
         $query=$retorno->getQuery();
-        return $query->execute();
+        return $query;
     }
 
     public function findNormas($titulo,$numero,$año,$tipo): Query
     {
-
         $consulta=$this->createQueryBuilder('p');
         if($titulo){
             $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
@@ -57,7 +56,7 @@ class NormaRepository extends ServiceEntityRepository
             $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
         }
         if($tipo){
-            $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo->getId());
+            $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
         }
             $consulta->orderBy('p.titulo','ASC');
 
@@ -65,6 +64,12 @@ class NormaRepository extends ServiceEntityRepository
 
         return $query;
     }
+
+    public function findByEtiqueta($etiqueta): Query
+    {
+        $consulta=$this->createQueryBuilder('e')->where('e.titulo = :titulo')->setParameter('titulo',$etiqueta->getTitulo())->orderby('e.titulo','ASC');
+    }
+
     public function findArrayDePalabras($arreglo): Query
     {
         $tam=sizeof($arreglo);
