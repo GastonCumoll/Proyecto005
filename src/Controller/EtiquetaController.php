@@ -56,34 +56,10 @@ class EtiquetaController extends AbstractController
      */
     public function busquedaId(NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
-
-        //dd($palabra);
-        //$palabra es el string que quiero buscar
-        //$palabra=str_replace("§","/",$palabra);
-        // if($palabra==" "){
-        //     $todasEtiquetas=[];
-        // }else{
-        //     $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//ORMQuery
-        // }
         $etiqueta=$etiquetaRepository->find($id);//array
-        //dd($etiqueta->getNormas());
-        // foreach($etiqueta[0]->getNormas() as $unaNorma){
-        //     dump($unaNorma);
-        // }
-        // foreach ($etiqueta[0]->getNormas() as $unaNorma) {
-        //     $normas=$normaRepository->findUnaPalabraDentroDelTitulo($unaNorma->getTitulo());
-        // }
-        
-        // foreach ($etiqueta as $unaEtiqueta) {
-        //     dd($unaEtiqueta->getNormas());    
-        // }
-        // $normas=[];
-        // foreach ($etiqueta as $unaEtiqueta) {
-        //     $normas=array_merge($normas,$unaEtiqueta->getNormas()->toArray());
-        // }
-        // $normas=$etiqueta[0]->getNormas();
-        // dd($etiqueta[0]->getNormas()->getValues());
-        //$todasEtiquetas=array_unique($todasEtiquetas);
+        $normasEtiquetas=$etiqueta->getNormas()->toArray();
+
+        $normas=$normaRepository->findNormasEtiqueta($normasEtiquetas);
 
         // Paginar los resultados de la consulta
         $norma = $paginator->paginate(

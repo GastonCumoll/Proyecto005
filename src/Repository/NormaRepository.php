@@ -45,29 +45,75 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function findNormas($titulo,$numero,$año,$tipo): Query
+    public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas): Query 
     {
+
+        $cont=0;
+        $tam=count($arrayDeNormas);
         $consulta=$this->createQueryBuilder('p');
-        if($titulo){
-            $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
-        }if($numero){
-            $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
-        }if($año){
-            $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
-        }
-        if($tipo){
-            $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
-        }
-            $consulta->orderBy('p.titulo','ASC');
+        $consulta1="";
+        if($arrayDeNormas){//entra si hay mas de una norma
+            if(count($arrayDeNormas)>1){
 
+                //$consulta->where('p.id = :id');
+                for ($i=0; $i < $tam; $i++) {
+                    if($i==0){
+                        $consulta1.= "(p.id = ".$arrayDeNormas[$i]->getId();
+                    //     $consulta->setParameter('id',$arrayDeNormas[$i]);
+                    }else{
+                        $consulta1.= "OR(p.id = " .$arrayDeNormas[$i]->getId();
+                    //     $consulta->orWhere($consulta->expr()->orX(
+                    //     'p.id = :id'))->setParameter('id',$arrayDeNormas[$i]);
+                    }
+                        if($titulo){
+                            $consulta1.= " AND p.titulo LIKE '%".$titulo."%'";
+                            //$consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+                        }if($numero){
+                            $consulta1.= " AND p.numero LIKE '%".$numero."%'";
+                            //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+                        }if($año){
+                            $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%'" ;
+                            //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
+                        }
+                        if($tipo){
+                            $consulta1.= " AND p.tipoNorma = ".$tipo;
+                            //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
+                        }
+                        $consulta1.= ")";
+                }
+                
+            }
+            //dd($consulta1);
+            $consulta=$this->createQueryBuilder('p')->where($consulta1);
+        }else{
+            if($titulo){
+                    $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+                    }if($numero){
+                        $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+                    }if($año){
+                        $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
+                    }
+                    if($tipo){
+                        $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
+                    }
+        }
+
+        $consulta->orderBy('p.titulo','ASC');
         $query=$consulta->getQuery();
-
+        //dd($query);
         return $query;
     }
 
-    public function findByEtiqueta($etiqueta): Query
+    public function findNormasEtiqueta($normasEtiquetas): Query
     {
-        $consulta=$this->createQueryBuilder('e')->where('e.titulo = :titulo')->setParameter('titulo',$etiqueta->getTitulo())->orderby('e.titulo','ASC');
+        $tam=count($normasEtiquetas);
+        $consulta=$this->createQueryBuilder('p');
+        for ($i=0; $i <$tam ; $i++) { 
+            $consulta->orWhere('p.id = :id')->setParameter('id',$normasEtiquetas[$i]->getId());
+        }
+        $consulta->orderBy('p.titulo','ASC');
+        $query=$consulta->getQuery();
+        return $query;
     }
 
     public function findArrayDePalabras($arreglo): Query

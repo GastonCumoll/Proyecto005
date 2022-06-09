@@ -31,7 +31,7 @@
                         name="responsable" placeholder="responsable" /> #}
                         <div class="input-group">
                             <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
-                                <option value = '' selected></option>
+                                <option ></option>
                                 {% for tipo in tipoNormas %}
                                     <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
                                 {% endfor %}
@@ -78,10 +78,10 @@
                 </div>
                 <div class="col">
                     <div class="input-group">
-                        <select name="etiquetas" id="etiquetas" class="form-control selectpicker" data-live-search="true" multiple="true">
-                            <option value = '-' selected></option>
+                        <select multiple name="etiquetas[]" id="etiquetas" class="form-control selectpicker" data-live-search="true">
+                            <option value="" selected></option>
                             {% for etiqueta in etiquetas %}
-                                <option value={{etiqueta.getId()}}>{{etiqueta.getNombre()}}</option>    
+                                <option value="{{etiqueta.getId()}}">{{etiqueta.getNombre()}}</option>    
                             {% endfor %}
                         </select>
                     </div> 

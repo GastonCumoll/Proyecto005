@@ -246,8 +246,9 @@ class NormaController extends AbstractController
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
-        dd($titulo);
-        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
+        //dd($titulo);
+        $arrayDeEtiquetas=[];
+        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
         
         $sesion=$this->get('session');
                 $idSession=$sesion->get('session_id')*1;
@@ -286,9 +287,6 @@ class NormaController extends AbstractController
      */
     public function formBusqueda(EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
-
-        
-
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -305,6 +303,7 @@ class NormaController extends AbstractController
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),
             'rol' => $rol,
+            //'form' =>$form,
         ]);
     }
 
@@ -313,15 +312,39 @@ class NormaController extends AbstractController
      */
     public function formBusquedaResult(Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
-
-        $titulo=$request->query->get('titulo');//string
+        $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
-        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
+        //if(!$request->request->get('etiquetas')){
+        $etiquetas=$request->query->get('etiquetas');
+        //dd($etiquetas);
+        //}
+            //$etiquetas[0]="";
         
-        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo);
+        //dd($etiquetas);
+        $arrayDeNormas=[];
+        if($etiquetas!= null){
+            if(count($etiquetas)>1){
+                $etiquetasObj=[];
+                for ($i=1; $i <count($etiquetas) ; $i++) {
+                   //$tamNormas=count($etiquetas[$i]->getNormas());
+                    $etiquetasObj[$i]=$etiquetaRepository->findById($etiquetas[$i]);
+                    //dd($etiquetasObj[$i]);
+                    foreach ($etiquetasObj[$i][0]->getNormas() as $unaNorma) {
+                        $arrayDeNormas[]=$unaNorma;
+                    }
+                }
+            }
+        }
+        
+        
 
+        //dd($arrayDeNormas);
+        
+        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento ¿porque no me trae un array?
+        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
+        //dd($normas->getResult());
         //seccion paginator
         // Paginar los resultados de la consulta
         $normasP = $paginator->paginate(
@@ -377,7 +400,8 @@ class NormaController extends AbstractController
             $tipo = $form->get('tipo')->getData();
             $numero = $form->get('numero')->getData();
             $año = $form->get('anio')->getData();
-            //$etiquetasDeForm = $form['etiquetas']->getData();
+            $etiquetasDeForm = $form['etiquetas']->getData();
+            dd($etiquetasDeForm);
             
 
             $normita=$normaRepository->findNormas($titulo,$numero,$año,$tipo->getId());//FIND NORMAS= METODO EN EL REPOSITORIO PARA BUSCAR LAS NORMAS DE A CUERDO A LOS PARAMETROS;
