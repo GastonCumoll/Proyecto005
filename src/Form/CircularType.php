@@ -8,6 +8,7 @@ use App\Entity\Etiqueta;
 use App\Form\CircularType;
 use App\Repository\EtiquetaRepository;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
@@ -34,7 +35,19 @@ class CircularType extends AbstractType
             //->add('fechaPublicacion')
             
             ->add('resumen')
-            ->add('texto',  FroalaEditorType::class)
+            ->add('texto',  CKEditorType::class,[
+                'config' => [
+                    'toolbar' => 'standard',
+                    //'uiColor' =>  '#FFFFFF',
+                    //'removeButtons' => 'Save,NewPage',
+                    //'extraPlugins' => 'simpleImageUpload',
+                    'filebrowserBrowseUrl' =>'/public/images/browser.php',
+                    'filebrowserUploadUrl'=> '/public/images/browser.php',
+                    //'removePlugins' => 'pasteimage',
+                    'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
+                ],
+                'purify_html' => true,
+            ])
             //->add('fechaPublicacionBoletin')
             //->add('estado')
             ->add('etiquetas',EntityType::class,[

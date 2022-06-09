@@ -26,7 +26,12 @@ class RelacionType extends AbstractType
                 },
                 'choice_label' => 'titulo',
                 'multiple' => false,
-                'required' => true
+                'required' => true,
+                'attr' =>[
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
             ])
             ->add('tipoRelacion',EntityType::class,[
                 'class' => TipoRelacion::class,

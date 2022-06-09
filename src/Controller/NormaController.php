@@ -1026,7 +1026,7 @@ class NormaController extends AbstractController
             //     return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
             // }
             
-            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('norma/edit.html.twig', [
