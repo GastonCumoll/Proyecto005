@@ -50,6 +50,7 @@ class GeneralController extends AbstractController
         ]);
 
     }
+    
     /**
      * @Route("/404", name="404")
      */

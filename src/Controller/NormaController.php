@@ -1059,7 +1059,7 @@ class NormaController extends AbstractController
                 'relacion' => $relacion,
             ]);
         }
-    }   
+    }
 
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})

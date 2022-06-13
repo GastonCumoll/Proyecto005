@@ -58,12 +58,19 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'norma_new'=>['DIG_OPERADOR'],
                 'mostrar_texto'=>[],
                 'norma_delete'=>['DIG_OPERADOR'],
+                'busqueda_avanzada' =>[],
+                'formulario_busqueda_result'=>[],
+                'formulario_busqueda'=>[],
+                'busqueda_filtro'=>[],
+                'busqueda_param'=>[],
+                'busqueda_rapida'=>[],
 
                 //Relacion
                 'relacion_delete'=>['DIG_OPERADOR'],
                 'relacion_edit'=>['DIG_OPERADOR'],
                 'relacion_new'=>['DIG_OPERADOR'],
                 'form_rela_edit'=>['DIG_OPERADOR'],
+                'relacion_show'=>['DIG_OPERADOR'],
 
                 //Tipo Norma
                 'tipo_norma_index'=>['DIG_OPERADOR'],
@@ -73,7 +80,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'tipo_norma_edit'=>['DIG_OPERADOR'],
                 'tipo_norma_delete'=>['DIG_OPERADOR'],
 
-                // //Tipo Relacion
+                //Tipo Relacion
                 'tipo_relacion_index'=>['DIG_OPERADOR'],
                 'tipo_relacion_new'=>['DIG_OPERADOR'],
                 'tipo_relacion_show'=>['DIG_OPERADOR'],
@@ -81,30 +88,36 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'tipo_relacion_edit'=>['DIG_OPERADOR'],
 
 
-                // //Item
+                //Item
                 'item_index'=>['DIG_OPERADOR'],
                 'item_new'=>['DIG_OPERADOR'],
                 'item_show'=>['DIG_OPERADOR'],
                 'item_edit'=>['DIG_OPERADOR'],
                 'item_delete'=>['DIG_OPERADOR'],
+                'busqueda_param_item'=>['DIG_OPERADOR'],
 
 
                 //indice 
-                'indice'=>[],
+                'indice_vigente'=>[],
+                'indice_no_vigente'=>[],
+                'pagina_principal'=>[],
 
-                // //General
+                //General
                 'login'=>[],
                 '404'=>[],
                 'error'=>[],
                 'autenticar'=>[],
                 'logout'=>[],//ojo con este
 
-                // //Etiqueta
+                //Etiqueta
                 'etiqueta_index'=>['DIG_OPERADOR'],
                 'etiqueta_new'=>['DIG_OPERADOR'],
                 'etiqueta_show'=>['DIG_OPERADOR'],
                 'etiqueta_edit'=>['DIG_OPERADOR'],
                 'etiqueta_delete'=>['DIG_OPERADOR'],
+                'busqueda_param_etiqueta'=>[],
+                'busqueda_id_etiqueta'=>[],
+
 
                 // //Area
                 'area_index'=>['DIG_OPERADOR'],
