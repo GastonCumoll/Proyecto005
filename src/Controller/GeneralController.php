@@ -52,6 +52,14 @@ class GeneralController extends AbstractController
     }
     
     /**
+     * @Route("/notRole", name="not_role")
+     */
+    public function notRole(): Response
+    {
+        return $this->render('general/notRole.html.twig');
+    }
+
+    /**
      * @Route("/404", name="404")
      */
     public function error404(): Response

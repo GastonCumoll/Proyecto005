@@ -108,6 +108,8 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'error'=>[],
                 'autenticar'=>[],
                 'logout'=>[],//ojo con este
+                'inicio' =>[],
+                'not_role'=>[],
 
                 //Etiqueta
                 'etiqueta_index'=>['DIG_OPERADOR'],
@@ -171,7 +173,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 switch ($status) {
                     case 0:
                         // Si no tengo ninguno de los roles admitidos, redirijo a 404 Not Found
-                        $event->setResponse(new RedirectResponse('/404'));
+                        $event->setResponse(new RedirectResponse('/notRole'));
                         break;
                     case 1:
                         // No hago nada, ya que procedo con normalidad
@@ -195,6 +197,9 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout'));
+                }else{
+                    //dd("hola");
+                    $event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }
