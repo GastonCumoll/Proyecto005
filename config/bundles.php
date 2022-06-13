@@ -16,4 +16,5 @@ return [
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     Exercise\HTMLPurifierBundle\ExerciseHTMLPurifierBundle::class => ['all' => true],
     CKSource\Bundle\CKFinderBundle\CKSourceCKFinderBundle::class => ['all' => true],
+    Artgris\Bundle\FileManagerBundle\ArtgrisFileManagerBundle::class => ['all' => true],
 ];

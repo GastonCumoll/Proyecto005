@@ -1,12 +1,17 @@
 import './app.js';
 
 import 'bootstrap';
+import bsCustomFileInput from 'bs-custom-file-input';
+
+$(document).ready(function () {
+    bsCustomFileInput.init()
+  })
 
     var arreglo=document.getElementById('decreto_etiquetas');//no seleccionadas    
     var arreglo1=document.getElementById('decreto_etiquetas_de_norma');//seleccionadas
 
     var long=arreglo.length;
-
+    
     var seleccionados=[];
     var noSeleccionados=[];
     var s=0;

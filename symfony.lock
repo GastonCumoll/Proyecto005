@@ -1,4 +1,7 @@
 {
+    "artgris/filemanager-bundle": {
+        "version": "2.2.5"
+    },
     "aws/aws-crt-php": {
         "version": "v1.0.2"
     },
@@ -10,6 +13,9 @@
     },
     "ckfinder/ckfinder-symfony-bundle": {
         "version": "3.5.3"
+    },
+    "composer/installers": {
+        "version": "v2.1.1"
     },
     "doctrine/annotations": {
         "version": "1.13",
@@ -184,6 +190,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
+    },
+    "oomphinc/composer-installers-extender": {
+        "version": "2.0.1"
     },
     "paragonie/random_compat": {
         "version": "v9.99.100"

@@ -64,6 +64,19 @@
         float: left;
     }
 
+    /* .bootstrap-select {
+        display: block !important;
+        width: 50% !important;
+    }
+    /* #decreto_etiquetas{
+        width: 50% !important;
+    } */
+
+    /* #decreto_etiquetas_de_norma{
+        display: inline !important;
+        width: 50% !important;
+    }  */
+
     .btn-primary{
         margin-left: 60% !important;
     }

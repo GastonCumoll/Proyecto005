@@ -29,7 +29,8 @@ class CircularTypeEdit extends AbstractType
                 'label'=> 'archivo',
                 'multiple'=>true,
                 'mapped'=>false,
-                'required'=>false
+                'required'=>false,
+                'attr' => ['class'=>'custom-file-imput'],
             ])
             //->add('fechaSancion')
             //->add('fechaPublicacion')

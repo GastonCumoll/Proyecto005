@@ -27,7 +27,8 @@ class DirectivaTypeEdit extends AbstractType
                 'label'=> 'archivo',
                 'multiple'=>true,
                 'mapped'=>false,
-                'required'=>false
+                'required'=>false,
+                'attr' => ['class'=>'custom-file-imput'],
             ])
             // ->add('pdfFile', FileType::class, [
             //     'data_class' => null,

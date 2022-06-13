@@ -30,3 +30,7 @@ services:
     App\Service\SeguridadService:
         arguments:
             $ws_seguridad: '%ws_seguridad%'
+    
+    custom_service:
+        class: App\Service\CustomService
+        public: true

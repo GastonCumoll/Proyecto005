@@ -29,14 +29,14 @@ class DecretoType extends AbstractType
         //->add('fechaPublicacion')
         ->add('titulo')
         ->add('archivo', FileType::class,[
-            'label'=> 'archivo',
-            'label_attr'=>[
-                'id'=>'subirArchi'
-            ],
+            //'label'=> 'archivo',
+            // 'label_attr'=>[
+            //     'id'=>'subirArchi'
+            // ],
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,
-            'attr' => ['id'=>'archi']
+            'attr' => ['class'=>'custom-file-imput'],
         ])
         
         // ->add('pdfFile', FileType::class, [
@@ -61,12 +61,14 @@ class DecretoType extends AbstractType
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
-                'toolbar' => 'standard',
+                'conf' => 'default',
+                'config_name' => 'basic_config',
+                //'toolbar' => 'standard',
                 //'uiColor' =>  '#FFFFFF',
                 //'removeButtons' => 'Save,NewPage',
                 //'extraPlugins' => 'simpleImageUpload',
-                'filebrowserBrowseUrl' =>'/public/images/browser.php',
-                'filebrowserUploadUrl'=> '/public/images/browser.php',
+                //'filebrowserImageBrowseRoute' => '',
+                //'filebrowserUploadUrl'=> '/public/uploads',
                 //'removePlugins' => 'pasteimage',
                 'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
             ],
@@ -83,9 +85,11 @@ class DecretoType extends AbstractType
                 'choice_label' => 'nombre',
                 'multiple' => true,
                 'attr' =>[
+                    //'id' =>'etiqueta_select_id',
                     'class'=>'selectpicker',
                     'data-size'=>'10',
                     'data-live-search'=>true,
+                    
                 ]
         ])
         ->add('etiquetas_de_norma',EntityType::class,[

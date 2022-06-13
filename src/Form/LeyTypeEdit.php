@@ -28,7 +28,8 @@ class LeyTypeEdit extends AbstractType
             'label'=> 'archivo',
             'multiple'=>true,
             'mapped'=>false,
-            'required'=>false
+            'required'=>false,
+            'attr' => ['class'=>'custom-file-imput'],
         ])
         //->add('fechaPublicacion')
         ->add('resumen')

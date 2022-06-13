@@ -1,12 +1,12 @@
 import './app.js';
 
 import 'bootstrap';
-    console.log("entro");
+    //console.log("entro");
     var arreglo=document.getElementById('decreto_type_edit_etiquetas');//no seleccionadas
-    console.log(arreglo);
+    //console.log(arreglo);
     
     var arreglo1=document.getElementById('decreto_type_edit_etiquetas_de_norma');//seleccionadas
-    console.log(arreglo1);
+    //console.log(arreglo1);
     
         var long=arreglo.length;
     

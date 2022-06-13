@@ -20,12 +20,14 @@ class TextoEditType extends AbstractType
         $builder
         ->add('texto',  CKEditorType::class,[
             'config' => [
-                'toolbar' => 'standard',
+                'conf' => 'default',
+                'config_name' => 'basic_config',
+                //'toolbar' => 'standard',
                 //'uiColor' =>  '#FFFFFF',
                 //'removeButtons' => 'Save,NewPage',
                 //'extraPlugins' => 'simpleImageUpload',
-                'filebrowserBrowseUrl' =>'/public/images/browser.php',
-                'filebrowserUploadUrl'=> '/public/images/browser.php',
+                //'filebrowserImageBrowseRoute' => '',
+                //'filebrowserUploadUrl'=> '/public/uploads',
                 //'removePlugins' => 'pasteimage',
                 'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
             ],

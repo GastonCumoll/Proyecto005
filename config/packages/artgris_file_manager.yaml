@@ -1,0 +1,22 @@
+artgris_file_manager:
+    conf:
+        files:
+            dir: "%kernel.project_dir%/public/uploads/imagenes"
+            type: 'file'
+        images:
+            dir: "%kernel.project_dir%/public/uploads/imagenes"
+            type: 'image'
+
+fos_ck_editor:
+    default_config: basic_config
+    configs:
+        basic_config:
+            toolbar: standard
+            filebrowserBrowseRoute: file_manager
+            filebrowserBrowseRouteParameters:
+                conf: files
+                module: ckeditor
+            filebrowserImageBrowseRoute: file_manager
+            filebrowserImageBrowseRouteParameters:
+                conf: images
+                module: ckeditor

@@ -28,7 +28,8 @@ class DirectivaType extends AbstractType
                 'label'=> 'archivo',
                 'multiple'=>true,
                 'mapped'=>false,
-                'required'=>false
+                'required'=>false,
+                'attr' => ['class'=>'custom-file-imput'],
             ])
             // ->add('pdfFile', FileType::class, [
             //     'data_class' => null,
@@ -50,13 +51,8 @@ class DirectivaType extends AbstractType
             ->add('resumen')
             ->add('texto',  CKEditorType::class,[
                 'config' => [
-                    'toolbar' => 'standard',
-                    //'uiColor' =>  '#FFFFFF',
-                    //'removeButtons' => 'Save,NewPage',
-                    //'extraPlugins' => 'simpleImageUpload',
-                    'filebrowserBrowseUrl' =>'/public/images/browser.php',
-                    'filebrowserUploadUrl'=> '/public/images/browser.php',
-                    //'removePlugins' => 'pasteimage',
+                    'conf' => 'default',
+                    'config_name' => 'basic_config',
                     'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
                 ],
                 'purify_html' => true,
