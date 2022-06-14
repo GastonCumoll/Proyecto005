@@ -11,6 +11,9 @@ $(document).ready(function(){
         if(keycode == '13'){
         var id=document.getElementById("busquedaRapida");
         var idPalabra=id.value;
+        if(idPalabra==""){
+            idPalabra="-1";
+        }
         const palabraNueva=idPalabra.replace('/','§');
         var urlController="/norma/"+palabraNueva+"/busquedaRapida";
         window.location.href = urlController
@@ -21,6 +24,9 @@ $(document).ready(function(){
             var id=document.getElementById("busquedaRapida");
             
             var idPalabra=id.value;
+            if(idPalabra==""){
+                idPalabra="-1";
+            }
             const palabraNueva=idPalabra.replace('/','§');
             
             var urlController="/norma/"+palabraNueva+"/busquedaRapida";

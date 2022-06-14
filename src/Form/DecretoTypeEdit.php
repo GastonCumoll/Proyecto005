@@ -27,7 +27,6 @@ class DecretoTypeEdit extends AbstractType
         //->add('fechaPublicacion')
         ->add('titulo')
         ->add('archivo', FileType::class,[
-            'label'=> 'archivo',
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,

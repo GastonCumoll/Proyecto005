@@ -26,7 +26,6 @@ class LeyType extends AbstractType
         ->add('titulo')
         ->add('fechaSancion')
         ->add('archivo', FileType::class,[
-            'label'=> 'archivo',
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,

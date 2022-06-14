@@ -143,14 +143,29 @@ class GeneralController extends AbstractController
             // No pude autenticar, por ende me deslogueo
             else return $this->redirectToRoute('logout'); 
             */
+            $rolesSistema=($seguridad->getListRolAction($session_id));
+            $rolesSistema=substr($rolesSistema,8);
+            $rolesSistema=substr($rolesSistema,0,12);
+            //dd($rolesSistema);
 
             // Nuevo código
             // Obtener roles
             $roles = json_decode($seguridad->getListRolAction($session_id), true);
+            //dd($roles);
 
             // Trabajar string del primer rol (se presume que el usuario sólo tiene un rol)
-            $rol = explode('_', $roles[0]['id']);
-
+            //$rol = explode('_', $roles[0]['id']);
+            //dd($roles[0]);
+            if(!empty($roles)){
+                if($rolesSistema==$roles[0]['id']){
+                $rol = explode('_', $roles[0]['id']);
+            }else{
+                $seguridad->logoutAction($session_id);
+            }
+            }else{
+                $seguridad->logoutAction($session_id);
+            }
+            
             // Sintaxis: FP_[autoridad]_[cargo]
             // if ($rol[1] != 'ADMIN') {
             //     // Actualización: se muestra el rol del usuario en pantalla
@@ -244,6 +259,7 @@ class GeneralController extends AbstractController
         $session_id = $session->get('session_id') * 1;
         $seguridad->logoutAction($session_id);
         $session->clear();
+
         return $this->redirect($this->generateUrl('login'));
     }
 }

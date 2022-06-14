@@ -6,6 +6,7 @@
         "@symfony/webpack-encore": "^1.8.2",
         "core-js": "^3.0.0",
         "jquery": "^3.6.0",
+        "jquery-sortablejs": "^1.0.1",
         "regenerator-runtime": "^0.13.2",
         "webpack": "^5.72.0",
         "webpack-notifier": "^1.6.0"
@@ -33,6 +34,7 @@
         "html2pdf.js": "^0.10.1",
         "node-sass": "^7.0.1",
         "popper.js": "^1.16.1",
+        "sortablejs": "^1.15.0",
         "sweetalert2": "^11.4.4"
     }
 }

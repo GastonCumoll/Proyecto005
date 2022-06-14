@@ -69,9 +69,10 @@ class NormaController extends AbstractController
 
         $todasNormas=$normaRepository->createQueryBuilder('p')
         ->getQuery();   
+        //dd($todasNormas);
         
         //dd($normaRepository);
-
+        
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -108,12 +109,18 @@ class NormaController extends AbstractController
     public function busquedaRapida(TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
+        if($palabra=="-1"){
+            $normasQuery=$normaRepository->createQueryBuilder('p')
+            ->getQuery();   
+        }else{
+            $palabra=str_replace("§","/",$palabra);
+            $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
+        }
         
-        $palabra=str_replace("§","/",$palabra);
         
         
         //$palabra es el string que quiero buscar
-        $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
+        
 
         //$todasNormas=$normasQuery->getResult();//getResult()convierte el query en un array == ->execute();
         //$todasNormas=array_unique($todasNormas);

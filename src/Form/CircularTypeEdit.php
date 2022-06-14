@@ -26,7 +26,6 @@ class CircularTypeEdit extends AbstractType
             ->add('numero')
             ->add('titulo')
             ->add('archivo', FileType::class,[
-                'label'=> 'archivo',
                 'multiple'=>true,
                 'mapped'=>false,
                 'required'=>false,

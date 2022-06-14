@@ -1,6 +1,12 @@
 import './app.js';
 
 import 'bootstrap';
+
+import bsCustomFileInput from 'bs-custom-file-input';
+
+$(document).ready(function () {
+    bsCustomFileInput.init()
+  })
     //console.log("entro");
     var arreglo=document.getElementById('decreto_type_edit_etiquetas');//no seleccionadas
     //console.log(arreglo);
@@ -50,7 +56,7 @@ import 'bootstrap';
     for (let i = 0; i < arrNoSelec.length;i++) {
         
     arrNoSelec[i].addEventListener('dblclick',function(){
-        console.log(this);
+        //console.log(this);
         //var aux=arrSelec[i];
 
         this.setAttribute("name","seleccionada");
@@ -67,7 +73,7 @@ import 'bootstrap';
     for (let i = 0; i < arrSelec.length;i++) {
         
     arrSelec[i].addEventListener('dblclick',function(){
-        console.log(this);
+        //console.log(this);
         //var aux=arrSelec[i];
 
         this.setAttribute("name","noSeleccionada");

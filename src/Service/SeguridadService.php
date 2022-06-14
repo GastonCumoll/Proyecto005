@@ -75,7 +75,7 @@ class SeguridadService extends AbstractController {
     public function logoutAction($session_id, $session = null, $usaMensaje = true) {
         if(!$session_id) $respuesta = 0;
         else $respuesta = $this->clienteSoap->__soapCall('WsController.logout', array($session_id));
-        $mensaje = null;
+        //$mensaje = null;
         if ($usaMensaje && $respuesta > 0) {
             $mensaje = array('title' => 'Ha salido del sistema.', 'message' => '');
             $session->getFlashBag()->set('alert alert-success', $mensaje);

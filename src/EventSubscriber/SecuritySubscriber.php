@@ -110,6 +110,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'logout'=>[],//ojo con este
                 'inicio' =>[],
                 'not_role'=>[],
+                'inicio_admin'=>['DIG_OPERADOR'],
 
                 //Etiqueta
                 'etiqueta_index'=>['DIG_OPERADOR'],
@@ -198,7 +199,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout'));
                 }else{
-                    //dd("hola");
+                //     //dd("hola");
                     $event->setResponse(new RedirectResponse('/404'));
                 }
             }
