@@ -26,6 +26,7 @@ class AreaController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/new", name="area_new", methods={"GET", "POST"})
      */

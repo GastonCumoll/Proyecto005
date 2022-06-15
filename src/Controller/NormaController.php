@@ -782,7 +782,8 @@ class NormaController extends AbstractController
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
-
+                    $carpeta=$unArchivo->guessExtension();
+                    //dd($unArchivo->guessExtension());
                     // Move the file to the directory where brochures are stored
                     try {
                         $unArchivo->move(
@@ -794,10 +795,15 @@ class NormaController extends AbstractController
                     }
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
+                    
+                    //dd($newFilename);
+                    $newFilename=$carpeta.'/'.$newFilename;
+                    //dd($newFilename);
                     $archi=new Archivo();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
                     $archi->setNombre($originalFilename);
+                    $archi->setTipo($carpeta);
 
                     
 
@@ -971,6 +977,7 @@ class NormaController extends AbstractController
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+                    $carpeta=$unArchivo->guessExtension();
 
                     // Move the file to the directory where brochures are stored
                     try {
@@ -981,9 +988,12 @@ class NormaController extends AbstractController
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                     }
+
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
+                    $newFilename=$carpeta.'/'.$newFilename;
                     $archi=new Archivo();
+                    $archi->setTipo($carpeta);
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
                     //$nombreArchivo=$norma->getTipoNorma()->getNombre()."N°".$norma->getNumero();
