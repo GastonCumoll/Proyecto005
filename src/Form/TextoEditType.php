@@ -28,7 +28,7 @@ class TextoEditType extends AbstractType
                 //'extraPlugins' => 'simpleImageUpload',
                 //'filebrowserImageBrowseRoute' => '',
                 //'filebrowserUploadUrl'=> '/public/uploads',
-                //'removePlugins' => 'pasteimage',
+                'removePlugins' => 'pasteimage',
                 'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
             ],
             'purify_html' => true,

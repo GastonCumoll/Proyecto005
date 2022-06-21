@@ -44,16 +44,10 @@ class LeyTypeEdit extends AbstractType
                 },
                 'choice_label' => 'nombre',
                 'multiple' => true,
-                'attr' =>[
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                ]
+                'attr'=>[
+                    'class'=>'js-example-basic-multiple',
+                    ]
         ])
-        ->add('nueva_etiqueta',TextType::class, [
-            'mapped' => false,
-            'required' =>false
-    ])
         ->add('decretoPromulgacion')
         ->add('fechaPromulgacion')
 

@@ -37,40 +37,39 @@ class DecretoTypeEdit extends AbstractType
         //->add('texto',  FroalaEditorType::class)
         //->add('fechaPublicacionBoletin')
         //->add('estado')
+
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
                 'query_builder' => function(EtiquetaRepository $eti){
-                    
                     return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
                 },
                 'choice_label' => 'nombre',
                 'multiple' => true,
-                'attr' => [
-                    'name'=>'opcion',
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true
+                'attr'=>[
+                    'class'=>'js-example-basic-multiple',
                     ]
         ])
-        ->add('etiquetas_de_norma',EntityType::class,[
-            'mapped'=>false,
-            'required' => false,
-            'class' => Etiqueta::class,
-                'query_builder' => function(EtiquetaRepository $eti){
-                    
-                    return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
-                },
-                'choice_label' => 'nombre',
-                'multiple' => true,
-                'attr' => [
-                    'name'=>'opcion',
-                ]
-        ]) 
-        ->add('nueva_etiqueta',TextType::class, [
-                'mapped' => false,
-                'required' =>false
-        ])
+
+        
+        // ->add('etiquetas_de_norma',EntityType::class,[
+        //     'mapped'=>false,
+        //     'required' => false,
+        //     'class' => Etiqueta::class,
+        //         // 'query_builder' => function(EtiquetaRepository $eti){
+                
+        //         //     return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+        //         // },
+        //         // 'choice_label' => 'nombre',
+        //         // 'multiple' => true,
+        //         // 'attr' => [
+        //         //     'name'=>'opcion',
+        //         // ]
+        // ]) 
+        // ->add('nueva_etiqueta',TextType::class, [
+        //         'mapped' => false,
+        //         'required' =>false
+        // ])
         
         //->add('fechaPromulgacion')
         

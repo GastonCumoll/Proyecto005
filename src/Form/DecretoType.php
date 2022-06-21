@@ -75,7 +75,7 @@ class DecretoType extends AbstractType
                 //'extraPlugins' => 'simpleImageUpload',
                 //'filebrowserImageBrowseRoute' => '',
                 //'filebrowserUploadUrl'=> '/public/uploads',
-                //'removePlugins' => 'pasteimage',
+                'removePlugins' => 'pasteimage',
                 'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
             ],
             'purify_html' => true,
@@ -109,19 +109,19 @@ class DecretoType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        ->add('etiquetas_de_norma',EntityType::class,[
-            'mapped'=>false,
-            'required' => false,
-            'class' => Etiqueta::class,
+        // ->add('etiquetas_de_norma',EntityType::class,[
+        //     'mapped'=>false,
+        //     'required' => false,
+        //     'class' => Etiqueta::class,
             
-            //     'query_builder' => function(EtiquetaRepository $eti){
+        //     //     'query_builder' => function(EtiquetaRepository $eti){
                 
-            //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
-            //     },
-                // 'choice_label' => 'nombre',
-                // 'multiple' => true,
-                // 'attr' => ['name'=>'opcion']
-        ]) 
+        //     //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+        //     //     },
+        //         // 'choice_label' => 'nombre',
+        //         // 'multiple' => true,
+        //         // 'attr' => ['name'=>'opcion']
+        // ]) 
         // ->add('nueva_etiqueta',TextType::class, [
         //         'mapped' => false,
         //         'required' =>false,

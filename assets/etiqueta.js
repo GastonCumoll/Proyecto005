@@ -2,6 +2,8 @@ import './styles/estilo.css';
 import './app.js';
 
 import "select2/dist/js/select2.min.js";
+import bsCustomFileInput from 'bs-custom-file-input';
+
 
 //import 'select2-bootstrap-theme/dist/select2-bootstrap4.css';
 //<link rel="stylesheet" href="/path/to/select2-bootstrap4.min.css"></link>
@@ -13,6 +15,8 @@ import "select2/dist/js/select2.min.js";
 //     });
 // });
 $(document).ready(function() {
+    bsCustomFileInput.init();
+
     $('.js-example-basic-multiple').select2({
         placeholder:{
         id: -1,

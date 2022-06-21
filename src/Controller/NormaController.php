@@ -60,7 +60,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class NormaController extends AbstractController
 {
-
+    
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
@@ -578,14 +578,14 @@ class NormaController extends AbstractController
             'id' => $normaRepository->find($id)
         ]);
 
-        // dd($html);
-        //$data = "https://localhost:8000/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg";
+        //dd($html);
+        //$data ='<img alt="" src="./uploads/imagenes/photo_2022-03-14_20-14-10.jpg"/>';
 
-        //$ruta='<img src="localhost:8000';
+        //$ruta='<img alt="" src="/manager/file/photo_2022-03-14_20-14-10.jpg?conf=images&amp;module=ckeditor&amp;CKEditor=texto_edit_texto&amp;CKEditorFuncNum=3&amp;langCode=es" style="height:400px;width:300px;" />';
         // Cargar HTML en Dompdf
-        // $html5=str_replace('<img src="',$ruta,$html);
+        //$html5=str_replace($ruta,$data,$html);
         //$html5=str_replace('/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg',$data,$html);
-        // dd($html5);
+        //dd($html5);
         //$dompdf->loadHtml($html);
         $dompdf->loadHtml($html);
         // dd($retorno);
@@ -634,7 +634,7 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        // dd($html);
+        //dd($html);
         
         // Cargar HTML en Dompdf
         $dompdf->loadHtml($html);
@@ -652,7 +652,8 @@ class NormaController extends AbstractController
         $publicDirectory = 'uploads/pdf';
         // e.g /var/www/project/public/mypdf.pdf
         $nombre='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-        $ruta=$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+
+        $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
         
         
         $pdfFilepath =  $publicDirectory . $nombre;
@@ -950,10 +951,10 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $etiquetasDeNorma=$form['etiquetas_de_norma']->getData();
+            
+            
             
 
-            $etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             $item =$form['items']->getData();
             foreach ($item as $unItem) {
                 $newItem= new Item();
@@ -1003,24 +1004,28 @@ class NormaController extends AbstractController
                 }
             }
 
-            $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
-            foreach ($etiquetas as $unaEtiqueta) {
-                $etiquetaSinEspacios="";
-                for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
-                        if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
-                            $etiquetaSinEspacios.=$unaEtiqueta[$i];
-                        }
-                    }
-            if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
-            {
-                $etiquetaNueva = new Etiqueta();
-                $etiquetaNueva->setNombre($etiquetaSinEspacios);
-                $etiquetaNueva->addNorma($norma);
-                $norma->addEtiqueta($etiquetaNueva);
-                $entityManager->persist($etiquetaNueva);
-            }
-                $entityManager->persist($norma);   
-            }
+            //si habilitamos crear etiquetas en el alta de la norma:
+            //$etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
+            // $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
+            // foreach ($etiquetas as $unaEtiqueta) {
+            //     $etiquetaSinEspacios="";
+            //     for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
+            //             if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
+            //                 $etiquetaSinEspacios.=$unaEtiqueta[$i];
+            //             }
+            //         }
+            // if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
+            // {
+            //     $etiquetaNueva = new Etiqueta();
+            //     $etiquetaNueva->setNombre($etiquetaSinEspacios);
+            //     $etiquetaNueva->addNorma($norma);
+            //     $norma->addEtiqueta($etiquetaNueva);
+            //     $entityManager->persist($etiquetaNueva);
+            // }
+            //     $entityManager->persist($norma);   
+            // }
+             
+            $etiquetasDeNorma=$form['etiquetas']->getData();
             //foreach para asignarle nuevas etiquetas ya creadas a Norma
             foreach ($etiquetasDeNorma as $eti) {
                 $eti->addNorma($norma);
