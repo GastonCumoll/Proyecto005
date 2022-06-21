@@ -1,11 +1,41 @@
+import './styles/boton.css';
 import './app.js';
 
 import 'bootstrap';
 import bsCustomFileInput from 'bs-custom-file-input';
 
+import 'typeahead.js';
+import Bloodhound from "bloodhound-js";
+import 'bootstrap-tagsinput';
+
 $(document).ready(function () {
+    // Bootstrap-tagsinput initialization
+    // https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/
+    
+    var $input = $('input[data-toggle="tagsinput"]');
+    console.log($input);
+    if ($input.length) {
+        var source = new Bloodhound({
+            local: $input.data('etiquetas'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            datumTokenizer: Bloodhound.tokenizers.whitespace
+        });
+        source.initialize();
+
+        $input.tagsinput({
+            trimValue: true,
+            focusClass: 'focus',
+            typeaheadjs: {
+                name: 'etiquetas',
+                source: source.ttAdapter()
+            }
+        });
+    }
+
+
     bsCustomFileInput.init()
-  })
+})
+
 
     var arreglo=document.getElementById('decreto_etiquetas');//no seleccionadas    
     var arreglo1=document.getElementById('decreto_etiquetas_de_norma');//seleccionadas

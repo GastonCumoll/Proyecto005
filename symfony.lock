@@ -239,6 +239,9 @@
     "sasedev/mpdf-bundle": {
         "version": "2.0.0"
     },
+    "select2/select2": {
+        "version": "4.0.13"
+    },
     "sensio/framework-extra-bundle": {
         "version": "6.2",
         "recipe": {
@@ -380,6 +383,21 @@
     },
     "symfony/mime": {
         "version": "v5.4.3"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v5.4.3"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.7",
+            "ref": "213676c4ec929f046dfde5ea8e97625b81bc0578"
+        },
+        "files": [
+            "./config/packages/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v5.4.3"
@@ -553,6 +571,9 @@
     },
     "tecnickcom/tcpdf": {
         "version": "6.4.4"
+    },
+    "ttskch/select2-bootstrap4-theme": {
+        "version": "1.5.2"
     },
     "twbs/bootstrap": {
         "version": "v4.6.1"

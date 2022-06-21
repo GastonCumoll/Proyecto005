@@ -15,7 +15,7 @@ import 'bootstrap-select';
 
 global.$ = global.jQuery = $;
 
-
+import select2 from 'select2';
 
 // start the Stimulus application
 import './styles/estilo.css';

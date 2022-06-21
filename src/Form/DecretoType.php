@@ -6,6 +6,8 @@ use App\Entity\Item;
 use App\Entity\Norma;
 use App\Form\ItemType;
 use App\Entity\Etiqueta;
+use App\Form\Type\Select2Type;
+use App\Form\Type\TagsInputType;
 use App\Repository\ItemRepository;
 use App\Repository\EtiquetaRepository;
 use Symfony\Component\Form\AbstractType;
@@ -21,6 +23,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class DecretoType extends AbstractType
 {
+    public function getAll(){
+        $qb=$this->createQueryBuilder('e');
+        return $qb;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -76,6 +82,21 @@ class DecretoType extends AbstractType
         ])
         //->add('fechaPublicacionBoletin')
         //->add('estado')
+        // ->add('etiquetas', TagsInputType::class, [
+        //     'label' => 'label.etiqueta',
+        //     'required' => false,
+        //     'attr' =>[
+        //         'data-role'=>'tagsinput'
+        //     ]
+        // ])
+        // ->add('etiquetas', Select2Type::class, [
+        //     'label' => 'Etiquetas', 
+        //     'required' => false,
+        //     'attr' => ['data-autocomplete-url' => function(EtiquetaRepository $eti){
+        //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+        //     }],
+        //     'choices' => []
+        // ])
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -84,30 +105,28 @@ class DecretoType extends AbstractType
                 },
                 'choice_label' => 'nombre',
                 'multiple' => true,
-                'attr' =>[
-                    //'id' =>'etiqueta_select_id',
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                    
-                ]
+                'attr'=>[
+                    'class'=>'js-example-basic-multiple',
+                    ]
         ])
         ->add('etiquetas_de_norma',EntityType::class,[
             'mapped'=>false,
             'required' => false,
             'class' => Etiqueta::class,
-                'query_builder' => function(EtiquetaRepository $eti){
-                    
-                    return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
-                },
-                'choice_label' => 'nombre',
-                'multiple' => true,
-                'attr' => ['name'=>'opcion']
+            
+            //     'query_builder' => function(EtiquetaRepository $eti){
+                
+            //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
+            //     },
+                // 'choice_label' => 'nombre',
+                // 'multiple' => true,
+                // 'attr' => ['name'=>'opcion']
         ]) 
-        ->add('nueva_etiqueta',TextType::class, [
-                'mapped' => false,
-                'required' =>false
-        ])
+        // ->add('nueva_etiqueta',TextType::class, [
+        //         'mapped' => false,
+        //         'required' =>false,
+                
+        // ])
         
         //->add('fechaPromulgacion')
         

@@ -3,6 +3,7 @@ twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         - 'bootstrap_4_layout.html.twig'
+        - 'fields.html.twig'
     globals:
         usuario: '@App\Service\SeguridadService'
 

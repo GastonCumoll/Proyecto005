@@ -288,7 +288,6 @@ class NormaController extends AbstractController
                 ]);
     }
 
-
     /**
      * @Route("/formularioBusqueda", name="formulario_busqueda", methods={"GET","POST"})
      */
@@ -332,9 +331,9 @@ class NormaController extends AbstractController
         //dd($etiquetas);
         $arrayDeNormas=[];
         if($etiquetas!= null){
-            if(count($etiquetas)>1){
+            //if(count($etiquetas)>1){
                 $etiquetasObj=[];
-                for ($i=1; $i <count($etiquetas) ; $i++) {
+                for ($i=0; $i <count($etiquetas) ; $i++) {
                    //$tamNormas=count($etiquetas[$i]->getNormas());
                     $etiquetasObj[$i]=$etiquetaRepository->findById($etiquetas[$i]);
                     //dd($etiquetasObj[$i]);
@@ -342,7 +341,7 @@ class NormaController extends AbstractController
                         $arrayDeNormas[]=$unaNorma;
                     }
                 }
-            }
+            //}
         }
         
         
@@ -382,7 +381,6 @@ class NormaController extends AbstractController
             'rol' => $rol,
         ]);
     }
-
 
     /**
      * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
@@ -753,14 +751,14 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            //dd($form['etiquetas']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
 
-            //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
-            $etiquetas = explode(",", $form['nueva_etiqueta']->getData());
+            
+            
             $item =$form['items']->getData();
             
             foreach ($item as $unItem) {
@@ -813,9 +811,10 @@ class NormaController extends AbstractController
                     $entityManager->persist($norma);
                 }
             }
-
-
-            foreach ($etiquetas as $unaEtiqueta) {
+            //si permitimos la creacion de una nueva etiqueta dentro de el alta de norma:
+            //$etiquetas = explode(",", $form['nueva_etiqueta']->getData());
+            //se almacena en la variable $etiquetas las etiquetas ingresadas en el formulario, se las separa con la función explode por comas y se las guarda en un array
+            /*foreach ($etiquetas as $unaEtiqueta) {
                 $etiquetaSinEspacios="";
                 for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
                         if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
@@ -827,22 +826,19 @@ class NormaController extends AbstractController
                     $etiquetaSinEspacios = $etiqueta;
 
                 if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
-                {   
-                    
+                {                    
                     $etiquetaNueva = new Etiqueta();
                     $etiquetaNueva->setNombre($etiquetaSinEspacios);
                     $etiquetaNueva->addNorma($norma);
                     $norma->addEtiqueta($etiquetaNueva);
-                
+
                     $entityManager->persist($etiquetaNueva);
                 }
-                
-                
-            
                 $entityManager->persist($norma);
                 
-            }
-            $etiquetasDeNorma=$form['etiquetas_de_norma']->getData();
+            }*/
+            $etiquetasDeNorma=$form['etiquetas']->getData();
+            
             //foreach para asignarle nuevas etiquetas ya creadas a Norma
             if($etiquetasDeNorma != null){
                 foreach ($etiquetasDeNorma as $eti) {

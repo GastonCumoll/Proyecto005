@@ -20,6 +20,7 @@
         "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-snappy": "^1.4",
         "sasedev/mpdf-bundle": "^2.0",
+        "select2/select2": "^4.0",
         "sensio/framework-extra-bundle": "^6.2",
         "spipu/html2pdf": "^5.2",
         "symfony/asset": "5.4.*",
@@ -29,6 +30,7 @@
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
         "symfony/mailer": "5.4.*",
+        "symfony/monolog-bundle": "^3.8",
         "symfony/proxy-manager-bridge": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
@@ -37,6 +39,7 @@
         "symfony/validator": "5.4.*",
         "symfony/webpack-encore-bundle": "^1.14",
         "symfony/yaml": "5.4.*",
+        "ttskch/select2-bootstrap4-theme": "^1.5",
         "twbs/bootstrap": "4.6.1",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"

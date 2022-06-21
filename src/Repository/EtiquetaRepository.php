@@ -19,7 +19,10 @@ class EtiquetaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Etiqueta::class);
     }
-
+    public function getAll(){
+        $qb=$this->createQueryBuilder('e');
+        return $qb;
+    }
     // /**
     //  * @return Etiqueta[] Returns an array of Etiqueta objects
     //  */
