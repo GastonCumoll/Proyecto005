@@ -752,7 +752,7 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form['etiquetas']->getData());
+            //dd($form['fechaSancion']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
             $norma->setFechaPublicacion($today);

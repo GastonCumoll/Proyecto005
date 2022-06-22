@@ -13,6 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,7 +24,18 @@ class DecretoTypeEdit extends AbstractType
     {
         $builder
         ->add('numero')
-        ->add('fechaSancion')
+        ->add('fechaSancion',DateType::class,[
+            'widget' =>'single_text',
+            'html5'=>false,
+            'format'=> 'dd/MM/yyyy',
+            'label' => 'Fecha de sancion',
+            'attr'=>[
+                'class' => 'datepicker col-2',
+                'style' => 'min-width: 200px;',
+                'placeholder' => 'Seleccionar',
+                'requiered' => false,
+            ],
+        ])
         //->add('fechaPublicacion')
         ->add('titulo')
         ->add('archivo', FileType::class,[
