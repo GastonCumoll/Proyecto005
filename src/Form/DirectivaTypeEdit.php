@@ -24,26 +24,6 @@ class DirectivaTypeEdit extends AbstractType
         $builder
             ->add('numero')
             ->add('titulo')
-            ->add('archivo', FileType::class,[
-                'multiple'=>true,
-                'mapped'=>false,
-                'required'=>false,
-                'attr' => ['class'=>'custom-file-imput'],
-            ])
-            // ->add('pdfFile', FileType::class, [
-            //     'data_class' => null,
-            //     'label' => 'Brochure (PDF file)',
-            //     'required' => false,
-            //     'constraints' => [
-            //         new File([
-            //             'maxSize' => '1048576k',
-            //             'mimeTypes' => [
-            //                 'application/pdf',
-            //                 'application/x-pdf',
-            //             ],
-            //             'mimeTypesMessage' => 'Please upload a valid PDF document',
-            //         ])
-            // ]])
             ->add('fechaSancion',DateType::class,[
                 'widget' =>'single_text',
                 'html5'=>false,
@@ -57,11 +37,27 @@ class DirectivaTypeEdit extends AbstractType
                 ],
             ])
             //->add('fechaPublicacion')
-            
             ->add('resumen')
             //->add('texto',  FroalaEditorType::class)
             //->add('fechaPublicacionBoletin')
             //->add('estado')
+            ->add('items',EntityType::class,[
+                'class' => Item::class,
+                'multiple' =>true,
+                'required' => false,
+                'choice_label' => 'nombre',
+                'attr'=> [
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
+            ])
+            ->add('archivo', FileType::class,[
+                'multiple'=>true,
+                'mapped'=>false,
+                'required'=>false,
+                'attr' => ['class'=>'custom-file-imput'],
+            ])
             ->add('etiquetas',EntityType::class,[
                 'required' => false,
                 'class' => Etiqueta::class,
@@ -75,23 +71,6 @@ class DirectivaTypeEdit extends AbstractType
                         ]
             ])
             //->add('fechaPromulgacion')
-
-            ->add('items',EntityType::class,[
-                'class' => Item::class,
-                'multiple' =>true,
-                'required' => false,
-                'choice_label' => 'nombre',
-                'attr'=> [
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                ]
-            ])
-            // ->add('rela', CheckboxType::class, array(
-            //     'required' => false,
-            //     'value' => 1,
-            //     'label' => '¿Está relacionada con otra norma?'
-            // ))
             //->add('decretoPromulgacion')
         ;
         ;

@@ -26,12 +26,6 @@ class CircularType extends AbstractType
         $builder
             ->add('numero')
             ->add('titulo')
-            ->add('archivo', FileType::class,[
-                'multiple'=>true,
-                'mapped'=>false,
-                'required'=>false,
-                'attr' => ['class'=>'custom-file-imput'],
-            ])
             ->add('fechaSancion',DateType::class,[
                 'widget' =>'single_text',
                 'html5'=>false,
@@ -45,7 +39,6 @@ class CircularType extends AbstractType
                 ],
             ])
             //->add('fechaPublicacion')
-            
             ->add('resumen')
             ->add('texto',  CKEditorType::class,[
                 'config' => [
@@ -54,6 +47,25 @@ class CircularType extends AbstractType
                     'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
                 ],
                 'purify_html' => true,
+            ])
+            ->add('items',EntityType::class,[
+                'class' => Item::class,
+                'multiple' =>true,
+                'required' => false,
+                'choice_label' => 'nombre',
+                'attr'=> [
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
+            ])
+            ->add('archivo', FileType::class,[
+                'multiple'=>true,
+                'mapped'=>false,
+                'required'=>false,
+                'attr' => [
+                    'class'=>'custom-file-imput'
+                ],
             ])
             //->add('fechaPublicacionBoletin')
             //->add('estado')
@@ -70,22 +82,6 @@ class CircularType extends AbstractType
                         ]
             ])
             //->add('fechaPromulgacion')
-            ->add('items',EntityType::class,[
-                'class' => Item::class,
-                'multiple' =>true,
-                'required' => false,
-                'choice_label' => 'nombre',
-                'attr'=> [
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                ]
-            ])
-            // ->add('rela', CheckboxType::class, array(
-            //     'required' => false,
-            //     'value' => 1,
-            //     'label' => '¿Está relacionada con otra norma?'
-            // ))
             //->add('decretoPromulgacion')
         ;
     }

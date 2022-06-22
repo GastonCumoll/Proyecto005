@@ -28,6 +28,7 @@ class DecretoType extends AbstractType
     {
         $builder
         ->add('numero')
+        ->add('titulo')
         ->add('fechaSancion',DateType::class,[
             'widget' =>'single_text',
             'html5'=>false,
@@ -41,37 +42,6 @@ class DecretoType extends AbstractType
             ],
         ])
         //->add('fechaPublicacion')
-        ->add('titulo')
-        ->add('archivo', FileType::class,[
-            //'label'=> 'archivo',
-            // 'label_attr'=>[
-            //     'id'=>'subirArchi'
-            // ],
-            'multiple'=>true,
-            'mapped'=>false,
-            'required'=>false,
-            'attr' => ['class'=>'custom-file-imput'],
-        ])
-        
-        // ->add('pdfFile', FileType::class, [
-        //     'attr' =>[
-        //         'placeholder' => 'seleccione un archivo',
-        //     ],
-            
-        //     'data_class' => null,
-        //     'label' => '(PDF file)',
-        //     'required' => false,
-        //     'constraints' => [
-        //         new File([
-        //             'maxSize' => '1048576k',
-        //             'mimeTypes' => [
-        //                 'application/pdf',
-        //                 'application/x-pdf',
-        //             ],
-        //             'mimeTypesMessage' => 'Please upload a valid PDF document',
-        //         ])
-        // ]])
-
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
@@ -88,23 +58,25 @@ class DecretoType extends AbstractType
             ],
             'purify_html' => true,
         ])
+        ->add('items',EntityType::class,[
+            'class' => Item::class,
+            'multiple' =>true,
+            'required' => false,
+            'choice_label' => 'nombre',
+            'attr'=> [
+                'class'=>'selectpicker',
+                'data-size'=>'10',
+                'data-live-search'=>true,
+            ]
+            ])
+        ->add('archivo', FileType::class,[
+            'multiple'=>true,
+            'mapped'=>false,
+            'required'=>false,
+            'attr' => ['class'=>'custom-file-imput'],
+        ])
         //->add('fechaPublicacionBoletin')
         //->add('estado')
-        // ->add('etiquetas', TagsInputType::class, [
-        //     'label' => 'label.etiqueta',
-        //     'required' => false,
-        //     'attr' =>[
-        //         'data-role'=>'tagsinput'
-        //     ]
-        // ])
-        // ->add('etiquetas', Select2Type::class, [
-        //     'label' => 'Etiquetas', 
-        //     'required' => false,
-        //     'attr' => ['data-autocomplete-url' => function(EtiquetaRepository $eti){
-        //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
-        //     }],
-        //     'choices' => []
-        // ])
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -117,45 +89,7 @@ class DecretoType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        // ->add('etiquetas_de_norma',EntityType::class,[
-        //     'mapped'=>false,
-        //     'required' => false,
-        //     'class' => Etiqueta::class,
-            
-        //     //     'query_builder' => function(EtiquetaRepository $eti){
-                
-        //     //         return $eti->createQueryBuilder('nombre')->orderBy('nombre.nombre','ASC');
-        //     //     },
-        //         // 'choice_label' => 'nombre',
-        //         // 'multiple' => true,
-        //         // 'attr' => ['name'=>'opcion']
-        // ]) 
-        // ->add('nueva_etiqueta',TextType::class, [
-        //         'mapped' => false,
-        //         'required' =>false,
-                
-        // ])
-        
-        //->add('fechaPromulgacion')
-        
-        ->add('items',EntityType::class,[
-            'class' => Item::class,
-            'multiple' =>true,
-            'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-            ]
-            ]);
-        
-        // ->add('rela', CheckboxType::class, array(
-        //     'required' => false,
-        //     'value' => 1,
-        //     'label' => '¿Está relacionada con otra norma?',
-        // ))
-        // ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

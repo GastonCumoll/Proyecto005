@@ -36,18 +36,28 @@ class LeyTypeEdit extends AbstractType
                 'requiered' => false,
             ],
         ])
+        //->add('fechaPublicacion')
+        ->add('resumen')
+        //->add('texto',  FroalaEditorType::class)
+        ->add('items',EntityType::class,[
+            'class' => Item::class,
+            'multiple' =>true,
+            'required' => false,
+            'choice_label' => 'nombre',
+            'attr'=> [
+                'class'=>'selectpicker',
+                'data-size'=>'10',
+                'data-live-search'=>true,
+            ]
+        ])
+        //->add('fechaPublicacionBoletin')
+        //->add('estado')
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,
             'attr' => ['class'=>'custom-file-imput'],
         ])
-        //->add('fechaPublicacion')
-        ->add('resumen')
-        //->add('texto',  FroalaEditorType::class)
-        
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -62,26 +72,6 @@ class LeyTypeEdit extends AbstractType
         ])
         ->add('decretoPromulgacion')
         ->add('fechaPromulgacion')
-
-        ->add('items',EntityType::class,[
-            'class' => Item::class,
-            'multiple' =>true,
-            'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-            ]
-        ])
-        // ->add('rela', CheckboxType::class, array(
-        //     'required' => false,
-        //     'value' => 1,
-        //     'label' => '¿Está relacionada con otra norma?'
-        // ))
-        
-        
-
         ;
     }
 

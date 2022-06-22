@@ -23,14 +23,8 @@ class ResolucionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('numero')
+            ->add('numero')
             ->add('titulo')
-            ->add('archivo', FileType::class,[
-                'multiple'=>true,
-                'mapped'=>false,
-                'required'=>false,
-                'attr' => ['class'=>'custom-file-imput'],
-            ])
             ->add('fechaSancion',DateType::class,[
                 'widget' =>'single_text',
                 'html5'=>false,
@@ -44,7 +38,6 @@ class ResolucionType extends AbstractType
                 ],
             ])
             //->add('fechaPublicacion')
-            
             ->add('resumen')
             ->add('texto',  CKEditorType::class,[
                 'config' => [
@@ -56,6 +49,23 @@ class ResolucionType extends AbstractType
             ])
             //->add('fechaPublicacionBoletin')
             //->add('estado')
+            ->add('items',EntityType::class,[
+                'class' => Item::class,
+                'multiple' =>true,
+                'required' => false,
+                'choice_label' => 'nombre',
+                'attr'=> [
+                    'class'=>'selectpicker',
+                    'data-size'=>'10',
+                    'data-live-search'=>true,
+                ]
+            ])
+            ->add('archivo', FileType::class,[
+                'multiple'=>true,
+                'mapped'=>false,
+                'required'=>false,
+                'attr' => ['class'=>'custom-file-imput'],
+            ])
             ->add('etiquetas',EntityType::class,[
                 'required' => false,
                 'class' => Etiqueta::class,
@@ -69,26 +79,7 @@ class ResolucionType extends AbstractType
                         ]
             ])
             //->add('fechaPromulgacion')
-
-            ->add('items',EntityType::class,[
-                'class' => Item::class,
-                'multiple' =>true,
-                'required' => false,
-                'choice_label' => 'nombre',
-                'attr'=> [
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                ]
-            ])
-            ->add('rela', CheckboxType::class, array(
-                'required' => false,
-                'value' => 1,
-                'label' => '¿Está relacionada con otra norma?'
-            ))
             //->add('decretoPromulgacion')
-        ;
-
         ;
     }
 

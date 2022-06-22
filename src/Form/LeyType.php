@@ -37,12 +37,7 @@ class LeyType extends AbstractType
                 'requiered' => false,
             ],
         ])
-        ->add('archivo', FileType::class,[
-            'multiple'=>true,
-            'mapped'=>false,
-            'required'=>false,
-            'attr' => ['class'=>'custom-file-imput'],
-        ])
+        
         //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
@@ -53,7 +48,47 @@ class LeyType extends AbstractType
             ],
             'purify_html' => true,
         ])
-        
+        ->add('items',EntityType::class,[
+            'class' => Item::class,
+            'multiple' =>true,
+            'required' => false,
+            'choice_label' => 'nombre',
+            'attr'=> [
+                'class'=>'selectpicker',
+                'data-size'=>'10',
+                'data-live-search'=>true,
+            ]
+        ])
+        ->add('decretoPromulgacion',EntityType::class, [
+            'class' => Norma::class,
+            'multiple' => true,
+            'placeholder' => '',
+            'required' =>false,
+            'choice_label' => 'titulo',
+            'attr' => [
+                'class'=>'selectpicker',
+                'data-size'=>'10',
+                'data-live-search'=>true,
+            ]
+        ])
+        ->add('fechaPromulgacion',DateType::class,[
+            'widget' =>'single_text',
+            'html5'=>false,
+            'format'=> 'dd/MM/yyyy',
+            'label' => 'Fecha de sancion',
+            'attr'=>[
+                'class' => 'datepicker col-2',
+                'style' => 'min-width: 200px;',
+                'placeholder' => 'Seleccionar',
+                'requiered' => false,
+            ],
+        ])
+        ->add('archivo', FileType::class,[
+            'multiple'=>true,
+            'mapped'=>false,
+            'required'=>false,
+            'attr' => ['class'=>'custom-file-imput'],
+        ])
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas',EntityType::class,[
@@ -68,27 +103,6 @@ class LeyType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        ->add('decretoPromulgacion')
-        ->add('fechaPromulgacion')
-        ->add('items',EntityType::class,[
-            'class' => Item::class,
-            'multiple' =>true,
-            'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-            ]
-        ])
-        // ->add('rela', CheckboxType::class, array(
-        //     'required' => false,
-        //     'value' => 1,
-        //     'label' => '¿Está relacionada con otra norma?'
-        // ))
-        
-        
-
         ;
     }
 
