@@ -1,7 +1,9 @@
 import './styles/estilo.css';
 import './app.js';
-
+import 'select2';                       
+import 'select2/dist/css/select2.css';
 import "select2/dist/js/select2.min.js";
+//import "@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css";
 import bsCustomFileInput from 'bs-custom-file-input';
 
 

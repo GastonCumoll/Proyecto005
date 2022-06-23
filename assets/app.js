@@ -9,6 +9,7 @@
 //import './styles/app.css';
 require('@fortawesome/fontawesome-free/js/all.js');
 require('bootstrap-datepicker');
+require('select2');
 import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap-select';

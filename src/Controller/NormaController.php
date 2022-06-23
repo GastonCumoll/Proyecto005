@@ -61,17 +61,54 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class NormaController extends AbstractController
 {
     
+    
+    /**
+     * @Route("/settipo", name="settipo", methods={"GET"})
+     */
+    public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
+    {
+        $normas=$normaRepository->findAll();
+        $tipoLey=$tipoNormaRepository->find(2);
+        $tipoOrd=$tipoNormaRepository->find(3);
+        $tipoCir=$tipoNormaRepository->find(4);
+        $tipoDir=$tipoNormaRepository->find(5);
+        $tipoDis=$tipoNormaRepository->find(6);
+        foreach ($normas as $unaNorma) {
+            $titulo=$unaNorma->getTitulo();
+            $primeros30Caracteres=substr($titulo,0,30);
+            if(str_contains($primeros30Caracteres,"ORDENANZA") || str_contains($primeros30Caracteres,"Ordenanza") || str_contains($primeros30Caracteres,"ordenanza")){
+                $unaNorma->setTipoNorma($tipoOrd);
+                $entityManager->persist($unaNorma);
+            }
+            if(str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"directiva")){
+                $unaNorma->setTipoNorma($tipoDir);
+                $entityManager->persist($unaNorma);
+            }
+            if(str_contains($primeros30Caracteres,"LEY") || str_contains($primeros30Caracteres,"Ley") || str_contains($primeros30Caracteres,"ley")){
+                $unaNorma->setTipoNorma($tipoLey);
+                $entityManager->persist($unaNorma);
+            }
+            if(str_contains($primeros30Caracteres,"CIRCULAR") || str_contains($primeros30Caracteres,"Circular") || str_contains($primeros30Caracteres,"circular")){
+                $unaNorma->setTipoNorma($tipoCir);
+                $entityManager->persist($unaNorma);
+            }
+            if(str_contains($primeros30Caracteres,"DISPOSICION") || str_contains($primeros30Caracteres,"Disposicion") || str_contains($primeros30Caracteres,"disposicion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
+                $unaNorma->setTipoNorma($tipoDis);
+                $entityManager->persist($unaNorma);
+            }
+        }
+        $entityManager->flush();
+        dd($normas);
+    }
+
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
     public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {   
-
+        //$todasNormas=$normaRepository->findAllQuery();
         $todasNormas=$normaRepository->createQueryBuilder('p')
-        ->getQuery();   
-        //dd($todasNormas);
-        
-        //dd($normaRepository);
+        ->getQuery();
         
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
@@ -548,27 +585,29 @@ class NormaController extends AbstractController
      * @Route("/{id}/mostrarPDF", name="mostrar_pdf")
      */
 
-    public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id): Response
+    public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id, MpdfFactory $MpdfFactory): Response
     {
-        
+       
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $tipoNorma=$norma->getTipoNorma()->getNombre();
-        $options = new Options();
-        $options->set('isRemoteEnabled',false);
-        $options->set('isHtml5ParserEnable',true);
-        // $options->set('defaultFont','helvetica');
-        // $bp='/var/www/vhosts/proyectodigesto/public';
-        //$options->set('chroot','C:/xampp/htdocs/proyectodigesto/public');
-        // Crea una instancia de Dompdf
-        $dompdf = new Dompdf($options);
+        // $options = new Options();
+        // $options->set('isRemoteEnabled',false);
+        // $options->set('isHtml5ParserEnable',true);
+        // // $options->set('defaultFont','helvetica');
+        // // $bp='/var/www/vhosts/proyectodigesto/public';
+        // //$options->set('chroot','C:/xampp/htdocs/proyectodigesto/public');
+        // // Crea una instancia de Dompdf
+        // $dompdf = new Dompdf($options);
         //$dompdf->getOptions()->setChroot('C:\\xampp\\htdocs\\proyectoDigesto\\public');
 
-        
+       
         // $dompdf->getOptions()->set([
         //     'defaultFont' => 'helvetica',
         //     'chroot' => '/var/www/proyectodigesto/public/upload',
         // ]);
+
+
 
         $today = new DateTime();
         $result = $today->format('d-m-Y H:i:s');
@@ -577,102 +616,135 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-
         //dd($html);
-        //$data ='<img alt="" src="./uploads/imagenes/photo_2022-03-14_20-14-10.jpg"/>';
+        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+        $posicion=strpos($htmlModificado,'?');
+        $posicion2=strpos($htmlModificado,'=es');
+        $cadenaAEliminar=substr($htmlModificado,$posicion,$posicion2-$posicion+3);
+        //dd($cadenaAEliminar);
+        $mod = str_replace($cadenaAEliminar,"",$htmlModificado);
+        //dd($mod);
+        $mPdf = $MpdfFactory->createMpdfObject([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_header' => 5,
+            'margin_footer' => 5,
+            'orientation' => 'P'
+            ]);
+            $mPdf->WriteHTML($mod);
+            //return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
+            $mPdf -> Output('','I');
+        exit;
 
-        //$ruta='<img alt="" src="/manager/file/photo_2022-03-14_20-14-10.jpg?conf=images&amp;module=ckeditor&amp;CKEditor=texto_edit_texto&amp;CKEditorFuncNum=3&amp;langCode=es" style="height:400px;width:300px;" />';
+        // dd($html);
+        //$data = "https://localhost:8000/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg";
+
+        //$ruta='<img src="localhost:8000';
         // Cargar HTML en Dompdf
-        //$html5=str_replace($ruta,$data,$html);
+        // $html5=str_replace('<img src="',$ruta,$html);
         //$html5=str_replace('/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg',$data,$html);
-        //dd($html5);
+        // dd($html5);
         //$dompdf->loadHtml($html);
-        $dompdf->loadHtml($html);
+        //$dompdf->loadHtml($html);
         // dd($retorno);
 
         // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
-        
-        $dompdf->setPaper('A4', 'portrait');
+       
+        //$dompdf->setPaper('A4', 'portrait');
 
         // Renderiza el HTML como PDF
-        $dompdf->render();
+        //$dompdf->render();
 
-        
+       
         // Envíe el PDF generado al navegador (descarga forzada)
-        $dompdf->stream($tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
-            "Attachment" => false
-        ]);
-        
+        //$dompdf->stream($tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
+          //  "Attachment" => false
+        //]);
+       
         // return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-        exit(1);
+        //exit(1);
     }
 
     /**
      * @Route("/{id}/generarPDF", name="generar_pdf")
      */
-
-    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id): Response
+    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
 
-        
+       
 
-        $options = new Options();
-        $options->set('isRemoteEnabled',true);
-        $options->setIsHtml5ParserEnabled(true);
-        
+        //$options = new Options();
+        //$options->set('isRemoteEnabled',true);
+        //$options->setIsHtml5ParserEnabled(true);
+       
         // Crea una instancia de Dompdf
-        $dompdf = new Dompdf($options);
+        //$dompdf = new Dompdf($options);
         $today = new DateTime();
         $result = $today->format('d-m-Y H-i-s');
 
-        
+       
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        //dd($html);
-        
+        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+        $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
+        // dd($html);
+
+        $mPdf = $MpdfFactory->createMpdfObject([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_header' => 5,
+            'margin_footer' => 5,
+            'orientation' => 'P'
+            ]);
+            $mPdf->WriteHTML($mod);
+            //return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
+           
+       
+       
         // Cargar HTML en Dompdf
-        $dompdf->loadHtml($html);
-        
+        //$dompdf->loadHtml($html);
+       
         // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
-        $dompdf->setPaper('A4', 'portrait');
+        //$dompdf->setPaper('A4', 'portrait');
 
         // Renderiza el HTML como PDF
-        $dompdf->render();
+        //$dompdf->render();
 
         // Store PDF Binary Data
-        $output = $dompdf->output();
-        
+        //$output = $dompdf->output();
+       
         // In this case, we want to write the file in the public directory
         $publicDirectory = 'uploads/pdf';
         // e.g /var/www/project/public/mypdf.pdf
         $nombre='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-
         $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-        
-        
+       
+       
         $pdfFilepath =  $publicDirectory . $nombre;
-        
+       
         // Write file to the desired path
+        $output = $mPdf -> Output($nombre,'S');
         file_put_contents($pdfFilepath, $output);
+       
 
         $archi=new Archivo();
         $archi->setNorma($norma);
         $archi->setRuta($ruta);
         $archi->setNombre($normaNombre);
-        
+       
         $archivos=$archivoRepository->findByNorma($id);
         foreach ($archivos as $unArchi) {
             if($unArchi->getRuta()==$ruta){
                 $entityManager->remove($unArchi);
             }
         }
-        
+       
         $entityManager->persist($archi);
         $norma->addArchivos($archi);
         $entityManager->persist($norma);
@@ -682,9 +754,10 @@ class NormaController extends AbstractController
         // $dompdf->stream("Norma-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
         //     "Attachment" => false
         // ]);
-        
+       
         return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-        exit(1);
+        //exit(1);
+        exit;
     }
 
     /**
@@ -752,7 +825,7 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form['fechaSancion']->getData());
+            //dd($form['etiquetas']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
             $norma->setFechaPublicacion($today);

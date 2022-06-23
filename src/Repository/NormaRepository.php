@@ -37,7 +37,16 @@ class NormaRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function findAllQuery(): Query
+    {
+        $retorno=$this->createQueryBuilder('p')
+        ->select('p')
+        ->join('tipoNorma', 't')
+        ->where('t.id = p.tipoNorma');
+        $query=$retorno->getQuery();
+        //dd($query);
+        return $query;
+    }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->orderBy('p.titulo','ASC');
