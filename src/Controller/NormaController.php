@@ -109,7 +109,6 @@ class NormaController extends AbstractController
         //$todasNormas=$normaRepository->findAllQuery();
         $todasNormas=$normaRepository->createQueryBuilder('p')
         ->getQuery();
-        
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
