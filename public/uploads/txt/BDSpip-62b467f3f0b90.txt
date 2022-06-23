@@ -1,0 +1,18 @@
+¿a que se refieren con objeto?
+
+spip_articles->norma ... (cuantos estados hay?)
+spip_auteurs->usuarios ... (no lo tenemos tdv)(comentar sobre lo que queremos hacer notros)(preguntar por campos)
+spip_auteurs_liens ... (TDV NO)(id_objet y objet y vu?)
+spip_documents->archivo ... (preguntar por campos)(id_vignette?)
+spip_gropue_mots (cual es la finalidad)
+spip_messages (finalidad)
+spip_mots->etiquetas ... ()
+spip_mots_liens (campo object?)
+spip_referes (???)
+spip_rubriques -> item(indice) ... (id_scteur?)(status?)(profundidad)
+spip_type_documents(para que sirve?)
+spip_versions y version_fragments(para que usan?)
+spip_visites y visites_articles(visites a donde?)
+
+mostrar nuestra base y comparar/discutir
+

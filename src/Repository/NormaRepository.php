@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Norma;
+use App\Entity\TipoNorma;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,12 +40,9 @@ class NormaRepository extends ServiceEntityRepository
     */
     public function findAllQuery(): Query
     {
-        $retorno=$this->createQueryBuilder('p')
-        ->select('p')
-        ->join('tipoNorma', 't')
-        ->where('t.id = p.tipoNorma');
-        $query=$retorno->getQuery();
-        //dd($query);
+        $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->orderBy('p.tipoNorma','ASC');
+        $query=$consulta->getQuery();
         return $query;
     }
     public function findUnaPalabraDentroDelTitulo($palabra): Query

@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RelacionType extends AbstractType
@@ -47,9 +48,11 @@ class RelacionType extends AbstractType
                     'tipoRelacion'
                 )
                 ])
-            ->add('fechaRelacion')
+            //->add('fechaRelacion')
             ->add('descripcion')
-            ->add('resumen')
+            ->add('resumen',TextType::class,[
+                'required' => false
+            ])
             ->add('usuario');
     }
 

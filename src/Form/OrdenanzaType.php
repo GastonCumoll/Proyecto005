@@ -27,6 +27,7 @@ class OrdenanzaType extends AbstractType
         ->add('numero')
         ->add('titulo')
         ->add('fechaSancion',DateType::class,[
+            'required' => false,
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',

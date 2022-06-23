@@ -141,7 +141,8 @@
             <thead class="table-active">
             <tr>
                 <th class="colId">{{knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
-                <th class="colTipo">{{knp_pagination_sortable(normas, 'Tipo', 'p.tipoNorma')}}</th>
+                <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
+                    {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
                 <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
                 <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numero')}}</th>
                 <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>

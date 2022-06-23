@@ -31,7 +31,6 @@ class ItemType extends AbstractType
                     'data-size'=>'10',
                     'data-live-search'=>true,
                 ]
-
             ])
             ->add('orden', IntegerType::class,[
                 'required' =>false,
@@ -91,7 +90,6 @@ class ItemType extends AbstractType
     //     );
         
     // }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -26,6 +26,7 @@ class LeyType extends AbstractType
         ->add('numero')
         ->add('titulo')
         ->add('fechaSancion',DateType::class,[
+            'required' => false,
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
@@ -37,7 +38,6 @@ class LeyType extends AbstractType
                 'requiered' => false,
             ],
         ])
-        
         //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[

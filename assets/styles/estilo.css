@@ -2,19 +2,18 @@
 @import "~select2/dist/css/select2.min.css";
 @import "~bootstrap-select/dist/css/bootstrap-select.min.css";
 @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker3.css";
-/* @import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css";
-/* @import "~select2-theme-bootstrap4";
-@import "~select2/dist/css/select2.min.css"; */
+/* @import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css"; */
+/* @import "~select2-theme-bootstrap4"; */
 /* @import "~@fortawesome/fontawesome-free/css/all.css";   */
 
 /* 
     Created on : 30-ene-2020, 10:43:19
     Author     : Ariel
 */
-body{
+/* body{
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
-}
+} */
 .datepicker,
 .table-condensed {
   max-width: 200px;

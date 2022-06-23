@@ -106,9 +106,9 @@ class NormaController extends AbstractController
      */
     public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {   
-        //$todasNormas=$normaRepository->findAllQuery();
-        $todasNormas=$normaRepository->createQueryBuilder('p')
-        ->getQuery();
+        $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
+        // $todasNormas=$normaRepository->createQueryBuilder('p')
+        // ->getQuery();
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados

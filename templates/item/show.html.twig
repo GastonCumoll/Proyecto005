@@ -3,6 +3,10 @@
 {% block title %}Item{% endblock %}
 
 {% block body %}
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('normaShow') }}
+{% endblock %}
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 
     <h1>Item</h1>
@@ -24,9 +28,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('item_index') }}">Volver a la lista</a>
-
-    <a href="{{ path('item_edit', {'id': item.id}) }}">Editar</a>
+    <div class=" divBotonVolver mt-4  text-left">
+        <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+    </div>
+    <div class="divBotones mt-3 mr-2">
+        <a href="{{ path('item_edit', {'id': item.id}) }}"><button type="button" class="btn btn-success botones editar" value="{{item.id}}" id="editar">Editar</button></a>
+    </div>
+    {# <a href="{{ path('item_edit', {'id': item.id}) }}">Editar</a> #}
 
     {{ include('item/_delete_form.html.twig') }}
 {% endblock %}
