@@ -61,7 +61,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class NormaController extends AbstractController
 {
     
-    
     /**
      * @Route("/settipo", name="settipo", methods={"GET"})
      */
@@ -73,6 +72,7 @@ class NormaController extends AbstractController
         $tipoCir=$tipoNormaRepository->find(4);
         $tipoDir=$tipoNormaRepository->find(5);
         $tipoDis=$tipoNormaRepository->find(6);
+        $tipoRes=$tipoNormaRepository->find(7);
         foreach ($normas as $unaNorma) {
             $titulo=$unaNorma->getTitulo();
             $primeros30Caracteres=substr($titulo,0,30);
@@ -94,6 +94,10 @@ class NormaController extends AbstractController
             }
             if(str_contains($primeros30Caracteres,"DISPOSICION") || str_contains($primeros30Caracteres,"Disposicion") || str_contains($primeros30Caracteres,"disposicion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
                 $unaNorma->setTipoNorma($tipoDis);
+                $entityManager->persist($unaNorma);
+            }
+            if(str_contains($primeros30Caracteres,"RESOLUCION") || str_contains($primeros30Caracteres,"Resolucion") || str_contains($primeros30Caracteres,"resolucion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
+                $unaNorma->setTipoNorma($tipoRes);
                 $entityManager->persist($unaNorma);
             }
         }
@@ -195,56 +199,11 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/{palabra}/busquedaParam", name="busqueda_param", methods={"GET","POST"}, options={"expose"=true})
-     */
-    public function busquedaParam(NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator,TipoNormaRepository $tipoNorma):Response
-    {
-        //dd($palabra);
-        
-        $palabra=str_replace("§","/",$palabra);
-        
-        // 
-        //$palabra es el string que quiero buscar
-        $todasNormas=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//array
-        $todasNormas=array_unique($todasNormas);
-
-        // Paginar los resultados de la consulta
-        $normas = $paginator->paginate(
-            // Consulta Doctrine, no resultados
-            $todasNormas,
-            // Definir el parámetro de la página
-            $request->query->getInt('page', 1),
-            // Items per page
-            10
-        );
-
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
-        $cant=count($normas);
-        return $this->render('norma/indexAdmin.html.twig', [
-            'rol' => $rol,
-            'normas' => $normas,
-            
-        ]);
-        
-    }
-
-    /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
      */
     public function normasAjax(NormaRepository $normaRepository,ItemRepository $itemRepository,$id): Response
     {
-
+        //normasAjax metodo para buscar normas ligadas a los items
         $item=$itemRepository->find($id);
         $normas=$item->getNormas()->toArray();
         
@@ -379,7 +338,7 @@ class NormaController extends AbstractController
                 }
             //}
         }
-        
+        // dd($arrayDeNormas);
         
 
         //dd($arrayDeNormas);
@@ -419,194 +378,14 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/busquedaAvanzada", name="busqueda_avanzada", methods={"GET","POST"})
-     */
-    public function busquedaAvanzada(PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad)
-    {
-        //$variablePost = $request->request->get('titulo');  // $_POST[]
-        //dd($variablePost);
-        //$variableGet = $request->query->get('titulo'); // $_GET[]
-
-        // if ($variableGet)
-        //     $resultado = $repo->findAlgunos($variableGet);
-        // else
-        //     $resultado = $repo->findTodos();
-
-        $form = $this->createForm(BusquedaType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $titulo = $form->get('titulo')->getData();
-            $tipo = $form->get('tipo')->getData();
-            $numero = $form->get('numero')->getData();
-            $año = $form->get('anio')->getData();
-            $etiquetasDeForm = $form['etiquetas']->getData();
-            dd($etiquetasDeForm);
-            
-
-            $normita=$normaRepository->findNormas($titulo,$numero,$año,$tipo->getId());//FIND NORMAS= METODO EN EL REPOSITORIO PARA BUSCAR LAS NORMAS DE A CUERDO A LOS PARAMETROS;
-            //dd($normita->getResult());//->getResult() para convertir el ORM Query($normita) a array;
-
-            //BUSQEUDA VIEJA---------------------------------------------------------------------------
-            //seccion etiquetas
-            // if($etiquetasDeForm[0]!=null){
-            //     foreach ($etiquetasDeForm as $e) {
-            //         $nombreEtiqueta[]=$e->getNombre();
-            //     }
-
-            //         $arrayEtiquetas=[];
-            //         foreach ($nombreEtiqueta as $unaEtiquetaSeparada) {
-            //             //$unaEtiquetaSeparada=trim($unaEtiquetaSeparada);
-            //             $arrayEtiquetas=array_merge($arrayEtiquetas,$etiquetaRepository->findUnaEtiqueta($unaEtiquetaSeparada));
-                        
-            //             foreach ($arrayEtiquetas as $unaEtiqueta) {
-            //                 $normasDeUnaEtiqueta=$unaEtiqueta->getNormas()->toArray();
-                            
-            //                 $normasEtiquetasMerged=array_merge($normasDeUnaEtiqueta,$normasEtiquetasMerged);
-            //             }
-            //         }
-            // }
-            
-            // $normasEtiquetasMerged=array_unique($normasEtiquetasMerged);
-            // //seccion tipo
-            // if($tipo != null){
-            //     $tipoNorma=$tipoNormaRepository->findOneByNombre($tipo->getNombre());
-            //     //dd($tipoNorma);
-            //     $nTipo=$tipoNorma->getNormas()->toArray();
-            // }
-
-
-            // if(($titulo != null)){
-            //     //array_merge($norma,$normaRepository->findUnaPalabraDentroDelTitulo($titulo));
-
-            //     $nTitulo=$normaRepository->findUnaPalabraDentroDelTitulo($titulo);
-            //     $normas=$nTitulo;
-            //     if(($tipo!=null)){
-                    
-            //         $normas=array_intersect($normas,$nTipo);
-            //     }
-            //     if($numero!=null){
-            //         $nNumero=$normaRepository->findUnNumero($numero);
-            //         $normas=array_intersect($normas,$nNumero);
-            //     }
-            //     if($año != null){
-            //         $nAño=$normaRepository->findUnAño($año);
-            //         $normas=array_intersect($normas,$nAño);
-            //     }
-            //     if($normasEtiquetasMerged!=null){
-            //         $normas=array_intersect($normas,$normasEtiquetasMerged);
-            //     }
-            // }
-            // else{
-            //         if(($tipo!=null)){
-                        
-            //             $normas=$nTipo;
-            //             if($numero!=null){
-            //                 $nNumero=$normaRepository->findUnNumero($numero);
-            //                 $normas=array_intersect($normas,$nNumero);
-            //             }
-            //             if($año != null){
-            //                 $nAño=$normaRepository->findUnAño($año);
-            //                 $normas=array_intersect($normas,$nAño);
-            //             }
-            //             if($normasEtiquetasMerged!=null){
-            //                 $normas=array_intersect($normas,$normasEtiquetasMerged);
-            //             }
-            //     }
-            //     else{
-            //             if($numero!=null){
-            //                 $nNumero=$normaRepository->findUnNumero($numero);
-            //                 $normas=$nNumero;
-            //                 if($año != null){
-            //                     $nAño=$normaRepository->findUnAño($año);
-            //                     $normas=array_intersect($normas,$nAño);
-            //                 }
-            //                 if($normasEtiquetasMerged!=null){
-            //                     $normas=array_intersect($normas,$normasEtiquetasMerged);
-            //                 }
-            //             }
-            //             else{
-            //                 if($año != null){
-            //                     $nAño=$normaRepository->findUnAño($año);
-            //                     $normas=$nAño;
-            //                 }
-            //                 else{
-            //                     if($normasEtiquetasMerged!=null){
-            //                         $normas=$normasEtiquetasMerged;
-            //                     }
-            //                 }
-            //             }
-                        
-            //         }
-                    
-            //     }
-            //-------------------------------------------------------------------------------------------
-
-                $sesion=$this->get('session');
-                $idSession=$sesion->get('session_id')*1;
-                if($seguridad->checkSessionActive($idSession)){
-                    
-                    // dd($idSession);
-                    $roles=json_decode($seguridad->getListRolAction($idSession), true);
-                    // dd($roles);
-                    $rol=$roles[0]['id'];
-                    // dd($rol);
-                }else {
-                    $rol="";
-                }
-                
-                // Paginar los resultados de la consulta
-            $normas = $paginator->paginate(
-            // Consulta Doctrine, no resultados
-            $normita,
-            // Definir el parámetro de la página
-            $request->query->getInt('page', 1),
-            // Items per page
-            10
-        );
-
-        //return $this->redirectToRoute('busqueda_avanzada_result', ['normas' => $normas], Response::HTTP_SEE_OTHER);
-            return $this->renderForm('norma/indexAdmin.html.twig', [
-                'etiquetas' => $etiquetaRepository->findAll(),
-                'tipoNormas' =>$tipoNormaRepository->findAll(),
-                'normas' => $normas,
-                'rol' => $rol,
-            ]);
-        }
-        
-        return $this->renderForm('busqueda/busquedaAvanzada.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/mostrarPDF", name="mostrar_pdf")
      */
 
     public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id, MpdfFactory $MpdfFactory): Response
     {
-       
         $norma=$normaRepository->find($id);
         $normaNombre=$norma->getTitulo();
         $tipoNorma=$norma->getTipoNorma()->getNombre();
-        // $options = new Options();
-        // $options->set('isRemoteEnabled',false);
-        // $options->set('isHtml5ParserEnable',true);
-        // // $options->set('defaultFont','helvetica');
-        // // $bp='/var/www/vhosts/proyectodigesto/public';
-        // //$options->set('chroot','C:/xampp/htdocs/proyectodigesto/public');
-        // // Crea una instancia de Dompdf
-        // $dompdf = new Dompdf($options);
-        //$dompdf->getOptions()->setChroot('C:\\xampp\\htdocs\\proyectoDigesto\\public');
-
-       
-        // $dompdf->getOptions()->set([
-        //     'defaultFont' => 'helvetica',
-        //     'chroot' => '/var/www/proyectodigesto/public/upload',
-        // ]);
-
-
 
         $today = new DateTime();
         $result = $today->format('d-m-Y H:i:s');
@@ -616,13 +395,13 @@ class NormaController extends AbstractController
             'id' => $normaRepository->find($id)
         ]);
         //dd($html);
+        //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
         $cadenaAEliminar=substr($htmlModificado,$posicion,$posicion2-$posicion+3);
-        //dd($cadenaAEliminar);
         $mod = str_replace($cadenaAEliminar,"",$htmlModificado);
-        //dd($mod);
+        
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -634,34 +413,6 @@ class NormaController extends AbstractController
             //return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
             $mPdf -> Output('','I');
         exit;
-
-        // dd($html);
-        //$data = "https://localhost:8000/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg";
-
-        //$ruta='<img src="localhost:8000';
-        // Cargar HTML en Dompdf
-        // $html5=str_replace('<img src="',$ruta,$html);
-        //$html5=str_replace('/upload/e2a2c396d083cacb969c5156a12a629f5ea37e42.jpg',$data,$html);
-        // dd($html5);
-        //$dompdf->loadHtml($html);
-        //$dompdf->loadHtml($html);
-        // dd($retorno);
-
-        // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
-       
-        //$dompdf->setPaper('A4', 'portrait');
-
-        // Renderiza el HTML como PDF
-        //$dompdf->render();
-
-       
-        // Envíe el PDF generado al navegador (descarga forzada)
-        //$dompdf->stream($tipoNorma."-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
-          //  "Attachment" => false
-        //]);
-       
-        // return $this->redirectToRoute('norma_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-        //exit(1);
     }
 
     /**
@@ -673,27 +424,18 @@ class NormaController extends AbstractController
         $normaNombre=$norma->getTitulo();
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
 
-       
-
-        //$options = new Options();
-        //$options->set('isRemoteEnabled',true);
-        //$options->setIsHtml5ParserEnabled(true);
-       
-        // Crea una instancia de Dompdf
-        //$dompdf = new Dompdf($options);
         $today = new DateTime();
         $result = $today->format('d-m-Y H-i-s');
 
-       
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
+        //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
         $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
-        // dd($html);
-
+        
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -701,61 +443,37 @@ class NormaController extends AbstractController
             'margin_footer' => 5,
             'orientation' => 'P'
             ]);
-            $mPdf->WriteHTML($mod);
-            //return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
-           
-       
-       
-        // Cargar HTML en Dompdf
-        //$dompdf->loadHtml($html);
-       
-        // (Opcional) Configure el tamaño del papel y la orientación 'vertical' o 'vertical'
-        //$dompdf->setPaper('A4', 'portrait');
+        $mPdf->WriteHTML($mod);
 
-        // Renderiza el HTML como PDF
-        //$dompdf->render();
-
-        // Store PDF Binary Data
-        //$output = $dompdf->output();
-       
         // In this case, we want to write the file in the public directory
         $publicDirectory = 'uploads/pdf';
         // e.g /var/www/project/public/mypdf.pdf
         $nombre='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
         $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-       
-       
         $pdfFilepath =  $publicDirectory . $nombre;
-       
+
         // Write file to the desired path
         $output = $mPdf -> Output($nombre,'S');
         file_put_contents($pdfFilepath, $output);
-       
 
         $archi=new Archivo();
         $archi->setNorma($norma);
         $archi->setRuta($ruta);
         $archi->setNombre($normaNombre);
-       
+
         $archivos=$archivoRepository->findByNorma($id);
         foreach ($archivos as $unArchi) {
             if($unArchi->getRuta()==$ruta){
                 $entityManager->remove($unArchi);
             }
         }
-       
+        
         $entityManager->persist($archi);
         $norma->addArchivos($archi);
         $entityManager->persist($norma);
         $entityManager->flush();
 
-        // Envíe el PDF generado al navegador (descarga forzada)
-        // $dompdf->stream("Norma-".$normaNombre."-MODIFICADA-".$result."-.pdf", [
-        //     "Attachment" => false
-        // ]);
-       
         return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-        //exit(1);
         exit;
     }
 

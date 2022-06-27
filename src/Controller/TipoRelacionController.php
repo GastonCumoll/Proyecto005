@@ -54,8 +54,6 @@ class TipoRelacionController extends AbstractController
 
             $inverso =$form['inverso']->getData();
             if($inverso!=null){
-                // $idInv=$inverso->getId();
-                // $em=$tipoRelacionRepository->find($idInv);
                 $inverso->setInverso($tipoRelacion);
                 $entityManager->persist($tipoRelacion);
                 $entityManager->persist($inverso);

@@ -38,6 +38,7 @@ class NormaRepository extends ServiceEntityRepository
         ;
     }
     */
+    //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
     public function findAllQuery(): Query
     {
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
@@ -47,7 +48,7 @@ class NormaRepository extends ServiceEntityRepository
     }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
-        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->orderBy('p.titulo','ASC');
+        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.titulo','ASC');
         $query=$retorno->getQuery();
         return $query;
     }
@@ -105,7 +106,7 @@ class NormaRepository extends ServiceEntityRepository
                     }
         }
 
-        $consulta->orderBy('p.titulo','ASC');
+        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.titulo','ASC');
         $query=$consulta->getQuery();
         //dd($query);
         return $query;

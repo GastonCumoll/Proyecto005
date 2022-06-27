@@ -48,6 +48,7 @@ Encore
     .addStyleEntry('botonKnp', '/assets/styles/botonKnp.css')
     .addStyleEntry('indexAdmin','/assets/styles/indexAdmin.css')
     
+    
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

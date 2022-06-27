@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class GeneralController extends AbstractController
 {
 
-
     /**
      * @Route("/login", name="login")
      */
