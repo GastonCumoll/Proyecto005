@@ -200,7 +200,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $event->setResponse(new RedirectResponse('/logout'));
                 }else{
                     
-                    $event->setResponse(new RedirectResponse('/404'));
+                    //$event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }
