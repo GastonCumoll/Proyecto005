@@ -45,6 +45,9 @@ class EtiquetaController extends AbstractController
             // Items per page
             10
         );
+        $appointments->setCustomParameters([
+            'align' => 'center',
+        ]);
         return $this->render('etiqueta/index.html.twig', [
             //'etiquetas' => $etiquetaRepository->findAll(),
             'etiquetas' => $appointments,
@@ -70,6 +73,9 @@ class EtiquetaController extends AbstractController
             // Items per page
             10
         );
+        $normas->setCustomParameters([
+            'align' => 'center',
+        ]);
         
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;

@@ -38,6 +38,9 @@ class ItemController extends AbstractController
             // Items per page
             10
         );
+        $items->setCustomParameters([
+            'align' => 'center',
+        ]);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;

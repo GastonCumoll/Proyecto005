@@ -115,6 +115,7 @@ class NormaController extends AbstractController
         // ->getQuery();
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
+            
             // Consulta Doctrine, no resultados
             $todasNormas,
             // Definir el parámetro de la página
@@ -122,6 +123,9 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
+        $normas->setCustomParameters([
+            'align' => 'center',
+        ]);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -156,15 +160,6 @@ class NormaController extends AbstractController
             $palabra=str_replace("§","/",$palabra);
             $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
         }
-        
-        
-        
-        //$palabra es el string que quiero buscar
-        
-
-        //$todasNormas=$normasQuery->getResult();//getResult()convierte el query en un array == ->execute();
-        //$todasNormas=array_unique($todasNormas);
-        //dd($todasNormas);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -188,6 +183,9 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
+        $normas->setCustomParameters([
+            'align' => 'center',
+        ]);
         return $this->render('norma/indexAdmin.html.twig', [
             
             'normas' => $normas,
@@ -356,6 +354,9 @@ class NormaController extends AbstractController
             // Items per page
             10
         );
+        $normasP->setCustomParameters([
+            'align' => 'center',
+        ]);
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;

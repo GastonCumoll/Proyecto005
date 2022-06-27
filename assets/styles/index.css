@@ -1,0 +1,51 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 350px) {
+
+}
+@media (max-width: 530px) {
+    .table-responsive{
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .btn-info{
+        margin-bottom: 4% !important;
+    }
+
+    .col-6{
+        margin-right: 1% !important;
+        margin-bottom: 5% !important;
+        width: 80% !important;
+    }
+   
+    .card-body{
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .btn-info{
+        margin-bottom: 4% !important;
+    }
+
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    .btn-info{
+        margin-bottom: 4% !important;
+    }
+
+    .modificar{
+        margin-left: 3% !important;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .modificar{
+        margin-left: 3.5% !important;
+    }
+
+}

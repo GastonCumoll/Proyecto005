@@ -47,6 +47,7 @@ Encore
     .addStyleEntry('inicioAdmin', '/assets/styles/inicioAdmin.css')
     .addStyleEntry('botonKnp', '/assets/styles/botonKnp.css')
     .addStyleEntry('indexAdmin','/assets/styles/indexAdmin.css')
+    .addStyleEntry('index','/assets/styles/index.css')
     
     
 
