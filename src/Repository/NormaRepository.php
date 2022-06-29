@@ -58,10 +58,11 @@ class NormaRepository extends ServiceEntityRepository
 
         $cont=0;
         $tam=count($arrayDeNormas);
+        
         $consulta=$this->createQueryBuilder('p');
         $consulta1="";
         if($arrayDeNormas){//entra si hay mas de una norma
-            if(count($arrayDeNormas)>1){
+            //if(count($arrayDeNormas)>1){
 
                 //$consulta->where('p.id = :id');
                 for ($i=0; $i < $tam; $i++) {
@@ -89,11 +90,11 @@ class NormaRepository extends ServiceEntityRepository
                         }
                         $consulta1.= ")";
                 }
-                
-            }
+                $consulta=$this->createQueryBuilder('p')->where($consulta1);
             //dd($consulta1);
-            $consulta=$this->createQueryBuilder('p')->where($consulta1);
+            //}
         }else{
+            
             if($titulo){
                     $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
                     }if($numero){
@@ -110,7 +111,8 @@ class NormaRepository extends ServiceEntityRepository
         $query=$consulta->getQuery();
         //dd($query);
         return $query;
-    }
+    
+}
 
     public function findNormasEtiqueta($normasEtiquetas): Query
     {

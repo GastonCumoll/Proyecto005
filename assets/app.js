@@ -14,6 +14,7 @@ import $ from 'jquery';
 import 'bootstrap';
 import 'bootstrap-select';
 
+
 global.$ = global.jQuery = $;
 
 import select2 from 'select2';

@@ -73,7 +73,7 @@ class EtiquetaController extends AbstractController
             // Items per page
             10
         );
-        $normas->setCustomParameters([
+        $norma->setCustomParameters([
             'align' => 'center',
         ]);
         

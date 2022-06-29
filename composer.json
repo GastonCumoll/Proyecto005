@@ -16,6 +16,7 @@
         "dompdf/dompdf": "^1.2",
         "exercise/htmlpurifier-bundle": "^4.0",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
+        "gregwar/captcha-bundle": "^2.2",
         "kms/froala-editor-bundle": "^4.0",
         "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-snappy": "^1.4",
@@ -76,10 +77,12 @@
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*"
     },
+    
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "ckeditor:install %PUBLIC_DIR%//bundles//fosckeditor//": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

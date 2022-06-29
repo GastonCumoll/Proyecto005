@@ -51,10 +51,14 @@
 
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
-                        <h5 class="card-title text-center ">Archivos adjuntos</h5>
+                        <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
+                        <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
+
                         {% for unPdf in norma.archivos %}
+                        <div>
                             <a href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
                             <br>
+                        </div>
                         {% endfor %}
                     </div>
                 </div>

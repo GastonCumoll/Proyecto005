@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Norma{% endblock %}
+
+{% block body %}
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
+
+    <h1>Agregar archivo</h1>
+    
+    {{ include('norma/_form.html.twig') }}
+    <input type="hidden" id="id" value="{{norma.id}}">
+    <input type="hidden" id="idNombre" value="{{norma.titulo}}">
+    <a href="{{ path('norma_show', {'id': norma.id})}}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
+
+    {% block javascripts %}
+        {{ parent() }}
+        {{encore_entry_script_tags('etiqueta')}}
+        {{encore_entry_script_tags('datepicker')}}
+        {# {{encore_entry_script_tags('etiquetasNormaEdit')}} #}
+    {% endblock  %} 
+{% endblock %}

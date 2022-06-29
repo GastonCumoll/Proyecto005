@@ -11,6 +11,10 @@
 
     <h1>Item</h1>
 
+    <div class=" divBotonVolver mt-4  text-left">
+        <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary botones" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+    </div>
+    <br>
     <table class="table">
         <tbody>
             <tr>
@@ -27,14 +31,16 @@
             </tr>
         </tbody>
     </table>
-
-    <div class=" divBotonVolver mt-4  text-left">
-        <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+    <div class="container">
+        <div class="divBotones mt-3 mr-2">
+            <a href="{{ path('item_edit', {'id': item.id}) }}"><button type="button" class="btn btn-success botones editar" value="{{item.id}}" id="editar">Editar</button></a>
+        </div>
+        <div class="divBotones mt-3 mr-2">
+            {{ include('item/_delete_form.html.twig') }}
+        </div>
     </div>
-    <div class="divBotones mt-3 mr-2">
-        <a href="{{ path('item_edit', {'id': item.id}) }}"><button type="button" class="btn btn-success botones editar" value="{{item.id}}" id="editar">Editar</button></a>
-    </div>
+    
     {# <a href="{{ path('item_edit', {'id': item.id}) }}">Editar</a> #}
 
-    {{ include('item/_delete_form.html.twig') }}
+    
 {% endblock %}

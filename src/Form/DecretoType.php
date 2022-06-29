@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class DecretoType extends AbstractType
 {
@@ -76,6 +77,12 @@ class DecretoType extends AbstractType
             'required'=>false,
             'attr' => ['class'=>'custom-file-imput'],
         ])
+        ->add('nombre_archivo',TextType::class,[
+            'mapped' => false,
+            'required' => false,
+            'attr'=>['id'=>'ida'],
+        ])
+        //->add('captcha', CaptchaType::class)
         //->add('fechaPublicacionBoletin')
         //->add('estado')
         ->add('etiquetas',EntityType::class,[

@@ -60,6 +60,15 @@
         cursor: pointer;
     }
 
+    #h5Archivos{
+        display: inline !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+    }
+
 }
 
 @media (max-width: 767px) {
@@ -117,6 +126,15 @@
         color: #000;
         text-decoration: none;
         cursor: pointer;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
     }
 
 }
@@ -179,6 +197,15 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #h5Archivos{
+        display: inline !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -239,4 +266,14 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #h5Archivos{
+        display: inline !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+    }
+
 }

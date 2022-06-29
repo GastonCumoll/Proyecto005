@@ -14,6 +14,7 @@ use App\Form\NormaType;
 use App\Entity\Etiqueta;
 use App\Entity\Relacion;
 use App\Entity\TipoNorma;
+use App\Form\ArchivoType;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
 use App\Form\BusquedaType;
@@ -336,13 +337,14 @@ class NormaController extends AbstractController
                 }
             //}
         }
-        // dd($arrayDeNormas);
+        //dd($arrayDeNormas);
         
 
         //dd($arrayDeNormas);
         
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento ¿porque no me trae un array?
         $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
+        //dd($normas);
         //dd($normas->getResult());
         //seccion paginator
         // Paginar los resultados de la consulta
@@ -543,6 +545,7 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->get('nombre_archivo','id')->getData());
             //dd($form['etiquetas']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
@@ -592,7 +595,12 @@ class NormaController extends AbstractController
                     $archi=new Archivo();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
-                    $archi->setNombre($originalFilename);
+                    if($form->get('nombre_archivo')->getData()){
+                        $archi->setNombre($form->get('nombre_archivo')->getData());
+                    }else{
+                        $archi->setNombre($originalFilename);
+                    }
+                    
                     $archi->setTipo($carpeta);
 
                     
@@ -661,7 +669,62 @@ class NormaController extends AbstractController
             'form' => $form,
         ]);
     }
+    
+    /**
+     * @Route("/{id}/agregarArchivo", name="agregar_archivo", methods={"GET", "POST"})
+     */
+    public function agregarArchivo(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    {
+                $form = $this->createForm(ArchivoType::class, $norma);
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid())
+                {
+                    $brochureFile = $form->get('archivo')->getData();
+                    $nombreArchivo = $form->get('nombre')->getData();
 
+                    if ($brochureFile) {
+                        foreach ($brochureFile as $unArchivo) {
+                            $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+                            // this is needed to safely include the file name as part of the URL
+                            $safeFilename = $slugger->slug($originalFilename);
+                            $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+                            $carpeta=$unArchivo->guessExtension();
+                            //dd($unArchivo->guessExtension());
+                            // Move the file to the directory where brochures are stored
+                            try {
+                                $unArchivo->move(
+                                $this->getParameter('brochures_directory'),
+                                $newFilename
+                                );
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+                            // updates the 'brochureFilename' property to store the PDF file name
+                            // instead of its contents
+                            //dd($newFilename);
+                            $newFilename=$carpeta.'/'.$newFilename;
+                            //dd($newFilename);
+                            $archi=new Archivo();
+                            $archi->setRuta($newFilename);
+                            $archi->setNorma($norma);
+                            $archi->setNombre($nombreArchivo);
+                            $archi->setTipo($carpeta);
+
+                            $entityManager->persist($archi);
+                            //dd($archi);
+                            $norma->addArchivos($archi);
+                            $entityManager->persist($norma);
+                        }
+                    }
+                    $entityManager->flush();
+                    return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+                }
+                return $this->renderForm('norma/agregarArchivo.html.twig', [
+                    'norma' => $norma,
+                    'form' => $form,
+                    'id' => $id,
+                ]);
+    }
     /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
      */
@@ -786,7 +849,11 @@ class NormaController extends AbstractController
                     $archi->setNorma($norma);
                     //$nombreArchivo=$norma->getTipoNorma()->getNombre()."N°".$norma->getNumero();
                     // dd($nombreArchivo);
-                    $archi->setNombre($originalFilename);
+                    if($form->get('nombre_archivo')->getData()){
+                        $archi->setNombre($form->get('nombre_archivo')->getData());
+                    }else{
+                        $archi->setNombre($originalFilename);
+                    }
 
                     
 

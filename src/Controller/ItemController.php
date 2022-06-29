@@ -177,7 +177,7 @@ class ItemController extends AbstractController
             }    
             $entityManager->flush();
 
-            return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('indice_vigente', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/edit.html.twig', [
