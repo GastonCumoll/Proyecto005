@@ -1,5 +1,8 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+#consulta{
+    display: inline !important;
+}
 @media (max-width: 350px) {
 
 }

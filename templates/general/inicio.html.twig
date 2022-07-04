@@ -22,13 +22,72 @@
                 <a class="btn btn-primary" type="button" href="{{ path('formulario_busqueda')  }}">
                     Busqueda avanzada
                 </a>
-        
-                {# <div class="input-group float-right" id="casilleroBusqueda">
-                    <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Busqueda por titulo" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-                    <div class="input-group-prepend">
-                        <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a class="btn btn-outline-info btn-sm dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample"
+                            aria-expanded="false" aria-controls="collapseExample">
+                            Necesito ayuda <i class="fa-solid fa-circle-question"></i> <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card shadow-sm">
+                                <div class="card-body sm">
+                                    <form action="{{path('consulta')}}" method="get">
+                                        <div class="row">
+                                            <div class="col-3 text-left" >
+                                                <strong>Nombre</strong>
+                                            </div>
+                                            <div class="col-3" >
+                                                <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
+                                                placeholder="nombre" />
+                                            </div>
+                                            <div class="col-3 text-left" >
+                                                <strong>Correo electronico</strong>
+                                            </div>
+                                            <div class="col-3" >
+                                                <input type="text" class="form-control form-control-sm" id="correo" name="correo"
+                                                placeholder="ejemplo@gmail.com" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3 text-left" >
+                                                <strong>Tema de consulta</strong>
+                                            </div>
+                                            <div class="col-3" >
+                                                <select name="tema" id="tema" class="form-control selectpicker" data-live-search="true">
+                                                    <option></option>
+                                                    <option >Digesto</option>
+                                                    <option > No encuentro una norma</option>   
+                                                    <option >Problemas con una norma</option>
+                                                    <option>Otro</option>   
+                                                </select>
+                                            </div>
+                                            <div class="col-3 text-left" >
+                                                <strong>Teléfono</strong>
+                                            </div>
+                                            <div class="col-3" >
+                                                <input type="number" class="form-control form-control-sm" id="telefono" name="telefono"
+                                                    placeholder="Ej: 3435555555 (sin 0 y 15)" />
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-3"></div>
+                                            <div class="col-6 text-center">
+                                                <textarea  rows="4" cols="50" class="form-control form-control-sm" id="consulta" name="consulta"
+                                                    placeholder="Escriba su consulta aqui..." /></textarea>
+                                            </div>
+                                            <div class="col-3"></div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div> #}
+                </div>
             </div>
         </div>
     </div>

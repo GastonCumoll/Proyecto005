@@ -63,6 +63,23 @@ class NormaController extends AbstractController
 {
     
     /**
+     * @Route("/cambiar", name="cambiar", methods={"GET"})
+     */
+    public function cambiar(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
+    {
+        $normas=$normaRepository->findAll();
+        foreach ($normas as $unaNorma) {
+            $textoNorma=$unaNorma->getTexto();
+            if(str_contains($textoNorma,"?")){
+                $textoNuevo=str_replace("?","-",$textoNorma);
+                $unaNorma->setTexto($textoNuevo);
+                $entityManager->persist($unaNorma);
+        }
+        }
+        $entityManager->flush();
+        dd("finish");
+    }   
+    /**
      * @Route("/settipo", name="settipo", methods={"GET"})
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
