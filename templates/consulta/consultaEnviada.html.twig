@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consulta enviada correctamente!{% endblock %}
+
+{% block body %}
+
+{% if bandera == 1 %}
+    <div id="consultaNoEnviada">
+        <h2 class="text-center" id="textoCartelConsulta">Su consulta ya fue enviada anteriormente!<br>
+            Ingrese una consulta diferente.<br>
+            Muchas gracias!!
+        </h2>
+    </div>
+{% endif %}
+
+{% if bandera == 0 %}
+    <div id="consultaEnviada">
+        <h2 class="text-center" id="textoCartelConsulta">Su consulta fue enviada correctamente!<br>
+            Se le enviará como respuesta un correo electrónico al mail especificado anteriormente.<br>
+            Muchas gracias!!
+        </h2>
+    </div>  
+{% endif %}  
+
+
+
+
+{% block javascripts %}
+{{encore_entry_script_tags('redireccion')}}
+{% endblock %}
+{% endblock %}

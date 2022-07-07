@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PruebaNorma{% endblock %}
+
+{% block body %}
+    <h1>PruebaNorma</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prueba_norma.id }}</td>
+            </tr>
+            <tr>
+                <th>Titulo</th>
+                <td>{{ prueba_norma.titulo }}</td>
+            </tr>
+            <tr>
+                <th>Texto</th>
+                <td>{{ prueba_norma.texto }}</td>
+            </tr>
+            <tr>
+                <th>Indexdate</th>
+                <td>{{ prueba_norma.indexdate ? prueba_norma.indexdate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PublishStartDate</th>
+                <td>{{ prueba_norma.publishStartDate ? prueba_norma.publishStartDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('prueba_norma_index') }}">back to list</a>
+
+    <a href="{{ path('prueba_norma_edit', {'id': prueba_norma.id}) }}">edit</a>
+
+    {{ include('prueba_norma/_delete_form.html.twig') }}
+{% endblock %}

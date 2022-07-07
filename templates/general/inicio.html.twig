@@ -33,7 +33,7 @@
                         <div class="collapse" id="collapseExample">
                             <div class="card shadow-sm">
                                 <div class="card-body sm">
-                                    <form action="{{path('consulta')}}" method="get">
+                                    <form id="form-consulta" action="{{'consulta/consulta'}}" method="POST">
                                         <div class="row">
                                             <div class="col-3 text-left" >
                                                 <strong>Nombre</strong>
@@ -56,11 +56,9 @@
                                             </div>
                                             <div class="col-3" >
                                                 <select name="tema" id="tema" class="form-control selectpicker" data-live-search="true">
-                                                    <option></option>
-                                                    <option >Digesto</option>
-                                                    <option > No encuentro una norma</option>   
-                                                    <option >Problemas con una norma</option>
-                                                    <option>Otro</option>   
+                                                    {% for unTipoConsulta in tiposConsultas %}
+                                                        <option value="{{unTipoConsulta.nombre}}">{{unTipoConsulta.nombre}}</option>
+                                                    {% endfor %}
                                                 </select>
                                             </div>
                                             <div class="col-3 text-left" >
@@ -80,7 +78,7 @@
                                             <div class="col-3"></div>
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>
+                                            <button id="consultar" class="btn btn-sm btn-outline-secondary cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>
                                         </div>
                                     </form>
                                 </div>
@@ -93,9 +91,30 @@
     </div>
 </div>
 {% block javascripts %}
+
 {{ parent() }}
 {{encore_entry_script_tags('busquedaJs')}}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh"></script>
+
+    <script>
+        $(document).ready( function(){
+            
+            $('#consultar').click(() => {
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh', {action: 'submit'}).then(function(token) {
+                        
+                        // Add your logic to submit to your backend server here.
+                        $('#form-consulta').prepend('<input type="hidden" name="token" value="'+token+'">');
+                        $('#form-consulta').prepend('<input type="hidden" name="action" value="submit">');
+                        $('#form-consulta').submit();
+                    });
+                });
+            })
+        });
+    </script>
 {% endblock %}
 {% endblock %}
+
 
 

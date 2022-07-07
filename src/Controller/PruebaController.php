@@ -24,6 +24,7 @@ class PruebaController extends AbstractController
         $normasPrueba=$pruebaRepository->findAll();
         
         foreach ($normasPrueba as $unaNorma) {
+
             $titulo=$unaNorma->getTitulo();
             //dd($titulo[0]);
             if($titulo[0]==" "){

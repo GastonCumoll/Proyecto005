@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PruebaRepository;
+use App\Repository\PruebaNormaRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\Mapping\OrderBy;
 /**
- * @ORM\Entity(repositoryClass=PruebaRepository::class)
+ * @ORM\Entity(repositoryClass=PruebaNormaRepository::class)
  */
-class Prueba
+class PruebaNorma
 {
     /**
      * @ORM\Id
@@ -19,6 +19,7 @@ class Prueba
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @OrderBy({"titulo" = "ASC"})
      */
     private $titulo;
 
@@ -37,19 +38,16 @@ class Prueba
      */
     private $publishStartDate;
 
-    /**
-     * @ORM\Column(type="string", length=10000, nullable=true)
-     */
-    private $TextoLargo;
+    public function __toString()
+    {
+        return $this->titulo;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-    public function __toString()
-    {
-        return $this->titulo;
-    }
+
     public function getTitulo(): ?string
     {
         return $this->titulo;
@@ -94,18 +92,6 @@ class Prueba
     public function setPublishStartDate(?\DateTimeInterface $publishStartDate): self
     {
         $this->publishStartDate = $publishStartDate;
-
-        return $this;
-    }
-
-    public function getTextoLargo(): ?string
-    {
-        return $this->TextoLargo;
-    }
-
-    public function setTextoLargo(?string $TextoLargo): self
-    {
-        $this->TextoLargo = $TextoLargo;
 
         return $this;
     }

@@ -34,6 +34,7 @@ Encore
     .addEntry('etiquetasNormaEdit', './assets/etiquetasNormaEdit.js')
     .addEntry('etiqueta', './assets/etiqueta.js')
     .addEntry('datepicker', './assets/datepicker.js')
+    .addEntry('redireccion', './assets/redireccion.js')
     
     
     .addStyleEntry('base', '/assets/styles/app.css')

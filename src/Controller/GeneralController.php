@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use App\Service\SeguridadService;
+use App\Repository\TipoConsultaRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GeneralController extends AbstractController
 {
@@ -26,11 +27,12 @@ class GeneralController extends AbstractController
     /**
      * @Route("inicio", name="inicio")
      */
-    public function inicio(Request $request): Response
+    public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository): Response
     {
-
-        
-        return $this->render('general/inicio.html.twig');
+        $tiposConsultas = $tipoConsultaRepository->findAll();
+        return $this->render('general/inicio.html.twig',[
+            'tiposConsultas' => $tiposConsultas
+        ]);
 
     }
 

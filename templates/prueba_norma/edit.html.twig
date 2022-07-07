@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PruebaNorma{% endblock %}
+
+{% block body %}
+    <h1>Edit PruebaNorma</h1>
+
+    {{ include('prueba_norma/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('prueba_norma_index') }}">back to list</a>
+
+    {{ include('prueba_norma/_delete_form.html.twig') }}
+{% endblock %}

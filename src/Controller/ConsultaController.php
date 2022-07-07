@@ -43,22 +43,79 @@ class ConsultaController extends AbstractController
     }
 
     /**
+     * @Route("/consultaMensaje/{bandera}", name="consultaMensaje", methods={"GET", "POST"})
+     */
+    public function consultaMensaje(Request $request, $bandera, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository): Response
+    {
+        return $this->render('consulta/consultaEnviada.html.twig',[
+            'bandera' => $bandera
+        ]);
+    }
+
+    /**
      * @Route("/consulta", name="consulta", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository, ConsultaRepository $consultaRepository ): Response
     {
-        $nombre=$request->query->get('nombre');
-        $correo=$request->query->get('correo');//string
-        $tema=$request->query->get('tema');//string
-        $telefono=$request->query->get('telefono');//string
+
+        if($request->get('nombre')){
+
+        
+        $token= $_POST['token'];
+        $action= $_POST['action'];
+
+        $cu = curl_init();
+        curl_setopt($cu,CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($cu,CURLOPT_POST,1); //indica el tipo de envio POST
+        curl_setopt($cu,CURLOPT_POSTFIELDS,http_build_query(
+            [
+                'secret' => '6LedpdAgAAAAAOtvcORbWBIy9OXpZTfccBKC5JCT',
+                'response' => $token
+            ]
+            ));
+        curl_setopt($cu, CURLOPT_RETURNTRANSFER, true);
+
+        $response=curl_exec($cu);
+        curl_close($cu);
+        $datos = json_decode($response,true);
+        dd($datos);
+        if($datos['success'] == false || $datos['score'] < 0.5){
+            
+            $this->get('session')->getFlashBag()->set('alert-danger',[
+                'type' => 'alert-danger',
+                'title' => 'Error: ',
+                'message' => 'Token invalido.'
+            ]);
+            return $this->redirectToRoute('inicio');
+        }
+        }   
+
+        $nombre=$request->get('nombre');
+        $correo=$request->get('correo');//string
+        $tema=$request->get('tema');//string
+        $telefono=$request->get('telefono');//string
         //if(!$request->request->get('etiquetas')){
-        $texto=$request->query->get('consulta');
+        $texto=$request->get('consulta');
+
+        $consultas = $consultaRepository->findByEmail($correo);
+        //dd($consultas);
+
+        $today = new DateTime();
+        
+        $todayFormato = $today->format("Y-m-d");
+
+        foreach($consultas as $unaConsulta){
+            $fechaConsulta = $unaConsulta->getFechaYHora()->format("Y-m-d");
+            if(($unaConsulta->getTexto() == $texto) && ($todayFormato == $fechaConsulta)){
+                $bandera = true;
+
+                return $this->redirectToRoute('consultaMensaje',['bandera' => 1],Response::HTTP_SEE_OTHER);
+            }   
+        }
         
         $tipo=$tipoConsultaRepository->findByNombre($tema);
         $tipoConsulta=$tipo[0];
         
-        $today=new DateTime();
-
         $consulta = new Consulta();
         $consulta->setNombre($nombre);
         $consulta->setEmail($correo);
@@ -69,13 +126,7 @@ class ConsultaController extends AbstractController
         $entityManager->persist($consulta);
         $entityManager->flush();
 
-            return $this->redirectToRoute('consulta_index', [], Response::HTTP_SEE_OTHER);
-        //}
-
-        return $this->renderForm('consulta/new.html.twig', [
-            'consultum' => $consultum,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
     }
 
     /**

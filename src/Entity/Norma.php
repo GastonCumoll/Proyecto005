@@ -110,6 +110,11 @@ private $items;
  */
 private $archivos;
 
+/**
+ * @ORM\Column(type="integer", nullable=true)
+ */
+private $instancia;
+
 
 public function getRela(): ?bool
 {
@@ -414,6 +419,18 @@ public function setRela(?bool $rela): self
                 $archivos->setNorma(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInstancia(): ?int
+    {
+        return $this->instancia;
+    }
+
+    public function setInstancia(?int $instancia): self
+    {
+        $this->instancia = $instancia;
 
         return $this;
     }

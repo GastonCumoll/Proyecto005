@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PruebaNorma index{% endblock %}
+
+{% block body %}
+    <h1>PruebaNorma index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Texto</th>
+                <th>Indexdate</th>
+                <th>PublishStartDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prueba_norma in prueba_normas %}
+            <tr>
+                <td>{{ prueba_norma.id }}</td>
+                <td>{{ prueba_norma.titulo }}</td>
+                <td>{{ prueba_norma.texto }}</td>
+                <td>{{ prueba_norma.indexdate ? prueba_norma.indexdate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ prueba_norma.publishStartDate ? prueba_norma.publishStartDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('prueba_norma_show', {'id': prueba_norma.id}) }}">show</a>
+                    <a href="{{ path('prueba_norma_edit', {'id': prueba_norma.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('prueba_norma_new') }}">Create new</a>
+{% endblock %}

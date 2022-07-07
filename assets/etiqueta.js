@@ -19,14 +19,16 @@ import bsCustomFileInput from 'bs-custom-file-input';
 //     });
 // });
 $(document).ready(function() {
+    
+    
     bsCustomFileInput.init();
 
     $('.js-example-basic-multiple').select2({
+        //theme: 'bootstrap4',
         placeholder:{
         id: -1,
         text: 'Buscar ...',
         },
-        //theme: 'bootstrap4', 
         allowClear: true,
     });
     
