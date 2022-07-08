@@ -115,6 +115,11 @@ private $archivos;
  */
 private $instancia;
 
+/**
+ * @ORM\ManyToMany(targetEntity=Usuario::class, inversedBy="normasCargadas")
+ */
+private $userCreador;
+
 
 public function getRela(): ?bool
 {
@@ -141,6 +146,7 @@ public function setRela(?bool $rela): self
         $this->etiquetas = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->archivosPdf = new ArrayCollection();
+        $this->userCreador = new ArrayCollection();
 
     }
 
@@ -431,6 +437,30 @@ public function setRela(?bool $rela): self
     public function setInstancia(?int $instancia): self
     {
         $this->instancia = $instancia;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Usuario[]
+     */
+    public function getUserCreador(): Collection
+    {
+        return $this->userCreador;
+    }
+
+    public function addUserCreador(Usuario $userCreador): self
+    {
+        if (!$this->userCreador->contains($userCreador)) {
+            $this->userCreador[] = $userCreador;
+        }
+
+        return $this;
+    }
+
+    public function removeUserCreador(Usuario $userCreador): self
+    {
+        $this->userCreador->removeElement($userCreador);
 
         return $this;
     }

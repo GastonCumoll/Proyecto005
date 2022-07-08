@@ -52,8 +52,9 @@
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
                         <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
+                        {% if rol == "DIG_OPERADOR" %}
                         <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
-
+                        {% endif %}
                         {% for unPdf in norma.archivos %}
                         <div>
                             <a href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
@@ -67,7 +68,11 @@
                     {% for etiqueta in norma.etiquetas %}
                         <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
                     {% endfor %}
+                    <br>
+                    <i class="fa-solid fa-user"></i>Publicado por :
+                    {{user.nombre}}
                 </div>
+
 
                 <br>
                 

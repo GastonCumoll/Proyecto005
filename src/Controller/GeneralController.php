@@ -18,10 +18,12 @@ class GeneralController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        
         if ($request->getSession()->get('active') == 1)
             return $this->redirectToRoute('inicio_admin');
         else
             return $this->render('general/login.html.twig');
+        
     }
 
     /**
@@ -157,15 +159,15 @@ class GeneralController extends AbstractController
             // Trabajar string del primer rol (se presume que el usuario sólo tiene un rol)
             //$rol = explode('_', $roles[0]['id']);
             //dd($roles[0]);
-            if(!empty($roles)){
-                if($rolesSistema==$roles[0]['id']){
-                $rol = explode('_', $roles[0]['id']);
-            }else{
-                $seguridad->logoutAction($session_id);
-            }
-            }else{
-                $seguridad->logoutAction($session_id);
-            }
+            // if(!empty($roles)){
+            //     if($rolesSistema==$roles[0]['id']){
+            //     $rol = explode('_', $roles[0]['id']);
+            // }else{
+            //     $seguridad->logoutAction($session_id);
+            // }
+            // }else{
+            //     $seguridad->logoutAction($session_id);
+            // }
             
             // Sintaxis: FP_[autoridad]_[cargo]
             // if ($rol[1] != 'ADMIN') {
