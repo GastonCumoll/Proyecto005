@@ -770,9 +770,13 @@ class NormaController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         $auditoria=$norma->getAuditorias();
+        $unUser='';
         foreach ($auditoria as $audi) {
-            $unUser=$audi->getUsuario();
+            $unUser=$audi->getUsuario()->getNombre();
         }
+        // if(!$unUser){
+        //     $unUser='';
+        // }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
