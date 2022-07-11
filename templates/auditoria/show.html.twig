@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auditoria{% endblock %}
+
+{% block body %}
+    <h1>Auditoria</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ auditorium.id }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ auditorium.fecha ? auditorium.fecha|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>InstanciaAnterior</th>
+                <td>{{ auditorium.instanciaAnterior }}</td>
+            </tr>
+            <tr>
+                <th>InstanciaActual</th>
+                <td>{{ auditorium.instanciaActual }}</td>
+            </tr>
+            <tr>
+                <th>EstadoAnterior</th>
+                <td>{{ auditorium.estadoAnterior }}</td>
+            </tr>
+            <tr>
+                <th>EstadoActual</th>
+                <td>{{ auditorium.estadoActual }}</td>
+            </tr>
+            <tr>
+                <th>Accion</th>
+                <td>{{ auditorium.accion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('auditoria_index') }}">back to list</a>
+
+    <a href="{{ path('auditoria_edit', {'id': auditorium.id}) }}">edit</a>
+
+    {{ include('auditoria/_delete_form.html.twig') }}
+{% endblock %}

@@ -116,9 +116,10 @@ private $archivos;
 private $instancia;
 
 /**
- * @ORM\ManyToMany(targetEntity=Usuario::class, inversedBy="normasCargadas")
+ * @ORM\OneToMany(targetEntity=Auditoria::class, mappedBy="norma")
  */
-private $userCreador;
+private $auditorias;
+
 
 
 public function getRela(): ?bool
@@ -146,7 +147,8 @@ public function setRela(?bool $rela): self
         $this->etiquetas = new ArrayCollection();
         $this->items = new ArrayCollection();
         $this->archivosPdf = new ArrayCollection();
-        $this->userCreador = new ArrayCollection();
+        //$this->userCreador = new ArrayCollection();
+        $this->auditorias = new ArrayCollection();
 
     }
 
@@ -441,26 +443,33 @@ public function setRela(?bool $rela): self
         return $this;
     }
 
+
     /**
-     * @return Collection|Usuario[]
+     * @return Collection|Auditoria[]
      */
-    public function getUserCreador(): Collection
+    public function getAuditorias(): Collection
     {
-        return $this->userCreador;
+        return $this->auditorias;
     }
 
-    public function addUserCreador(Usuario $userCreador): self
+    public function addAuditoria(Auditoria $auditoria): self
     {
-        if (!$this->userCreador->contains($userCreador)) {
-            $this->userCreador[] = $userCreador;
+        if (!$this->auditorias->contains($auditoria)) {
+            $this->auditorias[] = $auditoria;
+            $auditoria->setNorma($this);
         }
 
         return $this;
     }
 
-    public function removeUserCreador(Usuario $userCreador): self
+    public function removeAuditoria(Auditoria $auditoria): self
     {
-        $this->userCreador->removeElement($userCreador);
+        if ($this->auditorias->removeElement($auditoria)) {
+            // set the owning side to null (unless already changed)
+            if ($auditoria->getNorma() === $this) {
+                $auditoria->setNorma(null);
+            }
+        }
 
         return $this;
     }

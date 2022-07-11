@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Auditoria{% endblock %}
+
+{% block body %}
+    <h1>Create new Auditoria</h1>
+
+    {{ include('auditoria/_form.html.twig') }}
+
+    <a href="{{ path('auditoria_index') }}">back to list</a>
+{% endblock %}

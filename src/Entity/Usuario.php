@@ -35,16 +35,25 @@ class Usuario
     private $rol;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Norma::class, mappedBy="userCreador")
+     * @ORM\OneToMany(targetEntity=Auditoria::class, mappedBy="usuario")
      */
-    private $normasCargadas;
+    private $auditorias;
+
+    // /**
+    //  * @ORM\OneToMany(targetEntity=Auditoria::class, mappedBy="usuarioModificador")
+    //  */
+    // private $auditoriasMod;
+
+
     public function __toString()
     {
         return $this->nombre;
     }
     public function __construct()
     {
-        $this->normasCargadas = new ArrayCollection();
+        //$this->normasCargadas = new ArrayCollection();
+        $this->auditorias = new ArrayCollection();
+        //$this->auditoriasMod = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,28 +97,58 @@ class Usuario
         return $this;
     }
 
+    // /**
+    //  * @return Collection|Norma[]
+    //  */
+    // public function getNormasCargadas(): Collection
+    // {
+    //     return $this->normasCargadas;
+    // }
+
+    // public function addNormasCargada(Norma $normasCargada): self
+    // {
+    //     if (!$this->normasCargadas->contains($normasCargada)) {
+    //         $this->normasCargadas[] = $normasCargada;
+    //         $normasCargada->addUserCreador($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeNormasCargada(Norma $normasCargada): self
+    // {
+    //     if ($this->normasCargadas->removeElement($normasCargada)) {
+    //         $normasCargada->removeUserCreador($this);
+    //     }
+
+    //     return $this;
+    // }
+
     /**
-     * @return Collection|Norma[]
+     * @return Collection|Auditoria[]
      */
-    public function getNormasCargadas(): Collection
+    public function getAuditorias(): Collection
     {
-        return $this->normasCargadas;
+        return $this->auditorias;
     }
 
-    public function addNormasCargada(Norma $normasCargada): self
+    public function addAuditoria(Auditoria $auditoria): self
     {
-        if (!$this->normasCargadas->contains($normasCargada)) {
-            $this->normasCargadas[] = $normasCargada;
-            $normasCargada->addUserCreador($this);
+        if (!$this->auditorias->contains($auditoria)) {
+            $this->auditorias[] = $auditoria;
+            $auditoria->setUsuario($this);
         }
 
         return $this;
     }
 
-    public function removeNormasCargada(Norma $normasCargada): self
+    public function removeAuditoria(Auditoria $auditoria): self
     {
-        if ($this->normasCargadas->removeElement($normasCargada)) {
-            $normasCargada->removeUserCreador($this);
+        if ($this->auditorias->removeElement($auditoria)) {
+            // set the owning side to null (unless already changed)
+            if ($auditoria->getUsuario() === $this) {
+                $auditoria->setUsuario(null);
+            }
         }
 
         return $this;

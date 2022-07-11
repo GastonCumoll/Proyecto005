@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Consulta;
+use App\Form\ConsultaType;
+use App\Entity\TipoConsulta;
+use App\Form\TipoConsultaType;
 use App\Service\SeguridadService;
+use App\Repository\ConsultaRepository;
 use App\Repository\TipoConsultaRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,11 +34,13 @@ class GeneralController extends AbstractController
     /**
      * @Route("inicio", name="inicio")
      */
-    public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository): Response
+    public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository,ConsultaRepository $consulta): Response
     {
+        
         $tiposConsultas = $tipoConsultaRepository->findAll();
-        return $this->render('general/inicio.html.twig',[
-            'tiposConsultas' => $tiposConsultas
+        return $this->renderForm('general/inicio.html.twig',[
+            'tiposConsultas' => $tiposConsultas,
+ 
         ]);
 
     }

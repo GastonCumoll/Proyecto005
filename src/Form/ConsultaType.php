@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Consulta;
+use App\Entity\TipoConsulta;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConsultaType extends AbstractType
@@ -16,7 +18,17 @@ class ConsultaType extends AbstractType
             ->add('email')
             ->add('numeroTel')
             ->add('texto')
-            ->add('tipoConsulta')
+            ->add('tipoConsulta',EntityType::class,[
+                'class' => TipoConsulta::class,
+                'multiple' =>true,
+            'required' => false,
+            'choice_label' => 'nombre',
+            'attr'=> [
+                'class'=>'selectpicker',
+                'data-size'=>'10',
+                'data-live-search'=>true,
+            ]
+            ])
         ;
     }
 

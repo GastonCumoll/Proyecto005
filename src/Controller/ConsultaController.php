@@ -109,6 +109,7 @@ class ConsultaController extends AbstractController
 
             return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
         }
+
     }
 
     /**

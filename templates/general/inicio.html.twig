@@ -7,6 +7,7 @@
     {{ parent() }}
     {{ encore_entry_link_tags('inicio') }}
 {% endblock %}
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <div class="container mt-3 mb-3" id="containerC">
     <div class="card shadow mb-5 bg-white rounded">
@@ -35,47 +36,47 @@
                                 <div class="card-body sm">
                                     <form id="form-consulta" action="consulta/consulta" method="POST">
                                         <div class="row">
-                                            <div class="col-3 text-left" >
+                                            <div class="col-3 text-left mb-3" >
                                                 <strong>Nombre</strong>
                                             </div>
-                                            <div class="col-3" >
+                                            <div class="col-3 mb-3" >
                                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
                                                 placeholder="nombre" />
                                             </div>
-                                            <div class="col-3 text-left" >
+                                            <div class="col-3 text-left mb-3" >
                                                 <strong>Correo electronico</strong>
                                             </div>
-                                            <div class="col-3" >
+                                            <div class="col-3 mb-3" >
                                                 <input type="text" class="form-control form-control-sm" id="correo" name="correo"
                                                 placeholder="ejemplo@gmail.com" />
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-3 text-left" >
+                                            <div class="col-3 text-left mb-3" >
                                                 <strong>Tema de consulta</strong>
                                             </div>
-                                            <div class="col-3" >
+                                            <div class="col-3 mb-3" >
                                                 <select name="tema" id="tema" class="form-control selectpicker" data-live-search="true">
                                                     {% for unTipoConsulta in tiposConsultas %}
                                                         <option value="{{unTipoConsulta.nombre}}">{{unTipoConsulta.nombre}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <div class="col-3 text-left" >
+                                            <div class="col-3 text-left mb-3" >
                                                 <strong>Teléfono</strong>
                                             </div>
-                                            <div class="col-3" >
+                                            <div class="col-3 mb-3" >
                                                 <input type="number" class="form-control form-control-sm" id="telefono" name="telefono"
                                                     placeholder="Ej: 3435555555 (sin 0 y 15)" />
                                             </div>
                                         </div>
                                         <div class="row ">
-                                            <div class="col-3"></div>
-                                            <div class="col-6 text-center">
+                                            <div class="col-3 mb-3"></div>
+                                            <div class="col-6 text-center mb-3">
                                                 <textarea  rows="4" cols="50" class="form-control form-control-sm" id="consulta" name="consulta"
                                                     placeholder="Escriba su consulta aqui..." /></textarea>
                                             </div>
-                                            <div class="col-3"></div>
+                                            <div class="col-3 mb-3"></div>
                                         </div>
                                         <div class="text-center">
                                             <button id="consultar" type="button" class="btn btn-sm btn-outline-secondary cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>

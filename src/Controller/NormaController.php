@@ -14,6 +14,7 @@ use App\Form\NormaType;
 use App\Entity\Etiqueta;
 use App\Entity\Relacion;
 use App\Entity\TipoNorma;
+use App\Entity\Auditoria;
 use App\Form\ArchivoType;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
@@ -31,7 +32,9 @@ use App\Form\ResolucionTypeEdit;
 use App\Service\SeguridadService;
 use App\Repository\ItemRepository;
 use App\Repository\NormaRepository;
+
 use App\Repository\ArchivoRepository;
+use App\Repository\UsuarioRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
 use App\Repository\TipoNormaRepository;
@@ -515,7 +518,7 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository ,$id, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger,UsuarioRepository $usuarioRepository): Response
     {
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
@@ -562,7 +565,7 @@ class NormaController extends AbstractController
         }
         
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($form->get('nombre_archivo','id')->getData());
+            //dd($form->get('nombre_archivo','id')->getData());
             //dd($form['etiquetas']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
@@ -665,18 +668,34 @@ class NormaController extends AbstractController
             }
             $entityManager->persist($norma);
             }
-            
+            //usuarios
+            //buscar usuario;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            $userObj=$usuarioRepository->findOneByNombre($usuario);
+
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("carga");
+            $auditoria->setInstanciaAnterior(0);
+            $auditoria->setInstanciaActual(1);
+            $auditoria->setEstadoActual("borrador");
+            $auditoria->setUsuario($userObj);
+            $auditoria->setNorma($norma);
+            $entityManager->persist($auditoria);
+            $norma->addAuditoria($auditoria);
+            $userObj->addAuditoria($auditoria);
+
+
+            //setear instancia=1;
+            $norma->setInstancia(1);
+            $entityManager->persist($norma);
+            $entityManager->persist($userObj);
+
+
             $entityManager->flush();
             $idNorma=$norma->getId();
-            //REDIRECCIONAMIENTO SI LA NORMA TIENE RELACION
-            // if($norma->getRela()==true){
-                
-            //     $id=$norma->getId();
-            //     $session=$request->getSession();
-            //     $session->set('id',$id);
-                
-            //     return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
-            // }
             return $this->redirectToRoute('norma_show', ['id'=>$idNorma], Response::HTTP_SEE_OTHER);
             
         }
@@ -750,9 +769,9 @@ class NormaController extends AbstractController
         
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
-        $usuario=$norma->getUserCreador();
-        foreach ($usuario as $us) {
-            $unUser=$us;
+        $auditoria=$norma->getAuditorias();
+        foreach ($auditoria as $audi) {
+            $unUser=$audi->getUsuario();
         }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -798,7 +817,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,UsuarioRepository $usuarioRepository): Response
     {
 
         switch ($norma->getTipoNorma()->getNombre()){
@@ -914,14 +933,36 @@ class NormaController extends AbstractController
             $entityManager->persist($norma);
             $entityManager->flush();
 
-            // if($norma->getRela()==true){
-                
-            //     $id=$norma->getId();
-            //     $session=$request->getSession();
-            //     $session->set('id',$id);
-                
-            //     return $this->redirectToRoute('form_rela', [], Response::HTTP_SEE_OTHER);
-            // }
+             //usuarios
+            //buscar usuario;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            $userObj=$usuarioRepository->findOneByNombre($usuario);
+            $today=new DateTime();
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("modificacion");
+            $instancia=$norma->getInstancia();
+            $auditoria->setInstanciaAnterior($instancia);
+            $auditoria->setInstanciaActual(2);
+            $estadoAnt=$norma->getEstado();
+            $auditoria->setEstadoAnterior($estadoAnt);
+            $auditoria->setEstadoActual("borrador");
+            $auditoria->setUsuario($userObj);
+            $auditoria->setNorma($norma);
+            $entityManager->persist($auditoria);
+            $norma->addAuditoria($auditoria);
+            $userObj->addAuditoria($auditoria);
+
+
+            //setear instancia=1;
+            $norma->setInstancia(2);
+            $entityManager->persist($norma);
+            $entityManager->persist($userObj);
+
+
+            $entityManager->flush();
             
             return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
         }
