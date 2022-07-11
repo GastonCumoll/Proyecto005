@@ -52,8 +52,8 @@ class RelacionType extends AbstractType
             ->add('descripcion')
             ->add('resumen',TextType::class,[
                 'required' => false
-            ])
-            ->add('usuario');
+            ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

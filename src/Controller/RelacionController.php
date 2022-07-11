@@ -69,9 +69,14 @@ class RelacionController extends AbstractController
             $desc=$form['descripcion']->getData();
             $relacion->setDescripcion($desc);
             $relacionInversa->setDescripcion($desc);
-            $user=$form['usuario']->getData();
-            $relacion->setUsuario($user);
-            $relacionInversa->setUsuario($user);
+            //buscar usuario
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            //$userObj=$usuarioRepository->findOneByNombre($usuario);
+
+            //setear el usuario(ojo q es un string,no entidad)
+            $relacion->setUsuario($usuario);
+            $relacionInversa->setUsuario($usuario);
             $resumen=$form['resumen']->getData();
             $relacion->setResumen($resumen);
             $relacionInversa->setResumen($resumen);
@@ -137,9 +142,13 @@ class RelacionController extends AbstractController
         $norma = $repository->find($id);
         $relacion->setNorma($norma);
         $opcion=$tipoRelaRepository->findByPrioridad(1);
+        $session=$this->get('session');
+        $usuario=$session->get('username');
+        $relacion->setUsuario($usuario);
         //dd($opcion);
         $form = $this->createForm(RelacionType::class, $relacion);
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($relacion);
@@ -152,7 +161,8 @@ class RelacionController extends AbstractController
             $relacionInversa->setFechaRelacion($today);
             $relacionInversa->setDescripcion($relacion->getDescripcion());
             $relacionInversa->setResumen($relacion->getResumen());
-            $relacionInversa->setUsuario($relacion->getUsuario());
+            
+            $relacionInversa->setUsuario($usuario);
             
             $tipoRela=$form['tipoRelacion']->getData();
             

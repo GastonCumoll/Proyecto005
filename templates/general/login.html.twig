@@ -6,9 +6,17 @@
 
     <form class="form-signin" id="login" method="POST" action="{{ path('autenticar') }}">
 
+        
+        <div class="row ">
 
-        <div class="row ">           
             <div class="col-md-4 offset-md-4 mt-5 mb-5">
+                {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+                        <div class="flash-notice text-white font-weight-bolder text-center">
+                            {{ flash_message }}
+                        </div>
+                    </div>
+                {% endfor %}
                 <hr>
                 <label for="usuario" class="sr-only">Usuario</label>
                 <input type="text" class="form-control" name="username" placeholder="Usuario" required autofocus>

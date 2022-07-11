@@ -82,6 +82,7 @@ class SeguridadService extends AbstractController {
         }
         return $respuesta;
     }
+    
 
     public function checkSessionActive($session_id) {
         $sessionActive = $this->clienteSoap->__soapCall('WsController.checkSessionActive', array($session_id));

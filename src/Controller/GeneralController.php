@@ -67,6 +67,7 @@ class GeneralController extends AbstractController
     public function notRole(): Response
     {
         return $this->render('general/notRole.html.twig');
+        
     }
 
     /**
@@ -134,15 +135,19 @@ class GeneralController extends AbstractController
             // Para dumpear usuarios en el sistema
             //dd($seguridad->getListUserAction($session_id, 157));
 
-            /*
-            // Autorización
-            if ($seguridad->checkAccessAction($session_id, 'FP_ADMIN', $this->get('session'), false) == 1)
-                $session->set('rolAuth', '1'); // 1 = ADMIN
-            else if ($seguridad->checkAccessAction($session_id, 'FP_OPERADOR', $this->get('session'), false) == 1)
-                $session->set('rolAuth', '0'); // 0 = NO ADMIN
-            // No pude autorizar, por ende me deslogueo
-            else return $this->redirectToRoute('logout'); 
             
+            // Autorización
+            if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1)
+                $session->set('rolAuth', '1'); // 1 = ADMIN
+            //else if ($seguridad->checkAccessAction($session_id, 'FP_OPERADOR', $this->get('session'), false) == 1)
+                //$session->set('rolAuth', '0'); // 0 = NO ADMIN
+            // No pude autorizar, por ende me deslogueo
+            else{
+                $bandera=1;
+                return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER); 
+            } 
+
+            /*
             // Setear el Tipo
             if ($seguridad->checkAccessAction($session_id, 'FP_PRESUPUESTO', $this->get('session'), false) == 1)
                 $session->set('rolType', '-1');  // -1 = Presupuesto
@@ -261,15 +266,21 @@ class GeneralController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * @Route("/logout/{bandera}", name="logout")
      */
-    public function logout(SeguridadService $seguridad)
-    {
+    public function logout(SeguridadService $seguridad,$bandera)
+    {   
         $session = $this->get('session');
         $session_id = $session->get('session_id') * 1;
         $seguridad->logoutAction($session_id);
         $session->clear();
-
+        if($bandera==1){
+        $this->addFlash(
+                    'notice',
+                    'NO POSEES LOS ROLES NECESARIOS PARA INGRESAR AL SISTEMA'
+                );
+        }
+        
         return $this->redirect($this->generateUrl('login'));
     }
 }
