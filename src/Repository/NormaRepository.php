@@ -53,6 +53,13 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
+    public function findBorradores(){
+        $consulta=$this->createQueryBuilder('p');
+        $consulta->where('p.estado = :b')->setParameter('b','Borrador');
+        $query=$consulta->getQuery();
+        return $query;
+    }
+
     public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas): Query 
     {
 

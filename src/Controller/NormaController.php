@@ -169,6 +169,46 @@ class NormaController extends AbstractController
     }
 
     /**
+     * @Route("/borrador", name="borrador", methods={"GET"})
+     */
+    public function borrador(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
+    {
+        $borradores=$normaRepository->findBorradores();
+        //dd($borradores);
+
+        $normasBorrador = $paginator->paginate(
+            
+            // Consulta Doctrine, no resultados
+            $borradores,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        $normasBorrador->setCustomParameters([
+            'align' => 'center',
+        ]);
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('norma/indexAdmin.html.twig', [
+            'rol' => $rol,
+            'normas' => $normasBorrador,
+            'tipoNormas' => $tipoNorma->findAll(),
+            'etiquetas' =>$etiquetas->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
     public function busquedaRapida(TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
