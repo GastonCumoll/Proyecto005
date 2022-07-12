@@ -60,6 +60,13 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
+    public function findListas(){
+        $consulta=$this->createQueryBuilder('p');
+        $consulta->where('p.estado = :l')->setParameter('l','Lista');
+        $query=$consulta->getQuery();
+        return $query;
+    }
+
     public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas): Query 
     {
 

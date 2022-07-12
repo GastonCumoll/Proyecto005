@@ -32,13 +32,30 @@
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             {% if norma.numero != null  %}
-            <div class="card-header">
-                <h4>
-                    <th>{{norma.tipoNorma.nombre}} N° </th>
-                
-                {{ norma.numero }}
-                </h4>
-            </div>
+                {% if norma.estado == "Borrador" %}
+                    <div class="card-header bg-warning">
+                        <h4>
+                            <th>{{norma.tipoNorma.nombre}} N° </th>
+                        {{ norma.numero }}
+                        </h4>
+                    </div>
+                {% endif %}
+                    {% if norma.estado == "Lista" %}
+                        <div class="card-header bg-success">
+                            <h4>
+                                <th>{{norma.tipoNorma.nombre}} N° </th>
+                                {{ norma.numero }}
+                            </h4>
+                        </div>
+                    {% endif %}
+                    {% if norma.estado =="Publicada" %}
+                        <div class="card-header">
+                            <h4>
+                                <th>{{norma.tipoNorma.nombre}} N° </th>
+                                {{ norma.numero }}
+                            </h4>
+                        </div>
+                    {% endif %}
             {% endif %}
             
             <div class="card-body">
@@ -133,8 +150,14 @@
             </div>
             
             
-            <div class=" divBotonVolver mt-4  text-left">
+            <div class=" divBotonVolver mt-4  text-left d-inline">
                 <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+                {% if norma.estado == "Borrador" %}
+                    <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
+                {% endif %}
+                {% if norma.estado == "Lista" %}
+                    <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión y publicar<i class="fa-solid fa-check-double"></i></button></a>
+                {% endif %}
             </div>
         </div>
         </div>

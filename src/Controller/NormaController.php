@@ -32,7 +32,6 @@ use App\Form\ResolucionTypeEdit;
 use App\Service\SeguridadService;
 use App\Repository\ItemRepository;
 use App\Repository\NormaRepository;
-
 use App\Repository\ArchivoRepository;
 use App\Repository\UsuarioRepository;
 use App\Repository\EtiquetaRepository;
@@ -163,6 +162,99 @@ class NormaController extends AbstractController
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normas,
+            'tipoNormas' => $tipoNorma->findAll(),
+            'etiquetas' =>$etiquetas->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/updateInstancia/{id}", name="updateInstancia")
+     */
+    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id,UsuarioRepository $usuarioRepository){
+        $norma=$normaRepository->find($id);
+        $estadoNorma=$norma->getEstado();
+        $today=new DateTime();
+
+        //buscar usuario;
+        $session=$this->get('session');
+        $usuario=$session->get('username');
+        $userObj=$usuarioRepository->findOneByNombre($usuario);
+
+        $auditoria=new Auditoria();
+
+        if($estadoNorma=="Borrador"){
+            $auditoria->setNorma($norma);
+            $auditoria->setUsuario($userObj);
+            $auditoria->setFecha($today);
+            $auditoria->setInstanciaAnterior($norma->getInstancia());
+            $auditoria->setInstanciaActual($norma->getInstancia()+1);
+            $auditoria->setEstadoAnterior($norma->getEstado());
+            $norma->setEstado("Lista");
+            $norma->setInstancia(1);
+            $auditoria->setEstadoActual("Lista");
+            $auditoria->setAccion("Revision");
+            $entityManager->persist($auditoria);
+            $norma->addAuditoria($auditoria);
+            $userObj->addAuditoria($auditoria);
+            $entityManager->persist($norma);
+            $entityManager->persist($userObj);
+        }
+        if($estadoNorma=="Lista"){
+            $auditoria->setNorma($norma);
+            $auditoria->setUsuario($userObj);
+            $auditoria->setFecha($today);
+            $auditoria->setInstanciaAnterior($norma->getInstancia());
+            $auditoria->setInstanciaActual($norma->getInstancia()+1);
+            $auditoria->setEstadoAnterior($norma->getEstado());
+            $auditoria->setEstadoActual("Publicada");
+            $norma->setEstado("Publicada");
+            $norma->setInstancia(2);
+            $auditoria->setAccion("Publicacion");
+            $entityManager->persist($auditoria);
+            $entityManager->persist($norma);
+            $entityManager->persist($userObj);
+        }
+        $entityManager->flush();
+
+        return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    /**
+     * @Route("/listas", name="listas", methods={"GET"})
+     */
+    public function listas(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
+    {
+        $listas=$normaRepository->findListas();
+        //dd($borradores);
+
+        $normasListas = $paginator->paginate(
+            
+            // Consulta Doctrine, no resultados
+            $listas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        $normasListas->setCustomParameters([
+            'align' => 'center',
+        ]);
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        return $this->render('norma/indexAdmin.html.twig', [
+            'rol' => $rol,
+            'normas' => $normasListas,
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
         ]);
