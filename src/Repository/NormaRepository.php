@@ -42,7 +42,7 @@ class NormaRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
-        ->orderBy('p.tipoNorma','ASC');
+        ->orderBy('p.titulo','ASC');
         $query=$consulta->getQuery();
         return $query;
     }

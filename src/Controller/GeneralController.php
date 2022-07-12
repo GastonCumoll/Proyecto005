@@ -67,7 +67,6 @@ class GeneralController extends AbstractController
     public function notRole(): Response
     {
         return $this->render('general/notRole.html.twig');
-        
     }
 
     /**
@@ -91,8 +90,14 @@ class GeneralController extends AbstractController
      */
     public function autenticarAction(Request $request, SeguridadService $seguridad)
     {
+        $bandera=0;
         //$seguridad = new SeguridadService();  // ESTO ESTÁ MUY MAL, MUY PERO MUY MAL. NO HACER NUNCA
         $session_id = $seguridad->loginAction($request->get('username'), $request->get('password'), $this->get('session'));
+        //dd($session_id);
+        if($session_id==0){
+            $bandera=2;
+            return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER);
+        }
         
         
         //Script para testear
@@ -280,7 +285,12 @@ class GeneralController extends AbstractController
                     'NO POSEES LOS ROLES NECESARIOS PARA INGRESAR AL SISTEMA'
                 );
         }
-        
+        if($bandera==2){
+            $this->addFlash(
+                'notice',
+                'USUARIO Y/O CONTRASEÑA INCORRECTOS'
+            );
+        }
         return $this->redirect($this->generateUrl('login'));
     }
 }

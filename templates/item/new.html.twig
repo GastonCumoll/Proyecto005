@@ -8,9 +8,15 @@
     {{ parent() }}
     {{ encore_entry_link_tags('createCss') }}
 {% endblock %}
-    <h1>Create new Item</h1>
+<h1 class="font-weight-bold text-center">Cargar nuevo índice</h1>
+<div class="container text-left" >
+    <div class="mt-3 p-3 border border-secondary rounded bg-light shadow mb-5 bg-white ">
+
     {{ include('item/_form.html.twig') }}
     <a href="{{ path('item_index') }}" class="btn btn-primary">Cancelar</a>
+</div>
+</div>
+    
     
     {# {% block script %}
         <script>
