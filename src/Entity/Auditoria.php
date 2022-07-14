@@ -80,6 +80,10 @@ class Auditoria
         return $this;
     }
 
+    public function getInstanciaAnterior(): ?int
+    {
+        return $this->instanciaAnterior;
+    }
 
     public function setInstanciaAnterior(?int $instanciaAnterior): self
     {

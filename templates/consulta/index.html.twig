@@ -3,39 +3,42 @@
 {% block title %}Consulta index{% endblock %}
 
 {% block body %}
-    <h1>Consulta index</h1>
+    <h1>Consultas</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>NumeroTel</th>
-                <th>Texto</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for consultum in consultas %}
-            <tr>
-                <td>{{ consultum.id }}</td>
-                <td>{{ consultum.nombre }}</td>
-                <td>{{ consultum.email }}</td>
-                <td>{{ consultum.numeroTel }}</td>
-                <td>{{ consultum.texto }}</td>
-                <td>
-                    <a href="{{ path('consulta_show', {'id': consultum.id}) }}">show</a>
-                    <a href="{{ path('consulta_edit', {'id': consultum.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('consulta') }}">Create new</a>
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="table-active" >
+                <tr>
+                    <th>{{knp_pagination_sortable(consultas, 'Id', 'p.id') }}</th>
+                    <th>{{knp_pagination_sortable(consultas, 'Nombre', 'p.nombre')}}</th>
+                    <th>{{knp_pagination_sortable(consultas, 'Email', 'p.email')}}</th>
+                    <th>{{knp_pagination_sortable(consultas, 'Numero Tel', 'p.numeroTel')}}</th>
+                    <th>{{knp_pagination_sortable(consultas, 'Consulta', 'p.texto')}}</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consulta in consultas %}
+                    <tr>
+                        <td>{{consulta.id}}</td>
+                        <td>{{ consulta.nombre}}</td>
+                        <td>{{ consulta.email }}</td>
+                        <td>{{ consulta.numeroTel }}</td>
+                        <td>{{ consulta.texto }}</td>
+                        <td>{{ include('consulta/_delete_form.html.twig') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no se encontraron registros</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(consultas) }}
+        </div>
+    </div>
+    {% block javascripts %}
+    {{encore_entry_script_tags('busquedaParamItem')}}
+    {% endblock %}
 {% endblock %}

@@ -8,6 +8,7 @@ use App\Form\ConsultaType;
 use App\Repository\ConsultaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TipoConsultaRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,10 +22,25 @@ class ConsultaController extends AbstractController
     /**
      * @Route("/", name="consulta_index", methods={"GET"})
      */
-    public function index(ConsultaRepository $consultaRepository): Response
+    public function index(ConsultaRepository $consultaRepository,PaginatorInterface $paginator,Request $request): Response
     {
+
+        $todasConsultas=$consultaRepository->createQueryBuilder('p')->getQuery();
+        $consultas = $paginator->paginate(
+            
+            // Consulta Doctrine, no resultados
+            $todasConsultas,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        $consultas->setCustomParameters([
+            'align' => 'center',
+        ]);
+
         return $this->render('consulta/index.html.twig', [
-            'consultas' => $consultaRepository->findAll(),
+            'consultas' => $consultas,
         ]);
     }
 

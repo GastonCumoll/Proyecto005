@@ -3,43 +3,50 @@
 {% block title %}Auditoria index{% endblock %}
 
 {% block body %}
-    <h1>Auditoria index</h1>
+    <h1>Auditorias</h1>
 
-    <table class="table">
-        <thead>
+
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="table-active" >
             <tr>
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>InstanciaAnterior</th>
-                <th>InstanciaActual</th>
-                <th>EstadoAnterior</th>
-                <th>EstadoActual</th>
-                <th>Accion</th>
-                <th>actions</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Id', 'p.id') }}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Fecha', 'p.fecha')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Usuario', 'p.nombreUsuario')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Instancia Anterior', 'p.instanciaAnterior')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Instancia Actual', 'p.instanciaActual')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Estado Anterior', 'p.estadoAnterior')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Estado Actual', 'p.estadoActual')}}</th>
+                <th>{{knp_pagination_sortable(auditorias, 'Tarea', 'p.accion')}}</th>
+                <th>Acciones</th>
+    
             </tr>
         </thead>
         <tbody>
-        {% for auditorium in auditorias %}
+            {% for auditoria in auditorias %}
             <tr>
-                <td>{{ auditorium.id }}</td>
-                <td>{{ auditorium.fecha ? auditorium.fecha|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ auditorium.instanciaAnterior }}</td>
-                <td>{{ auditorium.instanciaActual }}</td>
-                <td>{{ auditorium.estadoAnterior }}</td>
-                <td>{{ auditorium.estadoActual }}</td>
-                <td>{{ auditorium.accion }}</td>
-                <td>
-                    <a href="{{ path('auditoria_show', {'id': auditorium.id}) }}">show</a>
-                    <a href="{{ path('auditoria_edit', {'id': auditorium.id}) }}">edit</a>
-                </td>
+                <td>{{auditoria.id}}</td>
+                <td>{{ auditoria.fecha|date('Y-m-d') }}</td>
+                <td>{{ auditoria.nombreUsuario }}</td>
+                <td>{{ auditoria.instanciaAnterior }}</td>
+                <td>{{ auditoria.instanciaActual }}</td>
+                <td>{{ auditoria.estadoAnterior }}</td>
+                <td>{{ auditoria.estadoActual }}</td>
+                <td>{{ auditoria.accion }}</td>
+                <td>{{ include('auditoria/_delete_form.html.twig') }}</td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">no se encontraron registros</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('auditoria_new') }}">Create new</a>
+    <div class="navigation">
+        {{ knp_pagination_render(auditorias) }}
+    </div>
+    </div>
+    {% block javascripts %}
+    {{encore_entry_script_tags('busquedaParamItem')}}
+    {% endblock %}
 {% endblock %}

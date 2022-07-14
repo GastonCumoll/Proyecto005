@@ -6,10 +6,11 @@ use App\Entity\Auditoria;
 use App\Form\AuditoriaType;
 use App\Repository\AuditoriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/auditoria")
@@ -19,10 +20,26 @@ class AuditoriaController extends AbstractController
     /**
      * @Route("/", name="auditoria_index", methods={"GET"})
      */
-    public function index(AuditoriaRepository $auditoriaRepository): Response
+    public function index(AuditoriaRepository $auditoriaRepository,PaginatorInterface $paginator,Request $request): Response
     {
+
+        $auditoriasT=$auditoriaRepository->createQueryBuilder('p')->getQuery();
+
+        $auditorias = $paginator->paginate(
+            
+            // Consulta Doctrine, no resultados
+            $auditoriasT,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        $auditorias->setCustomParameters([
+            'align' => 'center',
+        ]);
+
         return $this->render('auditoria/index.html.twig', [
-            'auditorias' => $auditoriaRepository->findAll(),
+            'auditorias' =>$auditorias,
         ]);
     }
 
