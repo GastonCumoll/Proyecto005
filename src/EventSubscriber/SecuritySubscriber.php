@@ -64,8 +64,14 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'busqueda_filtro'=>[],
                 'busqueda_param'=>[],
                 'busqueda_rapida'=>[],
+                'updateInstancia'=>['DIG_OPERADOR'],
+                'listas'=>['DIG_OPERADOR'],
+                'borrador' =>['DIG_OPERADOR'],
+                'agregar_archivo'=>['DIG_OPERADOR'],
+
 
                 //Relacion
+                'relacion_index'=>['DIG_OPERADOR'],
                 'relacion_delete'=>['DIG_OPERADOR'],
                 'relacion_edit'=>['DIG_OPERADOR'],
                 'relacion_new'=>['DIG_OPERADOR'],
@@ -129,6 +135,34 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'area_edit'=>['DIG_OPERADOR'],
                 'area_delete'=>['DIG_OPERADOR'],
 
+                // Auditoria
+                'auditoria_index'=>['DIG_OPERADOR'],
+                'auditoria_new'=>['DIG_OPERADOR'],
+                'auditoria_show'=>['DIG_OPERADOR'],
+                'auditoria_edit'=>['DIG_OPERADOR'],
+                'auditoria_delete'=>['DIG_OPERADOR'],
+
+                // Consulta
+                'consultaMensaje'=>[],
+                'consulta_index'=>[],
+                'consulta'=>[],
+                'consulta_show'=>[],
+                'consulta_edit'=>[],
+                'consulta_delete'=>[],
+
+                // Tipo Consulta
+                'tipo_consulta_index'=>['DIG_OPERADOR'],
+                'tipo_consulta_new'=>['DIG_OPERADOR'],
+                'tipo_consulta_show'=>['DIG_OPERADOR'],
+                'tipo_consulta_edit'=>['DIG_OPERADOR'],
+                'tipo_consulta_delete'=>['DIG_OPERADOR'],
+
+                // Usuario
+                'usuario_index'=>['DIG_OPERADOR'],
+                'usuario_new'=>['DIG_OPERADOR'],
+                'usuario_show'=>['DIG_OPERADOR'],
+                'usuario_edit'=>['DIG_OPERADOR'],
+                'usuario_delete'=>['DIG_OPERADOR'],
 
 
                 // // Entidades
@@ -200,7 +234,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $event->setResponse(new RedirectResponse('/logout'));
                 }else{
                     
-                    //$event->setResponse(new RedirectResponse('/404'));
+                    $event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }

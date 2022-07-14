@@ -34,16 +34,6 @@ class Usuario
      */
     private $rol;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Auditoria::class, mappedBy="usuario")
-     */
-    private $auditorias;
-
-    // /**
-    //  * @ORM\OneToMany(targetEntity=Auditoria::class, mappedBy="usuarioModificador")
-    //  */
-    // private $auditoriasMod;
-
 
     public function __toString()
     {
@@ -52,7 +42,7 @@ class Usuario
     public function __construct()
     {
         //$this->normasCargadas = new ArrayCollection();
-        $this->auditorias = new ArrayCollection();
+        
         //$this->auditoriasMod = new ArrayCollection();
     }
 
@@ -97,60 +87,4 @@ class Usuario
         return $this;
     }
 
-    // /**
-    //  * @return Collection|Norma[]
-    //  */
-    // public function getNormasCargadas(): Collection
-    // {
-    //     return $this->normasCargadas;
-    // }
-
-    // public function addNormasCargada(Norma $normasCargada): self
-    // {
-    //     if (!$this->normasCargadas->contains($normasCargada)) {
-    //         $this->normasCargadas[] = $normasCargada;
-    //         $normasCargada->addUserCreador($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeNormasCargada(Norma $normasCargada): self
-    // {
-    //     if ($this->normasCargadas->removeElement($normasCargada)) {
-    //         $normasCargada->removeUserCreador($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    /**
-     * @return Collection|Auditoria[]
-     */
-    public function getAuditorias(): Collection
-    {
-        return $this->auditorias;
-    }
-
-    public function addAuditoria(Auditoria $auditoria): self
-    {
-        if (!$this->auditorias->contains($auditoria)) {
-            $this->auditorias[] = $auditoria;
-            $auditoria->setUsuario($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAuditoria(Auditoria $auditoria): self
-    {
-        if ($this->auditorias->removeElement($auditoria)) {
-            // set the owning side to null (unless already changed)
-            if ($auditoria->getUsuario() === $this) {
-                $auditoria->setUsuario(null);
-            }
-        }
-
-        return $this;
-    }
 }

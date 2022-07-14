@@ -35,48 +35,48 @@
                             <div class="card shadow-sm">
                                 <div class="card-body sm">
                                     <form id="form-consulta" action="consulta/consulta" method="POST">
-                                        <div class="row">
-                                            <div class="col-3 text-left mb-3" >
+                                        <div class="row modificable">
+                                            <div class="col-3 text-left mb-3 cambio" >
                                                 <strong>Nombre</strong>
                                             </div>
-                                            <div class="col-3 mb-3" >
+                                            <div class="col-3 mb-3 cambio" >
                                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
                                                 placeholder="nombre" />
                                             </div>
-                                            <div class="col-3 text-left mb-3" >
+                                            <div class="col-3 text-left mb-3 cambio" >
                                                 <strong>Correo electronico</strong>
                                             </div>
-                                            <div class="col-3 mb-3" >
+                                            <div class="col-3 mb-3 cambio" >
                                                 <input type="text" class="form-control form-control-sm" id="correo" name="correo"
                                                 placeholder="ejemplo@gmail.com" />
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-3 text-left mb-3" >
+                                        <div class="row modificable">
+                                            <div class="col-3 text-left mb-3 cambio" >
                                                 <strong>Tema de consulta</strong>
                                             </div>
-                                            <div class="col-3 mb-3" >
+                                            <div class="col-3 mb-3 cambio" >
                                                 <select name="tema" id="tema" class="form-control selectpicker" data-live-search="true">
                                                     {% for unTipoConsulta in tiposConsultas %}
                                                         <option value="{{unTipoConsulta.nombre}}">{{unTipoConsulta.nombre}}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <div class="col-3 text-left mb-3" >
+                                            <div class="col-3 text-left mb-3 cambio" >
                                                 <strong>Teléfono</strong>
                                             </div>
-                                            <div class="col-3 mb-3" >
+                                            <div class="col-3 mb-3 cambio" >
                                                 <input type="number" class="form-control form-control-sm" id="telefono" name="telefono"
                                                     placeholder="Ej: 3435555555 (sin 0 y 15)" />
                                             </div>
                                         </div>
-                                        <div class="row ">
-                                            <div class="col-3 mb-3"></div>
-                                            <div class="col-6 text-center mb-3">
+                                        <div class="row modificable">
+                                            <div class="col-3 mb-3 cambio"></div>
+                                            <div class="col-6 text-center mb-3 cambio">
                                                 <textarea  rows="4" cols="50" class="form-control form-control-sm" id="consulta" name="consulta"
                                                     placeholder="Escriba su consulta aqui..." /></textarea>
                                             </div>
-                                            <div class="col-3 mb-3"></div>
+                                            <div class="col-3 mb-3 cambio"></div>
                                         </div>
                                         <div class="text-center">
                                             <button id="consultar" type="button" class="btn btn-sm btn-outline-secondary cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>
@@ -91,8 +91,8 @@
         </div>
     </div>
 </div>
-<script src="https://www.google.com/recaptcha/api.js?render=6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh"></script>
-<script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh"></script>
+    <script>
         $(document).ready( function(){
             $('#consultar').click(() => {
                 grecaptcha.ready(function() {
@@ -105,33 +105,14 @@
                 });
             })
         });
-  </script>
+    </script>
 
 
-{% block javascripts %}
-
-{{ parent() }}
-{{encore_entry_script_tags('busquedaJs')}}
-{# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh"></script>
-
-    <script>
-        //$(document).ready( function(){
-            
-            //$('#consultar').click(() => {
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6LedpdAgAAAAAPN-GCFAFYeQb-IyudESVtJtSbUh', {action: 'submit'}).then(function(token) {
-                        
-                        // Add your logic to submit to your backend server here.
-                        //$('#form-consulta').prepend('<input type="hidden" name="token" value="'+token+'">');
-                        //$('#form-consulta').prepend('<input type="hidden" name="action" value="submit">');
-                        //$('#form-consulta').submit();
-                    });
-                });
-            //})
-        //});
-    </script> #}
-{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+        {{encore_entry_script_tags('busquedaJs')}}
+        {{encore_entry_script_tags('consulta')}}
+    {% endblock %}
 {% endblock %}
 
 

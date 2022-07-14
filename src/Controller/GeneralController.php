@@ -138,7 +138,7 @@ class GeneralController extends AbstractController
             //dd($seguridad->getListRolAction($session_id));
 
             // Para dumpear usuarios en el sistema
-            //dd($seguridad->getListUserAction($session_id, 157));
+            //dd($seguridad->getListUserAction($session_id, 114));
 
             
             // Autorización

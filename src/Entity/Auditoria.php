@@ -22,11 +22,6 @@ class Auditoria
      */
     private $fecha;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="auditorias")
-     */
-    private $usuario;
-
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -58,6 +53,11 @@ class Auditoria
      */
     private $accion;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nombreUsuario;
+
     public function __toString()
     {
         return $this->$usuario;
@@ -76,19 +76,6 @@ class Auditoria
     public function setFecha(?\DateTimeInterface $fecha): self
     {
         $this->fecha = $fecha;
-
-        return $this;
-    }
-
-
-    public function getUsuario(): ?Usuario
-    {
-        return $this->usuario;
-    }
-
-    public function setUsuario(?Usuario $usuario): self
-    {
-        $this->usuario = $usuario;
 
         return $this;
     }
@@ -157,6 +144,18 @@ class Auditoria
     public function setAccion(?string $accion): self
     {
         $this->accion = $accion;
+
+        return $this;
+    }
+
+    public function getNombreUsuario(): ?string
+    {
+        return $this->nombreUsuario;
+    }
+
+    public function setNombreUsuario(?string $nombreUsuario): self
+    {
+        $this->nombreUsuario = $nombreUsuario;
 
         return $this;
     }

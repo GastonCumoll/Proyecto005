@@ -29,20 +29,6 @@ class ConsultaController extends AbstractController
     }
 
     /**
-     * @Route("/Consul", name="coaaaA", methods={"GET","POST"})
-     */
-    public function consulta(Request $request){
-        $nombre=$request->query->get('nombre');
-        $correo=$request->query->get('correo');//string
-        $tema=$request->query->get('tema');//string
-        $telefono=$request->query->get('telefono');//string
-        //if(!$request->request->get('etiquetas')){
-        $consulta=$request->query->get('consulta');
-        dump($nombre,$correo,$tema,$telefono);
-        dd($consulta);
-    }
-
-    /**
      * @Route("/consultaMensaje/{bandera}", name="consultaMensaje", methods={"GET", "POST"})
      */
     public function consultaMensaje(Request $request, $bandera, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository): Response
@@ -75,7 +61,7 @@ class ConsultaController extends AbstractController
         $datos = json_decode($response, true);
         
         if ($datos['success'] == false or $datos['score'] < 0.5) {
-            dd("error");
+            dd($datos);
         } else {
             $nombre=$request->get('nombre');
             $correo=$request->get('correo');//string
@@ -109,7 +95,6 @@ class ConsultaController extends AbstractController
 
             return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
         }
-
     }
 
     /**

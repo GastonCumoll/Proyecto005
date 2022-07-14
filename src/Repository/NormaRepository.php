@@ -42,34 +42,35 @@ class NormaRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
-        ->orderBy('p.titulo','ASC');
+        ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
         return $query;
     }
+
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
-        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.titulo','ASC');
+        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','DESC');
         $query=$retorno->getQuery();
         return $query;
     }
 
     public function findBorradores(){
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :b')->setParameter('b','Borrador');
+        $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
         $query=$consulta->getQuery();
         return $query;
     }
 
     public function findListas(){
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :l')->setParameter('l','Lista');
+        $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
         $query=$consulta->getQuery();
         return $query;
     }
 
+    //busqueda de los filtros
     public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas): Query 
     {
-
         $cont=0;
         $tam=count($arrayDeNormas);
         
@@ -126,7 +127,7 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     
-}
+    }
 
     public function findNormasEtiqueta($normasEtiquetas): Query
     {
@@ -169,8 +170,6 @@ class NormaRepository extends ServiceEntityRepository
         $query=$retorno->getQuery();
         return $query->execute();
     }
-
-
 
     /*
     public function findOneBySomeField($value): ?Norma

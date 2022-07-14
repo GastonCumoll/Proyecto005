@@ -13,8 +13,8 @@ use App\Entity\Archivo;
 use App\Form\NormaType;
 use App\Entity\Etiqueta;
 use App\Entity\Relacion;
-use App\Entity\TipoNorma;
 use App\Entity\Auditoria;
+use App\Entity\TipoNorma;
 use App\Form\ArchivoType;
 use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
@@ -36,6 +36,7 @@ use App\Repository\ArchivoRepository;
 use App\Repository\UsuarioRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\RelacionRepository;
+use App\Repository\AuditoriaRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\EventSubscriber\SecuritySubscriber;
@@ -63,23 +64,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
  */
 class NormaController extends AbstractController
 {
-    /**
-     * @Route("/cambiar", name="cambiar", methods={"GET"})
-     */
-    public function cambiar(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
-    {
-        $normas=$normaRepository->findAll();
-        foreach ($normas as $unaNorma) {
-            $textoNorma=$unaNorma->getTexto();
-            if(str_contains($textoNorma,"?")){
-                $textoNuevo=str_replace("?","-",$textoNorma);
-                $unaNorma->setTexto($textoNuevo);
-                $entityManager->persist($unaNorma);
-        }
-        }
-        $entityManager->flush();
-        dd("finish");
-    }
 
     /**
      * @Route("/settipo", name="settipo", methods={"GET"})
@@ -170,21 +154,20 @@ class NormaController extends AbstractController
     /**
      * @Route("/updateInstancia/{id}", name="updateInstancia")
      */
-    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id,UsuarioRepository $usuarioRepository)
+    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id)
     {
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
         $today=new DateTime();
 
-        //buscar usuario;
+        //obtener el nombre del usuario logeado;
         $session=$this->get('session');
         $usuario=$session->get('username');
-        $userObj=$usuarioRepository->findOneByNombre($usuario);
 
         $auditoria=new Auditoria();
 
         $auditoria->setNorma($norma);
-        $auditoria->setUsuario($userObj);
+        $auditoria->setNombreUsuario($usuario);
         $auditoria->setFecha($today);
 
         if($estadoNorma=="Borrador"){
@@ -197,9 +180,9 @@ class NormaController extends AbstractController
             $auditoria->setAccion("Revision");
             $entityManager->persist($auditoria);
             $norma->addAuditoria($auditoria);
-            $userObj->addAuditoria($auditoria);
+            //$userObj->addAuditoria($auditoria);
             $entityManager->persist($norma);
-            $entityManager->persist($userObj);
+            //$entityManager->persist($userObj);
         }
         if($estadoNorma=="Lista"){
             $auditoria->setInstanciaAnterior($norma->getInstancia());
@@ -211,7 +194,7 @@ class NormaController extends AbstractController
             $auditoria->setAccion("Publicacion");
             $entityManager->persist($auditoria);
             $entityManager->persist($norma);
-            $entityManager->persist($userObj);
+            //$entityManager->persist($userObj);
         }
         $entityManager->flush();
 
@@ -648,7 +631,7 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger,UsuarioRepository $usuarioRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
     {
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
@@ -799,10 +782,10 @@ class NormaController extends AbstractController
             $entityManager->persist($norma);
             }
             //usuarios
-            //buscar usuario;
+            //obtener el nombre del usuario logeado;
             $session=$this->get('session');
             $usuario=$session->get('username');
-            $userObj=$usuarioRepository->findOneByNombre($usuario);
+            
 
             //crear auditoria
             $auditoria=new Auditoria();
@@ -811,18 +794,18 @@ class NormaController extends AbstractController
             $auditoria->setInstanciaAnterior(0);
             $auditoria->setInstanciaActual(1);
             $auditoria->setEstadoActual("Borrador");
-            $auditoria->setUsuario($userObj);
+            $auditoria->setNombreUsuario($usuario);
             $auditoria->setNorma($norma);
             $entityManager->persist($auditoria);
             $norma->setInstancia(1);
             $norma->addAuditoria($auditoria);
-            $userObj->addAuditoria($auditoria);
+            //$userObj->addAuditoria($auditoria);
 
 
             //setear instancia=1;
             $norma->setInstancia(1);
             $entityManager->persist($norma);
-            $entityManager->persist($userObj);
+            //$entityManager->persist($userObj);
 
 
             $entityManager->flush();
@@ -903,7 +886,7 @@ class NormaController extends AbstractController
         $auditoria=$norma->getAuditorias();
         $unUser='';
         foreach ($auditoria as $audi) {
-            $unUser=$audi->getUsuario()->getNombre();
+            $unUser=$audi->getNombreUsuario();
         }
         // if(!$unUser){
         //     $unUser='';
@@ -941,10 +924,9 @@ class NormaController extends AbstractController
                     $entityManager->persist($norma);
                     
                     //usuarios
-                    //buscar usuario;
+                    //obtener el nombre del usuario logeado;
                     $session=$this->get('session');
                     $usuario=$session->get('username');
-                    $userObj=$usuarioRepository->findOneByNombre($usuario);
                     $today=new DateTime();
 
                     //crear auditoria
@@ -957,16 +939,16 @@ class NormaController extends AbstractController
                     $estadoAnt=$norma->getEstado();
                     $auditoria->setEstadoAnterior($estadoAnt);
                     $auditoria->setEstadoActual("Borrador");
-                    $auditoria->setUsuario($userObj);
+                    $auditoria->setNombreUsuario($usuario);
                     $auditoria->setNorma($norma);
                     $entityManager->persist($auditoria);
                     $norma->addAuditoria($auditoria);
-                    $userObj->addAuditoria($auditoria);
+                    //$userObj->addAuditoria($auditoria);
 
                     //setear instancia=1;
                     $norma->setInstancia(1);
                     $entityManager->persist($norma);
-                    $entityManager->persist($userObj);
+                    //$entityManager->persist($userObj);
 
                     $entityManager->flush();
 
@@ -982,7 +964,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,UsuarioRepository $usuarioRepository): Response
+    public function edit(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
@@ -1093,10 +1075,10 @@ class NormaController extends AbstractController
             //$entityManager->flush();
 
             //usuarios
-            //buscar usuario;
+            //obtener el nombre del usuario logeado
             $session=$this->get('session');
             $usuario=$session->get('username');
-            $userObj=$usuarioRepository->findOneByNombre($usuario);
+            
             $today=new DateTime();
 
             //crear auditoria
@@ -1109,17 +1091,17 @@ class NormaController extends AbstractController
             $estadoAnt=$norma->getEstado();
             $auditoria->setEstadoAnterior($estadoAnt);
             $auditoria->setEstadoActual("Borrador");
-            $auditoria->setUsuario($userObj);
+            $auditoria->setNombreUsuario($usuario);
             $auditoria->setNorma($norma);
             $entityManager->persist($auditoria);
             $norma->addAuditoria($auditoria);
-            $userObj->addAuditoria($auditoria);
+
 
 
             //setear instancia=1;
             $norma->setInstancia(1);
             $entityManager->persist($norma);
-            $entityManager->persist($userObj);
+
 
 
             $entityManager->flush();
@@ -1162,14 +1144,14 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})
      */
-    public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager,UsuarioRepository $usuarioRepository): Response
+    public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
             
             //buscar usuario
             $session=$this->get('session');
             $usuario=$session->get('username');
-            $userObj=$usuarioRepository->findOneByNombre($usuario);
+            
             $today=new DateTime();
 
             //crear auditoria
@@ -1182,17 +1164,13 @@ class NormaController extends AbstractController
             $estadoAnt=$norma->getEstado();
             $auditoria->setEstadoAnterior($estadoAnt);
             $auditoria->setEstadoActual("Eliminada");
-            $auditoria->setUsuario($userObj);
             $auditoria->setNorma($norma);
             $entityManager->persist($auditoria);
             $norma->addAuditoria($auditoria);
-            $userObj->addAuditoria($auditoria);
-
 
             //setear instancia=4;
             $norma->setInstancia(4);
             $entityManager->persist($norma);
-            $entityManager->persist($userObj);
 
             $entityManager->remove($norma);
             $entityManager->flush();

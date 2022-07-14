@@ -36,26 +36,24 @@
                     <div class="card-header bg-warning">
                         <h4>
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numero }}
+                        {{ norma.numero }}(borrador)
+                        </h4>
+                    </div>
+                {% elseif norma.estado == "Lista" %}
+                    <div class="card-header bg-success">
+                        <h4>
+                            <th>{{norma.tipoNorma.nombre}} N° </th>
+                            {{ norma.numero }} 
+                        </h4>
+                    </div>
+                {% else %}
+                    <div class="card-header">
+                        <h4>
+                            <th>{{norma.tipoNorma.nombre}} N° </th>
+                            {{ norma.numero }}
                         </h4>
                     </div>
                 {% endif %}
-                    {% if norma.estado == "Lista" %}
-                        <div class="card-header bg-success">
-                            <h4>
-                                <th>{{norma.tipoNorma.nombre}} N° </th>
-                                {{ norma.numero }}
-                            </h4>
-                        </div>
-                    {% endif %}
-                    {% if norma.estado =="Publicada" %}
-                        <div class="card-header">
-                            <h4>
-                                <th>{{norma.tipoNorma.nombre}} N° </th>
-                                {{ norma.numero }}
-                            </h4>
-                        </div>
-                    {% endif %}
             {% endif %}
             
             <div class="card-body">
@@ -63,7 +61,6 @@
                 <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
-                
                 <br>
 
                 <div class="card " style="width: 100%;text-align:justify">
@@ -89,77 +86,67 @@
                     <i class="fa-solid fa-user"></i>Publicado por :
                     {{user}}
                 </div>
-
-
                 <br>
                 
                 <div class="container" id="containerBotones">
+                    <div class="divBotones mt-3 mr-2">
+                        <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
+                    </div>
                     
+                    <div class="divBotones mt-3 mr-2">
+                        <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
+                    </div>
+                    {% if rol == "DIG_OPERADOR" %}
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
+                            <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
-                        
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
+                            <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
                         </div>
-
-                        {% if rol == "DIG_OPERADOR" %}
-                            <div class="divBotones mt-3 mr-2">
-                                <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
-                            </div>
-
-                            <div class="divBotones mt-3 mr-2">
-                                <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
-                            </div>
-
-                            <div class="divBotones mt-3 mr-2">
-                                {{ include('norma/_delete_form.html.twig') }}
-                            </div>
-                        {% endif %}
-                    
+                        <div class="divBotones mt-3 mr-2">
+                            {{ include('norma/_delete_form.html.twig') }}
+                        </div>
+                    {% endif %}
                 </div>
-
-            <div class="card-footer text-left mt-3">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Relacion</th>
-                            <th scope="col">Norma</th>
-                            {% if rol == "DIG_OPERADOR" %}
-                            <th scope="col">Edit</th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                            {% for rela in relacion %}
-                            <tbody>
-                                <tr>
-                                    <td>{{rela.getTipoRelacion.getNombre}}</td>
-                                    <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-                                    {% if rol == "DIG_OPERADOR" %}
-                                    <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
-                                    {% endif %}
-                                </tr>
-                                <tr>
-                                    <td>Observaciones</td>
-                                    <td>{{rela.getDescripcion}}</td>
-                                </tr>
-
-                            </tbody>
-                        {% endfor %}
-                </table>
+                <div class="card-footer text-left mt-3">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Relacion</th>
+                                <th scope="col">Norma</th>
+                                {% if rol == "DIG_OPERADOR" %}
+                                <th scope="col">Edit</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                                {% for rela in relacion %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{rela.getTipoRelacion.getNombre}}</td>
+                                        <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                        {% if rol == "DIG_OPERADOR" %}
+                                        <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
+                                        {% endif %}
+                                    </tr>
+                                    <tr>
+                                        <td>Observaciones</td>
+                                        <td>{{rela.getDescripcion}}</td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                    </table>
+                </div>
+                
+                <div class=" divBotonVolver mt-4  text-left d-inline">
+                    <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+                    {% if norma.estado == "Borrador" %}
+                        <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
+                    {% endif %}
+                    {% if norma.estado == "Lista" %}
+                        <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión y publicar<i class="fa-solid fa-check-double"></i></button></a>
+                    {% endif %}
+                </div>
             </div>
-            
-            
-            <div class=" divBotonVolver mt-4  text-left d-inline">
-                <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
-                {% if norma.estado == "Borrador" %}
-                    <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
-                {% endif %}
-                {% if norma.estado == "Lista" %}
-                    <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión y publicar<i class="fa-solid fa-check-double"></i></button></a>
-                {% endif %}
-            </div>
-        </div>
         </div>
     </div>
 {% block javascripts %}
