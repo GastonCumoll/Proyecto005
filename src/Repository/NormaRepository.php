@@ -54,16 +54,23 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function findBorradores(){
+    public function findBorradores($roles){
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
+        foreach ($roles as $rol) {
+            $consulta->andWhere("t.rol='".$rol."'");
+        }
+        //dd($consulta);
         $query=$consulta->getQuery();
         return $query;
     }
 
-    public function findListas(){
+    public function findListas($roles){
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
+        foreach ($roles as $rol) {
+            $consulta->andWhere("t.rol='".$rol."'");
+        }
         $query=$consulta->getQuery();
         return $query;
     }

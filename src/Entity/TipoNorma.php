@@ -29,10 +29,11 @@ class TipoNorma
      */
     private $normas;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity=Area::class, inversedBy="tipoNorma")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $area;
+    private $rol;
     public function __toString()
     {
         return $this->nombre;
@@ -90,14 +91,14 @@ class TipoNorma
         return $this;
     }
 
-    public function getArea(): ?Area
+    public function getRol(): ?string
     {
-        return $this->area;
+        return $this->rol;
     }
 
-    public function setArea(?Area $area): self
+    public function setRol(?string $rol): self
     {
-        $this->area = $area;
+        $this->rol = $rol;
 
         return $this;
     }

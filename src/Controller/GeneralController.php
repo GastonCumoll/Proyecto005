@@ -142,14 +142,16 @@ class GeneralController extends AbstractController
 
             
             // Autorización
-            if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1)
+            if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '1'); // 1 = ADMIN
+            }
+                
             //else if ($seguridad->checkAccessAction($session_id, 'FP_OPERADOR', $this->get('session'), false) == 1)
                 //$session->set('rolAuth', '0'); // 0 = NO ADMIN
             // No pude autorizar, por ende me deslogueo
             else{
                 $bandera=1;
-                return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER); 
+                return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER);
             } 
 
             /*
@@ -233,6 +235,7 @@ class GeneralController extends AbstractController
             // Setear el ID
             // Obtener el ID de la repartición del usuario logueado
             $idReparticion = $seguridad->getIdReparticionAction($session_id);
+            //dd($idReparticion);
             $session->set('rolId', $idReparticion);
             /*
             // Código para pruebas

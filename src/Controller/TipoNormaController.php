@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TipoNorma;
 use App\Form\TipoNormaType;
+use App\Service\SeguridadService;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -46,11 +47,29 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/nueva", name="norma_nueva", methods={"GET", "POST"})
      */
-    public function nuevoTipoNorma(TipoNormaRepository $tipoNormaRepository): Response
+    public function nuevoTipoNorma(TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
     {
         
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        if($rol=='DIG_OPERADOR'){
+            $tiposDeNormas=$tipoNormaRepository->findByRol('DIG_OPERADOR');
+        }
+        else{
+            $tiposDeNormas=$tipoNormaRepository->findAll();
+        }
         return $this->render('tipo_norma/newTipo.html.twig', [
-            'tipo_normas' => $tipoNormaRepository->findAll(),
+            'tipo_normas' => $tiposDeNormas,
         ]);
     }
 

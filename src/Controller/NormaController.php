@@ -206,7 +206,25 @@ class NormaController extends AbstractController
      */
     public function listas(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
-        $listas=$normaRepository->findListas();
+
+        $listaDeRolesUsuario;
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
+        $listas=$normaRepository->findListas($listaDeRolesUsuario);
         //dd($borradores);
 
         $normasListas = $paginator->paginate(
@@ -221,18 +239,7 @@ class NormaController extends AbstractController
         $normasListas->setCustomParameters([
             'align' => 'center',
         ]);
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
+        
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normasListas,
@@ -246,7 +253,24 @@ class NormaController extends AbstractController
      */
     public function borrador(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
-        $borradores=$normaRepository->findBorradores();
+        $listaDeRolesUsuario;
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        //dd($listaDeRolesUsuario);
+        $borradores=$normaRepository->findBorradores($listaDeRolesUsuario);
         //dd($borradores);
 
         $normasBorrador = $paginator->paginate(
@@ -261,18 +285,9 @@ class NormaController extends AbstractController
         $normasBorrador->setCustomParameters([
             'align' => 'center',
         ]);
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
+        
+
+
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normasBorrador,
