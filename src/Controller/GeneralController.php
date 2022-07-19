@@ -36,26 +36,24 @@ class GeneralController extends AbstractController
      */
     public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository,ConsultaRepository $consulta): Response
     {
-        
         $tiposConsultas = $tipoConsultaRepository->findAll();
         return $this->renderForm('general/inicio.html.twig',[
             'tiposConsultas' => $tiposConsultas,
- 
         ]);
-
     }
 
     /**
      * @Route("/admin/inicio", name="inicio_admin")
      */
-    public function inicioAdministracion(Request $request,SeguridadService $seguridad): Response
+    public function inicioAdministracion(Request $request,SeguridadService $seguridad,TipoConsultaRepository $tipoConsultaRepository): Response
     {
         $session = $this->get('session');
         $session_id = $session->get('session_id') * 1;
         $usuario = $session->get('username');
         
-        
-        return $this->render('general/inicioAdmin.html.twig',[
+        $tiposConsultas = $tipoConsultaRepository->findAll();
+        return $this->render('general/inicio.html.twig',[
+            'tiposConsultas' => $tiposConsultas,
             'user' => $usuario
         ]);
 
@@ -152,7 +150,7 @@ class GeneralController extends AbstractController
             else{
                 $bandera=1;
                 return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER);
-            } 
+            }
 
             /*
             // Setear el Tipo

@@ -69,9 +69,23 @@ class NormaController extends AbstractController
     /**
      * @Route("/settipo", name="settipo", methods={"GET"})
      */
-    public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
+    public function settipo(AuditoriaRepository $auditoriaRepository,NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        $normas=$normaRepository->findAll();
+        
+        //trayecto de la norma
+        $norma=$normaRepository->findById(7183);
+        $auditoria=$auditoriaRepository->findByNorma($norma);
+        //dd($auditoria);
+        foreach($auditoria as $unaAudi){
+            dump($unaAudi->getAccion());
+        }
+        dd("hola");
+        // $pasos=$norma[0]->getAuditorias()->toArray();
+        // $idAudi=$pasos[0]->getAccion();
+
+        // dd($idAudi);
+
+        /*$normas=$normaRepository->findAll();
         $tipoLey=$tipoNormaRepository->find(2);
         $tipoOrd=$tipoNormaRepository->find(3);
         $tipoCir=$tipoNormaRepository->find(4);
@@ -107,7 +121,7 @@ class NormaController extends AbstractController
             }
         }
         $entityManager->flush();
-        dd($normas);
+        dd($normas);*/
     }
 
     /**
@@ -138,7 +152,7 @@ class NormaController extends AbstractController
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
+            //dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
@@ -149,6 +163,32 @@ class NormaController extends AbstractController
             'normas' => $normas,
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/trayecto/{id}", name="trayecto_norma")
+     */
+    public function trayectoNorma(PaginatorInterface $paginator,AuditoriaRepository $auditoriaRepository,NormaRepository $normaRepository,EntityManagerInterface $entityManager,Request $request,$id){
+        //trayecto de la norma
+        $norma=$normaRepository->findById($id);
+        $auditoria=$auditoriaRepository->findByNorma($norma);
+        
+        $normasAuditorias = $paginator->paginate(
+            
+            // Consulta Doctrine, no resultados
+            $auditoria,
+            // Definir el parámetro de la página
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+        );
+        $normasAuditorias->setCustomParameters([
+            'align' => 'center',
+        ]);
+        return $this->render('norma/trayecto.html.twig', [
+            'normas' => $normasAuditorias,
         ]);
     }
 

@@ -75,12 +75,6 @@ class ItemController extends AbstractController
         }else{
             $todosItems=$itemRepository->findUnItem($palabra);//ORMQuery
         }
-
-        // 
-        
-        
-        //$todosItems=array_unique($todosItems);
-
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -115,28 +109,13 @@ class ItemController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
         $item = new Item();
-        
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
-        
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form['dependencias']->getData());
-            //$depen=$form['dependencias']->getData();
-            //$tam=sizeof($depen);
-            
-            
             $entityManager->persist($item);
             $entityManager->flush();
-            // for($i=0;$i<$tam;$i++){
-            //     $item->addDependencia($depen[$i]);
-            //     $depen[$i]->setPadre($item);
-            //     $entityManager->persist($depen[$i]);
-            // }
-            // $entityManager->persist($item);
-            // $entityManager->flush();
 
             return $this->redirectToRoute('indice_vigente', [], Response::HTTP_SEE_OTHER);
         }
@@ -164,9 +143,7 @@ class ItemController extends AbstractController
     {
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
-        //dd($item);
         $hijos=$item->getDependencias();
-        // dd($hijos);
 
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($hijos as $unHijo) {
@@ -206,29 +183,18 @@ class ItemController extends AbstractController
                     }
                 }
             }
-            
 
-            
-            
-            //remuevo el item
             $entityManager->remove($item);
-            //$entityManager->flush();
 
             if($hijos != null){
                 foreach ($hijos as $hijo) {
-                    // dd($item->getDependencias());
-                    //dump($hijo);
-                    //dump($item->getPadre());
                     $hijo->setPadre($padre);
                     $entityManager->persist($hijo);
                 }
-                $entityManager->flush();
+                
             }
-
-            //dd($item);
-            
+            $entityManager->flush();
         }
-
         return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
     }
 }

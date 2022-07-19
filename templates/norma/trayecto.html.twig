@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trayecto de la norma{% endblock %}
+
+{% block body %}
+
+
+{# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
+<h1>Trayecto de la norma </h1>
+
+<div class="table-responsive">
+    <table class="table table-hover ">
+        <thead class="table-active" >
+        <tr>
+            <th>{{ knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
+            <th>{{knp_pagination_sortable(normas, 'Fecha', 'p.fecha')}}</th>
+            <th>{{ knp_pagination_sortable(normas, 'Usuario', 'p.nombreUsuario') }}</th>
+            <th>{{knp_pagination_sortable(normas, 'Accion', 'p.accion')}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for norma in normas %}
+        
+            {% if norma.estadoActual == "Borrador" %}
+            <tr class="table-warning">
+                <td>
+                    {{norma.id}}
+                </td>
+                <td>
+                    {{ norma.fecha|date('Y-m-d') }}
+                </td>
+                <td>
+                    {{ norma.nombreUsuario }}
+                </td>
+                <td>
+                    {{ norma.accion }}
+                </td>
+            </tr>
+            {% elseif norma.estadoActual == "Lista"%}
+            <tr class="table-success">
+                <td>
+                    {{norma.id}}
+                </td>
+                <td>
+                    {{ norma.fecha|date('Y-m-d') }}
+                </td>
+                <td>
+                    {{ norma.nombreUsuario }}
+                </td>
+                <td>
+                    {{ norma.accion }}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>
+                    {{norma.id}}
+                </td>
+                <td>
+                    {{ norma.fecha|date('Y-m-d') }}
+                </td>
+                <td>
+                    {{ norma.nombreUsuario }}
+                </td>
+                <td>
+                    {{ norma.accion }}
+                </td>
+            </tr>
+            {% endif %}
+            
+    {% else %}
+        <tr>
+            <td colspan="3">no se encontraron registros</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ knp_pagination_render(normas) }}
+</div>
+</div>
+{% block javascripts %}
+    {{encore_entry_script_tags('busquedaParamItem')}}
+    {% endblock %}
+{% endblock %}

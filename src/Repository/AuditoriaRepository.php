@@ -22,19 +22,16 @@ class AuditoriaRepository extends ServiceEntityRepository
     // /**
     //  * @return Auditoria[] Returns an array of Auditoria objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findByNorma($value)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.norma = :val')
             ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('p.id', 'ASC')
             ->getQuery()
-            ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Auditoria
