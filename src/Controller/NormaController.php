@@ -65,6 +65,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class NormaController extends AbstractController
 {
 
+    //funcion para cambiar la base de datos pero usando php
     /**
      * @Route("/settipo", name="settipo", methods={"GET"})
      */
@@ -183,6 +184,9 @@ class NormaController extends AbstractController
             //$userObj->addAuditoria($auditoria);
             $entityManager->persist($norma);
             //$entityManager->persist($userObj);
+            $entityManager->flush();
+
+        return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
         }
         if($estadoNorma=="Lista"){
             $auditoria->setInstanciaAnterior($norma->getInstancia());
@@ -195,6 +199,9 @@ class NormaController extends AbstractController
             $entityManager->persist($auditoria);
             $entityManager->persist($norma);
             //$entityManager->persist($userObj);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
         }
         $entityManager->flush();
 
@@ -354,35 +361,19 @@ class NormaController extends AbstractController
         $item=$itemRepository->find($id);
         $normas=$item->getNormas()->toArray();
         
-        //dd($normas);
-        // foreach ($normas as $unaNorma) {
-        //     dd($unaNorma);
-        // }
-        //dd(json_encode($normas));
-        
-        
-            $jsonData = array();  
-            $idx = 0;  
-            foreach($normas as $unaNorma) {  
-                $temp = array(
-                    'numero' => $unaNorma->getNumero(),  
-                    'titulo' => $unaNorma->getTitulo(),  
-                    'tipo' => $unaNorma->getTipoNorma()->getNombre(),
-                    'id' => $unaNorma->getId(),
-
+        $jsonData = array();  
+        $idx = 0;  
+        foreach($normas as $unaNorma) {  
+            $temp = array(
+                'numero' => $unaNorma->getNumero(),  
+                'titulo' => $unaNorma->getTitulo(),  
+                'tipo' => $unaNorma->getTipoNorma()->getNombre(),
+                'id' => $unaNorma->getId(),
                 );   
                 $jsonData[$idx++] = $temp;  
             }
             //dd($jsonData);
             return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
-            // return $this->render("indiceDigesto/indiceDigesto.html.twig",[
-            //     'arrayNormas' => $normas,
-            // ]); 
-        
-        
-        
-        
-        
     }
 
     /**
@@ -545,14 +536,20 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        //dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
-        $cadenaAEliminar=substr($htmlModificado,$posicion,$posicion2-$posicion+3);
-        $mod = str_replace($cadenaAEliminar,"",$htmlModificado);
-        
+
+        if($posicion && $posicion2){
+            $cadenaAEliminar=substr($htmlModificado,$posicion,$posicion2-$posicion+3);
+            $mod = str_replace($cadenaAEliminar,"",$htmlModificado);
+        }
+        else{
+            $mod=$htmlModificado;
+        }
+
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -577,12 +574,14 @@ class NormaController extends AbstractController
 
         $today = new DateTime();
         $result = $today->format('d-m-Y H-i-s');
+        $hoy = $today->format('d-m-Y');
 
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
+
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
         $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
@@ -599,18 +598,20 @@ class NormaController extends AbstractController
         // In this case, we want to write the file in the public directory
         $publicDirectory = 'uploads/pdf';
         // e.g /var/www/project/public/mypdf.pdf
-        $nombre='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+        $salida='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
         $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-        $pdfFilepath =  $publicDirectory . $nombre;
+        $nombre=$normaNombreLimpio.'('.$hoy.')';
+        $pdfFilepath =  $publicDirectory . $salida;
 
         // Write file to the desired path
-        $output = $mPdf -> Output($nombre,'S');
+        $output = $mPdf -> Output($salida,'S');
         file_put_contents($pdfFilepath, $output);
 
         $archi=new Archivo();
         $archi->setNorma($norma);
         $archi->setRuta($ruta);
-        $archi->setNombre($normaNombre);
+        $archi->setNombre($nombre);
+        $archi->setTipo("pdf");
 
         $archivos=$archivoRepository->findByNorma($id);
         foreach ($archivos as $unArchi) {
@@ -805,7 +806,7 @@ class NormaController extends AbstractController
             //crear auditoria
             $auditoria=new Auditoria();
             $auditoria->setFecha($today);
-            $auditoria->setAccion("carga");
+            $auditoria->setAccion("Carga");
             $auditoria->setInstanciaAnterior(0);
             $auditoria->setInstanciaActual(1);
             $auditoria->setEstadoActual("Borrador");
@@ -825,7 +826,7 @@ class NormaController extends AbstractController
 
             $entityManager->flush();
             $idNorma=$norma->getId();
-            return $this->redirectToRoute('norma_show', ['id'=>$idNorma], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
             
         }
         
@@ -840,76 +841,97 @@ class NormaController extends AbstractController
      */
     public function agregarArchivo(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
-                $form = $this->createForm(ArchivoType::class, $norma);
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid())
-                {
-                    $brochureFile = $form->get('archivo')->getData();
-                    $nombreArchivo = $form->get('nombre')->getData();
+        $form = $this->createForm(ArchivoType::class, $norma);
+        $form->handleRequest($request);
 
-                    if ($brochureFile) {
-                        foreach ($brochureFile as $unArchivo) {
-                            $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
-                            // this is needed to safely include the file name as part of the URL
-                            $safeFilename = $slugger->slug($originalFilename);
-                            $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
-                            $carpeta=$unArchivo->guessExtension();
-                            //dd($unArchivo->guessExtension());
-                            // Move the file to the directory where brochures are stored
-                            try {
-                                $unArchivo->move(
-                                $this->getParameter('brochures_directory'),
-                                $newFilename
-                                );
-                            } catch (FileException $e) {
-                                // ... handle exception if something happens during file upload
-                            }
-                            // updates the 'brochureFilename' property to store the PDF file name
-                            // instead of its contents
-                            //dd($newFilename);
-                            $newFilename=$carpeta.'/'.$newFilename;
-                            //dd($newFilename);
-                            $archi=new Archivo();
-                            $archi->setRuta($newFilename);
-                            $archi->setNorma($norma);
-                            $archi->setNombre($nombreArchivo);
-                            $archi->setTipo($carpeta);
-
-                            $entityManager->persist($archi);
-                            //dd($archi);
-                            $norma->addArchivos($archi);
-                            $entityManager->persist($norma);
-                        }
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $brochureFile = $form->get('archivo')->getData();
+            $nombreArchivo = $form->get('nombre')->getData();
+            
+            if ($brochureFile) {
+                foreach ($brochureFile as $unArchivo) {
+                    $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+                    $carpeta=$unArchivo->guessExtension();
+                    //dd($unArchivo->guessExtension());
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $unArchivo->move(
+                        $this->getParameter('brochures_directory'),$newFilename);
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
                     }
-                    $entityManager->flush();
-                    return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+                    // updates the 'brochureFilename' property to store the PDF file name
+                    // instead of its contents
+                    //dd($newFilename);
+                    $newFilename=$carpeta.'/'.$newFilename;
+                    //dd($newFilename);
+                    $archi=new Archivo();
+                    $archi->setRuta($newFilename);
+                    $archi->setNorma($norma);
+                    $archi->setNombre($nombreArchivo);
+                    $archi->setTipo($carpeta);
+
+                    $entityManager->persist($archi);
+                    $norma->addArchivos($archi);
+                    $today = new DateTime();
+                    //usuarios
+                    //obtener el nombre del usuario logeado;
+                    $session=$this->get('session');
+                    $usuario=$session->get('username');
+                    
+                    //crear auditoria
+                    $auditoria=new Auditoria();
+                    $auditoria->setFecha($today);
+                    $auditoria->setAccion("Carga archivo");
+                    $instancia=$norma->getInstancia();
+                    $auditoria->setInstanciaAnterior($instancia);
+                    $auditoria->setInstanciaActual(1);
+                    $estadoAnt=$norma->getEstado();
+                    $auditoria->setEstadoAnterior($estadoAnt);
+                    $auditoria->setEstadoActual("Borrador");
+                    $auditoria->setNombreUsuario($usuario);
+                    $auditoria->setNorma($norma);
+                    $entityManager->persist($auditoria);
+                    $norma->setInstancia(1);
+                    $norma->addAuditoria($auditoria);
+
+                    //setear instancia=1;
+                    $norma->setInstancia(1);
+                    $entityManager->persist($norma);                        
                 }
-                return $this->renderForm('norma/agregarArchivo.html.twig', [
-                    'norma' => $norma,
-                    'form' => $form,
-                    'id' => $id,
-                ]);
+            }
+            $entityManager->flush();
+            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('norma/agregarArchivo.html.twig', [
+            'norma' => $norma,
+            'form' => $form,
+            'id' => $id,
+        ]);
     }
+
     /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
      */
     public function show(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
-        
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         $auditoria=$norma->getAuditorias();
         $unUser='';
+        
         foreach ($auditoria as $audi) {
             $unUser=$audi->getNombreUsuario();
+        
         }
-        // if(!$unUser){
-        //     $unUser='';
-        // }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -918,7 +940,7 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-        // dd($rol);
+
         return $this->render('norma/show.html.twig', [
             'norma' => $norma,
             'relacion' => $relacion,
@@ -932,48 +954,45 @@ class NormaController extends AbstractController
      */
     public function editTexto(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
-                $form = $this->createForm(TextoEditType::class, $norma);
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid())
-                {
-                    $entityManager->persist($norma);
-                    
-                    //usuarios
-                    //obtener el nombre del usuario logeado;
-                    $session=$this->get('session');
-                    $usuario=$session->get('username');
-                    $today=new DateTime();
+        $form = $this->createForm(TextoEditType::class, $norma);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager->persist($norma);        
+            //usuarios
+            //obtener el nombre del usuario logeado;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            $today=new DateTime();
 
-                    //crear auditoria
-                    $auditoria=new Auditoria();
-                    $auditoria->setFecha($today);
-                    $auditoria->setAccion("Modificacion");
-                    $instancia=$norma->getInstancia();
-                    $auditoria->setInstanciaAnterior($instancia);
-                    $auditoria->setInstanciaActual(1);
-                    $estadoAnt=$norma->getEstado();
-                    $auditoria->setEstadoAnterior($estadoAnt);
-                    $auditoria->setEstadoActual("Borrador");
-                    $auditoria->setNombreUsuario($usuario);
-                    $auditoria->setNorma($norma);
-                    $entityManager->persist($auditoria);
-                    $norma->addAuditoria($auditoria);
-                    //$userObj->addAuditoria($auditoria);
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("Modificacion texto");
+            $instancia=$norma->getInstancia();
+            $auditoria->setInstanciaAnterior($instancia);
+            $auditoria->setInstanciaActual(1);
+            $estadoAnt=$norma->getEstado();
+            $auditoria->setEstadoAnterior($estadoAnt);
+            $auditoria->setEstadoActual("Borrador");
+            $auditoria->setNombreUsuario($usuario);
+            $auditoria->setNorma($norma);
+            $entityManager->persist($auditoria);
+            $norma->addAuditoria($auditoria);
 
-                    //setear instancia=1;
-                    $norma->setInstancia(1);
-                    $entityManager->persist($norma);
-                    //$entityManager->persist($userObj);
-
-                    $entityManager->flush();
-
-                    return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
-                }
-                return $this->renderForm('norma/edit.html.twig', [
-                    'norma' => $norma,
-                    'form' => $form,
-                    'id' => $id,
-                ]);
+            //setear instancia=1;
+            $norma->setInstancia(1);
+            $entityManager->persist($norma);
+            
+            $entityManager->flush();
+            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('norma/edit.html.twig', [
+            'norma' => $norma,
+            'form' => $form,
+            'id' => $id,
+        ]);
     }
 
     /**
@@ -999,8 +1018,8 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
             break;
             default:
-            $form = $this->createForm(CircularTypeEdit::class, $norma);
-            $form->handleRequest($request);
+                $form = $this->createForm(CircularTypeEdit::class, $norma);
+                $form->handleRequest($request);
             break;
         }
 
@@ -1014,9 +1033,8 @@ class NormaController extends AbstractController
                 $newItem->addNorma($norma); 
                 $entityManager->persist($newItem);
             }
-            
             $entityManager->persist($norma);
-            //$entityManager->flush();
+
             $brochureFile = $form->get('archivo')->getData();
 
             if ($brochureFile) {
@@ -1036,7 +1054,6 @@ class NormaController extends AbstractController
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                     }
-
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
                     $newFilename=$carpeta.'/'.$newFilename;
@@ -1044,15 +1061,12 @@ class NormaController extends AbstractController
                     $archi->setTipo($carpeta);
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
-                    //$nombreArchivo=$norma->getTipoNorma()->getNombre()."N°".$norma->getNumero();
-                    // dd($nombreArchivo);
+
                     if($form->get('nombre_archivo')->getData()){
                         $archi->setNombre($form->get('nombre_archivo')->getData());
                     }else{
                         $archi->setNombre($originalFilename);
                     }
-
-                    
 
                     $entityManager->persist($archi);
                     $norma->addArchivos($archi);
@@ -1087,13 +1101,11 @@ class NormaController extends AbstractController
                 $entityManager->persist($eti);
             }
             $entityManager->persist($norma);
-            //$entityManager->flush();
 
             //usuarios
             //obtener el nombre del usuario logeado
             $session=$this->get('session');
             $usuario=$session->get('username');
-            
             $today=new DateTime();
 
             //crear auditoria
@@ -1111,16 +1123,11 @@ class NormaController extends AbstractController
             $entityManager->persist($auditoria);
             $norma->addAuditoria($auditoria);
 
-
-
             //setear instancia=1;
             $norma->setInstancia(1);
             $entityManager->persist($norma);
 
-
-
             $entityManager->flush();
-            
             return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
         }
 

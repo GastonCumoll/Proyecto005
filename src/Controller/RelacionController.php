@@ -5,16 +5,17 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Norma;
 use App\Entity\Relacion;
+use App\Entity\Auditoria;
 use App\Form\RelacionType;
 use App\Repository\NormaRepository;
 use App\Repository\RelacionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TipoRelacionRepository;
+use App\EventSubscriber\SecuritySubscriber;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\EventSubscriber\SecuritySubscriber;
 
 /**
  * @Route("/relacion")
@@ -83,6 +84,35 @@ class RelacionController extends AbstractController
 
             $entityManager->persist($relacion);
             $entityManager->persist($relacionInversa);
+
+            //usuarios
+            //obtener el nombre del usuario logeado;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("Modificacion relacion");
+            $instancia=$norma->getInstancia();
+            $auditoria->setInstanciaAnterior($instancia);
+            $auditoria->setInstanciaActual(1);
+            $estadoAnt=$norma->getEstado();
+            $auditoria->setEstadoAnterior($estadoAnt);
+            $auditoria->setEstadoActual("Borrador");
+            $auditoria->setNombreUsuario($usuario);
+            $auditoria->setNorma($norma);
+            $entityManager->persist($auditoria);
+            $norma->setInstancia(1);
+            $norma->addAuditoria($auditoria);
+            //$userObj->addAuditoria($auditoria);
+
+
+            //setear instancia=1;
+            $norma->setInstancia(1);
+            $entityManager->persist($norma);
+            
+
             $entityManager->flush();
 
             return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
@@ -167,7 +197,35 @@ class RelacionController extends AbstractController
             $tipoRela=$form['tipoRelacion']->getData();
             
             $relacionInversa->setTipoRelacion($tipoRela->getInverso());
+
+            //usuarios
+            //obtener el nombre del usuario logeado;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
             
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("Carga relacion");
+            $instancia=$norma->getInstancia();
+            $auditoria->setInstanciaAnterior($instancia);
+            $auditoria->setInstanciaActual(1);
+            $estadoAnt=$norma->getEstado();
+            $auditoria->setEstadoAnterior($estadoAnt);
+            $auditoria->setEstadoActual("Borrador");
+            $auditoria->setNombreUsuario($usuario);
+            $auditoria->setNorma($norma);
+            $entityManager->persist($auditoria);
+            $norma->setInstancia(1);
+            $norma->addAuditoria($auditoria);
+            //$userObj->addAuditoria($auditoria);
+
+
+            //setear instancia=1;
+            $norma->setInstancia(1);
+            $entityManager->persist($norma);
+            
+
             $entityManager->persist($relacionInversa);
             $entityManager->flush();
 
