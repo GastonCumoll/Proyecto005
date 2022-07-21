@@ -56,7 +56,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'normas_ajax'=>[],
                 'mostrar_pdf'=>[],
                 'generar_pdf'=>['DIG_OPERADOR','DIG_EDITOR'],
-                'norma_new'=>['DIG_OPERADOR'],
+                'norma_new'=>['DIG_OPERADOR','DIG_ADMINISTRADOR'],
                 'mostrar_texto'=>[],
                 'norma_delete'=>['DIG_ADMINISTRADOR'],
                 'busqueda_avanzada' =>[],
@@ -65,10 +65,11 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'busqueda_filtro'=>[],
                 'busqueda_param'=>[],
                 'busqueda_rapida'=>[],
-                'updateInstancia'=>['DIG_OPERADOR'],
-                'listas'=>['DIG_OPERADOR'],
-                'borrador' =>['DIG_OPERADOR'],
+                'updateInstancia'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
+                'listas'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
+                'borrador' =>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'agregar_archivo'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'trayecto_norma' => ['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
 
 
                 //Relacion
@@ -79,26 +80,25 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'form_rela_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'relacion_show'=>['DIG_OPERADOR','DIG_EDITOR'],
 
+                //Tipo Relacion
+                'tipo_relacion_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'tipo_relacion_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_relacion_show'=>['DIG_ADMINISTRADOR'],
+                'tipo_relacion_delete'=>['DIG_ADMINISTRADOR'],
+                'tipo_relacion_edit'=>['DIG_ADMINISTRADOR'],
+                
                 //Tipo Norma
                 'tipo_norma_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'norma_nueva'=>['DIG_OPERADOR'],
                 'tipo_norma_new'=>['DIG_ADMINISTRADOR'],
-                'tipo_norma_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'tipo_norma_show'=>['DIG_ADMINISTRADOR'],
                 'tipo_norma_edit'=>['DIG_ADMINISTRADOR'],
                 'tipo_norma_delete'=>['DIG_ADMINISTRADOR'],
-
-                //Tipo Relacion
-                'tipo_relacion_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'tipo_relacion_new'=>['DIG_ADMINISTRADOR'],
-                'tipo_relacion_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'tipo_relacion_delete'=>['DIG_ADMINISTRADOR'],
-                'tipo_relacion_edit'=>['DIG_ADMINISTRADOR'],
-
 
                 //Item
                 'item_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'item_new'=>['DIG_ADMINISTRADOR'],
-                'item_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'item_show'=>['DIG_ADMINISTRADOR'],
                 'item_edit'=>['DIG_ADMINISTRADOR'],
                 'item_delete'=>['DIG_ADMINISTRADOR'],
                 'busqueda_param_item'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
@@ -117,16 +117,16 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'logout'=>[],//ojo con este
                 'inicio' =>[],
                 'not_role'=>[],
-                'inicio_admin'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR',],
+                'inicio_admin'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR'],
 
                 //Etiqueta
                 'etiqueta_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'etiqueta_new'=>['DIG_ADMINISTRADOR'],
                 'etiqueta_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'etiqueta_edit'=>['DIG_OPERADOR'],
+                'etiqueta_edit'=>['DIG_ADMINISTRADOR'],
                 'etiqueta_delete'=>['DIG_ADMINISTRADOR'],
                 'busqueda_param_etiqueta'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'busqueda_id_etiqueta'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'busqueda_id_etiqueta'=>[],
 
 
                 // //Area
@@ -137,26 +137,26 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'area_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Auditoria
-                'auditoria_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'auditoria_index'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
                 'auditoria_new'=>['DIG_ADMINISTRADOR'],
-                'auditoria_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'auditoria_show'=>['DIG_ADMINISTRADOR'],
                 'auditoria_edit'=>['DIG_ADMINISTRADOR'],
                 'auditoria_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Consulta
                 'consultaMensaje'=>[],
-                'consulta_index'=>[],
+                'consulta_index'=>['DIG_ADMINISTRADOR'],
                 'consulta'=>[],
-                'consulta_show'=>[],
-                'consulta_edit'=>[],
-                'consulta_delete'=>[],
+                'consulta_show'=>['DIG_ADMINISTRADOR'],
+                'consulta_edit'=>['DIG_ADMINISTRADOR'],
+                'consulta_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Tipo Consulta
-                'tipo_consulta_index'=>['DIG_OPERADOR'],
-                'tipo_consulta_new'=>['DIG_OPERADOR'],
-                'tipo_consulta_show'=>['DIG_OPERADOR'],
-                'tipo_consulta_edit'=>['DIG_OPERADOR'],
-                'tipo_consulta_delete'=>['DIG_OPERADOR'],
+                'tipo_consulta_index'=>['DIG_ADMINISTRADOR'],
+                'tipo_consulta_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_consulta_show'=>['DIG_ADMINISTRADOR'],
+                'tipo_consulta_edit'=>['DIG_ADMINISTRADOR'],
+                'tipo_consulta_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Usuario
                 'usuario_index'=>['DIG_OPERADOR'],

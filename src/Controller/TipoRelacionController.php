@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TipoRelacion;
 use App\Form\TipoRelacionType;
+use App\Service\SeguridadService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TipoRelacionRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,8 +21,20 @@ class TipoRelacionController extends AbstractController
     /**
      * @Route("/", name="tipo_relacion_index", methods={"GET"})
      */
-    public function index(TipoRelacionRepository $tipoRelacionRepository,Request $request, PaginatorInterface $paginator): Response
+    public function index(SeguridadService $seguridad,TipoRelacionRepository $tipoRelacionRepository,Request $request, PaginatorInterface $paginator): Response
     {
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
         $todosTipos = $tipoRelacionRepository->createQueryBuilder('p')
             ->getQuery();
@@ -38,6 +51,7 @@ class TipoRelacionController extends AbstractController
         
         return $this->render('tipo_relacion/index.html.twig', [
             'tipo_relacions' => $tiposRelacion,
+            'rol' => $rol,
         ]);
     }
 

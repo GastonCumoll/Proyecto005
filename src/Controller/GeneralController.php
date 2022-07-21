@@ -143,16 +143,16 @@ class GeneralController extends AbstractController
             
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '1'); // 1 = ADMIN
+                $session->set('rolAuth', '2'); // 1 = ADMIN
             }    
             else if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '1');
             }
             else if ($seguridad->checkAccessAction($session_id, 'DIG_CONSULTOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '1');
+                $session->set('rolAuth', '4');
             }
             else if ($seguridad->checkAccessAction($session_id, 'DIG_EDITOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '1');
+                $session->set('rolAuth', '3');
             }
             // No pude autorizar, por ende me deslogueo
             else{

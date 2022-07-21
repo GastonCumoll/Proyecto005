@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Etiqueta;
 use App\Form\EtiquetaType;
 use App\Service\SeguridadService;
+use App\Repository\AreaRepository;
 use App\Repository\NormaRepository;
 use App\Repository\EtiquetaRepository;
 use App\Repository\TipoNormaRepository;
@@ -24,8 +25,20 @@ class EtiquetaController extends AbstractController
     /**
      * @Route("/", name="etiqueta_index", methods={"GET"})
      */
-    public function index(EtiquetaRepository $etiquetaRepository,Request $request, PaginatorInterface $paginator): Response
+    public function index(EtiquetaRepository $etiquetaRepository,Request $request, PaginatorInterface $paginator,SeguridadService $seguridad): Response
     {
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
         // Recuperar el administrador de entidades de Doctrine
         $em = $this->getDoctrine()->getManager();
         
@@ -51,13 +64,14 @@ class EtiquetaController extends AbstractController
         return $this->render('etiqueta/index.html.twig', [
             //'etiquetas' => $etiquetaRepository->findAll(),
             'etiquetas' => $appointments,
+            'rol'=>$rol,
         ]);
     }
 
     /**
      * @Route("/{id}/busquedaId", name="busqueda_id_etiqueta", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaId(NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    public function busquedaId(AreaRepository $areaRepository, NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         $etiqueta=$etiquetaRepository->find($id);//array
         $normasEtiquetas=$etiqueta->getNormas()->toArray();
@@ -89,11 +103,22 @@ class EtiquetaController extends AbstractController
         }else {
             $rol="";
         }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+
+        $reparticionUsuario = $areaRepository->find($idReparticion);
+
+
+        $normasUsuario = [];
+        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+        }
         return $this->render('norma/indexAdmin.html.twig', [
             'tipoNormas' => $tipoRepository->findAll(),
             'etiquetas' =>$etiquetaRepository->findAll(),
             'rol' => $rol,
             'normas' => $norma,
+            'normasUsuario' => $normasUsuario,
         ]);
         
     }

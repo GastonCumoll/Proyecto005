@@ -145,6 +145,9 @@
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión y publicar<i class="fa-solid fa-check-double"></i></button></a>
                     {% endif %}
+                    {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}
+                        <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

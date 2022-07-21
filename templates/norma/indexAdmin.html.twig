@@ -178,7 +178,7 @@
                 <td class="columnaOp">
                     <div>
                         <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
-                        {% if rol == "DIG_OPERADOR" or rol == "DIG_EDITOR"%}
+                        {% if rol == "DIG_OPERADOR" or rol == "DIG_EDITOR" or rol == "DIG_ADMINISTRADOR" %}
 
                             {% for unaNormaUsuario in normasUsuario %}
                                 {% if unaNormaUsuario == norma.tipoNorma.nombre%}
@@ -188,6 +188,7 @@
                                 {% endif %}
 
                             {% endfor %}
+                            <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
 
                         {% endif %}
                     </div>

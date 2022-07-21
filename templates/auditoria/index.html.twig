@@ -18,7 +18,10 @@
                 <th>{{knp_pagination_sortable(auditorias, 'Estado Anterior', 'p.estadoAnterior')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Estado Actual', 'p.estadoActual')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Tarea', 'p.accion')}}</th>
+                {% if  rol == "DIG_ADMINISTRADOR" %}
                 <th>Acciones</th>
+                {% endif %}
+                
     
             </tr>
         </thead>
@@ -33,7 +36,10 @@
                 <td>{{ auditoria.estadoAnterior }}</td>
                 <td>{{ auditoria.estadoActual }}</td>
                 <td>{{ auditoria.accion }}</td>
+                {% if rol == "DIG_ADMINISTRADOR" %}
                 <td>{{ include('auditoria/_delete_form.html.twig') }}</td>
+                {% endif %}
+                
             </tr>
             {% else %}
                 <tr>

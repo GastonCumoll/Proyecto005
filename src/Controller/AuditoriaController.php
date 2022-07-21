@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Auditoria;
 use App\Form\AuditoriaType;
+use App\Service\SeguridadService;
 use App\Repository\AuditoriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,8 +21,21 @@ class AuditoriaController extends AbstractController
     /**
      * @Route("/", name="auditoria_index", methods={"GET"})
      */
-    public function index(AuditoriaRepository $auditoriaRepository,PaginatorInterface $paginator,Request $request): Response
+    public function index(SeguridadService $seguridad,AuditoriaRepository $auditoriaRepository,PaginatorInterface $paginator,Request $request): Response
     {
+        $sesion=$this->get('session');
+        //dd($sesion);
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
 
         $auditoriasT=$auditoriaRepository->createQueryBuilder('p')->getQuery();
 
@@ -40,6 +54,7 @@ class AuditoriaController extends AbstractController
 
         return $this->render('auditoria/index.html.twig', [
             'auditorias' =>$auditorias,
+            'rol' =>$rol,
         ]);
     }
 

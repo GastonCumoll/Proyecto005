@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TipoNorma;
 use App\Form\TipoNormaType;
 use App\Service\SeguridadService;
+use App\Repository\AreaRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -21,10 +22,22 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/", name="tipo_norma_index", methods={"GET"})
      */
-    public function index(TipoNormaRepository $tipoNormaRepository,Request $request, PaginatorInterface $paginator): Response
+    public function index(SeguridadService $seguridad,TipoNormaRepository $tipoNormaRepository,Request $request, PaginatorInterface $paginator): Response
     {
 
-                
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
         // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
         $todosTipos = $tipoNormaRepository->createQueryBuilder('p')
             ->getQuery();
@@ -41,15 +54,15 @@ class TipoNormaController extends AbstractController
         
         return $this->render('tipo_norma/index.html.twig', [
             'tipo_normas' => $tiposNormas,
+            'rol' => $rol,
         ]);
     }
 
     /**
      * @Route("/nueva", name="norma_nueva", methods={"GET", "POST"})
      */
-    public function nuevoTipoNorma(TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
+    public function nuevoTipoNorma(AreaRepository $areaRepository,TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
     {
-        
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -62,6 +75,15 @@ class TipoNormaController extends AbstractController
         }else {
             $rol="";
         }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+
+        $reparticionUsuario = $areaRepository->find($idReparticion);
+        $normasUsuario = [];
+        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
+        }
+
         if($rol=='DIG_OPERADOR'){
             $tiposDeNormas=$tipoNormaRepository->findByRol('DIG_OPERADOR');
         }
@@ -70,6 +92,7 @@ class TipoNormaController extends AbstractController
         }
         return $this->render('tipo_norma/newTipo.html.twig', [
             'tipo_normas' => $tiposDeNormas,
+            'normasUsuario' => $normasUsuario,
         ]);
     }
 
