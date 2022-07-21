@@ -135,20 +135,24 @@ class NormaController extends AbstractController
         ]);
 
         $sesion=$this->get('session');
-        //dd($sesion);
         $idSession=$sesion->get('session_id')*1;
 
+        
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
 
-        $reparticionUsuario = $areaRepository->find($idReparticion);
 
+            $normasUsuario = [];
+            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            }
 
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+        }else{
+            $normasUsuario="";
         }
-
+        
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
@@ -409,13 +413,18 @@ class NormaController extends AbstractController
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
-        $reparticionUsuario = $areaRepository->find($idReparticion);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
 
 
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            $normasUsuario = [];
+            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            }
+
+        }else{
+            $normasUsuario="";
         }
 
         // Paginar los resultados de la consulta
@@ -492,15 +501,19 @@ class NormaController extends AbstractController
                 }
                 $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
-                $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
-                $normasUsuario = [];
-                //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-                foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                    $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+                if($idReparticion){
+                    $reparticionUsuario = $areaRepository->find($idReparticion);
+        
+        
+                    $normasUsuario = [];
+                    //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+                    foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                        $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+                    }
+        
+                }else{
+                    $normasUsuario="";
                 }
-
 
                 //seccion paginator
                 // Paginar los resultados de la consulta
@@ -613,13 +626,18 @@ class NormaController extends AbstractController
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
-        $reparticionUsuario = $areaRepository->find($idReparticion);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
 
 
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            $normasUsuario = [];
+            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            }
+
+        }else{
+            $normasUsuario="";
         }
         return $this->render('norma/indexAdmin.html.twig', [
             'etiquetas' => $etiquetaRepository->findAll(),
