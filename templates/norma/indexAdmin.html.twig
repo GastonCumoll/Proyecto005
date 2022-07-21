@@ -153,7 +153,19 @@
         </thead>
         <tbody>
             {% for norma in normas %}
+                {% set tipoNorma = 0 %}
+                {% for unaNormaUsuario in normasUsuario %}
+                    {% if unaNormaUsuario == norma.tipoNorma.nombre%}
+                        {% set tipoNorma = 1 %}
+                    {% endif %}
+                {% endfor %}
+
+            {% if tipoNorma == 1 %}
             <tr>
+            {% else %}
+            <tr class="table-secondary">
+            {% endif %}
+                
                 <td class="colId">{{norma.id}}</td>
                 <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
                 <td class="colTit">{{norma.titulo}}</td>
@@ -166,9 +178,17 @@
                 <td class="columnaOp">
                     <div>
                         <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
-                        {% if rol == "DIG_OPERADOR" %}
-                        <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                        <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                        {% if rol == "DIG_OPERADOR" or rol == "DIG_EDITOR"%}
+
+                            {% for unaNormaUsuario in normasUsuario %}
+                                {% if unaNormaUsuario == norma.tipoNorma.nombre%}
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% else %}
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% endif %}
+
+                            {% endfor %}
+
                         {% endif %}
                     </div>
 

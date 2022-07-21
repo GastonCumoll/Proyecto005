@@ -105,6 +105,8 @@ class RelacionController extends AbstractController
             $entityManager->persist($auditoria);
             $norma->setInstancia(1);
             $norma->addAuditoria($auditoria);
+            //$userObj->addAuditoria($auditoria);
+
 
             //setear instancia=1;
             $norma->setInstancia(1);

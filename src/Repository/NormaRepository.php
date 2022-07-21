@@ -25,6 +25,7 @@ class NormaRepository extends ServiceEntityRepository
     // /**
     //  * @return Norma[] Returns an array of Norma objects
     //  */
+    /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('n')
@@ -36,7 +37,7 @@ class NormaRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    
+    */
     //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
     public function findAllQuery(): Query
     {
@@ -67,9 +68,9 @@ class NormaRepository extends ServiceEntityRepository
     public function findListas($roles){
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
-        // foreach ($roles as $rol) {
-        //     $consulta->andWhere("t.rol='".$rol."'");
-        // }
+        foreach ($roles as $rol) {
+            $consulta->andWhere("t.rol='".$rol."'");
+        }
         $query=$consulta->getQuery();
         return $query;
     }

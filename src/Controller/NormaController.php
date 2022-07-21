@@ -30,6 +30,7 @@ use App\Form\CircularTypeEdit;
 use App\Form\OrdenanzaTypeEdit;
 use App\Form\ResolucionTypeEdit;
 use App\Service\SeguridadService;
+use App\Repository\AreaRepository;
 use App\Repository\ItemRepository;
 use App\Repository\NormaRepository;
 use App\Repository\ArchivoRepository;
@@ -69,23 +70,9 @@ class NormaController extends AbstractController
     /**
      * @Route("/settipo", name="settipo", methods={"GET"})
      */
-    public function settipo(AuditoriaRepository $auditoriaRepository,NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
+    public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        
-        //trayecto de la norma
-        $norma=$normaRepository->findById(7183);
-        $auditoria=$auditoriaRepository->findByNorma($norma);
-        //dd($auditoria);
-        foreach($auditoria as $unaAudi){
-            dump($unaAudi->getAccion());
-        }
-        dd("hola");
-        // $pasos=$norma[0]->getAuditorias()->toArray();
-        // $idAudi=$pasos[0]->getAccion();
-
-        // dd($idAudi);
-
-        /*$normas=$normaRepository->findAll();
+        $normas=$normaRepository->findAll();
         $tipoLey=$tipoNormaRepository->find(2);
         $tipoOrd=$tipoNormaRepository->find(3);
         $tipoCir=$tipoNormaRepository->find(4);
@@ -121,13 +108,13 @@ class NormaController extends AbstractController
             }
         }
         $entityManager->flush();
-        dd($normas);*/
+        dd($normas);
     }
 
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
-    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
+    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request, PaginatorInterface $paginator, TipoNormaRepository $tipoNorma, EtiquetaRepository $etiquetas, AreaRepository $areaRepository): Response
     {   
         $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
         // $todasNormas=$normaRepository->createQueryBuilder('p')
@@ -148,11 +135,23 @@ class NormaController extends AbstractController
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+
+        $reparticionUsuario = $areaRepository->find($idReparticion);
+
+
+        $normasUsuario = [];
+        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+        }
+
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            //dd($roles);
+            // dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
@@ -163,32 +162,7 @@ class NormaController extends AbstractController
             'normas' => $normas,
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
-        ]);
-    }
-
-
-    /**
-     * @Route("/trayecto/{id}", name="trayecto_norma")
-     */
-    public function trayectoNorma(PaginatorInterface $paginator,AuditoriaRepository $auditoriaRepository,NormaRepository $normaRepository,EntityManagerInterface $entityManager,Request $request,$id){
-        //trayecto de la norma
-        $norma=$normaRepository->findById($id);
-        $auditoria=$auditoriaRepository->findByNorma($norma);
-        
-        $normasAuditorias = $paginator->paginate(
-            
-            // Consulta Doctrine, no resultados
-            $auditoria,
-            // Definir el parámetro de la página
-            $request->query->getInt('page', 1),
-            // Items per page
-            10
-        );
-        $normasAuditorias->setCustomParameters([
-            'align' => 'center',
-        ]);
-        return $this->render('norma/trayecto.html.twig', [
-            'normas' => $normasAuditorias,
+            'normasUsuario' => $normasUsuario,
         ]);
     }
 
@@ -312,7 +286,7 @@ class NormaController extends AbstractController
             }
             // dd($roles);
             $rol=$roles[0]['id'];
-            // dd($rol);
+            //dd($rol);
         }else {
             $rol="";
         }
@@ -970,6 +944,16 @@ class NormaController extends AbstractController
         }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $usuarioReparticion = 0; //variable que voy a usar en la vista para saber si el usuario es de la reparticíon de la norma
+
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);  //se obtiene la repartición del usuario logueado
+        $reparticionesNorma = $norma->getTipoNorma()->getTipoNormaReparticions(); //se obtienen las reparticiones a las que pertenece ese tipo de norma a editar
+
+        foreach($reparticionesNorma as $unaReparticion){
+            if($unaReparticion->getReparticionId()->getId() == $idReparticion){
+                $usuarioReparticion = 1;
+            }
+        }
 
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
@@ -986,53 +970,66 @@ class NormaController extends AbstractController
             'relacion' => $relacion,
             'rol'=>$rol,
             'user' => $unUser,
+            'usuarioReparticion' => $usuarioReparticion,
         ]);
     }
 
     /**
      * @Route("/{id}/editTexto", name="texto_edit", methods={"GET", "POST"})
      */
-    public function editTexto(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
-    {
-        $form = $this->createForm(TextoEditType::class, $norma);
-        $form->handleRequest($request);
+    public function editTexto(Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    {   
+        $session=$this->get('session');
+        $session_id = $session->get('session_id') * 1;
+        $idReparticion = $seguridad->getIdReparticionAction($session_id);  //se obtiene la repartición del usuario logueado
+        $reparticionesNorma = $norma->getTipoNorma()->getTipoNormaReparticions(); //se obtienen las reparticiones a las que pertenece ese tipo de norma a editar
+
+        foreach($reparticionesNorma as $unaReparticion){
+            if($unaReparticion->getReparticionId()->getId() == $idReparticion){ //comparo el id de repartición del tipo de norma con el id de repartición del usuario logueado
+                $form = $this->createForm(TextoEditType::class, $norma);
+                $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $entityManager->persist($norma);        
-            //usuarios
-            //obtener el nombre del usuario logeado;
-            $session=$this->get('session');
-            $usuario=$session->get('username');
-            $today=new DateTime();
+                if ($form->isSubmitted() && $form->isValid())
+                {
+                    $entityManager->persist($norma);        
+                    //usuarios
+                    //obtener el nombre del usuario logeado;
+                    $session=$this->get('session');
+                    $usuario=$session->get('username');
+                    $today=new DateTime();
 
-            //crear auditoria
-            $auditoria=new Auditoria();
-            $auditoria->setFecha($today);
-            $auditoria->setAccion("Modificacion texto");
-            $instancia=$norma->getInstancia();
-            $auditoria->setInstanciaAnterior($instancia);
-            $auditoria->setInstanciaActual(1);
-            $estadoAnt=$norma->getEstado();
-            $auditoria->setEstadoAnterior($estadoAnt);
-            $auditoria->setEstadoActual("Borrador");
-            $auditoria->setNombreUsuario($usuario);
-            $auditoria->setNorma($norma);
-            $entityManager->persist($auditoria);
-            $norma->addAuditoria($auditoria);
+                    //crear auditoria
+                    $auditoria=new Auditoria();
+                    $auditoria->setFecha($today);
+                    $auditoria->setAccion("Modificacion texto");
+                    $instancia=$norma->getInstancia();
+                    $auditoria->setInstanciaAnterior($instancia);
+                    $auditoria->setInstanciaActual(1);
+                    $estadoAnt=$norma->getEstado();
+                    $auditoria->setEstadoAnterior($estadoAnt);
+                    $auditoria->setEstadoActual("Borrador");
+                    $auditoria->setNombreUsuario($usuario);
+                    $auditoria->setNorma($norma);
+                    $entityManager->persist($auditoria);
+                    $norma->addAuditoria($auditoria);
 
-            //setear instancia=1;
-            $norma->setInstancia(1);
-            $entityManager->persist($norma);
-            
-            $entityManager->flush();
-            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+                    //setear instancia=1;
+                    $norma->setInstancia(1);
+                    $entityManager->persist($norma);
+                    
+                    $entityManager->flush();
+                    return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+                }
+
+                return $this->renderForm('norma/edit.html.twig', [
+                    'norma' => $norma,
+                    'form' => $form,
+                    'id' => $id,
+                ]);
+            }
         }
-        return $this->renderForm('norma/edit.html.twig', [
-            'norma' => $norma,
-            'form' => $form,
-            'id' => $id,
-        ]);
+
+        return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, tiene la misma repartición de la norma, se lo desloguea
     }
 
     /**

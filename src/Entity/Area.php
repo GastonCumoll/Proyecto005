@@ -29,9 +29,15 @@ class Area
      */
     private $tipoNorma;
 
+    /**
+     * @ORM\OneToMany(targetEntity=TipoNormaReparticion::class, mappedBy="reparticionId")
+     */
+    private $tipoNormaReparticions;
+
     public function __construct()
     {
         $this->tipoNorma = new ArrayCollection();
+        $this->tipoNormaReparticions = new ArrayCollection();
     }
 
     public function __toString()
@@ -80,6 +86,36 @@ class Area
             // set the owning side to null (unless already changed)
             if ($tipoNorma->getArea() === $this) {
                 $tipoNorma->setArea(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TipoNormaReparticion[]
+     */
+    public function getTipoNormaReparticions(): Collection
+    {
+        return $this->tipoNormaReparticions;
+    }
+
+    public function addTipoNormaReparticion(TipoNormaReparticion $tipoNormaReparticion): self
+    {
+        if (!$this->tipoNormaReparticions->contains($tipoNormaReparticion)) {
+            $this->tipoNormaReparticions[] = $tipoNormaReparticion;
+            $tipoNormaReparticion->setReparticionId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTipoNormaReparticion(TipoNormaReparticion $tipoNormaReparticion): self
+    {
+        if ($this->tipoNormaReparticions->removeElement($tipoNormaReparticion)) {
+            // set the owning side to null (unless already changed)
+            if ($tipoNormaReparticion->getReparticionId() === $this) {
+                $tipoNormaReparticion->setReparticionId(null);
             }
         }
 

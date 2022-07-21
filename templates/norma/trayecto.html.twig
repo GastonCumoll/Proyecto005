@@ -12,62 +12,61 @@
     <table class="table table-hover ">
         <thead class="table-active" >
         <tr>
-            <th>{{ knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
-            <th>{{knp_pagination_sortable(normas, 'Fecha', 'p.fecha')}}</th>
-            <th>{{ knp_pagination_sortable(normas, 'Usuario', 'p.nombreUsuario') }}</th>
-            <th>{{knp_pagination_sortable(normas, 'Accion', 'p.accion')}}</th>
+            <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Id', 'p.id') }}</th>
+            <th>{{knp_pagination_sortable(auditoriasDeNorma, 'Fecha', 'p.fecha')}}</th>
+            <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Autor', 'p.nombreUsuario') }}</th>
+            <th>{{knp_pagination_sortable(auditoriasDeNorma, 'Accion', 'p.accion')}}</th>
         </tr>
     </thead>
     <tbody>
-        {% for norma in normas %}
+        {% for unaAuditoria in auditoriasDeNorma %}
         
-            {% if norma.estadoActual == "Borrador" %}
+            {% if unaAuditoria.estadoActual == "Borrador" %}
             <tr class="table-warning">
                 <td>
-                    {{norma.id}}
+                    {{unaAuditoria.id}}
                 </td>
                 <td>
-                    {{ norma.fecha|date('Y-m-d') }}
+                    {{ unaAuditoria.fecha|date('Y-m-d') }}
                 </td>
                 <td>
-                    {{ norma.nombreUsuario }}
+                    {{ unaAuditoria.nombreUsuario }}
                 </td>
                 <td>
-                    {{ norma.accion }}
+                    {{ unaAuditoria.accion }}
                 </td>
             </tr>
-            {% elseif norma.estadoActual == "Lista"%}
+            {% elseif unaAuditoria.estadoActual == "Lista"%}
             <tr class="table-success">
                 <td>
-                    {{norma.id}}
+                    {{unaAuditoria.id}}
                 </td>
                 <td>
-                    {{ norma.fecha|date('Y-m-d') }}
+                    {{ unaAuditoria.fecha|date('Y-m-d') }}
                 </td>
                 <td>
-                    {{ norma.nombreUsuario }}
+                    {{ unaAuditoria.nombreUsuario }}
                 </td>
                 <td>
-                    {{ norma.accion }}
+                    {{ unaAuditoria.accion }}
                 </td>
             </tr>
             {% else %}
-            <tr>
+            <tr class="table-primary">
                 <td>
-                    {{norma.id}}
+                    {{unaAuditoria.id}}
                 </td>
                 <td>
-                    {{ norma.fecha|date('Y-m-d') }}
+                    {{ unaAuditoria.fecha|date('Y-m-d') }}
                 </td>
                 <td>
-                    {{ norma.nombreUsuario }}
+                    {{ unaAuditoria.nombreUsuario }}
                 </td>
                 <td>
-                    {{ norma.accion }}
+                    {{ unaAuditoria.accion }}
                 </td>
             </tr>
             {% endif %}
-            
     {% else %}
         <tr>
             <td colspan="3">no se encontraron registros</td>
@@ -76,7 +75,7 @@
     </tbody>
 </table>
 <div class="navigation">
-    {{ knp_pagination_render(normas) }}
+    {{ knp_pagination_render(auditoriasDeNorma) }}
 </div>
 </div>
 {% block javascripts %}

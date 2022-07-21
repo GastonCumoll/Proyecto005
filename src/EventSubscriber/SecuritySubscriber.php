@@ -38,6 +38,7 @@ class SecuritySubscriber implements EventSubscriberInterface
         // }
         // else {
             $request = $event->getRequest();
+            //dd($request);
             $routeName = $request->attributes->get('_route');
             //dd($this->session->get('session_id'));
             //dd($this->session);
@@ -50,14 +51,14 @@ class SecuritySubscriber implements EventSubscriberInterface
                 //Norma
                 'norma_index'=>[],
                 'norma_show'=>[],
-                'norma_edit'=>['DIG_OPERADOR'],
-                'texto_edit'=>['DIG_OPERADOR'],
+                'norma_edit'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'texto_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'normas_ajax'=>[],
                 'mostrar_pdf'=>[],
-                'generar_pdf'=>['DIG_OPERADOR'],
+                'generar_pdf'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'norma_new'=>['DIG_OPERADOR'],
                 'mostrar_texto'=>[],
-                'norma_delete'=>['DIG_OPERADOR'],
+                'norma_delete'=>['DIG_ADMINISTRADOR'],
                 'busqueda_avanzada' =>[],
                 'formulario_busqueda_result'=>[],
                 'formulario_busqueda'=>[],
@@ -67,40 +68,40 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'updateInstancia'=>['DIG_OPERADOR'],
                 'listas'=>['DIG_OPERADOR'],
                 'borrador' =>['DIG_OPERADOR'],
-                'agregar_archivo'=>['DIG_OPERADOR'],
+                'agregar_archivo'=>['DIG_OPERADOR','DIG_EDITOR'],
 
 
                 //Relacion
-                'relacion_index'=>['DIG_OPERADOR'],
-                'relacion_delete'=>['DIG_OPERADOR'],
-                'relacion_edit'=>['DIG_OPERADOR'],
-                'relacion_new'=>['DIG_OPERADOR'],
-                'form_rela_edit'=>['DIG_OPERADOR'],
-                'relacion_show'=>['DIG_OPERADOR'],
+                'relacion_index'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'relacion_delete'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'relacion_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'relacion_new'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'form_rela_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'relacion_show'=>['DIG_OPERADOR','DIG_EDITOR'],
 
                 //Tipo Norma
-                'tipo_norma_index'=>['DIG_OPERADOR'],
+                'tipo_norma_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'norma_nueva'=>['DIG_OPERADOR'],
-                'tipo_norma_new'=>['DIG_OPERADOR'],
-                'tipo_norma_show'=>['DIG_OPERADOR'],
-                'tipo_norma_edit'=>['DIG_OPERADOR'],
-                'tipo_norma_delete'=>['DIG_OPERADOR'],
+                'tipo_norma_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'tipo_norma_edit'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_delete'=>['DIG_ADMINISTRADOR'],
 
                 //Tipo Relacion
-                'tipo_relacion_index'=>['DIG_OPERADOR'],
-                'tipo_relacion_new'=>['DIG_OPERADOR'],
-                'tipo_relacion_show'=>['DIG_OPERADOR'],
-                'tipo_relacion_delete'=>['DIG_OPERADOR'],
-                'tipo_relacion_edit'=>['DIG_OPERADOR'],
+                'tipo_relacion_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'tipo_relacion_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_relacion_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'tipo_relacion_delete'=>['DIG_ADMINISTRADOR'],
+                'tipo_relacion_edit'=>['DIG_ADMINISTRADOR'],
 
 
                 //Item
-                'item_index'=>['DIG_OPERADOR'],
-                'item_new'=>['DIG_OPERADOR'],
-                'item_show'=>['DIG_OPERADOR'],
-                'item_edit'=>['DIG_OPERADOR'],
-                'item_delete'=>['DIG_OPERADOR'],
-                'busqueda_param_item'=>['DIG_OPERADOR'],
+                'item_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'item_new'=>['DIG_ADMINISTRADOR'],
+                'item_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'item_edit'=>['DIG_ADMINISTRADOR'],
+                'item_delete'=>['DIG_ADMINISTRADOR'],
+                'busqueda_param_item'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
 
 
                 //indice 
@@ -116,31 +117,31 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'logout'=>[],//ojo con este
                 'inicio' =>[],
                 'not_role'=>[],
-                'inicio_admin'=>['DIG_OPERADOR'],
+                'inicio_admin'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR',],
 
                 //Etiqueta
-                'etiqueta_index'=>['DIG_OPERADOR'],
-                'etiqueta_new'=>['DIG_OPERADOR'],
-                'etiqueta_show'=>['DIG_OPERADOR'],
+                'etiqueta_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'etiqueta_new'=>['DIG_ADMINISTRADOR'],
+                'etiqueta_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'etiqueta_edit'=>['DIG_OPERADOR'],
-                'etiqueta_delete'=>['DIG_OPERADOR'],
-                'busqueda_param_etiqueta'=>[],
-                'busqueda_id_etiqueta'=>[],
+                'etiqueta_delete'=>['DIG_ADMINISTRADOR'],
+                'busqueda_param_etiqueta'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'busqueda_id_etiqueta'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
 
 
                 // //Area
-                'area_index'=>['DIG_OPERADOR'],
-                'area_new'=>['DIG_OPERADOR'],
-                'area_show'=>['DIG_OPERADOR'],
-                'area_edit'=>['DIG_OPERADOR'],
-                'area_delete'=>['DIG_OPERADOR'],
+                'area_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'area_new'=>['DIG_ADMINISTRADOR'],
+                'area_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'area_edit'=>['DIG_ADMINISTRADOR'],
+                'area_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Auditoria
-                'auditoria_index'=>['DIG_OPERADOR'],
-                'auditoria_new'=>['DIG_OPERADOR'],
-                'auditoria_show'=>['DIG_OPERADOR'],
-                'auditoria_edit'=>['DIG_OPERADOR'],
-                'auditoria_delete'=>['DIG_OPERADOR'],
+                'auditoria_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'auditoria_new'=>['DIG_ADMINISTRADOR'],
+                'auditoria_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'auditoria_edit'=>['DIG_ADMINISTRADOR'],
+                'auditoria_delete'=>['DIG_ADMINISTRADOR'],
 
                 // Consulta
                 'consultaMensaje'=>[],

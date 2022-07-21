@@ -34,6 +34,11 @@ class TipoNorma
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $rol;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TipoNormaReparticion::class, mappedBy="tipoNormaId")
+     */
+    private $tipoNormaReparticions;
     public function __toString()
     {
         return $this->nombre;
@@ -42,6 +47,7 @@ class TipoNorma
     public function __construct()
     {
         $this->normas = new ArrayCollection();
+        $this->tipoNormaReparticions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +105,36 @@ class TipoNorma
     public function setRol(?string $rol): self
     {
         $this->rol = $rol;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TipoNormaReparticion[]
+     */
+    public function getTipoNormaReparticions(): Collection
+    {
+        return $this->tipoNormaReparticions;
+    }
+
+    public function addTipoNormaReparticion(TipoNormaReparticion $tipoNormaReparticion): self
+    {
+        if (!$this->tipoNormaReparticions->contains($tipoNormaReparticion)) {
+            $this->tipoNormaReparticions[] = $tipoNormaReparticion;
+            $tipoNormaReparticion->setTipoNormaId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTipoNormaReparticion(TipoNormaReparticion $tipoNormaReparticion): self
+    {
+        if ($this->tipoNormaReparticions->removeElement($tipoNormaReparticion)) {
+            // set the owning side to null (unless already changed)
+            if ($tipoNormaReparticion->getTipoNormaId() === $this) {
+                $tipoNormaReparticion->setTipoNormaId(null);
+            }
+        }
 
         return $this;
     }

@@ -36,6 +36,7 @@ Encore
     .addEntry('datepicker', './assets/datepicker.js')
     .addEntry('redireccion', './assets/redireccion.js')
     .addEntry('consulta', './assets/consulta.js')
+    .addEntry('redireccionLogout', './assets/redireccionLogout.js')
     
     
     .addStyleEntry('base', '/assets/styles/app.css')

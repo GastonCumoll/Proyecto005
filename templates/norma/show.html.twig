@@ -66,7 +66,7 @@
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
                         <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
-                        {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" %}
+                        {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                             <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
                         {% endif %}
                         {% for unPdf in norma.archivos %}
@@ -96,7 +96,7 @@
                     <div class="divBotones mt-3 mr-2">
                         <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                     </div>
-                    {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" %}
+                    {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
@@ -114,7 +114,7 @@
                             <tr>
                                 <th scope="col">Relacion</th>
                                 <th scope="col">Norma</th>
-                                {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" %}
+                                {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                 <th scope="col">Edit</th>
                                 {% endif %}
                             </tr>
@@ -124,7 +124,7 @@
                                     <tr>
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-                                        {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" %}
+                                        {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                         <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
                                         {% endif %}
                                     </tr>
@@ -139,10 +139,10 @@
                 
                 <div class=" divBotonVolver mt-4  text-left d-inline">
                     <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
-                    {% if norma.estado == "Borrador" %}
+                    {% if norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
                     {% endif %}
-                    {% if norma.estado == "Lista" %}
+                    {% if norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión y publicar<i class="fa-solid fa-check-double"></i></button></a>
                     {% endif %}
                 </div>

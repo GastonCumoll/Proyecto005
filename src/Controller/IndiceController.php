@@ -47,7 +47,6 @@ class IndiceController extends AbstractController
             'rol' => $rol,
         ]);
     }
-    
     /**
      * @Route("/NoVigentes", name="indice_no_vigente", methods={"GET"})
      */

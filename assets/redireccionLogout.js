@@ -6,7 +6,7 @@ import 'bootstrap';
 
 setTimeout(function(){
     
-    var link = "/logout";
+    var link = "/logout/1";
     window.location.href = link;
 
 }, 3000);

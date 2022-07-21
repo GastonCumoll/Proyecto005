@@ -36,24 +36,26 @@ class GeneralController extends AbstractController
      */
     public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository,ConsultaRepository $consulta): Response
     {
+        
         $tiposConsultas = $tipoConsultaRepository->findAll();
         return $this->renderForm('general/inicio.html.twig',[
             'tiposConsultas' => $tiposConsultas,
+ 
         ]);
+
     }
 
     /**
      * @Route("/admin/inicio", name="inicio_admin")
      */
-    public function inicioAdministracion(Request $request,SeguridadService $seguridad,TipoConsultaRepository $tipoConsultaRepository): Response
+    public function inicioAdministracion(Request $request,SeguridadService $seguridad): Response
     {
         $session = $this->get('session');
         $session_id = $session->get('session_id') * 1;
         $usuario = $session->get('username');
         
-        $tiposConsultas = $tipoConsultaRepository->findAll();
-        return $this->render('general/inicio.html.twig',[
-            'tiposConsultas' => $tiposConsultas,
+        
+        return $this->render('general/inicioAdmin.html.twig',[
             'user' => $usuario
         ]);
 
@@ -142,10 +144,16 @@ class GeneralController extends AbstractController
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '1'); // 1 = ADMIN
+            }    
+            else if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
+                $session->set('rolAuth', '1');
             }
-                
-            //else if ($seguridad->checkAccessAction($session_id, 'FP_OPERADOR', $this->get('session'), false) == 1)
-                //$session->set('rolAuth', '0'); // 0 = NO ADMIN
+            else if ($seguridad->checkAccessAction($session_id, 'DIG_CONSULTOR', $this->get('session'), false) == 1){
+                $session->set('rolAuth', '1');
+            }
+            else if ($seguridad->checkAccessAction($session_id, 'DIG_EDITOR', $this->get('session'), false) == 1){
+                $session->set('rolAuth', '1');
+            }
             // No pude autorizar, por ende me deslogueo
             else{
                 $bandera=1;
@@ -290,6 +298,12 @@ class GeneralController extends AbstractController
             $this->addFlash(
                 'notice',
                 'USUARIO Y/O CONTRASEÑA INCORRECTOS'
+            );
+        }
+        if($bandera==3){
+            $this->addFlash(
+                'notice',
+                'NO TIENE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN! '
             );
         }
         return $this->redirect($this->generateUrl('login'));
