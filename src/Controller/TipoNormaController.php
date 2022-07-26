@@ -103,22 +103,22 @@ class TipoNormaController extends AbstractController
      */
     public function addRol(Request $request, EntityManagerInterface $entityManager,TipoNorma $tipoNormaT,TipoNormaRepository $tipoNormaRepository,$id): Response
     {
-        // $tipo=$tipoNormaRepository->findById($id);
-        // $tipoNormaT->setNombre($tipo[0]->getNombre());
-        // $form = $this->createForm(TipoNormaRolType::class, $tipoNormaT);
+        $tipo=$tipoNormaRepository->findById($id);
+        $tipoNormaT->setNombre($tipo[0]->getNombre());
+        $form = $this->createForm(TipoNormaRolType::class, $tipoNormaT);
         
-        // $form->handleRequest($request);
+        $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
 
-        //     return $this->redirectToRoute('tipo_norma_index', [], Response::HTTP_SEE_OTHER);
-        // }
+            return $this->redirectToRoute('tipo_norma_index', [], Response::HTTP_SEE_OTHER);
+        }
 
-        // return $this->renderForm('tipo_norma/edit.html.twig', [
-        //     'tipo_norma' => $tipoNormaT,
-        //     'form' => $form,
-        // ]);
+        return $this->renderForm('tipo_norma/edit.html.twig', [
+            'tipo_norma' => $tipoNormaT,
+            'form' => $form,
+        ]);
     }
 
     /**
