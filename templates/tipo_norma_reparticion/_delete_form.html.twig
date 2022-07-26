@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('tipo_norma_reparticion_delete', {'id': tipo_norma_reparticion.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tipo_norma_reparticion.id) }}">
-    <button class="btn">Delete</button>
+<form method="post" action="{{ path('tipo_norma_reparticion_delete', {'id': repa.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ repa.id) }}">
+    <button class="btn btn-danger btn-sm d-inline"><i class="fa-solid fa-trash-can">
 </form>

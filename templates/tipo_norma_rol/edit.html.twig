@@ -1,23 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit TipoConsulta{% endblock %}
-
+{% block title %}Edit TipoNormaRol{% endblock %}
 {% block addStyleSheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('createCss') }}
 {% endblock %}
 {% block body %}
-    <h1>Editar tipo de consulta</h1>
+    <h1>Cambiar el rol a {{tipoNorma.nombre}}</h1>
     <div class="container text-left" >
         <div class="mt-3 p-3 border border-secondary rounded bg-light shadow mb-5 bg-white ">
-    {{ include('tipo_consulta/_form.html.twig', {'button_label': 'Guardar'}) }}
-    <a href="{{ path('tipo_consulta_index') }}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
+    {{ include('tipo_norma_rol/_form.html.twig', {'button_label': 'Guardar'}) }}
+    <a href="{{ path('rol_tipo_norma',{'id': tipoNorma.id}) }}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
         </div></div>
     {% block javascripts %}
     {{ parent() }}
     {{encore_entry_script_tags('etiqueta')}}
 
 {% endblock  %} 
-
-
 {% endblock %}

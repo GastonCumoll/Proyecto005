@@ -5,34 +5,7 @@
 {% block body %}
     <h1>Tipos de relaciones</h1>
 
-    <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-dark btn-sm">Alta de tipo de norma</button> </a>
-    <br>
-    <br>
-    <table class="table table-hover table-sm table-bordered ">
-        <thead class="table-dark">
-            <tr>
-                <th>descripcion</th>
-                <th>acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tipo_norma in tipo_normas %}
-            <tr>
-
-                <td>
-                    <a href="{{ path('tipo_norma_show', {'id': tipo_norma.id}) }}">{{tipo_norma.nombre}}</a>
-                </td>
-                <td>
-                    <a href="{{ path('tipo_norma_edit', {'id': tipo_norma.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    
 
     <table class="table">
         <thead>

@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TipoNormaReparticion index{% endblock %}
+{% block title %}TipoNormaRol index{% endblock %}
 
 {% block body %}
-    <h1>Reparticiones del tipo de norma {{tipoNorma.nombre}}</h1>
+
+<h1>Roles del tipo de norma {{tipoNorma.nombre}}</h1>
 
     <div class="table-responsive">
         <table class="table table-hover ">
@@ -14,23 +15,21 @@
                 {% if rol == "DIG_ADMINISTRADOR" %}
                 <th>Opciones</th>
                 {% endif %}
-            
             </tr>
         </thead>
         <tbody>
-            {% for repa in reparticionesDeNorma %}
+            {% for r in roles %}
             <tr>
-
                 <td>
-                    {{ repa.id }}
+                    {{ r.id }}
                 </td>
                 <td>
-                    {{ repa.nombre }}
+                    {{ r.nombreRol }}
                 </td>
                 {% if rol == "DIG_ADMINISTRADOR" %}
                 <td>
-                    <a  href="{{path('tipo_norma_reparticion_edit', {'id': tipoNorma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                    {{ include('tipo_norma_reparticion/_delete_form.html.twig') }}
+                    <a  href="{{path('tipo_norma_rol_edit', {'id': tipoNorma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                    {{ include('tipo_norma_rol/_delete_form.html.twig') }}
                 </td>
                 {% endif %}
             </tr>
@@ -43,6 +42,6 @@
     </table>
     </div>
     {% if rol=="DIG_ADMINISTRADOR" %}
-    <a href="{{ path('tipo_norma_reparticion_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-info btn-sm">Agregarle reparticion a {{tipoNorma}}</button> </a>
+    <a href="{{ path('tipo_norma_rol_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-info btn-sm">Agregarle rol a {{tipoNorma}}</button> </a>
     {% endif %}
 {% endblock %}

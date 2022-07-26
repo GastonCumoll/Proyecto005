@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Area;
 use App\Form\AreaType;
+use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/area")
@@ -19,10 +20,26 @@ class AreaController extends AbstractController
     /**
      * @Route("/", name="area_index", methods={"GET"})
      */
-    public function index(AreaRepository $areaRepository): Response
+    public function index(AreaRepository $areaRepository,SeguridadService $seguridad): Response
     {
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
+
+
         return $this->render('area/index.html.twig', [
             'areas' => $areaRepository->findAll(),
+            'rol'=>$rol
         ]);
     }
 

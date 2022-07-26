@@ -91,8 +91,9 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="tipo_norma_reparticion_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, TipoNormaReparticion $tipoNormaReparticion, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, TipoNormaReparticion $tipoNormaReparticion, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        $tipo=$tipoNormaRepository->findById($id);
         $form = $this->createForm(TipoNormaReparticionType::class, $tipoNormaReparticion);
         $form->handleRequest($request);
 
@@ -105,6 +106,7 @@ class TipoNormaReparticionController extends AbstractController
         return $this->renderForm('tipo_norma_reparticion/edit.html.twig', [
             'tipo_norma_reparticion' => $tipoNormaReparticion,
             'form' => $form,
+            'tipoNorma' =>$tipo[0],
         ]);
     }
 

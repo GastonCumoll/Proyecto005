@@ -31,14 +31,14 @@ class TipoNorma
 
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $rol;
-
-    /**
      * @ORM\OneToMany(targetEntity=TipoNormaReparticion::class, mappedBy="tipoNormaId")
      */
     private $tipoNormaReparticions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TipoNormaRol::class, mappedBy="tipoNorma")
+     */
+    private $tipoNormaRoles;
     public function __toString()
     {
         return $this->nombre;
@@ -48,6 +48,7 @@ class TipoNorma
     {
         $this->normas = new ArrayCollection();
         $this->tipoNormaReparticions = new ArrayCollection();
+        $this->tipoNormaRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,18 +98,6 @@ class TipoNorma
         return $this;
     }
 
-    public function getRol(): ?string
-    {
-        return $this->rol;
-    }
-
-    public function setRol(?string $rol): self
-    {
-        $this->rol = $rol;
-
-        return $this;
-    }
-
     /**
      * @return Collection|TipoNormaReparticion[]
      */
@@ -133,6 +122,36 @@ class TipoNorma
             // set the owning side to null (unless already changed)
             if ($tipoNormaReparticion->getTipoNormaId() === $this) {
                 $tipoNormaReparticion->setTipoNormaId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TipoNormaRol[]
+     */
+    public function getTipoNormaRoles(): Collection
+    {
+        return $this->tipoNormaRoles;
+    }
+
+    public function addTipoNormaRole(TipoNormaRol $tipoNormaRole): self
+    {
+        if (!$this->tipoNormaRoles->contains($tipoNormaRole)) {
+            $this->tipoNormaRoles[] = $tipoNormaRole;
+            $tipoNormaRole->setTipoNorma($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTipoNormaRole(TipoNormaRol $tipoNormaRole): self
+    {
+        if ($this->tipoNormaRoles->removeElement($tipoNormaRole)) {
+            // set the owning side to null (unless already changed)
+            if ($tipoNormaRole->getTipoNorma() === $this) {
+                $tipoNormaRole->setTipoNorma(null);
             }
         }
 
