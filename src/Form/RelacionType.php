@@ -19,7 +19,10 @@ class RelacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('norma')
+            ->add('norma',EntityType::class,[
+                'class' =>Norma::class,
+                'disabled' => true,
+            ])
             ->add('complementada',EntityType::class,[
                 'class' => Norma::class,
                 'query_builder' =>function(NormaRepository $normaRepo){

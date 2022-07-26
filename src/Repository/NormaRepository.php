@@ -42,11 +42,20 @@ class NormaRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->where("p.estado = 'Publicada'")
         ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
         return $query;
     }
-
+    //la diferencia entre findAllQuery y findAllQueryS es que la segunda se usa si la sesion esta definida
+    //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
+    public function findAllQueryS(): Query
+    {
+        $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->orderBy('p.id','DESC');
+        $query=$consulta->getQuery();
+        return $query;
+    }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','DESC');

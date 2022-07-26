@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TipoNormaReparticion index{% endblock %}
+
+{% block body %}
+    <h1>Reparticiones del tipo de norma {{tipoNorma.nombre}}</h1>
+
+    <div class="table-responsive">
+        <table class="table table-hover ">
+            <thead class="table-active" >
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                {% if rol == "DIG_ADMINISTRADOR" %}
+                <th>Opciones</th>
+                {% endif %}
+            
+            </tr>
+        </thead>
+        <tbody>
+            {% for repa in reparticionesDeNorma %}
+            <tr>
+
+                <td>
+                    {{ repa.id }}
+                </td>
+                <td>
+                    {{ repa.nombre }}
+                </td>
+                {% if rol == "DIG_ADMINISTRADOR" %}
+                <td>
+                    edit
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no se encontraron registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% if rol=="DIG_ADMINISTRADOR" %}
+    <a href="{{ path('tipo_norma_reparticion_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-info btn-sm">Agregarle reparticion a {{tipoNorma}}</button> </a>
+    {% endif %}
+{% endblock %}

@@ -36,6 +36,9 @@
                 {% if rol=="DIG_ADMINISTRADOR" %}
                 <td>
                     <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                    <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>
+                    <a  href="{{path('roles_tipo_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-user-shield"></i></button></a>
+                    
                     {{ include('tipo_norma/_delete_form.html.twig') }}
                 </td>
                 {% endif %}

@@ -17,5 +17,8 @@
     <a href="{{ path('tipo_norma_index') }}" class="btn btn-primary">Cancelar</a> 
 </div>
 </div>
-    
+{% block javascripts %}
+    {{ parent() }}
+{{encore_entry_script_tags('etiqueta')}}
+{% endblock  %} 
 {% endblock %}

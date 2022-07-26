@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TipoNormaReparticion{% endblock %}
+
+{% block body %}
+    <h1>TipoNormaReparticion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tipo_norma_reparticion.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('tipo_norma_reparticion_index') }}">back to list</a>
+
+    <a href="{{ path('tipo_norma_reparticion_edit', {'id': tipo_norma_reparticion.id}) }}">edit</a>
+
+    {{ include('tipo_norma_reparticion/_delete_form.html.twig') }}
+{% endblock %}

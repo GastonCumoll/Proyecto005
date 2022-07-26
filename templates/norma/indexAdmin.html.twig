@@ -173,23 +173,25 @@
                 <td class="colEstado">{{norma.estado}}</td>
                 <td class="colFecha">{{norma.fechaPublicacion|date('Y-m-d')}}</td>
 
-                
+                {% set bandera = 0 %}
 
                 <td class="columnaOp">
                     <div>
                         <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
                         {% if rol == "DIG_OPERADOR" or rol == "DIG_EDITOR" or rol == "DIG_ADMINISTRADOR" %}
-
+                        
                             {% for unaNormaUsuario in normasUsuario %}
-                                {% if unaNormaUsuario == norma.tipoNorma.nombre%}
-                                    <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                                {% else %}
-                                    <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                            
+                                {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
+                                {% set bandera = 1 %}
                                 {% endif %}
-
                             {% endfor %}
+                            {% if bandera == 1 %}
+                                <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                            {% else %}
+                                <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                            {% endif %}
                             <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
-
                         {% endif %}
                     </div>
 

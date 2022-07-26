@@ -9,13 +9,19 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TipoNormaType extends AbstractType
+class TipoNormaRolType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
+        ->add('nombre',TextType::class,[
+            
+            'disabled'=>true,
+        ])
+        ->add('rol')
+
             // ->add('area',EntityType::class,[
             //     'required' => false,
             //     'class' => Area::class,
@@ -34,7 +40,7 @@ class TipoNormaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => TipoNorma::class,
+            'data_class' => null,
         ]);
     }
 }

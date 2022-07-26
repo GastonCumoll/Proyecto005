@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TipoNorma;
 use App\Form\TipoNormaType;
+use App\Form\TipoNormaRolType;
 use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
 use App\Repository\TipoNormaRepository;
@@ -94,6 +95,30 @@ class TipoNormaController extends AbstractController
             'tipo_normas' => $tiposDeNormas,
             'normasUsuario' => $normasUsuario,
         ]);
+    }
+
+
+    /**
+     * @Route("/addRol/{id}", name="roles_tipo_norma", methods={"GET", "POST"})
+     */
+    public function addRol(Request $request, EntityManagerInterface $entityManager,TipoNorma $tipoNormaT,TipoNormaRepository $tipoNormaRepository,$id): Response
+    {
+        // $tipo=$tipoNormaRepository->findById($id);
+        // $tipoNormaT->setNombre($tipo[0]->getNombre());
+        // $form = $this->createForm(TipoNormaRolType::class, $tipoNormaT);
+        
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $entityManager->flush();
+
+        //     return $this->redirectToRoute('tipo_norma_index', [], Response::HTTP_SEE_OTHER);
+        // }
+
+        // return $this->renderForm('tipo_norma/edit.html.twig', [
+        //     'tipo_norma' => $tipoNormaT,
+        //     'form' => $form,
+        // ]);
     }
 
     /**

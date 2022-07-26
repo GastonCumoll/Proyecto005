@@ -116,8 +116,16 @@ class NormaController extends AbstractController
      */
     public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request, PaginatorInterface $paginator, TipoNormaRepository $tipoNorma, EtiquetaRepository $etiquetas, AreaRepository $areaRepository): Response
     {   
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        //si idSession = 0(no hay nadie logeado), lo toma como falso y entra al else
+        //dd($idSession);
+        if($idSession){
+            $todasNormas=$normaRepository->findAllQueryS();
+        }else{
+            $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
+        }
         
-        $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
         // $todasNormas=$normaRepository->createQueryBuilder('p')
         // ->getQuery();
         // Paginar los resultados de la consulta
@@ -134,14 +142,14 @@ class NormaController extends AbstractController
             'align' => 'center',
         ]);
 
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
+        // $sesion=$this->get('session');
+        // $idSession=$sesion->get('session_id')*1;
 
         
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         if($idReparticion){
             $reparticionUsuario = $areaRepository->find($idReparticion);
-
+            //dd($reparticionUsuario);
 
             $normasUsuario = [];
             //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
@@ -1175,16 +1183,22 @@ class NormaController extends AbstractController
      */
     public function edit(AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
-
-        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $idTipoNorma=$norma->getTipoNorma()->getId();
+        //dd($idTipoNorma);
+        $session=$this->get('session');
+        $session_id = $session->get('session_id') * 1;
+        $idReparticion = $seguridad->getIdReparticionAction($session_id);
 
         $reparticionUsuario = $areaRepository->find($idReparticion);
+        //dd($reparticionUsuario);
         $normasUsuario = [];
         //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
         foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
             $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
+
         }
-        if(!in_array($id,$normasUsuario)){
+        //dd($idTipoNorma);
+        if(!in_array($idTipoNorma,$normasUsuario,true)){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }
 

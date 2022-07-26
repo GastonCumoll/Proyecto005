@@ -24,33 +24,25 @@
     <table class="table table-hover ">
         <thead class="table-active" >
         <tr>
-            <th>{{ knp_pagination_sortable(items, 'Id', 'p.id') }}</th>
-            <th>{{knp_pagination_sortable(items, 'Nombre', 'p.nombre')}}</th>
+            <th>Nombre</th>
+            
             {% if rol == "DIG_ADMINISTRADOR" %}
             <th>Opciones</th>
             {% endif %}
             
-
         </tr>
     </thead>
     <tbody>
-        {% for item in items %}
+        {% for reparticionesDeNorma in repa %}
         <tr>
-
             <td>
-                {{item.id}}
-            </td>
-            <td>
-                {{ item.nombre }}
+                {{ repa }}
             </td>
             {% if rol == "DIG_ADMINISTRADOR" %}
             <td>
-                <a  href="{{path('item_edit', {'id': item.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                {{ include('item/_delete_form.html.twig') }}
+                editar
             </td>
             {% endif %}
-            
-
         </tr>
     {% else %}
         <tr>
@@ -59,16 +51,9 @@
     {% endfor %}
     </tbody>
 </table>
-<div class="navigation">
-    {{ knp_pagination_render(items) }}
-</div>
 </div>
 <br>
-{% if rol == "DIG_ADMINISTRADOR" %}
 
-<a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button> </a>
-<br>
-{% endif %}
 {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}
