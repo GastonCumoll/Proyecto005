@@ -37,7 +37,9 @@ services:
     App\Service\SeguridadService:
         arguments:
             $ws_seguridad: '%ws_seguridad%'
-    
+    reparticion_service:
+        class: App\Service\ReparticionService
+        public: true
     custom_service:
         class: App\Service\CustomService
         public: true

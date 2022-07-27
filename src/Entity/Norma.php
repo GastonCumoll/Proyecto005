@@ -120,6 +120,11 @@ private $instancia;
  */
 private $auditorias;
 
+/**
+ * @ORM\Column(type="boolean",nullable=true)
+ */
+private $publico;
+
 
 
 public function getRela(): ?bool
@@ -470,6 +475,18 @@ public function setRela(?bool $rela): self
                 $auditoria->setNorma(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublico(): ?bool
+    {
+        return $this->publico;
+    }
+
+    public function setPublico(bool $publico): self
+    {
+        $this->publico = $publico;
 
         return $this;
     }

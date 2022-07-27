@@ -33,6 +33,7 @@ use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
 use App\Repository\ItemRepository;
 use App\Repository\NormaRepository;
+use App\Service\ReparticionService;
 use App\Repository\ArchivoRepository;
 use App\Repository\UsuarioRepository;
 use App\Repository\EtiquetaRepository;
@@ -40,6 +41,7 @@ use App\Repository\RelacionRepository;
 use App\Repository\AuditoriaRepository;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TipoNormaRolRepository;
 use App\EventSubscriber\SecuritySubscriber;
 use Doctrine\Common\Collections\Collection;
 use Knp\Component\Pager\PaginatorInterface;
@@ -50,6 +52,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Date;
+use App\Repository\TipoNormaReparticionRepository;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -114,14 +117,27 @@ class NormaController extends AbstractController
     /**
      * @Route("/", name="norma_index", methods={"GET"})
      */
-    public function index(NormaRepository $normaRepository,SeguridadService $seguridad,Request $request, PaginatorInterface $paginator, TipoNormaRepository $tipoNorma, EtiquetaRepository $etiquetas, AreaRepository $areaRepository): Response
+    public function index(ReparticionService $reparticionService,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request, PaginatorInterface $paginator, TipoNormaRepository $tipoNorma, EtiquetaRepository $etiquetas, AreaRepository $areaRepository): Response
     {   
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
-        //si idSession = 0(no hay nadie logeado), lo toma como falso y entra al else
-        //dd($idSession);
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        $reparticionUsuario = $areaRepository->find($idReparticion);
+
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
         if($idSession){
-            $todasNormas=$normaRepository->findAllQueryS();
+            $todasNormas=$normaRepository->findAllQueryS($reparticionUsuario);
         }else{
             $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
         }
@@ -141,36 +157,6 @@ class NormaController extends AbstractController
         $normas->setCustomParameters([
             'align' => 'center',
         ]);
-
-        // $sesion=$this->get('session');
-        // $idSession=$sesion->get('session_id')*1;
-
-        
-        $idReparticion = $seguridad->getIdReparticionAction($idSession);
-        if($idReparticion){
-            $reparticionUsuario = $areaRepository->find($idReparticion);
-            //dd($reparticionUsuario);
-
-            $normasUsuario = [];
-            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-            }
-
-        }else{
-            $normasUsuario="";
-        }
-        
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
             'normas' => $normas,
@@ -190,7 +176,6 @@ class NormaController extends AbstractController
         $auditorias=$auditoriaRepository->findByNorma($norma);
         
         $auditoriasDeNorma = $paginator->paginate(
-            
             // Consulta Doctrine, no resultados
             $auditorias,
             // Definir el parámetro de la página
@@ -279,14 +264,12 @@ class NormaController extends AbstractController
     /**
      * @Route("/listas", name="listas", methods={"GET"})
      */
-    public function listas(AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
+    public function listas(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,TipoNormaReparticionRepository $tipoNormaReparticionRepository,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
-
         $listaDeRolesUsuario;
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             foreach ($roles as $unRol) {
@@ -299,21 +282,10 @@ class NormaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
         $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-        }
-
-        $listas=$normaRepository->findListas($listaDeRolesUsuario);
-        //dd($borradores);
-
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        $listas=$normaRepository->findListas($listaDeRolesUsuario,$reparticionUsuario);
         $normasListas = $paginator->paginate(
-            
             // Consulta Doctrine, no resultados
             $listas,
             // Definir el parámetro de la página
@@ -337,40 +309,27 @@ class NormaController extends AbstractController
     /**
      * @Route("/borrador", name="borrador", methods={"GET"})
      */
-    public function borrador(AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
+    public function borrador(ReparticionService $reparticionService,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
         $listaDeRolesUsuario;
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             foreach ($roles as $unRol) {
                 $listaDeRolesUsuario[]= $unRol["id"];
             }
-            // dd($roles);
             $rol=$roles[0]['id'];
-            //dd($rol);
         }else {
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
         $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-        }
-        //dd($listaDeRolesUsuario);
-        $borradores=$normaRepository->findBorradores($listaDeRolesUsuario);
-        //dd($borradores);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        $borradores=$normaRepository->findBorradores($listaDeRolesUsuario,$reparticionUsuario);
 
         $normasBorrador = $paginator->paginate(
-            
             // Consulta Doctrine, no resultados
             $borradores,
             // Definir el parámetro de la página
@@ -396,7 +355,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
-    public function busquedaRapida(AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    public function busquedaRapida(ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
         if($palabra=="-1"){
@@ -410,8 +369,6 @@ class NormaController extends AbstractController
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
@@ -420,21 +377,7 @@ class NormaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
-        if($idReparticion){
-            $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
-            $normasUsuario = [];
-            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-            }
-
-        }else{
-            $normasUsuario="";
-        }
-
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -484,7 +427,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/busquedaFiltro", name="busqueda_filtro", methods={"GET","POST"})
      */
-    public function busquedaFiltro(AreaRepository $areaRepository,PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
+    public function busquedaFiltro(ReparticionService $reparticionService,AreaRepository $areaRepository,PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {   
         $titulo=$request->query->get('titulo');//string
         $tipo=$request->query->get('tipoNorma');//string
@@ -509,20 +452,7 @@ class NormaController extends AbstractController
                 }
                 $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
-                if($idReparticion){
-                    $reparticionUsuario = $areaRepository->find($idReparticion);
-        
-        
-                    $normasUsuario = [];
-                    //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-                    foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                        $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-                    }
-        
-                }else{
-                    $normasUsuario="";
-                }
-
+                $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
                 //seccion paginator
                 // Paginar los resultados de la consulta
                 $normasP = $paginator->paginate(
@@ -570,7 +500,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/formularioBusquedaResult", name="formulario_busqueda_result", methods={"GET","POST"})
      */
-    public function formBusquedaResult(AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
+    public function formBusquedaResult(ReparticionService $reparticionService,AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
@@ -633,20 +563,7 @@ class NormaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
-        if($idReparticion){
-            $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
-            $normasUsuario = [];
-            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-            }
-
-        }else{
-            $normasUsuario="";
-        }
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         return $this->render('norma/indexAdmin.html.twig', [
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),
@@ -784,12 +701,11 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(AreaRepository $areaRepository,SeguridadService $seguridad, Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
+    public function new(ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad, Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -799,13 +715,9 @@ class NormaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
 
-        $reparticionUsuario = $areaRepository->find($idReparticion);
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
-        }
+        
         if(!in_array($id,$normasUsuario)){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }
@@ -861,8 +773,6 @@ class NormaController extends AbstractController
             $norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
 
-            
-            
             $item =$form['items']->getData();
             
             foreach ($item as $unItem) {
@@ -1181,7 +1091,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    public function edit(ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         $idTipoNorma=$norma->getTipoNorma()->getId();
         //dd($idTipoNorma);
@@ -1190,14 +1100,8 @@ class NormaController extends AbstractController
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
 
         $reparticionUsuario = $areaRepository->find($idReparticion);
-        //dd($reparticionUsuario);
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
-
-        }
-        //dd($idTipoNorma);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        
         if(!in_array($idTipoNorma,$normasUsuario,true)){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }

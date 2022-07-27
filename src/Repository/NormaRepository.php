@@ -42,18 +42,22 @@ class NormaRepository extends ServiceEntityRepository
     public function findAllQuery(): Query
     {
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
-        ->where("p.estado = 'Publicada'")
+        ->where("p.estado = 'Publicada'")->andWhere("p.publico = 1")
         ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
         return $query;
     }
     //la diferencia entre findAllQuery y findAllQueryS es que la segunda se usa si la sesion esta definida
     //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
-    public function findAllQueryS(): Query
+    public function findAllQueryS($reparticion): Query
     {
+        $consultaAux="p.estado = 'Publicada' AND p.publico =1";
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->where("tnr.reparticionId='".$reparticion->getId()."'")
+        ->orWhere($consultaAux)
         ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
+        // dd($query);
         return $query;
     }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
@@ -63,23 +67,34 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function findBorradores($roles){
+
+    public function findBorradores($roles,$reparticion){
+        // dd($reparticion->getId());
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
+        $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
+        ->orderBy('p.id','ASC');
         foreach ($roles as $rol) {
-            $consulta->andWhere("t.rol='".$rol."'");
+            $consulta->andWhere("tr.nombreRol='".$rol."'");
         }
+        $consulta->andWhere("tnr.reparticionId = '".$reparticion->getId()."'");
         //dd($consulta);
         $query=$consulta->getQuery();
+        //dd($query);
         return $query;
     }
 
-    public function findListas($roles){
+    public function findListas($roles,$reparticion){
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','ASC');
+        $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
+        ->orderBy('p.id','ASC');
         foreach ($roles as $rol) {
-            $consulta->andWhere("t.rol='".$rol."'");
+            $consulta->andWhere("tr.nombreRol='".$rol."'");
         }
+        $consulta->andWhere("tnr.reparticionId='".$reparticion->getId()."'");
         $query=$consulta->getQuery();
         return $query;
     }

@@ -7,8 +7,10 @@ use App\Form\TipoNormaType;
 use App\Form\TipoNormaRolType;
 use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
+use App\Service\ReparticionService;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TipoNormaRolRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,7 +64,7 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/nueva", name="norma_nueva", methods={"GET", "POST"})
      */
-    public function nuevoTipoNorma(AreaRepository $areaRepository,TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
+    public function nuevoTipoNorma(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,AreaRepository $areaRepository,TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -77,19 +79,21 @@ class TipoNormaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         $reparticionUsuario = $areaRepository->find($idReparticion);
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
-        }
 
+        $idTipoNorma=[];
+        $tiposDeNormas=[];
         if($rol=='DIG_OPERADOR'){
-            $tiposDeNormas=$tipoNormaRepository->findByRol('DIG_OPERADOR');
-        }
-        else{
-            $tiposDeNormas=$tipoNormaRepository->findAll();
+            $tiposDeNormasRol=$tipoNormaRolRepository->findByNombreRol('DIG_OPERADOR');
+            foreach ($tiposDeNormasRol as $unTipoNormaRol) {
+                $idTipoNorma[]=$unTipoNormaRol->getTipoNorma();
+            }
+            //idTipoNorma->array de los ids de tipos de norma del rol
+            foreach ($idTipoNorma as $id) {
+                $tiposDeNormas[]=$tipoNormaRepository->findOneById($id);
+            }
+
         }
         return $this->render('tipo_norma/newTipo.html.twig', [
             'tipo_normas' => $tiposDeNormas,
