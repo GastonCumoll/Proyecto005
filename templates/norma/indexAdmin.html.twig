@@ -186,7 +186,7 @@
                                 {% set bandera = 1 %}
                                 {% endif %}
                             {% endfor %}
-                            {% if bandera == 1 %}
+                            {% if bandera == 1 and norma.estado !="Publicada" %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% else %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>

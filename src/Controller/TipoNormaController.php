@@ -80,20 +80,23 @@ class TipoNormaController extends AbstractController
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        // dd($normasUsuario);
         $reparticionUsuario = $areaRepository->find($idReparticion);
 
         $idTipoNorma=[];
         $tiposDeNormas=[];
         if($rol=='DIG_OPERADOR'){
             $tiposDeNormasRol=$tipoNormaRolRepository->findByNombreRol('DIG_OPERADOR');
+            //dd($tiposDeNormasRol);
             foreach ($tiposDeNormasRol as $unTipoNormaRol) {
                 $idTipoNorma[]=$unTipoNormaRol->getTipoNorma();
             }
+            //dd($idTipoNorma);
             //idTipoNorma->array de los ids de tipos de norma del rol
             foreach ($idTipoNorma as $id) {
                 $tiposDeNormas[]=$tipoNormaRepository->findOneById($id);
             }
-
+            //dd($tiposDeNormas);
         }
         return $this->render('tipo_norma/newTipo.html.twig', [
             'tipo_normas' => $tiposDeNormas,

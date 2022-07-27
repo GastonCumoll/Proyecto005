@@ -116,7 +116,7 @@ $(document).ready(function()
                 $(e.target)
                 .prev()
                 .find("i:last-child")
-                .toggleClass("fa-solid fa-minus fa-solid fa-plus");
+                .toggleClass("fa-solid fa-minus fa-solid fa-circle-plus");
             });
         });
 
