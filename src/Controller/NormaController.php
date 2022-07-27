@@ -590,9 +590,10 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
+        
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-
+//dd($htmlModificado);
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
 
@@ -603,7 +604,7 @@ class NormaController extends AbstractController
         else{
             $mod=$htmlModificado;
         }
-
+        //dd($mod);
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',

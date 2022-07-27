@@ -20,7 +20,7 @@
                         </button>
                         <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
-                            {% if rol == "DIG_OPERADOR" %}
+                            {% if rol == "DIG_ADMINISTRADOR" %}
                                 <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
                                     Editar
                                 </a>
@@ -58,11 +58,8 @@
                                 <div class="">
                                     <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
                                         {{unItem.nombre}}
-                                        
-                                            
-                                        
                                     </button>
-                                    {% if rol == "DIG_OPERADOR" %}
+                                    {% if rol == "DIG_ADMINISTRADOR" %}
                                         <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
                                             Editar
                                         </a>

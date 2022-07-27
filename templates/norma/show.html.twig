@@ -28,9 +28,13 @@
         </div>
     </div>
 </div>
-
+<div>
+    <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+</div>
     <div class="container mt-3 mb-3">
+        
         <div class="card text-center shadow mb-5 bg-white rounded">
+            
             {% if norma.numero != null  %}
                 {% if norma.estado == "Borrador" %}
                     <div class="card-header bg-warning">
@@ -47,8 +51,8 @@
                         </h4>
                     </div>
                 {% else %}
-                    <div class="card-header">
-                        <h4>
+                    <div class="card-header ">
+                        <h4 class="d-inline">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {{ norma.numero }}
                         </h4>
@@ -89,12 +93,12 @@
                 <br>
                 
                 <div class="container" id="containerBotones">
-                    <div class="divBotones mt-3 mr-2">
+                    {# <div class="divBotones mt-3 mr-2">
                         <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
-                    </div>
+                    </div> #}
                     
                     <div class="divBotones mt-3 mr-2">
-                        <a href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
+                        <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                     </div>
                     {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
@@ -135,10 +139,14 @@
                                 </tbody>
                             {% endfor %}
                     </table>
+                    {#  #}
+                </div>
+                <div class="text-justify">
+                    {{(norma.texto) | purify}}
                 </div>
                 
                 <div class=" divBotonVolver mt-4  text-left d-inline">
-                    <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
+                    {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <a href="{{path('updateInstancia', {'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
                     {% endif %}

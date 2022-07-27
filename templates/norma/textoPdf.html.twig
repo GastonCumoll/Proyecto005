@@ -2,7 +2,20 @@
 {% block title %}{{id.getTitulo}}{% endblock %}
 
 {% block body %}
-{{ froala_display(id.texto) }}
+
+{{id.tipoNorma.nombre}} N°
+{{ id.numero }}
+<br>
+{{ id.titulo }}
+<br>
+Fecha de sanción: {{ id.fechaSancion ? id.fechaSancion|date('Y-m-d') : '' }}
+<br>
+Fecha de publicacion: {{ id.fechaPublicacion ? id.fechaPublicacion|date('Y-m-d') : '' }}
+<br>
+Resumen: {{ id.resumen }}
+<br>
+
+{{(id.texto) | purify}}
 
 
 
