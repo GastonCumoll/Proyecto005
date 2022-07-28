@@ -234,3 +234,16 @@
 .col-teal {
     color: #47BCCA !important;
 }
+
+
+#contenedorBotonVolver{
+    display: inline-block !important;
+}
+
+#botonVolverAtras{
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 1.2rem !important;
+    padding-left: 0.6rem !important;
+    
+}

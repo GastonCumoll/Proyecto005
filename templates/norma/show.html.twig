@@ -10,6 +10,7 @@
 {% block addStyleSheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('normaShow') }}
+    {{ encore_entry_link_tags('scrollCss') }}
 {% endblock %}
 
 
@@ -28,9 +29,9 @@
         </div>
     </div>
 </div>
-<div>
-    <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a>
-</div>
+{# <div id="contenedorBotonVolver">
+    <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
+</div> #}
     <div class="container mt-3 mb-3">
         
         <div class="card text-center shadow mb-5 bg-white rounded">
@@ -52,7 +53,7 @@
                     </div>
                 {% else %}
                     <div class="card-header ">
-                        <h4 class="d-inline">
+                        <h4>
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {{ norma.numero }}
                         </h4>
@@ -159,9 +160,14 @@
                 </div>
             </div>
         </div>
+        
+    </div>
+    <div>
+        <span class="ir-arriba"><i class="fa-solid fa-circle-chevron-up"></i></span>
     </div>
 {% block javascripts %}
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}
+        {{encore_entry_script_tags('scroll')}}
     {% endblock  %}  
 {% endblock %}

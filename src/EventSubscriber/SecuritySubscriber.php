@@ -51,7 +51,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 //Norma
                 'norma_index'=>[],
                 'norma_show'=>[],
-                'norma_edit'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'norma_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'texto_edit'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'normas_ajax'=>[],
                 'mostrar_pdf'=>[],
@@ -70,6 +70,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'borrador' =>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'agregar_archivo'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'trayecto_norma' => ['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
+                'back_borrador'=>['DIG_OPERADOR'],
 
 
                 //Relacion
@@ -89,7 +90,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 
                 //Tipo Norma
                 'tipo_norma_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'norma_nueva'=>['DIG_OPERADOR'],
+                'norma_nueva'=>['DIG_OPERADOR','DIG_ADMINISTRADOR'],
                 'tipo_norma_new'=>['DIG_ADMINISTRADOR'],
                 'tipo_norma_show'=>['DIG_ADMINISTRADOR'],
                 'tipo_norma_edit'=>['DIG_ADMINISTRADOR'],
@@ -165,6 +166,21 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'usuario_edit'=>['DIG_OPERADOR'],
                 'usuario_delete'=>['DIG_OPERADOR'],
 
+                // Tipo Norma Reparticion
+                'tipo_norma_reparticion_index'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
+                'tipo_norma_reparticion_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_reparticion_show'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_reparticion_edit'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_reparticion_delete'=>['DIG_ADMINISTRADOR'],
+                'reparticion_norma'=>['DIG_ADMINISTRADOR'],
+
+                //Tipo Norma Rol
+                'tipo_norma_rol_index'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_rol_new'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_rol_show'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_rol_edit'=>['DIG_ADMINISTRADOR'],
+                'tipo_norma_rol_delete'=>['DIG_ADMINISTRADOR'],
+                'rol_tipo_norma'=>['DIG_ADMINISTRADOR'],
 
                 // // Entidades
 

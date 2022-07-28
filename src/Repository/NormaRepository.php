@@ -62,11 +62,32 @@ class NormaRepository extends ServiceEntityRepository
     }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
-        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.id','DESC');
+        $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+        ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->andWhere($consultaAux)
+        ->orderBy('p.id','DESC');
         $query=$retorno->getQuery();
+        // dd($query);
         return $query;
     }
-
+    public function findUnaPalabraDentroDelTituloSession($roles,$reparticion,$palabra): Query
+    {
+        //$consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+        ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')->orderBy('p.id','DESC');
+        //->andWhere($consultaAux)
+        foreach ($roles as $rol) {
+            $retorno->andWhere("tr.nombreRol='".$rol."'");
+        }
+        $retorno->andWhere("tnr.reparticionId = '".$reparticion->getId()."'");
+        
+        $query=$retorno->getQuery();
+        // dd($query);
+        return $query;
+    }
 
     public function findBorradores($roles,$reparticion){
         // dd($reparticion->getId());
@@ -109,7 +130,6 @@ class NormaRepository extends ServiceEntityRepository
         $consulta1="";
         if($arrayDeNormas){//entra si hay mas de una norma
             //if(count($arrayDeNormas)>1){
-
                 //$consulta->where('p.id = :id');
                 for ($i=0; $i < $tam; $i++) {
                     if($i==0){
@@ -136,7 +156,9 @@ class NormaRepository extends ServiceEntityRepository
                         }
                         $consulta1.= ")";
                 }
+                
                 $consulta=$this->createQueryBuilder('p')->where($consulta1);
+
             //dd($consulta1);
             //}
         }else{
@@ -152,14 +174,82 @@ class NormaRepository extends ServiceEntityRepository
                         $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
                     }
         }
-
-        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->orderBy('p.titulo','ASC');
+        $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->andWhere($consultaAux)->orderBy('p.titulo','ASC');
         $query=$consulta->getQuery();
         //dd($query);
         return $query;
     
     }
 
+    //busqueda de los filtros con session
+    public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion): Query 
+    {
+        $cont=0;
+        $tam=count($arrayDeNormas);
+        
+        $consulta=$this->createQueryBuilder('p');
+        $consulta1="";
+        if($arrayDeNormas){//entra si hay mas de una norma
+            //if(count($arrayDeNormas)>1){
+                //$consulta->where('p.id = :id');
+                for ($i=0; $i < $tam; $i++) {
+                    if($i==0){
+                        $consulta1.= "(p.id = ".$arrayDeNormas[$i]->getId();
+                    //     $consulta->setParameter('id',$arrayDeNormas[$i]);
+                    }else{
+                        $consulta1.= "OR(p.id = " .$arrayDeNormas[$i]->getId();
+                    //     $consulta->orWhere($consulta->expr()->orX(
+                    //     'p.id = :id'))->setParameter('id',$arrayDeNormas[$i]);
+                    }
+                        if($titulo){
+                            $consulta1.= " AND p.titulo LIKE '%".$titulo."%'";
+                            //$consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+                        }if($numero){
+                            $consulta1.= " AND p.numero LIKE '%".$numero."%'";
+                            //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+                        }if($año){
+                            $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%'" ;
+                            //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
+                        }
+                        if($tipo){
+                            $consulta1.= " AND p.tipoNorma = ".$tipo;
+                            //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
+                        }
+                        $consulta1.= ")";
+                }
+                
+                $consulta=$this->createQueryBuilder('p')->where($consulta1);
+
+            //dd($consulta1);
+            //}
+        }else{
+            
+            if($titulo){
+                    $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+                    }if($numero){
+                        $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+                    }if($año){
+                        $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
+                    }
+                    if($tipo){
+                        $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
+                    }
+        }
+        $consultaAux="(tnr.reparticionId='".$reparticion->getId()."' OR p.estado = 'Publicada' AND p.publico =1)";
+        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
+        ->andWhere($consultaAux)
+        //->andWhere("tnr.reparticionId='".$reparticion->getId()."'")
+        
+        ->orderBy('p.titulo','ASC');
+        $query=$consulta->getQuery();
+        //dd($query);
+        return $query;
+
+    }
+    
     public function findNormasEtiqueta($normasEtiquetas): Query
     {
         $tam=count($normasEtiquetas);

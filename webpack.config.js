@@ -38,7 +38,7 @@ Encore
     .addEntry('consulta', './assets/consulta.js')
     .addEntry('redireccionLogout', './assets/redireccionLogout.js')
     
-    
+    .addStyleEntry('scroll', '/assets/styles/scroll.css')
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
     .addStyleEntry('boton', '/assets/styles/boton.css')

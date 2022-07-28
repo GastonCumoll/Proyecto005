@@ -32,53 +32,53 @@ class TipoNormaRolController extends AbstractController
     }
 
     /**
- * @Route("/rolTipoNorma/{id}", name="rol_tipo_norma", methods={"GET"})
- */
-public function rolTipoNorma(TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id,AreaRepository $areaRepository,SeguridadService $seguridad): Response
-{
-    $rolesTipo=[];
-    $tipoNorma=$tipoNormaRepository->findById($id);
-    //$tipoNorma=$tipoNormaRepository->findById($id);
-    $tipo=$tipoNorma[0];
-    $rolDeTipo=$tipoNorma[0]->getTipoNormaRoles();
-    // dd($rolDeTipo);
-    foreach ($rolDeTipo as $r) {
-        $rolesTipo[]=$r;
+     * @Route("/rolTipoNorma/{id}", name="rol_tipo_norma", methods={"GET"})
+     */
+    public function rolTipoNorma(TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id,AreaRepository $areaRepository,SeguridadService $seguridad): Response
+    {
+        $rolesTipo=[];
+        $tipoNorma=$tipoNormaRepository->findById($id);
+        //$tipoNorma=$tipoNormaRepository->findById($id);
+        $tipo=$tipoNorma[0];
+        $rolDeTipo=$tipoNorma[0]->getTipoNormaRoles();
+        // dd($rolDeTipo);
+        foreach ($rolDeTipo as $r) {
+            $rolesTipo[]=$r;
+        }
+        // if(!$rolesTipo){
+        //     $rolesTipo[]="";
+        // }
+
+        
+
+            $sesion=$this->get('session');
+            $idSession=$sesion->get('session_id')*1;
+            if($seguridad->checkSessionActive($idSession)){
+                
+                // dd($idSession);
+                $roles=json_decode($seguridad->getListRolAction($idSession), true);
+                // dd($roles);
+                $rol=$roles[0]['id'];
+                // dd($rol);
+            }else {
+                $rol="";
+            }
+            $idReparticion = $seguridad->getIdReparticionAction($idSession);
+
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+            $normasUsuario = [];
+            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
+            }
+        //dd($rolesTipo);
+        //dd($reparticionesDeNorma);
+        return $this->render('tipo_norma_rol/index.html.twig', [
+            'tipoNorma' => $tipo,
+            'rol'=>$rol,
+            'roles'=>$rolesTipo
+        ]);
     }
-    // if(!$rolesTipo){
-    //     $rolesTipo[]="";
-    // }
-
-    
-
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
-        $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
-        $reparticionUsuario = $areaRepository->find($idReparticion);
-        $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
-        }
-    //dd($rolesTipo);
-    //dd($reparticionesDeNorma);
-    return $this->render('tipo_norma_rol/index.html.twig', [
-        'tipoNorma' => $tipo,
-        'rol'=>$rol,
-        'roles'=>$rolesTipo
-    ]);
-}
 
     /**
      * @Route("/new/{id}", name="tipo_norma_rol_new", methods={"GET", "POST"})

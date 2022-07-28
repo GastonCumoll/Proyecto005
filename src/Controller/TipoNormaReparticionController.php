@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\SeguridadService;
 use App\Repository\NormaRepository;
 use App\Entity\TipoNormaReparticion;
 use App\Form\TipoNormaReparticionType;
@@ -31,17 +32,28 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/reparticionNorma/{id}", name="reparticion_norma", methods={"GET"})
      */
-    public function reparticionNorma(TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id): Response
+    public function reparticionNorma(SeguridadService $seguridad,TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id): Response
     {
-        $rol="DIG_ADMINISTRADOR";
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
         $tipoNorma=$tipoNormaRepository->findById($id);
         $tipo=$tipoNorma[0];
         $reparticionesDeNorma=[];
-        //dd($tipoNorma[0]->getTipoNormaReparticions());
+
         foreach ($tipoNorma[0]->getTipoNormaReparticions() as $repa) {
             $reparticionesDeNorma[]=$repa->getReparticionId();
         }
-        //dd($reparticionesDeNorma);
+
         return $this->render('tipo_norma_reparticion/index.html.twig', [
             'reparticionesDeNorma' => $reparticionesDeNorma,
             'tipoNorma' => $tipo,

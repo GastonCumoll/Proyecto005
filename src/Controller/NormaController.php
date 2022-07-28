@@ -122,20 +122,22 @@ class NormaController extends AbstractController
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
+        //dd($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
-        $reparticionUsuario = $areaRepository->find($idReparticion);
-
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }
+        
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
+            //dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
             $rol="";
         }
-
+        
         if($idSession){
             $todasNormas=$normaRepository->findAllQueryS($reparticionUsuario);
         }else{
@@ -192,9 +194,9 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/updateInstancia/{id}", name="updateInstancia")
+     * @Route("/updateInstancia/{id}/{b}", name="updateInstancia")
      */
-    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id)
+    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id,$b)
     {
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
@@ -235,6 +237,7 @@ class NormaController extends AbstractController
             $norma->setEstado("Publicada");
             $norma->setInstancia(3);
             $auditoria->setAccion("Publicacion");
+            $norma->setPublico($b);
             $entityManager->persist($auditoria);
             $entityManager->persist($norma);
             //$entityManager->persist($userObj);
@@ -254,13 +257,47 @@ class NormaController extends AbstractController
             $entityManager->persist($norma);
             $entityManager->flush();
 
-            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
         }
         //$entityManager->flush();
 
         return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
     }
+/**
+     * @Route("/backBorrador/{id}", name="back_borrador")
+     */
+    public function backBorrador(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id)
+    {
+        $norma=$normaRepository->find($id);
+        $estadoNorma=$norma->getEstado();
+        $today=new DateTime();
 
+        //obtener el nombre del usuario logeado;
+        $session=$this->get('session');
+        $usuario=$session->get('username');
+
+        $auditoria=new Auditoria();
+
+        $auditoria->setNorma($norma);
+        $auditoria->setNombreUsuario($usuario);
+        $auditoria->setFecha($today);
+
+        if($estadoNorma=="Lista"){
+            $auditoria->setInstanciaAnterior($norma->getInstancia());
+            $auditoria->setInstanciaActual(1);
+            $auditoria->setEstadoAnterior($norma->getEstado());
+            $auditoria->setEstadoActual("Borrador");
+            $norma->setEstado("Borrador");
+            $norma->setInstancia(1);
+            $auditoria->setAccion("Vuelta a borrador");
+            $entityManager->persist($auditoria);
+            $entityManager->persist($norma);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+    }
     /**
      * @Route("/listas", name="listas", methods={"GET"})
      */
@@ -357,19 +394,14 @@ class NormaController extends AbstractController
      */
     public function busquedaRapida(ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
-        //dd($palabra);
-        if($palabra=="-1"){
-            $normasQuery=$normaRepository->createQueryBuilder('p')
-            ->getQuery();   
-        }else{
-            $palabra=str_replace("§","/",$palabra);
-            $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
-        }
-
+        $listaDeRolesUsuario;
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
             // dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
@@ -378,6 +410,28 @@ class NormaController extends AbstractController
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }
+        //pregunto si estoy logeado
+        if(!$idSession){
+            //si no hay nadie logueado, hace la busqueda por la palabra que ingrese(o busca todas si no ingrese palabra(-1))
+            if($palabra=="-1"){
+                $normasQuery=$normaRepository->findAllQuery();
+            }else{
+                $palabra=str_replace("§","/",$palabra);
+                $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
+            }
+        }else{
+            //si hay session, filtra por roles(listaDeRolesUsuario) y reparticion(reparticionUsuario) y la palabra ingresada
+            if($palabra=="-1"){
+                $normasQuery=$normaRepository->findAllQueryS($reparticionUsuario);
+            }else{
+                $palabra=str_replace("§","/",$palabra);
+                $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
+            }
+        }
+        
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -391,7 +445,6 @@ class NormaController extends AbstractController
             'align' => 'center',
         ]);
         return $this->render('norma/indexAdmin.html.twig', [
-            
             'normas' => $normas,
             'rol' => $rol,
             'tipoNormas' => $tipo->findAll(),
@@ -429,6 +482,22 @@ class NormaController extends AbstractController
      */
     public function busquedaFiltro(ReparticionService $reparticionService,AreaRepository $areaRepository,PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {   
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){                    
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }
         $titulo=$request->query->get('titulo');//string
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
@@ -436,40 +505,30 @@ class NormaController extends AbstractController
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
         //dd($titulo);
         $arrayDeEtiquetas=[];
-        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
+        //pregunta si hay alguien logeado, si no hay nadie,usa findNormas, si hay alguien logeado, busca findNormasSession y le pasa la reparticion del usuario logeado
+        if(!$idSession){
+            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
+        }else{
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario);
+        }
         
-        $sesion=$this->get('session');
-                $idSession=$sesion->get('session_id')*1;
-                if($seguridad->checkSessionActive($idSession)){
-                    
-                    // dd($idSession);
-                    $roles=json_decode($seguridad->getListRolAction($idSession), true);
-                    // dd($roles);
-                    $rol=$roles[0]['id'];
-                    // dd($rol);
-                }else {
-                    $rol="";
-                }
-                $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
-                $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
-                //seccion paginator
-                // Paginar los resultados de la consulta
-                $normasP = $paginator->paginate(
-                // Consulta Doctrine, no resultados
-                $normas,
-                // Definir el parámetro de la página
-                $request->query->getInt('page', 1),
-                // Items per page
-                10
-                );
-                return $this->renderForm('norma/indexAdmin.html.twig', [
-                    'etiquetas' => $etiquetaRepository->findAll(),
-                    'tipoNormas' =>$tipoNormaRepository->findAll(),
-                    'normas' => $normasP,
-                    'rol' => $rol,
-                    'normasUsuario' => $normasUsuario,
-                ]);
+        //seccion paginator
+        // Paginar los resultados de la consulta
+        $normasP = $paginator->paginate(
+        // Consulta Doctrine, no resultados
+        $normas,
+        // Definir el parámetro de la página
+        $request->query->getInt('page', 1),
+        // Items per page
+        10
+        );
+        return $this->renderForm('norma/indexAdmin.html.twig', [
+            'etiquetas' => $etiquetaRepository->findAll(),
+            'tipoNormas' =>$tipoNormaRepository->findAll(),
+            'normas' => $normasP,
+            'rol' => $rol,
+            'normasUsuario' => $normasUsuario,
+        ]);
     }
 
     /**
@@ -502,6 +561,26 @@ class NormaController extends AbstractController
      */
     public function formBusquedaResult(ReparticionService $reparticionService,AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
+        
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }
+
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
@@ -528,12 +607,17 @@ class NormaController extends AbstractController
             //}
         }
         //dd($arrayDeNormas);
-        
+
 
         //dd($arrayDeNormas);
         
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento ¿porque no me trae un array?
-        $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
+        if(!$idSession){
+            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
+        }else{
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario);
+        }
+        
         //dd($normas);
         //dd($normas->getResult());
         //seccion paginator
@@ -550,20 +634,6 @@ class NormaController extends AbstractController
             'align' => 'center',
         ]);
 
-        $sesion=$this->get('session');
-        $idSession=$sesion->get('session_id')*1;
-        if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
-            $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
-            $rol=$roles[0]['id'];
-            // dd($rol);
-        }else {
-            $rol="";
-        }
-        $idReparticion = $seguridad->getIdReparticionAction($idSession);
-        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         return $this->render('norma/indexAdmin.html.twig', [
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),
@@ -593,7 +663,7 @@ class NormaController extends AbstractController
         
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-//dd($htmlModificado);
+        //dd($htmlModificado);
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
 
@@ -702,7 +772,7 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad, Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
+    public function new(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad, Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -715,11 +785,16 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
+        $normasU=[];
+        $normasUsuarioObj=[];
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
 
-        
-        if(!in_array($id,$normasUsuario)){
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        if(!in_array($id,$normasU)){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
@@ -1092,7 +1167,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         $idTipoNorma=$norma->getTipoNorma()->getId();
         //dd($idTipoNorma);
@@ -1102,8 +1177,11 @@ class NormaController extends AbstractController
 
         $reparticionUsuario = $areaRepository->find($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
-        
-        if(!in_array($idTipoNorma,$normasUsuario,true)){
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        if(!in_array($idTipoNorma,$normasU,true)){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }
 

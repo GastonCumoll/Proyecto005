@@ -1,0 +1,13 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.ir-arriba {
+	display:none;
+	padding:20px;
+	font-size:4rem !important;
+	color:#0275d8;
+	cursor:pointer;
+	position: fixed;
+	bottom:100px;
+    left: 90vw !important;
+	float: left !important;
+}
