@@ -4,7 +4,16 @@
 
 {% block body %}
     <h1>Reparticiones del tipo de norma {{tipoNorma.nombre}}</h1>
-
+    <br>
+    <br>
+    {% if rol=="DIG_ADMINISTRADOR" %}
+        <div id="contenedorBotonVolver" class="text-left mt-1">
+            <a href="{{path('tipo_norma_index')}}" class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+        </div>
+        <a href="{{ path('tipo_norma_reparticion_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+    {% endif %}
+    <br>
+    <br>
     <div class="table-responsive">
         <table class="table table-hover ">
             <thead class="table-active" >
@@ -41,7 +50,5 @@
         </tbody>
     </table>
     </div>
-    {% if rol=="DIG_ADMINISTRADOR" %}
-    <a href="{{ path('tipo_norma_reparticion_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-info btn-sm">Agregarle reparticion a {{tipoNorma}}</button> </a>
-    {% endif %}
+
 {% endblock %}

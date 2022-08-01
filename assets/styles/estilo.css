@@ -243,7 +243,10 @@
 #botonVolverAtras{
     width: 2rem !important;
     height: 2rem !important;
-    font-size: 1.2rem !important;
+    font-size: 1rem !important;
     padding-left: 0.6rem !important;
     
+}
+.h4{
+    margin-right: 38% !important;
 }

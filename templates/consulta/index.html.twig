@@ -5,6 +5,11 @@
 {% block body %}
     <h1>Consultas</h1>
 
+    <div id="contenedorBotonVolver" class="text-left mt-1">
+        <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+    </div>
+    <br>
+    <br>
     <div class="table-responsive">
         <table class="table table-hover ">
             <thead class="table-active" >
@@ -37,7 +42,7 @@
         <div class="navigation">
             {{ knp_pagination_render(consultas) }}
         </div>
-        <a href="{{ path('tipo_consulta_new') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button></a>
+
     </div>
     {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}

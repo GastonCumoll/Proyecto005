@@ -38,22 +38,32 @@
             
             {% if norma.numero != null  %}
                 {% if norma.estado == "Borrador" %}
-                    <div class="card-header bg-warning">
-                        <h4>
+                
+                    <div class="card-header bg-warning text-left">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
+                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                        </div>
+                        <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                         {{ norma.numero }}(borrador)
                         </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
-                    <div class="card-header bg-success">
-                        <h4>
+                    <div class="card-header bg-success text-left">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
+                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                        </div>
+                        <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {{ norma.numero }} 
                         </h4>
                     </div>
                 {% else %}
-                    <div class="card-header ">
-                        <h4>
+                    <div class="card-header text-left">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
+                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                        </div>
+                        <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {{ norma.numero }}
                         </h4>
