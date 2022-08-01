@@ -117,25 +117,32 @@ class TipoNormaRolController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tipo_norma_rol_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit/{t}", name="tipo_norma_rol_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, TipoNormaRol $tipoNormaRol, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
+    public function edit($t,Request $request, TipoNormaRolRepository $tipoNormaRolRepository, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
-        $tipoNorma=$tipoNormaRepository->findById($id);
-
-        $form = $this->createForm(TipoNormaRolType::class, $tipoNormaRol);
+        $tipoNorma=$tipoNormaRepository->findOneById($t);
+        //$tipo=$tipoNormaRepository->findById($t);
+        $tipoN=$tipoNormaRolRepository->findOneById($id);
+        //dd($tipoN);
+        // $tipoNormaRol=$tipoNormaRolRepository->findByTipoNorma($tipo);
+        // dd($tipoNormaRol);
+        $form = $this->createForm(TipoNormaRolType::class, $tipoN);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $rol=$form->get('nombreRol')->getData();
+            $tipoN->setNombreRol($rol);
+            $entityManager->persist($tipoN);
             $entityManager->flush();
 
-            return $this->redirectToRoute('rol_tipo_norma', ['id'=>$id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('rol_tipo_norma', ['id'=>$t], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('tipo_norma_rol/edit.html.twig', [
-            'tipo_norma_rol' => $tipoNormaRol,
+            'tipo_norma_rol' => $tipoN,
             'form' => $form,
-            'tipoNorma'=>$tipoNorma[0],
+            'tipoNorma'=>$tipoNorma,
         ]);
     }
 
@@ -144,11 +151,13 @@ class TipoNormaRolController extends AbstractController
      */
     public function delete(Request $request, TipoNormaRol $tipoNormaRol, EntityManagerInterface $entityManager): Response
     {
+        $tipo=$tipoNormaRol->getTipoNorma()->getId();
+        
         if ($this->isCsrfTokenValid('delete'.$tipoNormaRol->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tipoNormaRol);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tipo_norma_rol_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('rol_tipo_norma', ['id'=>$tipo], Response::HTTP_SEE_OTHER);
     }
 }

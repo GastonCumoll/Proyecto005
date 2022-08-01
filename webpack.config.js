@@ -37,8 +37,9 @@ Encore
     .addEntry('redireccion', './assets/redireccion.js')
     .addEntry('consulta', './assets/consulta.js')
     .addEntry('redireccionLogout', './assets/redireccionLogout.js')
+    .addEntry('scroll', './assets/scroll.js')
+
     
-    .addStyleEntry('scroll', '/assets/styles/scroll.css')
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
     .addStyleEntry('boton', '/assets/styles/boton.css')
@@ -51,7 +52,7 @@ Encore
     .addStyleEntry('botonKnp', '/assets/styles/botonKnp.css')
     .addStyleEntry('indexAdmin','/assets/styles/indexAdmin.css')
     .addStyleEntry('index','/assets/styles/index.css')
-    
+    .addStyleEntry('scrollCss', '/assets/styles/scroll.css')
     
 
 

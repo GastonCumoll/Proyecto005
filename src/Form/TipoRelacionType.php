@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\TipoRelacion;
 use Symfony\Component\Form\AbstractType;
+use App\Repository\TipoRelacionRepository;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TipoRelacionType extends AbstractType
@@ -13,8 +15,16 @@ class TipoRelacionType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('prioridad')
-            ->add('inverso')
+            ->add('inverso',EntityType::class,[
+                'required' => false,
+                'class' => TipoRelacion::class,
+                'query_builder' => function(TipoRelacionRepository $t){
+                    return $t->createQueryBuilder('t')->where('t.prioridad = 1')->andWhere('t.inverso = 0')->orderBy('t.nombre','ASC');
+                },
+                'choice_label' => 'nombre',
+                'multiple' => false
+                ])
+            // ->add('prioridad')
         ;
     }
 

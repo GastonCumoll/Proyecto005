@@ -20,6 +20,7 @@
         </thead>
         <tbody>
             {% for tipo_relacion in tipo_relacions %}
+            {% if tipo_relacion.id != 0 %}
             <tr>
                 <td>
                     {{tipo_relacion.id}}
@@ -36,6 +37,8 @@
                 
 
             </tr>
+            {% endif %}
+            
         {% else %}
             <tr>
                 <td colspan="3">no se encontraron registros</td>

@@ -28,6 +28,39 @@ class TipoNormaReparticionController extends AbstractController
             'tipo_norma_reparticions' => $tipoNormaReparticionRepository->findAll(),
         ]);
     }
+    
+    /**
+     * @Route("/{id}/edit/{t}", name="tipo_norma_reparticion_edit", methods={"GET", "POST"})
+     */
+    public function edit($id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository,$t): Response
+    {
+        $tipo=$tipoNormaRepository->findById($t);
+        
+        $tipoNormaReparticion=$tipoNormaReparticionRepository->findByReparticionId($id);
+        foreach ($tipoNormaReparticion as $tpr) {
+            if($tpr->getTipoNormaId()==$t){
+                $tipoNR=$tpr;
+            }
+        }
+        
+        $form = $this->createForm(TipoNormaReparticionType::class, $tpr);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $repa=$form->get('reparticionId')->getData();
+            $tpr->setReparticionId($repa);
+            $entityManager->persist($tpr);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('reparticion_norma', ['id'=>$t], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('tipo_norma_reparticion/edit.html.twig', [
+            'tipo_norma_reparticion' => $tipoNormaReparticion,
+            'form' => $form,
+            'tipoNorma' =>$tipo[0],
+        ]);
+    }
 
     /**
      * @Route("/reparticionNorma/{id}", name="reparticion_norma", methods={"GET"})
@@ -100,38 +133,23 @@ class TipoNormaReparticionController extends AbstractController
         ]);
     }
 
+
     /**
-     * @Route("/{id}/edit", name="tipo_norma_reparticion_edit", methods={"GET", "POST"})
+     * @Route("/{id}/{t}", name="tipo_norma_reparticion_delete", methods={"POST"})
      */
-    public function edit(Request $request, TipoNormaReparticion $tipoNormaReparticion, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
+    public function delete($t,$id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager): Response
     {
-        $tipo=$tipoNormaRepository->findById($id);
-        $form = $this->createForm(TipoNormaReparticionType::class, $tipoNormaReparticion);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('tipo_norma_reparticion_index', [], Response::HTTP_SEE_OTHER);
+        $tnr=$tipoNormaReparticionRepository->findByTipoNormaId($t);
+        foreach ($tnr as $tnrNorma) {
+            if($tnrNorma->getReparticionId()->getId()==$id){
+                $tnrDelete=$tnrNorma;
+            }
         }
-
-        return $this->renderForm('tipo_norma_reparticion/edit.html.twig', [
-            'tipo_norma_reparticion' => $tipoNormaReparticion,
-            'form' => $form,
-            'tipoNorma' =>$tipo[0],
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="tipo_norma_reparticion_delete", methods={"POST"})
-     */
-    public function delete(Request $request, TipoNormaReparticion $tipoNormaReparticion, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$tipoNormaReparticion->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tipoNormaReparticion);
+        if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
+            $entityManager->remove($tnrDelete);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('tipo_norma_reparticion_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('reparticion_norma',['id'=>$t], Response::HTTP_SEE_OTHER);
     }
 }

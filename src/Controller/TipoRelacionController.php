@@ -60,17 +60,22 @@ class TipoRelacionController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,TipoRelacionRepository $tipoRelacionRepository): Response
     {
+        $inversoBase=$tipoRelacionRepository->findOneById(0);
+        //dd($inversoBase);
         $tipoRelacion = new TipoRelacion();
         $form = $this->createForm(TipoRelacionType::class, $tipoRelacion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             $inverso =$form['inverso']->getData();
             if($inverso!=null){
                 $inverso->setInverso($tipoRelacion);
                 $entityManager->persist($tipoRelacion);
                 $entityManager->persist($inverso);
+            }else{
+                $tipoRelacion->setPrioridad(1);
+                $tipoRelacion->setInverso($inversoBase);
             }
 
             $entityManager->persist($tipoRelacion);
@@ -120,8 +125,17 @@ class TipoRelacionController extends AbstractController
      */
     public function delete(Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
     {
+        //$tipoRelacion=$tipoRelacionRepository->findOneById($id);
+        $inverso=$tipoRelacion->getInverso();
+        $tipoRelacion->setInverso(NULL);
+        $inverso->setInverso(NULL);
+        $entityManager->persist($tipoRelacion);
+        $entityManager->persist($inverso);
+        $entityManager->flush();
+        // dd($inverso->getInverso());
         if ($this->isCsrfTokenValid('delete'.$tipoRelacion->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tipoRelacion);
+            $entityManager->remove($inverso);
             $entityManager->flush();
         }
 

@@ -2,6 +2,10 @@
 
 {% block title %}Edit TipoRelacion{% endblock %}
 
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('createCss') }}
+{% endblock %}
 {% block body %}
     <h1>Editar Tipo de relacion</h1>
     <div class="container text-left" >
