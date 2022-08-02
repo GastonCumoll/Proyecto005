@@ -30,7 +30,7 @@ $(document).ready(function()
                 $(".collapse").on("shown.bs.collapse", function() {
                     localStorage.setItem("coll_" + this.id, true);
                 });
-            if(prevUrl.includes("norma") || prevUrl.includes("indice")){
+            if(prevUrl.includes("norma") ){
                 $(".collapse").each(function() {
                     if (localStorage.getItem("coll_" + this.id) == "true") {
                         $(this).collapse("show");

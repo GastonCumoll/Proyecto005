@@ -4,8 +4,7 @@
 
 {% block body %}
     <h1>Reparticiones del tipo de norma {{tipoNorma.nombre}}</h1>
-    <br>
-    <br>
+
     {% if rol=="DIG_ADMINISTRADOR" %}
         <div id="contenedorBotonVolver" class="text-left mt-1">
             <a href="{{path('tipo_norma_index')}}" class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>

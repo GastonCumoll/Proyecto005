@@ -41,7 +41,7 @@
                 
                     <div class="card-header bg-warning text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
@@ -51,7 +51,7 @@
                 {% elseif norma.estado == "Lista" %}
                     <div class="card-header bg-success text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
@@ -61,7 +61,7 @@
                 {% else %}
                     <div class="card-header text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a href="{{path('norma_index')}}"}} class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
@@ -168,19 +168,26 @@
                 <div class=" divBotonVolver mt-4  text-left d-inline">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and rol =="DIG_OPERADOR" %}
-                        <a href="{{path('updateInstancia', {'id':norma.id,'b':1})}}"><button type="button" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button></a>
+                        <form action="{{path('updateInstancia')}}" method="post">
+                            <input type="hidden" name="normaId" value="{{norma.id}}">
+                            <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                        </form>
+                        
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and rol =="DIG_EDITOR" %}
-                        <label><input type="checkbox" id="cbox1" value="first_checkbox">Publicar interno</label>
-                        <a href="{{path('updateInstancia', {'id':norma.id,'b':1})}}"><button type="button" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button></a>
-                        
-                    
-                        {# <a href="{{path('updateInstancia', {'id':norma.id,'b':0})}}"><button type="button" class="btn btn-danger" id="botonVolver">Publicar interno<i class="fa-solid fa-check-double"></i></button></a> #}
+                    <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                    <form action="{{path('updateInstancia')}}" method="post">    
+                        <label><input type="checkbox" id="cbox1" name="checkbox" value="true">Publicar interno</label>
+                        <input type="hidden" name="normaId" value="{{norma.id}}">
+                        <button type="submit" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
+                    </form>
                     {% endif %}
-                    
-
                     {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}
-                        <a href="{{path('updateInstancia', {'id':norma.id,'b':1})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                        <form action="{{path('updateInstancia')}}" method="post">
+                            <input type="hidden" name="normaId" value="{{norma.id}}">
+                            <button type="submit" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                        </form>
+                        {# <a href="{{path('updateInstancia')}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a> #}
                     {% endif %}
                 </div>
             </div>

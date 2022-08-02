@@ -5,10 +5,10 @@
 
     <p>
         No tiene los permisos para ingresar a la pagina solicitada. Se le redireccionará al login...
-        {# Si quiere ingresar
-        con un usuario habilitado, redirigase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>. #}
+        Si quiere ingresar
+        con un usuario habilitado, redirigase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
     </p>
     {% block javascripts %}
-    {{encore_entry_script_tags('redireccionLogout')}}
+    {# {{encore_entry_script_tags('redireccionLogout')}} #}
     {% endblock %}
 {% endblock %}

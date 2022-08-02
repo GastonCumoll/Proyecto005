@@ -70,7 +70,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'borrador' =>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'agregar_archivo'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'trayecto_norma' => ['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
-                'back_borrador'=>['DIG_OPERADOR'],
+                'back_borrador'=>['DIG_EDITOR'],
 
 
                 //Relacion

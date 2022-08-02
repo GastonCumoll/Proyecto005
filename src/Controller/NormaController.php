@@ -194,10 +194,16 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/updateInstancia/{id}/{b}", name="updateInstancia")
+     * @Route("/updateInstancia", name="updateInstancia",methods={"POST"})
      */
-    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id,$b)
+    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request)
     {
+        if(!empty($_POST['checkbox'])){
+            $b=0;
+        }else{
+            $b=1;
+        }
+        $id=$_POST['normaId'];
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
         $today=new DateTime();

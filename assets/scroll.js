@@ -1,8 +1,19 @@
 import './app.js';
 
 import 'bootstrap';
+import { contains } from 'jquery';
 
 $(document).ready(function(){
+	var boton=document.getElementById("botonVolverAtras");
+	var urlAnt=document.referrer;
+	console.log(urlAnt);
+	if(urlAnt.includes("/indice/Vigentes")){
+		boton.setAttribute("href","/indice/Vigentes");
+	}else if (urlAnt.includes("/indice/NoVigentes")){
+		boton.setAttribute("href","/indice/NoVigentes");
+	}else{
+		boton.setAttribute("href","/norma/");
+	}
 
 	$('.ir-arriba').click(function(){
 		$('body, html').animate({
