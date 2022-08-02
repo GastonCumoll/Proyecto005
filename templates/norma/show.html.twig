@@ -177,16 +177,30 @@
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and rol =="DIG_EDITOR" %}
                     <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
                     <form action="{{path('updateInstancia')}}" method="post">    
-                        <label><input type="checkbox" id="cbox1" name="checkbox" value="true">Publicar interno</label>
                         <input type="hidden" name="normaId" value="{{norma.id}}">
                         <button type="submit" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
                     </form>
                     {% endif %}
                     {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}
+                        <form action="{{path('acceso')}}" method="post">
+                            <div>
+                                {% if norma.publico == 1 %}
+                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
+                                    <input type="hidden" name="normaId" value="{{norma.id}}">
+                                    <button type="submit" class="btn-success-sm">Aplicar</button>
+                                {% else %}
+                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
+                                    <input type="hidden" name="normaId" value="{{norma.id}}">
+                                    <button type="submit" class="btn-success-sm">Aplicar</button>
+                                {% endif %}
+                            </div>
+                        </form>
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
                             <button type="submit" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
                         </form>
+                            
+                        
                         {# <a href="{{path('updateInstancia')}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a> #}
                     {% endif %}
                 </div>

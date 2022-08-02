@@ -55,8 +55,23 @@
                             <i class="fa-regular fa-user"></i>{{ app.session.get('username')}}
                         </a>
                         <div class="dropdown-menu text-right border-right-0 border-left-0">
+                            <p style="font-size: 12px !important;">{{app.session.get('rolNombre')}}</p>
+                            {# {% if  app.session.get('rolAuth') == 1 %}
+                                <p style="font-size: 12px !important;">DIG_ADMINISTRADOR</p>
+                            {% endif %}
+                            {% if  app.session.get('rolAuth') == 2 %}
+                                <p style="font-size: 12px !important;">DIG_OPERADOR</p>
+                            {% endif %}
+                            {% if  app.session.get('rolAuth') == 3 %}
+                                <p style="font-size: 12px !important;">DIG_EDITOR</p>
+                            {% endif %}
+                            {% if  app.session.get('rolAuth') == 4 %}
+                                <p style="font-size: 12px !important;">DIG_CONSULTOR</p>
+                            {% endif %} #}
+                            <div class="dropdown-divider"></div>
+                                <p style="font-size: 12px !important;">{{app.session.get('repa')}}</p>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item cargando" href="{{ path('inicio_admin') }}"style="font-size: 12px !important;">Panel de control</a>
-                        
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item cargando" href="{{path('logout',{'bandera':0})}}"style="font-size: 12px !important;">Salir</a>
                         </div>

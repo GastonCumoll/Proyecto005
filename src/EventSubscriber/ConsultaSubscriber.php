@@ -12,14 +12,16 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
 class ConsultaSubscriber implements EventSubscriberInterface 
 {
     private $mailer;
-
-    public function __construct(MailerInterface $mailer){
-
+    private $params;
+    
+    public function __construct(MailerInterface $mailer,ParameterBagInterface $params){
+        $this->params = $params;
         $this->mailer = $mailer;
     }
     // this method can only return the event names; you cannot define a
@@ -55,11 +57,12 @@ class ConsultaSubscriber implements EventSubscriberInterface
                 $asunto = $entity->getTipoConsulta()->getNombre();
                 $emailEncargado = $entity->getTipoConsulta()->getEmail();
                 $texto = $entity->getTexto();
-
-
+                $from=$this->params->get('ws_mail_noreply');
+                
+                //dd($from);
                 $email=(new Email())
-                ->from('consultanormativa_test@parana.gob.ar')
-                ->to('consultanormativa_test@parana.gob.ar')
+                ->from($from)
+                ->to($emailEncargado)
                 ->replyTo($emailPersona)
                 ->subject($asunto)
                 ->text($texto);

@@ -7,6 +7,7 @@ use App\Form\ConsultaType;
 use App\Entity\TipoConsulta;
 use App\Form\TipoConsultaType;
 use App\Service\SeguridadService;
+use App\Repository\AreaRepository;
 use App\Repository\ConsultaRepository;
 use App\Repository\TipoConsultaRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,10 +86,22 @@ class GeneralController extends AbstractController
         return $this->render('general/error.html.twig');
     }
 
+
+    // /**
+    //  * @Route("/datosUser", name="datos_usuario")
+    //  */
+    // public function datos(): Response
+    // {
+
+
+
+    //     return $this->render('general/datos.html.twig');
+    // }
+
     /**
      * @Route("/autenticar", name="autenticar")
      */
-    public function autenticarAction(Request $request, SeguridadService $seguridad)
+    public function autenticarAction(Request $request, SeguridadService $seguridad,AreaRepository $areas)
     {
         $bandera=0;
         //$seguridad = new SeguridadService();  // ESTO ESTÁ MUY MAL, MUY PERO MUY MAL. NO HACER NUNCA
@@ -144,7 +157,7 @@ class GeneralController extends AbstractController
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '2'); // 1 = ADMIN
-            }    
+            }   
             else if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '1');
             }
@@ -242,7 +255,14 @@ class GeneralController extends AbstractController
             // Obtener el ID de la repartición del usuario logueado
             $idReparticion = $seguridad->getIdReparticionAction($session_id);
             //dd($idReparticion);
+            $reparticiones=$areas->findAll();
+            foreach ($reparticiones as $repa) {
+                if($repa->getId()==$idReparticion){
+                    $session->set('repa', $repa->getNombre());
+                }
+            }
             $session->set('rolId', $idReparticion);
+            $session->set('rolNombre',$roles[0]['id']);
             /*
             // Código para pruebas
             // Setear id de repartición 40 para los usuarios que tengan un rol relacionado a Presupuesto

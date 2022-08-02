@@ -193,15 +193,43 @@ class NormaController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/acceso", name="acceso",methods={"POST"})
+     */
+    public function acceso(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request){
+        if(!empty($_POST['checkbox'])){
+            $b=1;
+        }else{
+            $b=0;
+        }
+        $id=$_POST['normaId'];
+        $norma=$normaRepository->findOneById($id);
+        $norma->setPublico($b);
+        $entityManager->persist($norma);
+        $entityManager->flush();
+        return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+    }
+
+
     /**
      * @Route("/updateInstancia", name="updateInstancia",methods={"POST"})
      */
-    public function updateInstancia(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request)
+    public function updateInstancia(SeguridadService $seguridad,EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request)
     {
-        if(!empty($_POST['checkbox'])){
-            $b=0;
-        }else{
-            $b=1;
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
         }
         $id=$_POST['normaId'];
         $norma=$normaRepository->find($id);
@@ -219,51 +247,65 @@ class NormaController extends AbstractController
         $auditoria->setFecha($today);
 
         if($estadoNorma=="Borrador"){
-            $auditoria->setInstanciaAnterior($norma->getInstancia());
-            $auditoria->setInstanciaActual($norma->getInstancia()+1);
-            $auditoria->setEstadoAnterior($norma->getEstado());
-            $norma->setEstado("Lista");
-            $norma->setInstancia(2);
-            $auditoria->setEstadoActual("Lista");
-            $auditoria->setAccion("Revision");
-            $entityManager->persist($auditoria);
-            $norma->addAuditoria($auditoria);
-            //$userObj->addAuditoria($auditoria);
-            $entityManager->persist($norma);
-            //$entityManager->persist($userObj);
-            $entityManager->flush();
-
-        return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+            //$array[]="DIG_OPERADOR";
+            if("DIG_OPERADOR"==$rol){
+                $auditoria->setInstanciaAnterior($norma->getInstancia());
+                $auditoria->setInstanciaActual($norma->getInstancia()+1);
+                $auditoria->setEstadoAnterior($norma->getEstado());
+                $norma->setEstado("Lista");
+                $norma->setInstancia(2);
+                $auditoria->setEstadoActual("Lista");
+                $auditoria->setAccion("Revision");
+                $entityManager->persist($auditoria);
+                $norma->addAuditoria($auditoria);
+                //$userObj->addAuditoria($auditoria);
+                $entityManager->persist($norma);
+                //$entityManager->persist($userObj);
+                $entityManager->flush();
+                return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+            }else{
+                return $this->render('general/notRole.html.twig');
+            }
         }
         if($estadoNorma=="Lista"){
-            $auditoria->setInstanciaAnterior($norma->getInstancia());
-            $auditoria->setInstanciaActual($norma->getInstancia()+1);
-            $auditoria->setEstadoAnterior($norma->getEstado());
-            $auditoria->setEstadoActual("Publicada");
-            $norma->setEstado("Publicada");
-            $norma->setInstancia(3);
-            $auditoria->setAccion("Publicacion");
-            $norma->setPublico($b);
-            $entityManager->persist($auditoria);
-            $entityManager->persist($norma);
-            //$entityManager->persist($userObj);
-            $entityManager->flush();
+            if("DIG_EDITOR"==$rol){
+                $auditoria->setInstanciaAnterior($norma->getInstancia());
+                $auditoria->setInstanciaActual($norma->getInstancia()+1);
+                $auditoria->setEstadoAnterior($norma->getEstado());
+                $auditoria->setEstadoActual("Publicada");
+                $norma->setEstado("Publicada");
+                $norma->setInstancia(3);
+                $auditoria->setAccion("Publicacion");
+                //$norma->setPublico($b);
+                $entityManager->persist($auditoria);
+                $entityManager->persist($norma);
+                //$entityManager->persist($userObj);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                return $this->render('general/notRole.html.twig');
+            }
+            
         }
         if($estadoNorma=="Publicada"){
-            $auditoria->setInstanciaAnterior($norma->getInstancia());
-            $auditoria->setInstanciaActual(1);
-            $auditoria->setEstadoAnterior($norma->getEstado());
-            $auditoria->setEstadoActual("Borrador");
-            $norma->setEstado("Borrador");
-            $norma->setInstancia(1);
-            $auditoria->setAccion("Vuelta a borrador");
-            $entityManager->persist($auditoria);
-            $entityManager->persist($norma);
-            $entityManager->flush();
+            if("DIG_ADMINISTRADOR"==$rol){
+                $auditoria->setInstanciaAnterior($norma->getInstancia());
+                $auditoria->setInstanciaActual(1);
+                $auditoria->setEstadoAnterior($norma->getEstado());
+                $auditoria->setEstadoActual("Borrador");
+                $norma->setEstado("Borrador");
+                $norma->setInstancia(1);
+                $auditoria->setAccion("Vuelta a borrador");
+                $norma->setPublico(0);
+                $entityManager->persist($auditoria);
+                $entityManager->persist($norma);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+            }else{
+                return $this->render('general/notRole.html.twig');
+            }
         }
         //$entityManager->flush();
 
@@ -972,6 +1014,7 @@ class NormaController extends AbstractController
 
             //setear instancia=1;
             $norma->setInstancia(1);
+            $norma->setPublico(0);
             $entityManager->persist($norma);
             //$entityManager->persist($userObj);
 
