@@ -1,13 +1,41 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-.ir-arriba {
-	display:none;
-	padding:20px;
-	font-size:4rem !important;
-	color:#0275d8;
-	cursor:pointer;
-	position: fixed;
-	bottom:100px;
-    left: 90vw !important;
-	float: left !important;
+@media (max-width: 575px) {
+    .ir-arriba {
+        display:none;
+        padding:20px;
+        font-size:4rem !important;
+        color:#0275d8;
+        cursor:pointer;
+        position: fixed;
+        bottom:100px;
+        left: 80vw !important;
+        float: left !important;
+    }
+}
+@media (min-width: 576px) and (max-width: 991px) {
+    .ir-arriba {
+        display:none;
+        padding:20px;
+        font-size:4rem !important;
+        color:#0275d8;
+        cursor:pointer;
+        position: fixed;
+        bottom:100px;
+        left: 85vw !important;
+        float: left !important;
+    }
+}
+@media (min-width: 992px) {
+    .ir-arriba {
+        display:none;
+        padding:20px;
+        font-size:4rem !important;
+        color:#0275d8;
+        cursor:pointer;
+        position: fixed;
+        bottom:100px;
+        left: 90vw !important;
+        float: left !important;
+    }
 }
