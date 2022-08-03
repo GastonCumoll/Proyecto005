@@ -69,6 +69,12 @@
                         </h4>
                     </div>
                 {% endif %}
+                {% else %}
+                <div class="card-header text-left">
+                    <div id="contenedorBotonVolver" class="text-left mt-1">
+                        <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                    </div>
+                </div>
             {% endif %}
             
             <div class="card-body">
@@ -162,9 +168,15 @@
                             {% endfor %}
                     </table>
                 </div>
-                <div class="text-justify">
-                    {{(norma.texto) | purify}}
+                <br>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-justify">
+                            {{(norma.texto) | purify}}
+                        </div>
+                    </div>
                 </div>
+                
                 <div class=" divBotonVolver mt-4  text-left d-inline">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and rol =="DIG_OPERADOR" %}
@@ -172,7 +184,6 @@
                             <input type="hidden" name="normaId" value="{{norma.id}}">
                             <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
                         </form>
-                        
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and rol =="DIG_EDITOR" %}
                     <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
@@ -181,17 +192,19 @@
                         <button type="submit" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
                     </form>
                     {% endif %}
+
                     {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}
+                    <br>
                         <form action="{{path('acceso')}}" method="post">
-                            <div>
+                            <div class="text-right">
                                 {% if norma.publico == 1 %}
                                     <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button type="submit" class="btn-success-sm">Aplicar</button>
+                                    <button type="submit" class="badge badge-primary">Aplicar</button>
                                 {% else %}
                                     <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button type="submit" class="btn-success-sm">Aplicar</button>
+                                    <button type="submit" class="badge badge-primary">Aplicar</button>
                                 {% endif %}
                             </div>
                         </form>
