@@ -104,15 +104,19 @@ class EtiquetaController extends AbstractController
             $rol="";
         }
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
-
-        $reparticionUsuario = $areaRepository->find($idReparticion);
-
-
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }else{
+            $reparticionUsuario=null;
+        }
         $normasUsuario = [];
-        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+        if($reparticionUsuario){
+            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
         foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
             $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
         }
+        }
+        
         return $this->render('norma/indexAdmin.html.twig', [
             'tipoNormas' => $tipoRepository->findAll(),
             'etiquetas' =>$etiquetaRepository->findAll(),

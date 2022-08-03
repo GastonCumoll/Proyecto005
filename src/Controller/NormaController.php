@@ -137,9 +137,9 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-        
+        //dd($rol);
         if($idSession){
-            $todasNormas=$normaRepository->findAllQueryS($reparticionUsuario);
+            $todasNormas=$normaRepository->findAllQueryS($reparticionUsuario,$rol);
         }else{
             $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
         }
@@ -473,7 +473,7 @@ class NormaController extends AbstractController
         }else{
             //si hay session, filtra por roles(listaDeRolesUsuario) y reparticion(reparticionUsuario) y la palabra ingresada
             if($palabra=="-1"){
-                $normasQuery=$normaRepository->findAllQueryS($reparticionUsuario);
+                $normasQuery=$normaRepository->findAllQueryS($reparticionUsuario,$rol);
             }else{
                 $palabra=str_replace("§","/",$palabra);
                 $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
@@ -557,7 +557,7 @@ class NormaController extends AbstractController
         if(!$idSession){
             $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
         }else{
-            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario);
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol);
         }
         
         //seccion paginator
@@ -663,7 +663,7 @@ class NormaController extends AbstractController
         if(!$idSession){
             $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
         }else{
-            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario);
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol);
         }
         
         //dd($normas);

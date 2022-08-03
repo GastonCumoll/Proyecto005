@@ -150,6 +150,9 @@
                 <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
                 <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numero')}}</th>
                 <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
+                {% if rol != "" %}
+                <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
+                {% endif %}
                 <th class="colFecha">{{knp_pagination_sortable(normas, 'Fecha de publicacion', 'p.fechaPublicacion')}}</th>
                 <th class="columnaOp">Opciones</th>
             </tr>
@@ -168,12 +171,18 @@
             {% else %}
             <tr class="table-secondary">
             {% endif %}
-                
                 <td class="colId">{{norma.id}}</td>
                 <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
                 <td class="colTit">{{norma.titulo}}</td>
                 <td class="colNum">{{norma.numero}}</td>
                 <td class="colEstado">{{norma.estado}}</td>
+                {% if rol != "" %}
+                    {% if norma.publico == 1 %}
+                        <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
+                    {% else %}
+                        <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
+                    {% endif %}
+                {% endif %}
                 <td class="colFecha">{{norma.fechaPublicacion|date('Y-m-d')}}</td>
 
                 {% set bandera = 0 %}
@@ -212,13 +221,7 @@
         {{ knp_pagination_render(normas) }}
     </div>
     </div>
-{% if rol == "DIG_OPERADOR" %}
-    
-    <a href="{{ path('norma_nueva') }}"> <button  type="button" class="btn btn-info btn-sm">Agregar <i class="fa-solid fa-plus"></i></button></a>
-    <br>
     </div>
-    
-    {% endif %}
     {% block javascripts %}
         {{encore_entry_script_tags('busquedaParamNorma')}}
         {{encore_entry_script_tags('normaEdit')}}

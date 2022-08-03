@@ -49,15 +49,23 @@ class NormaRepository extends ServiceEntityRepository
     }
     //la diferencia entre findAllQuery y findAllQueryS es que la segunda se usa si la sesion esta definida
     //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
-    public function findAllQueryS($reparticion): Query
+    public function findAllQueryS($reparticion,$rol): Query
     {
-        $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        if($rol=="DIG_CONSULTOR"){
+            $consultaAux2=" AND p.estado = 'Publicada'";
+            $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+
+        }else{
+            $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+            $consultaAux2="";
+        }
+        
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
-        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->where("tnr.reparticionId='".$reparticion->getId()."'")
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->where("tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2)
         ->orWhere($consultaAux)
         ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
-        // dd($query);
+        //dd($query);
         return $query;
     }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
@@ -73,19 +81,24 @@ class NormaRepository extends ServiceEntityRepository
     }
     public function findUnaPalabraDentroDelTituloSession($roles,$reparticion,$palabra): Query
     {
+        if($roles[0]=="DIG_CONSULTOR"){
+            $consultaAux=" AND p.estado = 'Publicada')";
+            $consultaAux2=" OR (p.estado = 'Publicada' AND p.publico =1)";
+        }else{
+            $consultaAux=")OR (p.estado = 'Publicada' AND p.publico =1)";
+            $consultaAux2="";
+        }
         //$consultaAux="p.estado = 'Publicada' AND p.publico =1";
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
         ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
-        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
-        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')->orderBy('p.id','DESC');
+
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->orderBy('p.id','DESC');
         //->andWhere($consultaAux)
-        foreach ($roles as $rol) {
-            $retorno->andWhere("tr.nombreRol='".$rol."'");
-        }
-        $retorno->andWhere("tnr.reparticionId = '".$reparticion->getId()."'");
+
+        $retorno->andWhere("(tnr.reparticionId = '".$reparticion->getId()."'".$consultaAux.$consultaAux2);
         
         $query=$retorno->getQuery();
-        // dd($query);
+        //dd($query);
         return $query;
     }
 
@@ -183,8 +196,13 @@ class NormaRepository extends ServiceEntityRepository
     }
 
     //busqueda de los filtros con session
-    public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion): Query 
+    public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion,$rol): Query 
     {
+        if($rol=="DIG_CONSULTOR"){
+            $consultaAux2=" AND p.estado='Publicada'";
+        }else{
+            $consultaAux2="";
+        }
         $cont=0;
         $tam=count($arrayDeNormas);
         
@@ -236,7 +254,7 @@ class NormaRepository extends ServiceEntityRepository
                         $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
                     }
         }
-        $consultaAux="(tnr.reparticionId='".$reparticion->getId()."' OR p.estado = 'Publicada' AND p.publico =1)";
+        $consultaAux="(tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2.") OR (p.estado = 'Publicada' AND p.publico =1)";
         $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')

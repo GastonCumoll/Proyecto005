@@ -33,8 +33,11 @@
                 <a class="dropdown-item" href="{{ path('tipo_relacion_index') }}">Relaciones</a>
                 <a class="dropdown-item" href="{{ path('tipo_norma_index') }}">Tipos de norma</a>
                 <a class="dropdown-item" href="{{ path('auditoria_index') }}">Auditoria</a>
+                {% if app.session.get('rolNombre') == "DIG_ADMINISTRADOR" %}
                 <a class="dropdown-item" href="{{ path('consulta_index') }}">Consultas</a>
                 <a class="dropdown-item" href="{{ path('tipo_consulta_index') }}">Tipo de consultas</a>
+                {% endif %}
+                
             </div>
         </li>
         {% endif %}

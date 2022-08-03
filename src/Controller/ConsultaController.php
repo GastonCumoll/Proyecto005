@@ -75,6 +75,96 @@ class ConsultaController extends AbstractController
         $response = curl_exec($cu);
         curl_close($cu);
         $datos = json_decode($response, true);
+
+        $mensaje="";
+        
+        if ($datos['success'] == false or $datos['score'] < 0.5) {
+            dd($datos);
+        } else {
+            if($request->get('nombre') != ""){
+                $nombre=$request->get('nombre');
+            }
+            else{
+                $mensaje .= "Debe ingresar un nombre. \n";
+            }
+            if(($request->get('correo') != "") && (str_contains($request->get('correo'), '@'))){
+                $correo=$request->get('correo');//string
+            }
+            else{
+                $mensaje .= "El correo debe contener '@'. \n";
+            }
+            if(($request->get('telefono') != "")){
+                $telefono=$request->get('telefono');//string
+            }
+            else{
+                $mensaje .= "Debe ingresar un número telefonico. \n";
+            }
+            if(($request->get('consulta') != "")){
+                $texto=$request->get('consulta');
+            }
+            else{
+                $mensaje .= "Debe ingresar una consulta. \n";
+            }
+
+            if($mensaje != ""){
+                $this->addFlash(
+                    'notice',
+                    $mensaje
+            );
+
+                return $this->redirectToRoute('inicio',[],Response::HTTP_SEE_OTHER);
+
+            }
+            
+            
+            $tema=$request->get('tema');//string
+            
+            //if(!$request->request->get('etiquetas')){
+            
+            $consultas = $consultaRepository->findByEmail($correo);
+            //dd($consultas);
+            $today = new DateTime();
+            $todayFormato = $today->format("Y-m-d");
+            foreach($consultas as $unaConsulta){
+                $fechaConsulta = $unaConsulta->getFechaYHora()->format("Y-m-d");
+                if(($unaConsulta->getTexto() == $texto) && ($todayFormato == $fechaConsulta)){
+                    $bandera = true;
+                    return $this->redirectToRoute('consultaMensaje',['bandera' => 1],Response::HTTP_SEE_OTHER);
+                }   
+            }
+            $tipo=$tipoConsultaRepository->findByNombre($tema);
+            $tipoConsulta=$tipo[0];
+            
+            $consulta = new Consulta();
+            $consulta->setNombre($nombre);
+            $consulta->setEmail($correo);
+            $consulta->setTipoConsulta($tipoConsulta);
+            $consulta->setNumeroTel($telefono);
+            $consulta->setTexto($texto);
+            $consulta->setFechaYHora($today);
+            $entityManager->persist($consulta);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
+        }
+    }
+    /*{
+        $token = $_POST['token'];
+
+        $cu = curl_init();
+        curl_setopt($cu, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($cu, CURLOPT_POST, 1); //Indica el tipo de envio POST
+        curl_setopt($cu, CURLOPT_POSTFIELDS, http_build_query(
+            [
+                'secret' => '6LedpdAgAAAAAOtvcORbWBIy9OXpZTfccBKC5JCT',
+                'response' => $token,
+            ]
+        ));
+        curl_setopt($cu, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($cu);
+        curl_close($cu);
+        $datos = json_decode($response, true);
         
         if ($datos['success'] == false or $datos['score'] < 0.5) {
             dd($datos);
@@ -111,7 +201,7 @@ class ConsultaController extends AbstractController
 
             return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
         }
-    }
+    }*/
 
     /**
      * @Route("/{id}", name="consulta_show", methods={"GET"})
