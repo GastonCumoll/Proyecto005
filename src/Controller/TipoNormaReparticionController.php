@@ -120,6 +120,7 @@ class TipoNormaReparticionController extends AbstractController
         return $this->renderForm('tipo_norma_reparticion/new.html.twig', [
             'tipo_norma_reparticion' => $tipoNormaReparticion,
             'form' => $form,
+            'idTipo'=> $idTipo,
         ]);
     }
 

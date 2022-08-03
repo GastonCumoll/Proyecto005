@@ -37,7 +37,7 @@ class AuditoriaController extends AbstractController
             $rol="";
         }
 
-        $auditoriasT=$auditoriaRepository->createQueryBuilder('p')->getQuery();
+        $auditoriasT=$auditoriaRepository->createQueryBuilder('p')->orderBy('p.id','DESC')->getQuery();
 
         $auditorias = $paginator->paginate(
             

@@ -188,7 +188,7 @@ class NormaRepository extends ServiceEntityRepository
                     }
         }
         $consultaAux="p.estado = 'Publicada' AND p.publico =1";
-        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->andWhere($consultaAux)->orderBy('p.titulo','ASC');
+        $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->andWhere($consultaAux)->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
         //dd($query);
         return $query;
@@ -261,7 +261,7 @@ class NormaRepository extends ServiceEntityRepository
         ->andWhere($consultaAux)
         //->andWhere("tnr.reparticionId='".$reparticion->getId()."'")
         
-        ->orderBy('p.titulo','ASC');
+        ->orderBy('p.id','DESC');
         $query=$consulta->getQuery();
         //dd($query);
         return $query;
