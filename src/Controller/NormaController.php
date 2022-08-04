@@ -570,6 +570,9 @@ class NormaController extends AbstractController
         // Items per page
         10
         );
+        $normasP->setCustomParameters([
+            'align' => 'center',
+        ]);
         return $this->renderForm('norma/indexAdmin.html.twig', [
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inicio Administracion{% endblock %}
+{% block title %}Inicio{% endblock %}
 {% block body %}
 
 {% block addStyleSheets %}
@@ -27,6 +27,13 @@
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
+                        {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+                        <div class="flash-notice text-white font-weight-bolder text-center">
+                            {{ flash_message }}
+                        </div>
+                    </div>
+                {% endfor %}
                         <a class="btn btn-outline-info btn-sm dropdown-toggle mb-1" role="button" data-toggle="collapse" href="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
                             Necesito ayuda <i class="fa-solid fa-circle-question"></i> <span class="caret"></span>

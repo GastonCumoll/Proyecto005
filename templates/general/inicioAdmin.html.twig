@@ -5,6 +5,13 @@
 
 
 <body>
+    {% for flash_message in app.session.flashbag.get('notice') %}
+            <div class="card shadow mb-5 rounded" id="passCorrect">
+                <div class="flash-notice text-white font-weight-bolder text-center">
+                    {{ flash_message }}
+                </div>
+            </div>
+        {% endfor %}
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 </body>
 

@@ -46,6 +46,13 @@ class SeguridadService extends AbstractController {
         return $session_id;
     }
 
+    public function changePassword($session_id, $oldP, $newP) {
+        if (!$session_id) $respuesta = 0;//si no hay sesion return 0
+
+        else $respuesta = $this->clienteSoap->__soapCall('WsController.changePassword', array($session_id, $oldP, $newP));
+        return $respuesta;
+    }
+
     public function checkAccessAction($session_id, $permiso, $session = null, $usaMensaje = true) { 
         
         if (!$session_id) $respuesta = 0;//si no hay sesion return 0

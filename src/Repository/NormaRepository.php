@@ -51,15 +51,14 @@ class NormaRepository extends ServiceEntityRepository
     //findAllQuery : busca todas las normas, y hace un join con tipoNorma para poder ordenar
     public function findAllQueryS($reparticion,$rol): Query
     {
+        // $consulta=$this->createQueryBuilder('p')->select('p')->where("p.estado = 'Publicada' AND p.publico =1");
         if($rol=="DIG_CONSULTOR"){
             $consultaAux2=" AND p.estado = 'Publicada'";
             $consultaAux="p.estado = 'Publicada' AND p.publico =1";
-
         }else{
             $consultaAux="p.estado = 'Publicada' AND p.publico =1";
             $consultaAux2="";
         }
-        
         $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->where("tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2)
         ->orWhere($consultaAux)

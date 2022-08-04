@@ -59,6 +59,10 @@
     margin-right: 6rem !important;
 } */
 
+#passCorrect{
+    background-color: #08a72b !important;
+}
+
 .foto{
     width: 120px;
 }

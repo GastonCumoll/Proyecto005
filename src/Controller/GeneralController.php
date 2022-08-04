@@ -6,6 +6,7 @@ use App\Entity\Consulta;
 use App\Form\ConsultaType;
 use App\Entity\TipoConsulta;
 use App\Form\TipoConsultaType;
+use App\Form\ChangePasswordType;
 use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
 use App\Repository\ConsultaRepository;
@@ -297,6 +298,43 @@ class GeneralController extends AbstractController
             return $this->redirectToRoute('inicio_admin');
         }
         else return $this->redirectToRoute('login');
+    }
+
+
+    /**
+     * @Route("/changePass", name="change_password")
+     */
+    public function cambiarContra(SeguridadService $seguridad,Request $request){
+
+        $form = $this->createForm(ChangePasswordType::class);
+        $form->handleRequest($request);
+        $mensaje="";
+        $session = $this->get('session');
+        $session_id = $session->get('session_id') * 1;
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $vieja=$form->get('contrasenia')->getData();
+            $nueva=$form->get('contraseniaNueva')->getData();
+            $confirmacion=$form->get('contraseniaNuevaConfir')->getData();
+            if($nueva==$confirmacion){
+                if($seguridad->changePassword($session_id,$vieja,$nueva) == 1){
+                    $mensaje.="La contraseña fue modificada correctamente.";
+                    $this->addFlash('notice',$mensaje);
+                    return $this->redirectToRoute('inicio_admin', [], Response::HTTP_SEE_OTHER);
+                }else{
+                    $mensaje.="Error al cambiar la contraseña.";
+                }
+            }else{
+                $mensaje.="Las contraseñas no coinciden.";
+            }
+        }
+        if($mensaje != ""){
+            $this->addFlash('notice',$mensaje);
+        }
+        return $this->renderForm('general/changePass.html.twig', [
+            'form'=>$form,
+        ]);
+
     }
 
     /**

@@ -69,7 +69,9 @@
                                 <p style="font-size: 12px !important;">DIG_CONSULTOR</p>
                             {% endif %} #}
                             <div class="dropdown-divider"></div>
-                                <p style="font-size: 12px !important;">{{app.session.get('repa')}}</p>
+                            <p style="font-size: 12px !important;">{{app.session.get('repa')}}</p>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item cargando" href="{{ path('inicio_admin') }}"style="font-size: 12px !important;">Panel de control</a>
                             <div class="dropdown-divider"></div>
