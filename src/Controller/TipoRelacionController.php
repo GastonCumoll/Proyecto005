@@ -35,7 +35,6 @@ class TipoRelacionController extends AbstractController
         }else {
             $rol="";
         }
-        // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
         $todosTipos = $tipoRelacionRepository->createQueryBuilder('p')
             ->getQuery();
         
@@ -60,8 +59,12 @@ class TipoRelacionController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,TipoRelacionRepository $tipoRelacionRepository): Response
     {
+        //inversoBase se creó para setearle un inverso "generico" cada vez que se cargue un tipo de relacion.
+        //Esto se implemento para facilitar la carga de tipos de relaciones y su vinculacion con el inverso de verdad
+        //Entonces, cada vez que se crea un tipo, se setea su inverso a inversoBase, y luego cuando se esta creando el inverso del tipo se que se acaba de crear,
+        //se busca el unico que el inverso es $inversoBase y se vinculan ellos dos
         $inversoBase=$tipoRelacionRepository->findOneById(0);
-        //dd($inversoBase);
+
         $tipoRelacion = new TipoRelacion();
         $form = $this->createForm(TipoRelacionType::class, $tipoRelacion);
         $form->handleRequest($request);

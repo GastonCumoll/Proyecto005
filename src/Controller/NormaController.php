@@ -138,14 +138,12 @@ class NormaController extends AbstractController
             $rol="";
         }
         //dd($rol);
+        //busqueda dependiendo si hay alguien logeado o no
         if($idSession){
             $todasNormas=$normaRepository->findAllQueryS($reparticionUsuario,$rol);
         }else{
             $todasNormas=$normaRepository->findAllQuery();//query con join de tipoNorma
         }
-        
-        // $todasNormas=$normaRepository->createQueryBuilder('p')
-        // ->getQuery();
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             
@@ -172,6 +170,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/trayecto/{id}", name="trayecto_norma")
      */
+    //este metodo es para saber el trayecto que tuvo una norma especifica
     public function trayectoNorma(PaginatorInterface $paginator,AuditoriaRepository $auditoriaRepository,NormaRepository $normaRepository,EntityManagerInterface $entityManager,Request $request,$id){
         //trayecto de la norma
         $norma=$normaRepository->findById($id);
@@ -197,7 +196,9 @@ class NormaController extends AbstractController
     /**
      * @Route("/acceso", name="acceso",methods={"POST"})
      */
+    //este metodo es ejecutado cuando el admin quiere cambiar la privacidad de la norma.
     public function acceso(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request){
+        //dependiendo de que si el checkbox esta seleccionado o no, setea un balor a b que sirve como bandera,y setea el campo publico a norma ese mismo valor
         if(!empty($_POST['checkbox'])){
             $b=1;
         }else{
@@ -311,9 +312,11 @@ class NormaController extends AbstractController
 
         return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
     }
-/**
+
+    /**
      * @Route("/backBorrador/{id}", name="back_borrador")
      */
+    //este metodo se ejecuta cuando un editor tiene que enviar una norma que tiene estado "Lista" a "Borrador"
     public function backBorrador(EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request,$id)
     {
         $norma=$normaRepository->find($id);
@@ -323,7 +326,7 @@ class NormaController extends AbstractController
         //obtener el nombre del usuario logeado;
         $session=$this->get('session');
         $usuario=$session->get('username');
-
+        //cada vez que se modifica una norma, se crea una Auditoria;
         $auditoria=new Auditoria();
 
         $auditoria->setNorma($norma);
@@ -346,9 +349,11 @@ class NormaController extends AbstractController
         }
         return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
     }
+
     /**
      * @Route("/listas", name="listas", methods={"GET"})
      */
+    //este metodo trae un query de las normas que tienen "Lista" como estado
     public function listas(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,TipoNormaReparticionRepository $tipoNormaReparticionRepository,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
         $listaDeRolesUsuario;
@@ -394,6 +399,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/borrador", name="borrador", methods={"GET"})
      */
+    //este metodo trae un query de las normas que tienen "Lista" como estado
     public function borrador(ReparticionService $reparticionService,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
         $listaDeRolesUsuario;
@@ -440,6 +446,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
+    //este metodo ejecuta una busqueda de normas por campo titulo, que contenga la palabra pasada por parametro
     public function busquedaRapida(ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         $listaDeRolesUsuario;
@@ -528,6 +535,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/busquedaFiltro", name="busqueda_filtro", methods={"GET","POST"})
      */
+    //este metodo es ejecutado cuando se realiza una busqueda por filtros en norma index
     public function busquedaFiltro(ReparticionService $reparticionService,AreaRepository $areaRepository,PaginatorInterface $paginator,TipoNormaRepository $tipoNormaRepository,EtiquetaRepository $etiquetaRepository ,NormaRepository $normaRepository,Request $request,SeguridadService $seguridad):Response
     {   
         $sesion=$this->get('session');
@@ -551,9 +559,11 @@ class NormaController extends AbstractController
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
+        //obtiene los datos de los campos;
         //dd($titulo);
         $arrayDeEtiquetas=[];
         //pregunta si hay alguien logeado, si no hay nadie,usa findNormas, si hay alguien logeado, busca findNormasSession y le pasa la reparticion del usuario logeado
+        //dentro de los metodos findNormas y findNormasSession, pregunta si alguno de los campos está vacio o no
         if(!$idSession){
             $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
         }else{
@@ -585,6 +595,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/formularioBusqueda", name="formulario_busqueda", methods={"GET","POST"})
      */
+    //este metodo dispara el formulario de busqueda de "Busqueda Avanzada".
     public function formBusqueda(EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
         $sesion=$this->get('session');
@@ -610,9 +621,9 @@ class NormaController extends AbstractController
     /**
      * @Route("/formularioBusquedaResult", name="formulario_busqueda_result", methods={"GET","POST"})
      */
+    //este metodo recibe los valores del formulario de busqueda de la pagina "Busqueda Avanzada"
     public function formBusquedaResult(ReparticionService $reparticionService,AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
-        
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -636,42 +647,26 @@ class NormaController extends AbstractController
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
-        //if(!$request->request->get('etiquetas')){
         $etiquetas=$request->query->get('etiquetas');
-        //dd($etiquetas);
-        //}
-            //$etiquetas[0]="";
-        
-        //dd($etiquetas);
+
         $arrayDeNormas=[];
+
         if($etiquetas!= null){
-            //if(count($etiquetas)>1){
                 $etiquetasObj=[];
                 for ($i=0; $i <count($etiquetas) ; $i++) {
-                   //$tamNormas=count($etiquetas[$i]->getNormas());
                     $etiquetasObj[$i]=$etiquetaRepository->findById($etiquetas[$i]);
-                    //dd($etiquetasObj[$i]);
                     foreach ($etiquetasObj[$i][0]->getNormas() as $unaNorma) {
                         $arrayDeNormas[]=$unaNorma;
                     }
                 }
-            //}
         }
-        //dd($arrayDeNormas);
-
-
-        //dd($arrayDeNormas);
-        
-        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento ¿porque no me trae un array?
+        //Lo mismo de siempre, discrimino si hay sesion o no.
         if(!$idSession){
             $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
         }else{
             $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol);
         }
-        
-        //dd($normas);
-        //dd($normas->getResult());
-        //seccion paginator
+
         // Paginar los resultados de la consulta
         $normasP = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -697,7 +692,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/mostrarPDF", name="mostrar_pdf")
      */
-
+    //este metodo convierte el texto de la norma en pdf y lo muestra en pantalla
     public function mostrarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository ,$id, MpdfFactory $MpdfFactory): Response
     {
         $norma=$normaRepository->find($id);
@@ -742,6 +737,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/generarPDF", name="generar_pdf")
      */
+    //este metodo genera un pdf del texto de la norma
     public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
         $norma=$normaRepository->find($id);
@@ -810,10 +806,8 @@ class NormaController extends AbstractController
      */
     public function mostrarTexto(NormaRepository $normaRepository ,$id,EntityManagerInterface $entityManager): Response
     {
-
         $norma=$normaRepository->find($id);
         $texto=$norma->getTexto();
-
 
         return $this->render('norma/mostrarTexto.html.twig', [
             'texto' =>$texto,
@@ -845,14 +839,16 @@ class NormaController extends AbstractController
             $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
             $normasU[]=$normasUsuarioObj[0]->getId();
         }
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         if(!in_array($id,$normasU)){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
         }
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
 
         $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
-        
+
+        //dependiendo del tipo de norma que se crea, se ejecuta un formulario.
         switch ($idNorma->getNombre()){
             case 'Decreto':
                 $norma = new Norma();
@@ -914,7 +910,7 @@ class NormaController extends AbstractController
             $entityManager->flush();
             
             $brochureFile = $form->get('archivo')->getData();
-
+            //pregunto si se cargo un archivo.
             if ($brochureFile) {
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
@@ -922,7 +918,7 @@ class NormaController extends AbstractController
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
                     $carpeta=$unArchivo->guessExtension();
-                    //dd($unArchivo->guessExtension());
+                    
                     // Move the file to the directory where brochures are stored
                     try {
                         $unArchivo->move(
@@ -935,9 +931,9 @@ class NormaController extends AbstractController
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
                     
-                    //dd($newFilename);
+                    //se crea un objeto archivo. para vicularlo con la norma en la db 
                     $newFilename=$carpeta.'/'.$newFilename;
-                    //dd($newFilename);
+
                     $archi=new Archivo();
                     $archi->setRuta($newFilename);
                     $archi->setNorma($norma);
@@ -948,9 +944,6 @@ class NormaController extends AbstractController
                     }
                     
                     $archi->setTipo($carpeta);
-
-                    
-
                     $entityManager->persist($archi);
                     //dd($archi);
                     $norma->addArchivos($archi);
@@ -1012,15 +1005,11 @@ class NormaController extends AbstractController
             $entityManager->persist($auditoria);
             $norma->setInstancia(1);
             $norma->addAuditoria($auditoria);
-            //$userObj->addAuditoria($auditoria);
-
 
             //setear instancia=1;
             $norma->setInstancia(1);
             $norma->setPublico(0);
             $entityManager->persist($norma);
-            //$entityManager->persist($userObj);
-
 
             $entityManager->flush();
             $idNorma=$norma->getId();
@@ -1037,6 +1026,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/agregarArchivo", name="agregar_archivo", methods={"GET", "POST"})
      */
+    //este metodo sirve para agregarle un archivo a la norma una vez cargada.Tambien se le puede setear el nombre que uno quiera que aparezca .
     public function agregarArchivo(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         $form = $this->createForm(ArchivoType::class, $norma);
@@ -1161,6 +1151,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/editTexto", name="texto_edit", methods={"GET", "POST"})
      */
+    //este metodo se ejecuta cuando se quiere editar solamente el texto, por lo cual crea un pdf del texto como estaba antes de editarlo.
     public function editTexto(Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {   
         $session=$this->get('session');
@@ -1222,7 +1213,7 @@ class NormaController extends AbstractController
     public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
         $idTipoNorma=$norma->getTipoNorma()->getId();
-        //dd($idTipoNorma);
+
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
@@ -1377,6 +1368,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/{t}", name="norma_show_arbol", methods={"GET"})
      */
+    //este metodo no se usa
     public function normaArbol(Norma $norma,$id,$t): Response
     {
         

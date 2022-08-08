@@ -24,7 +24,6 @@ class ConsultaController extends AbstractController
      */
     public function index(ConsultaRepository $consultaRepository,PaginatorInterface $paginator,Request $request): Response
     {
-
         $todasConsultas=$consultaRepository->createQueryBuilder('p')->getQuery();
         $consultas = $paginator->paginate(
             
@@ -49,6 +48,7 @@ class ConsultaController extends AbstractController
      */
     public function consultaMensaje(Request $request, $bandera, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository): Response
     {
+        //plantilla para saber si el mensaje fue enviado correctamente o no, dependiendo de la bandera;
         return $this->render('consulta/consultaEnviada.html.twig',[
             'bandera' => $bandera
         ]);
@@ -59,8 +59,8 @@ class ConsultaController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,TipoConsultaRepository $tipoConsultaRepository, ConsultaRepository $consultaRepository ): Response
     {
+        //token un valor q pasa el recaptcha;
         $token = $_POST['token'];
-
         $cu = curl_init();
         curl_setopt($cu, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
         curl_setopt($cu, CURLOPT_POST, 1); //Indica el tipo de envio POST
@@ -75,9 +75,9 @@ class ConsultaController extends AbstractController
         $response = curl_exec($cu);
         curl_close($cu);
         $datos = json_decode($response, true);
-
+        //lo anterior son funciones para saber si el recaptcha fue successfull o no;
         $mensaje="";
-        
+        //recuperamos los datos de la consulta, y si falta alguno, construimos el mensaje q falta dicho campo;
         if ($datos['success'] == false or $datos['score'] < 0.5) {
             dd($datos);
         } else {
@@ -111,16 +111,10 @@ class ConsultaController extends AbstractController
                     'notice',
                     $mensaje
             );
-
                 return $this->redirectToRoute('inicio',[],Response::HTTP_SEE_OTHER);
-
             }
-            
-            
             $tema=$request->get('tema');//string
-            
-            //if(!$request->request->get('etiquetas')){
-            
+            //una vez que el captcha fue successfull, creamos la consulta, pero antes checkeamos que esa persona no haya hecho la misma consulta el mismo dia;
             $consultas = $consultaRepository->findByEmail($correo);
             //dd($consultas);
             $today = new DateTime();
@@ -148,60 +142,6 @@ class ConsultaController extends AbstractController
             return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
         }
     }
-    /*{
-        $token = $_POST['token'];
-
-        $cu = curl_init();
-        curl_setopt($cu, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-        curl_setopt($cu, CURLOPT_POST, 1); //Indica el tipo de envio POST
-        curl_setopt($cu, CURLOPT_POSTFIELDS, http_build_query(
-            [
-                'secret' => '6LedpdAgAAAAAOtvcORbWBIy9OXpZTfccBKC5JCT',
-                'response' => $token,
-            ]
-        ));
-        curl_setopt($cu, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec($cu);
-        curl_close($cu);
-        $datos = json_decode($response, true);
-        
-        if ($datos['success'] == false or $datos['score'] < 0.5) {
-            dd($datos);
-        } else {
-            $nombre=$request->get('nombre');
-            $correo=$request->get('correo');//string
-            $tema=$request->get('tema');//string
-            $telefono=$request->get('telefono');//string
-            //if(!$request->request->get('etiquetas')){
-            $texto=$request->get('consulta');
-            $consultas = $consultaRepository->findByEmail($correo);
-            //dd($consultas);
-            $today = new DateTime();
-            $todayFormato = $today->format("Y-m-d");
-            foreach($consultas as $unaConsulta){
-                $fechaConsulta = $unaConsulta->getFechaYHora()->format("Y-m-d");
-                if(($unaConsulta->getTexto() == $texto) && ($todayFormato == $fechaConsulta)){
-                    $bandera = true;
-                    return $this->redirectToRoute('consultaMensaje',['bandera' => 1],Response::HTTP_SEE_OTHER);
-                }   
-            }
-            $tipo=$tipoConsultaRepository->findByNombre($tema);
-            $tipoConsulta=$tipo[0];
-            
-            $consulta = new Consulta();
-            $consulta->setNombre($nombre);
-            $consulta->setEmail($correo);
-            $consulta->setTipoConsulta($tipoConsulta);
-            $consulta->setNumeroTel($telefono);
-            $consulta->setTexto($texto);
-            $consulta->setFechaYHora($today);
-            $entityManager->persist($consulta);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('consultaMensaje',['bandera' => 0],Response::HTTP_SEE_OTHER);
-        }
-    }*/
 
     /**
      * @Route("/{id}", name="consulta_show", methods={"GET"})

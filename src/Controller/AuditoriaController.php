@@ -27,7 +27,6 @@ class AuditoriaController extends AbstractController
         //dd($sesion);
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);

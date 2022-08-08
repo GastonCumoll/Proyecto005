@@ -32,6 +32,7 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/{id}/edit/{t}", name="tipo_norma_reparticion_edit", methods={"GET", "POST"})
      */
+    //este metodo se ejecuta cuando se quiere editar una reparticion a un tipo de norma id = id de la reparticion y t = id del tipo de norma
     public function edit($id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository,$t): Response
     {
         $tipo=$tipoNormaRepository->findById($t);
@@ -65,6 +66,7 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/reparticionNorma/{id}", name="reparticion_norma", methods={"GET"})
      */
+    //este metodo muestra las reparticiones de un tipo de norma, que es pasado por parametro en id= id de tipo de norma
     public function reparticionNorma(SeguridadService $seguridad,TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id): Response
     {
         $sesion=$this->get('session');
@@ -97,6 +99,7 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/new/{id}", name="tipo_norma_reparticion_new", methods={"GET", "POST"})
      */
+    //este metodo le agrega una reparticion a un tipo de norma que es pasado por parametro con la variable id= id del tipo de norma
     public function new(Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
         $tipoNormaReparticion = new TipoNormaReparticion();
@@ -108,9 +111,6 @@ class TipoNormaReparticionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($tipoNormaReparticion->getTipoNormaId());
-            //dd($form->get('tipoNormaId')->getData());
-            //$tipoN=dd($form->get('archivo')->getData());
             $entityManager->persist($tipoNormaReparticion);
             $entityManager->flush();
 
@@ -138,8 +138,10 @@ class TipoNormaReparticionController extends AbstractController
     /**
      * @Route("/{id}/{t}", name="tipo_norma_reparticion_delete", methods={"POST"})
      */
+    //este metodo le borra alguna reparticion a un tipo de norma, id= id de reparticion y t=id del tipo de norma
     public function delete($t,$id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager): Response
     {
+
         $tnr=$tipoNormaReparticionRepository->findByTipoNormaId($t);
         foreach ($tnr as $tnrNorma) {
             if($tnrNorma->getReparticionId()->getId()==$id){

@@ -34,6 +34,7 @@ class TipoNormaRolController extends AbstractController
     /**
      * @Route("/rolTipoNorma/{id}", name="rol_tipo_norma", methods={"GET"})
      */
+    //este metodo muestra los roles que pueden acceder a un tipo de norma en especifico,el parametro id= id del tipo de norma
     public function rolTipoNorma(TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id,AreaRepository $areaRepository,SeguridadService $seguridad): Response
     {
         $rolesTipo=[];
@@ -41,38 +42,30 @@ class TipoNormaRolController extends AbstractController
         //$tipoNorma=$tipoNormaRepository->findById($id);
         $tipo=$tipoNorma[0];
         $rolDeTipo=$tipoNorma[0]->getTipoNormaRoles();
-        // dd($rolDeTipo);
         foreach ($rolDeTipo as $r) {
             $rolesTipo[]=$r;
         }
-        // if(!$rolesTipo){
-        //     $rolesTipo[]="";
-        // }
 
-        
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
 
-            $sesion=$this->get('session');
-            $idSession=$sesion->get('session_id')*1;
-            if($seguridad->checkSessionActive($idSession)){
-                
-                // dd($idSession);
-                $roles=json_decode($seguridad->getListRolAction($idSession), true);
-                // dd($roles);
-                $rol=$roles[0]['id'];
-                // dd($rol);
-            }else {
-                $rol="";
-            }
-            $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $reparticionUsuario = $areaRepository->find($idReparticion);
+        $normasUsuario = [];
+        //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
+        }
 
-            $reparticionUsuario = $areaRepository->find($idReparticion);
-            $normasUsuario = [];
-            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getId();
-            }
-        //dd($rolesTipo);
-        //dd($reparticionesDeNorma);
         return $this->render('tipo_norma_rol/index.html.twig', [
             'tipoNorma' => $tipo,
             'rol'=>$rol,
@@ -83,6 +76,7 @@ class TipoNormaRolController extends AbstractController
     /**
      * @Route("/new/{id}", name="tipo_norma_rol_new", methods={"GET", "POST"})
      */
+    //este metodo le agrega un rol a un tipo de norma, su id es enviado por el parametro id.
     public function new(Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
         $tipo=$tipoNormaRepository->findById($id);
@@ -119,14 +113,14 @@ class TipoNormaRolController extends AbstractController
     /**
      * @Route("/{id}/edit/{t}", name="tipo_norma_rol_edit", methods={"GET", "POST"})
      */
+    //este metodo se usa para editar el rol de un tipo de norma, el parametro "id" se refiere al id de la relacion entre un tipo de norma y un rol,
+    //y t se refiere al id de tipo de norma
     public function edit($t,Request $request, TipoNormaRolRepository $tipoNormaRolRepository, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        //busca el tipo de norma y la relacion entre un tipo de norma y un rol, que se encuentra en la tabla de $tipoNormaRolRepository;
         $tipoNorma=$tipoNormaRepository->findOneById($t);
-        //$tipo=$tipoNormaRepository->findById($t);
         $tipoN=$tipoNormaRolRepository->findOneById($id);
-        //dd($tipoN);
-        // $tipoNormaRol=$tipoNormaRolRepository->findByTipoNorma($tipo);
-        // dd($tipoNormaRol);
+
         $form = $this->createForm(TipoNormaRolType::class, $tipoN);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

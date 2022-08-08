@@ -26,8 +26,7 @@ class ItemController extends AbstractController
     public function index(ItemRepository $itemRepository,Request $request, SeguridadService $seguridad,PaginatorInterface $paginator): Response
     {
 
-        $itemsAll = $itemRepository->createQueryBuilder('p')
-            ->getQuery();
+        $itemsAll = $itemRepository->createQueryBuilder('p')->getQuery();
 
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(
@@ -56,7 +55,6 @@ class ItemController extends AbstractController
         }
         return $this->render('item/index.html.twig', [
             'items' => $items,
-            //'items' => $itemRepository->findAll(),
             'rol' =>$rol,
         ]);
     }
@@ -64,6 +62,7 @@ class ItemController extends AbstractController
     /**
      * @Route("/{palabra}/busquedaParam", name="busqueda_param_item", methods={"GET","POST"}, options={"expose"=true})
      */
+    //metodo para buscar un item por su nombre
     public function busquedaParam(ItemRepository $itemRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
@@ -75,11 +74,6 @@ class ItemController extends AbstractController
         }else{
             $todosItems=$itemRepository->findUnItem($palabra);//ORMQuery
         }
-
-        // 
-        
-        
-        //$todosItems=array_unique($todosItems);
 
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(
@@ -115,19 +109,14 @@ class ItemController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        
         $item = new Item();
         
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
-        
-
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form['dependencias']->getData());
             //$depen=$form['dependencias']->getData();
             //$tam=sizeof($depen);
-            
-            
             $entityManager->persist($item);
             $entityManager->flush();
             // for($i=0;$i<$tam;$i++){
@@ -206,10 +195,6 @@ class ItemController extends AbstractController
                     }
                 }
             }
-            
-
-            
-            
             //remuevo el item
             $entityManager->remove($item);
             //$entityManager->flush();
@@ -224,11 +209,8 @@ class ItemController extends AbstractController
                 }
                 $entityManager->flush();
             }
-
             //dd($item);
-            
         }
-
         return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
     }
 }

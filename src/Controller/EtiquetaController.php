@@ -30,7 +30,6 @@ class EtiquetaController extends AbstractController
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -39,31 +38,31 @@ class EtiquetaController extends AbstractController
         }else {
             $rol="";
         }
-        // Recuperar el administrador de entidades de Doctrine
+        // Otra forma de acceder al entity manager(en vez de inyectar $etiquetaRepository)
         $em = $this->getDoctrine()->getManager();
         
-        // Obtener algún repositorio de datos, en nuestro caso tenemos una entidad de Citas
-        $etiqueta = $em->getRepository(Etiqueta::class);
+        //Aca obtenemos el repository
+        $etiquetaRepository = $em->getRepository(Etiqueta::class);
                 
-        // Encuentre todos los datos en la tabla de Citas, filtre su consulta como necesite
-        $allAppointmentsQuery = $etiqueta->createQueryBuilder('p')
+        //Busca todas las etiquetas
+        $etiquetasQuery = $etiquetaRepository->createQueryBuilder('p')
             ->getQuery();
         
         // Paginar los resultados de la consulta
-        $appointments = $paginator->paginate(
+        $etiquetas = $paginator->paginate(
             // Consulta Doctrine, no resultados
-            $allAppointmentsQuery,
+            $etiquetasQuery,
             // Definir el parámetro de la página
             $request->query->getInt('page', 1),
             // Items per page
             10
         );
-        $appointments->setCustomParameters([
+        $etiquetas->setCustomParameters([
             'align' => 'center',
         ]);
         return $this->render('etiqueta/index.html.twig', [
             //'etiquetas' => $etiquetaRepository->findAll(),
-            'etiquetas' => $appointments,
+            'etiquetas' => $etiquetas,
             'rol'=>$rol,
         ]);
     }
@@ -71,11 +70,13 @@ class EtiquetaController extends AbstractController
     /**
      * @Route("/{id}/busquedaId", name="busqueda_id_etiqueta", methods={"GET","POST"}, options={"expose"=true})
      */
+    //metodo para buscar las normas que tienen una etiqueta determinada
     public function busquedaId(AreaRepository $areaRepository, NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         $etiqueta=$etiquetaRepository->find($id);//array
+        //$etiqueta->getNormas()->toArray() trae las normas de $etiqueta, que anteriormente fue buscada por su id, y lo convierte en array. No es conveniente en el paginator 
+        //trabajar con arrays, por eso en $normaRepository->findNormasEtiqueta, devuelve una instancia de query, para trabajar con el knp paginator
         $normasEtiquetas=$etiqueta->getNormas()->toArray();
-
         $normas=$normaRepository->findNormasEtiqueta($normasEtiquetas);
 
         // Paginar los resultados de la consulta
@@ -94,7 +95,6 @@ class EtiquetaController extends AbstractController
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -112,9 +112,9 @@ class EtiquetaController extends AbstractController
         $normasUsuario = [];
         if($reparticionUsuario){
             //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-        foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-            $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
-        }
+            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            }
         }
         
         return $this->render('norma/indexAdmin.html.twig', [
@@ -124,26 +124,24 @@ class EtiquetaController extends AbstractController
             'normas' => $norma,
             'normasUsuario' => $normasUsuario,
         ]);
-        
     }
 
     /**
      * @Route("/{palabra}/busquedaParam", name="busqueda_param_etiqueta", methods={"GET","POST"}, options={"expose"=true})
      */
+    //metodo que busca, dependiendo de la variable "palabra",las etiquetas con ese string de nombre, o que lo contenga.
     public function busquedaParam(EtiquetaRepository $etiquetaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         //dd($palabra);
         //$palabra es el string que quiero buscar
+        //cambiamos el caracter "§" por "/", porque habia un problema con las rutas.
         $palabra=str_replace("§","/",$palabra);
         if($palabra==" "){
             $todasEtiquetas=[];
         }else{
             $todasEtiquetas=$etiquetaRepository->findUnaEtiqueta($palabra);//ORMQuery
         }
-        // 
-        
-        
-        //$todasEtiquetas=array_unique($todasEtiquetas);
+        //ahora todasEtiquetas es un query de las etiquetas que contienen en su nombre la variable $palabra, que es recibida por parametro;
 
         // Paginar los resultados de la consulta
         $etiquetas = $paginator->paginate(
@@ -158,7 +156,6 @@ class EtiquetaController extends AbstractController
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);

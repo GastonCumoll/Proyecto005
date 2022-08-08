@@ -34,10 +34,10 @@ class RelacionController extends AbstractController
         ]);
     }
     
-    //editar relacion existente en 2 normas
     /**
      * @Route("/edit/{id}/{idA}/{idR}", name="relacion_edit", methods={"GET","POST"})
      */
+    //este metodo es usado cuando se quiere editar relacion existente en 2 normas
     public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
     {
         $today=new DateTime();
@@ -157,10 +157,11 @@ class RelacionController extends AbstractController
     }
 
 
-    //agregarle una relacion a una norma
+    
     /**
      * @Route("/{id}/relaFormEdit", name="form_rela_edit", methods={"GET", "POST"})
      */
+    //este metodo es usado cuando se quiere agregarle una relacion a una norma
     public function relacionFormEditar($id,TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
     {
         $today=new DateTime();

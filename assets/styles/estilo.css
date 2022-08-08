@@ -62,7 +62,12 @@
 #passCorrect{
     background-color: #08a72b !important;
 }
-
+#tituloD{
+    /* font: 20px !important; */
+    font-family:'Montserrat', sans-serif !important;
+    font-size: 1.5rem !important;
+    text-align:left !important; 
+}
 .foto{
     width: 120px;
 }

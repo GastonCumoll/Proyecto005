@@ -64,6 +64,7 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/nueva", name="norma_nueva", methods={"GET", "POST"})
      */
+    //este metodo se utiliza cuando se va a cargar una norma, primero pregunta que tipo de norma es, y luego redirige al metodo de creacion de norma, con un id, que es del tipo de norma 
     public function nuevoTipoNorma(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,AreaRepository $areaRepository,TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
@@ -85,6 +86,7 @@ class TipoNormaController extends AbstractController
 
         $idTipoNorma=[];
         $tiposDeNormas=[];
+        //solamente el rol operador puede cargar normas
         if($rol=='DIG_OPERADOR'){
             $tiposDeNormasRol=$tipoNormaRolRepository->findByNombreRol('DIG_OPERADOR');
             //dd($tiposDeNormasRol);
@@ -108,6 +110,7 @@ class TipoNormaController extends AbstractController
     /**
      * @Route("/addRol/{id}", name="roles_tipo_norma", methods={"GET", "POST"})
      */
+    //este metodo por el momento no se usa
     public function addRol(Request $request, EntityManagerInterface $entityManager,TipoNorma $tipoNormaT,TipoNormaRepository $tipoNormaRepository,$id): Response
     {
         $tipo=$tipoNormaRepository->findById($id);

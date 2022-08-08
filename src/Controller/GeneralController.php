@@ -25,12 +25,10 @@ class GeneralController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        
         if ($request->getSession()->get('active') == 1)
             return $this->redirectToRoute('inicio_admin');
         else
             return $this->render('general/login.html.twig');
-        
     }
 
     /**
@@ -38,13 +36,10 @@ class GeneralController extends AbstractController
      */
     public function inicio(Request $request,TipoConsultaRepository $tipoConsultaRepository,ConsultaRepository $consulta): Response
     {
-        
         $tiposConsultas = $tipoConsultaRepository->findAll();
         return $this->renderForm('general/inicio.html.twig',[
             'tiposConsultas' => $tiposConsultas,
- 
         ]);
-
     }
 
     /**
@@ -87,14 +82,11 @@ class GeneralController extends AbstractController
         return $this->render('general/error.html.twig');
     }
 
-
     // /**
     //  * @Route("/datosUser", name="datos_usuario")
     //  */
     // public function datos(): Response
     // {
-
-
 
     //     return $this->render('general/datos.html.twig');
     // }
