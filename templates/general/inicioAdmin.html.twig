@@ -12,6 +12,21 @@
                 </div>
             </div>
         {% endfor %}
+        <br>
+        <br>
+        <div class="card text-center tarjetaUs">
+            <i class="fa-solid fa-user usuario"style="font-size:100px;"></i>
+            <div class="card-body">
+                <h5 class="card-title">Bienvenido {{ app.session.get('username')}} </h5>
+                {# <p class="card-text"></p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> #}
+            </div>
+            </div>
+        {# <div>
+            
+            <h4 class="display-inline">Bienvenido {{ app.session.get('username')}} </h4>
+        </div> #}
+        
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 </body>
 

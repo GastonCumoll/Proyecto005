@@ -247,7 +247,13 @@ class NormaController extends AbstractController
         $auditoria->setNombreUsuario($usuario);
         $auditoria->setFecha($today);
 
-        if($estadoNorma=="Borrador"){
+        if($estadoNorma == "Borrador"){
+            $cantidadBorrador=$sesion->get('cantB');
+            $cantidadBorrador--;
+            $sesion->set('cantB',$cantidadBorrador);
+            $cantidadListas=$sesion->get('cantL');
+            $cantidadListas++;
+            $sesion->set('cantL',$cantidadListas);
             //$array[]="DIG_OPERADOR";
             if("DIG_OPERADOR"==$rol){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
@@ -269,6 +275,9 @@ class NormaController extends AbstractController
             }
         }
         if($estadoNorma=="Lista"){
+            $cantidadListas=$sesion->get('cantL');
+            $cantidadListas--;
+            $sesion->set('cantL',$cantidadListas);
             if("DIG_EDITOR"==$rol){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
@@ -290,6 +299,9 @@ class NormaController extends AbstractController
             
         }
         if($estadoNorma=="Publicada"){
+            $cantidadBorrador=$sesion->get('cantB');
+            $cantidadBorrador++;
+            $sesion->set('cantB',$cantidadBorrador);
             if("DIG_ADMINISTRADOR"==$rol){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual(1);
@@ -334,6 +346,12 @@ class NormaController extends AbstractController
         $auditoria->setFecha($today);
 
         if($estadoNorma=="Lista"){
+            $cantidadBorrador=$session->get('cantB');
+            $cantidadBorrador++;
+            $session->set('cantB',$cantidadBorrador);
+            $cantidadListas=$session->get('cantL');
+            $cantidadListas--;
+            $session->set('cantL',$cantidadListas);
             $auditoria->setInstanciaAnterior($norma->getInstancia());
             $auditoria->setInstanciaActual(1);
             $auditoria->setEstadoAnterior($norma->getEstado());

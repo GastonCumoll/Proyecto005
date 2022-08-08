@@ -101,8 +101,24 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
+    public function findBorradoresCont($rol,$reparticionId){
+        // dd($roles);
+        $consulta=$this->createQueryBuilder('p');
+        $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
+        ->orderBy('p.id','ASC');
+        // foreach ($roles as $rol) {
+            $consulta->andWhere("tr.nombreRol='".$rol."'");
+        // }
+        $consulta->andWhere("tnr.reparticionId = '".$reparticionId."'");
+        //dd($consulta);
+        $query=$consulta->getQuery()->getArrayResult();
+        //dd($query);
+        return $query;
+    }
+
     public function findBorradores($roles,$reparticion){
-        // dd($reparticion->getId());
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
@@ -115,6 +131,21 @@ class NormaRepository extends ServiceEntityRepository
         //dd($consulta);
         $query=$consulta->getQuery();
         //dd($query);
+        return $query;
+    }
+
+
+    public function findListasCont($rol,$reparticionId){
+        $consulta=$this->createQueryBuilder('p');
+        $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
+        ->orderBy('p.id','ASC');
+        // foreach ($roles as $rol) {
+            $consulta->andWhere("tr.nombreRol='".$rol."'");
+        // }
+        $consulta->andWhere("tnr.reparticionId='".$reparticionId."'");
+        $query=$consulta->getQuery()->getArrayResult();
         return $query;
     }
 

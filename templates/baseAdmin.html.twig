@@ -9,8 +9,16 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
                 {% if  app.session.get('rolAuth') != 4 %}
-                <a class="dropdown-item" href="{{ path('borrador') }}">Borradores</a>
-                <a class="dropdown-item" href="{{ path('listas') }}">Listas</a>
+                {% if app.session.get('rolAuth') == 2 %}
+                    <a class="dropdown-item" href="{{ path('borrador') }}">Borradores <span class="badge badge-info">{{app.session.get('cantB')}}</span></a>
+                {% else %}
+                    <a class="dropdown-item" href="{{ path('borrador') }}">Borradores</a>
+                {% endif %}
+                {% if app.session.get('rolAuth') == 3 %}
+                    <a class="dropdown-item" href="{{ path('listas') }}">Listas <span class="badge badge-info">{{app.session.get('cantL')}}</span></a>
+                {% else %}
+                    <a class="dropdown-item" href="{{ path('listas') }}">Listas</a>
+                {% endif %}
                 <a class="dropdown-item" href="{{ path('norma_nueva') }}">Nueva</a>
                 {% endif %}
             </div>

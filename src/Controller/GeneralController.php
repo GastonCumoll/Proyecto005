@@ -9,6 +9,7 @@ use App\Form\TipoConsultaType;
 use App\Form\ChangePasswordType;
 use App\Service\SeguridadService;
 use App\Repository\AreaRepository;
+use App\Repository\NormaRepository;
 use App\Repository\ConsultaRepository;
 use App\Repository\TipoConsultaRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,7 +95,7 @@ class GeneralController extends AbstractController
     /**
      * @Route("/autenticar", name="autenticar")
      */
-    public function autenticarAction(Request $request, SeguridadService $seguridad,AreaRepository $areas)
+    public function autenticarAction(Request $request, SeguridadService $seguridad,AreaRepository $areas,NormaRepository $normaRepo)
     {
         $bandera=0;
         //$seguridad = new SeguridadService();  // ESTO ESTÁ MUY MAL, MUY PERO MUY MAL. NO HACER NUNCA
@@ -104,7 +105,6 @@ class GeneralController extends AbstractController
             $bandera=2;
             return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER);
         }
-        
         
         //Script para testear
         /*dump("Lista de roles:\n".$seguridad->getListaRolesDeSistemaAction(157));
@@ -145,11 +145,27 @@ class GeneralController extends AbstractController
 
             // Para dumpear usuarios en el sistema
             //dd($seguridad->getListUserAction($session_id, 114));
+        
+
+            // Obtener el ID de la repartición del usuario logueado
+            $idReparticion = $seguridad->getIdReparticionAction($session_id);
+            //dd($idReparticion);
+            $reparticiones=$areas->findAll();
+            foreach ($reparticiones as $repa) {
+                if($repa->getId()==$idReparticion){
+                    $session->set('repa', $repa->getNombre());
+                }
+            }
+            $session->set('rolId', $idReparticion);
+            
 
             
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '2'); // 1 = ADMIN
+                $borradores=$normaRepo->findBorradoresCont('DIG_OPERADOR',$idReparticion);
+                $session->set('cantB',count($borradores));
+            
             }   
             else if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '1');
@@ -159,6 +175,8 @@ class GeneralController extends AbstractController
             }
             else if ($seguridad->checkAccessAction($session_id, 'DIG_EDITOR', $this->get('session'), false) == 1){
                 $session->set('rolAuth', '3');
+                $listas=$normaRepo->findListasCont('DIG_EDITOR',$idReparticion);
+                $session->set('cantL',count($listas));
             }
             // No pude autorizar, por ende me deslogueo
             else{
@@ -245,16 +263,6 @@ class GeneralController extends AbstractController
             // }
 
             // Setear el ID
-            // Obtener el ID de la repartición del usuario logueado
-            $idReparticion = $seguridad->getIdReparticionAction($session_id);
-            //dd($idReparticion);
-            $reparticiones=$areas->findAll();
-            foreach ($reparticiones as $repa) {
-                if($repa->getId()==$idReparticion){
-                    $session->set('repa', $repa->getNombre());
-                }
-            }
-            $session->set('rolId', $idReparticion);
             $session->set('rolNombre',$roles[0]['id']);
             /*
             // Código para pruebas
