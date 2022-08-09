@@ -236,7 +236,7 @@ class NormaController extends AbstractController
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
         $today=new DateTime();
-
+        // dd($today);
         //obtener el nombre del usuario logeado;
         $session=$this->get('session');
         $usuario=$session->get('username');
@@ -285,6 +285,7 @@ class NormaController extends AbstractController
                 $auditoria->setEstadoActual("Publicada");
                 $norma->setEstado("Publicada");
                 $norma->setInstancia(3);
+                $norma->setFechaPublicacion($today);
                 $auditoria->setAccion("Publicacion");
                 //$norma->setPublico($b);
                 $entityManager->persist($auditoria);
@@ -911,7 +912,7 @@ class NormaController extends AbstractController
             //dd($form['etiquetas']->getData());
             //dd($form->get('archivo')->getData());
             $today = new DateTime();
-            $norma->setFechaPublicacion($today);
+            //$norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
 
             $item =$form['items']->getData();
@@ -1023,7 +1024,9 @@ class NormaController extends AbstractController
             $entityManager->persist($auditoria);
             $norma->setInstancia(1);
             $norma->addAuditoria($auditoria);
-
+            $cantidadBorrador=$sesion->get('cantB');
+            $cantidadBorrador++;
+            $sesion->set('cantB',$cantidadBorrador);
             //setear instancia=1;
             $norma->setInstancia(1);
             $norma->setPublico(0);

@@ -39,6 +39,32 @@ class OrdenanzaType extends AbstractType
                 'requiered' => false,
             ],
         ])
+        ->add('fechaPublicacionBoletin',DateType::class,[
+            'required' => false,
+            'widget' =>'single_text',
+            'html5'=>false,
+            'format'=> 'dd/MM/yyyy',
+            'label' => 'Fecha publicacion en boletin',
+            'attr'=>[
+                'class' => 'datepicker col-2',
+                'style' => 'min-width: 200px;',
+                'placeholder' => 'Seleccionar',
+                'requiered' => false,
+            ],
+        ])
+        ->add('fechaPromulgacion',DateType::class,[
+            'required' => false,
+            'widget' =>'single_text',
+            'html5'=>false,
+            'format'=> 'dd/MM/yyyy',
+            'label' => 'Fecha de promulgacion',
+            'attr'=>[
+                'class' => 'datepicker col-2',
+                'style' => 'min-width: 200px;',
+                'placeholder' => 'Seleccionar',
+                'requiered' => false,
+            ],
+        ])
         //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
@@ -60,7 +86,7 @@ class OrdenanzaType extends AbstractType
                 'data-live-search'=>true,
             ]
         ])
-        //->add('fechaPublicacionBoletin')
+        //
         //->add('estado')
         ->add('archivo', FileType::class,[
             'multiple'=>true,
@@ -80,7 +106,7 @@ class OrdenanzaType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        //->add('fechaPromulgacion')
+        
         //->add('decretoPromulgacion')
     ;
     }

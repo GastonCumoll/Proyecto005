@@ -25,7 +25,7 @@ class ReparticionService extends AbstractController {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         //dd($idSession);
-
+        $normasUsuario=[];
         $idReparticion = $this->seguridad->getIdReparticionAction($idSession);
         //dd($idReparticion);
         if($idReparticion == 0)

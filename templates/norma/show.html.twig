@@ -80,7 +80,11 @@
             <div class="card-body">
                 <h5 class="card-title text-center">{{ norma.titulo }}</h5>
                 <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
-                <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+                {% if norma.estado =="Publicada" %}
+                    <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+                {% endif %}
+                <p class="card-text text-left">Fecha de sancion: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                <p class="card-text text-left">Fecha de promulgacion: {{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</p>
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
                 <br>
 
