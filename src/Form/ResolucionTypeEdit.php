@@ -37,6 +37,32 @@ class ResolucionTypeEdit extends AbstractType
                     'requiered' => false,
                 ],
             ])
+            ->add('fechaPublicacionBoletin',DateType::class,[
+                'required' => false,
+                'widget' =>'single_text',
+                'html5'=>false,
+                'format'=> 'dd/MM/yyyy',
+                'label' => 'Fecha de publicacion boletin',
+                'attr'=>[
+                    'class' => 'datepicker col-2',
+                    'style' => 'min-width: 200px;',
+                    'placeholder' => 'Seleccionar',
+                    'requiered' => false,
+                ],
+            ])
+            ->add('fechaPromulgacion',DateType::class,[
+                'required' => false,
+                'widget' =>'single_text',
+                'html5'=>false,
+                'format'=> 'dd/MM/yyyy',
+                'label' => 'Fecha de promulgacion',
+                'attr'=>[
+                    'class' => 'datepicker col-2',
+                    'style' => 'min-width: 200px;',
+                    'placeholder' => 'Seleccionar',
+                    'requiered' => false,
+                ],
+            ])
             //->add('fechaPublicacion')
             ->add('resumen')
             //->add('texto',  FroalaEditorType::class)
@@ -58,6 +84,11 @@ class ResolucionTypeEdit extends AbstractType
                 'mapped'=>false,
                 'required'=>false,
                 'attr' => ['class'=>'custom-file-imput'],
+            ])
+            ->add('nombre_archivo',TextType::class,[
+                'mapped' => false,
+                'required' => false,
+                'attr'=>['id'=>'ida'],
             ])
             ->add('etiquetas',EntityType::class,[
                 'required' => false,

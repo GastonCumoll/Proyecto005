@@ -14,7 +14,6 @@ class Area
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -43,6 +42,12 @@ class Area
     public function __toString()
     {
         return $this->nombre;
+    }
+
+    public function setId(int $id): ?int
+    {
+        $this->id=$id;
+        return $id;
     }
 
     public function getId(): ?int

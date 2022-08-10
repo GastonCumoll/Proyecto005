@@ -7,6 +7,7 @@ parameters:
     ws_mail_noreply: '%env(WS_MAIL_NOREPLY)%'
     brochures_directory: '%kernel.project_dir%/public/uploads/pdf'
     ws_seguridad: '%env(WS_SEGURIDAD)%'
+    ws_reparticiones: '%env(WS_REPARTICIONES)%'
 
 services:
     App\EventSubscriber\ConsultaSubscriber:
@@ -40,6 +41,9 @@ services:
             $ws_seguridad: '%ws_seguridad%'
     reparticion_service:
         class: App\Service\ReparticionService
+        public: true
+    find_reparticion_service:
+        class: App\Service\FindReparticionService
         public: true
     custom_service:
         class: App\Service\CustomService

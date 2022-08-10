@@ -41,7 +41,6 @@ class BusquedaType extends AbstractType
                 'mapped' => false
                 ])
             ->add('anio',TextType::class,[
-                
                 'required' => false,
                 'mapped' => false,
                 'label' => 'Año'
@@ -59,6 +58,10 @@ class BusquedaType extends AbstractType
                             'data-size'=>'10',
                             'data-live-search'=>true,
                         ]
+                ])
+                ->add('texto',TextType::class,[
+                    'required' => false,
+                    'mapped' => false
                 ])
         ;
     }

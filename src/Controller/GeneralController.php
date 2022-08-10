@@ -342,6 +342,7 @@ class GeneralController extends AbstractController
      */
     public function logout(SeguridadService $seguridad,$bandera)
     {   
+        //dd($bandera);
         $session = $this->get('session');
         $session_id = $session->get('session_id') * 1;
         $seguridad->logoutAction($session_id);
@@ -364,6 +365,10 @@ class GeneralController extends AbstractController
                 'NO TIENE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN! '
             );
         }
-        return $this->redirect($this->generateUrl('login'));
+        if($bandera==0){
+            return $this->redirect($this->generateUrl('inicio'));
+        }else{
+            return $this->redirect($this->generateUrl('login'));
+        }
     }
 }

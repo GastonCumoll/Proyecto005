@@ -16,6 +16,12 @@
     <a href="{{ path('area_index') }}" class="btn btn-primary">Cancelar</a>
 </div>
 </div>
+{% block javascripts %}
+{{ parent() }}
+{# {{encore_entry_script_tags('etiquetasNorma')}} #}
+{{encore_entry_script_tags('datepicker')}}
+{{encore_entry_script_tags('etiqueta')}}
 
+{% endblock  %} 
 {% endblock %}
 

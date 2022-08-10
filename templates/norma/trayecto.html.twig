@@ -25,7 +25,6 @@
     </thead>
     <tbody>
         {% for unaAuditoria in auditoriasDeNorma %}
-        
             {% if unaAuditoria.estadoActual == "Borrador" %}
             <tr class="table-warning">
                 <td>
@@ -83,6 +82,12 @@
     {{ knp_pagination_render(auditoriasDeNorma) }}
 </div>
 </div>
+<div class="text-center">
+    <span class="badge badge-warning badgeEstado">Borrador</span>
+    <span class="badge badge-success badgeEstado">Lista</span>
+    <span class="badge badge-primary badgeEstado">Publicada</span>
+</div>
+
 {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}

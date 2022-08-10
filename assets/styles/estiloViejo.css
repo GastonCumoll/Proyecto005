@@ -26,21 +26,9 @@
 .js-example-basic-multiple{
     border: 0px !important;
 } 
-.tarjetaUs{
-    margin-left: 20% !important;
-    margin-right: 20% !important;
-    background-color:lightgrey !important;
-}
-.usuario{
-    margin-top: 5% !important;
-    color:#005B88 !important;
-}
 .datepicker,
 .table-condensed {
   max-width: 200px;
-}
-.badgeEstado{
-    width: 5rem;
 }
 #login{
     margin-top: 15vh !important;
@@ -71,10 +59,30 @@
     margin-right: 6rem !important;
 } */
 
+#passCorrect{
+    background-color: #08a72b !important;
+}
+#tituloD{
+    /* font: 20px !important; */
+    font-family:'Montserrat', sans-serif !important;
+    font-size: 1.5rem !important;
+    text-align:left !important; 
+}
 .foto{
     width: 120px;
 }
-
+.tarjetaUs{
+    margin-left: 20% !important;
+    margin-right: 20% !important;
+    background-color:lightgrey !important;
+}
+.usuario{
+    margin-top: 5% !important;
+    color:#005B88 !important;
+}
+.badgeEstado{
+    width: 5rem;
+}
 .btn-info, .bg-info{
     background-color: #66A1AA !important;
 }

@@ -1,0 +1,8 @@
+@media (max-width: 575px){
+    .barrita{
+        width: 90vw !important;
+    }
+    .barra{
+        width: 33% !important;
+    }
+}

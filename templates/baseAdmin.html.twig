@@ -1,10 +1,13 @@
 <header class="headerAdmin">
+    {% block addStyleSheets %}
+    {{ encore_entry_link_tags('menuAdmin') }}
+    {% endblock %}
     <br>
 <div class="barraNavegacion">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills" id="listadoElementos">
         
         
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" id="PrimerItem">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
@@ -33,7 +36,7 @@
             </div>
         </li>
         
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown ultimoItem">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Parámetros</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ path('area_index') }}">Areas</a>
@@ -49,12 +52,12 @@
             </div>
         </li>
         {% endif %}
-        <div class="input-group float-right ml-auto mr-2">
+        <div class="input-group mr-2" id="busqueda-input">
             <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Buscar norma" aria-label="Input group example" aria-describedby="btnGroupAddon2">
             <div class="input-group-prepend">
                 <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
-            </div> 
+            </div>
         
     </ul>
     </div>

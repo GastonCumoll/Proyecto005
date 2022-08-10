@@ -1,0 +1,82 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 575px) and (min-width: 400px) {
+
+    .form-row{
+        display: inline-block !important;
+    }
+    .col-6{
+        display: inline-block !important;
+        margin-right: 30% !important;
+    }
+    .card-body{
+        text-align: center !important;
+    }
+    .js-example-basic-multiple{
+        width: 100% !important;
+        margin-right: 5% !important;
+    }
+    .cargando{
+        margin-top: 1rem !important;
+        margin-right: 2% !important;
+    }
+}
+@media (max-width: 767px) and (min-width: 576px){
+
+    .form-row{
+        display: inline-block !important;
+    }
+    .col-6{
+        display: inline-block !important;
+        margin-right: 15% !important;
+    }
+    .card-body{
+        text-align: center !important;
+    }
+    .js-example-basic-multiple{
+        width: 100% !important;
+        margin-right: 5% !important;
+    }
+    .cargando{
+        margin-top: 1rem !important;
+        margin-right: 2% !important;
+    }
+    .select{
+        width: 80% !important;
+    }
+    .select-input{
+        margin-left: 10% !important;
+    }
+}
+@media (max-width: 991px) and (min-width: 768px){
+    .select{
+        width: 100% !important;
+    }
+    .etiquetas{
+        width: 100% !important;
+        text-align: start !important;
+    }
+    .etiquetas-col{
+        width: 100% !important;
+    }
+    .select-input{
+        width: 100% !important;
+    }
+    .js-example-basic-multiple{
+        width: 43% !important;
+    }
+}
+@media (min-width: 992px){
+    .col-auto{
+        width: 20% !important;
+    }
+    .etiquetas{
+        text-align: start !important;
+        width: 10% !important;
+    }
+    .js-example-basic-multiple{
+        width: 100% !important;
+    }
+
+}
+

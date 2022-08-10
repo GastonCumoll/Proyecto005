@@ -53,6 +53,11 @@ Encore
     .addStyleEntry('indexAdmin','/assets/styles/indexAdmin.css')
     .addStyleEntry('index','/assets/styles/index.css')
     .addStyleEntry('scrollCss', '/assets/styles/scroll.css')
+    .addStyleEntry('formularioBusqueda', '/assets/styles/formularioBusqueda.css')
+    .addStyleEntry('menuAdmin', '/assets/styles/menuAdmin.css')
+    .addStyleEntry('footer', '/assets/styles/footer.css')
+    .addStyleEntry('botonBarraNavegacion', '/assets/styles/botonBarraNavegacion.css')
+    .addStyleEntry('barrita', '/assets/styles/barrita.css')
     
 
 

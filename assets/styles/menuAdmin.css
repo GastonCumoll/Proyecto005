@@ -1,0 +1,23 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@media (max-width: 767px){
+    #listadoElementos{
+        margin-left: 10vw !important;
+
+    }
+    .ultimoItem{
+        display: inline-block !important;
+    }
+    #busqueda-input{
+        margin-left: 5% !important;
+        margin-top: 2% !important;
+        margin-bottom: 2% !important;
+    }
+
+}
+@media (min-width: 768px){
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: auto !important;
+    }
+}

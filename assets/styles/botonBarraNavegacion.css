@@ -1,0 +1,7 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.navbar-toggler{
+    display: none !important;
+}
+
+

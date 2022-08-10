@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Area;
 use App\Form\AreaType;
 use App\Service\SeguridadService;
+use App\Service\FindReparticionService;
 use App\Repository\AreaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 /**
  * @Route("/area")
@@ -47,13 +49,25 @@ class AreaController extends AbstractController
     /**
      * @Route("/new", name="area_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,FindReparticionService $findReparticionService): Response
     {
-        $area = new Area();
-        $form = $this->createForm(AreaType::class, $area);
-        $form->handleRequest($request);
+        $reparticiones = $findReparticionService->DatosReparticiones();
 
+        $area = new Area();
+        $form = $this->createForm(AreaType::class,null,['reparticiones' => $reparticiones]);
+        $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $idRepa=$form->get('nombre')->getData();
+            //dd($idRepa);
+            // $area->setId($idRepa);
+            $nombreRepa=$findReparticionService->getNombreReparticion($idRepa);
+            $area->setId($idRepa);
+            $area->setNombre($nombreRepa);
+            
+            
+            $entityManager->persist($area);
+            
             $entityManager->persist($area);
             $entityManager->flush();
 

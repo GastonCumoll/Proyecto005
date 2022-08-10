@@ -94,6 +94,11 @@ class OrdenanzaType extends AbstractType
             'required'=>false,
             'attr' => ['class'=>'custom-file-imput'],
         ])
+        ->add('nombre_archivo',TextType::class,[
+            'mapped' => false,
+            'required' => false,
+            'attr'=>['id'=>'ida'],
+        ])
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,

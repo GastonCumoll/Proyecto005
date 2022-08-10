@@ -79,15 +79,29 @@
             
             <div class="card-body">
                 <h5 class="card-title text-center">{{ norma.titulo }}</h5>
-                <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
                 {% if norma.estado =="Publicada" %}
                     <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
                 {% endif %}
-                <p class="card-text text-left">Fecha de sancion: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
-                <p class="card-text text-left">Fecha de promulgacion: {{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</p>
+                {% if norma.fechaSancion %}
+                    <p class="card-text text-left">Fecha de sancion: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                {% endif %}
+                {% if norma.fechaPromulgacion %}
+                    <p class="card-text text-left">Fecha de promulgacion: {{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</p>
+                {% endif %}
+                {% if norma.fechaPublicacionBoletin %}
+                <p class="card-text text-left">Fecha de promulgacion: {{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('Y-m-d') : '' }}</p>
+                {% endif %}
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
-                <br>
-
+                
+                {% if ( rol == "DIG_OPERADOR" and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( rol == "DIG_EDITOR" and norma.estado == "Lista" and usuarioReparticion == 1 ) %}
+                    {% if norma.getItems %}
+                        <p class="card-text text-left">Tema que pertenece :
+                        {% for unItem in norma.getItems %}
+                            {{ unItem.getNombre }} 
+                        {% endfor %}</p>
+                    {% endif %}
+                {% endif %}
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
                         <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
@@ -190,11 +204,16 @@
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and rol =="DIG_EDITOR" %}
-                    <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
-                    <form action="{{path('updateInstancia')}}" method="post">    
-                        <input type="hidden" name="normaId" value="{{norma.id}}">
-                        <button type="submit" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
-                    </form>
+                        <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                        <form action="{{path('updateInstancia')}}" method="post">    
+                            <input type="hidden" name="normaId" value="{{norma.id}}">
+                            <button type="submit" class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
+                            {% if norma.publico == 1 %}
+                                <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
+                            {% else %}
+                                <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
+                            {% endif %}
+                        </form>
                     {% endif %}
 
                     {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}

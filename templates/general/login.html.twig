@@ -4,6 +4,12 @@
 
 {% block body %}
 
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('botonBarraNavegacion') }}
+    {{ encore_entry_link_tags('footer') }}
+{% endblock %}
+
     <form class="form-signin" id="login" method="POST" action="{{ path('autenticar') }}">
 
         

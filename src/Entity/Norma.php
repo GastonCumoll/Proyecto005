@@ -31,12 +31,12 @@ class Norma
     private $fechaPublicacion;
 
     /**
-     * @ORM\Column(type="string", length=255,nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $titulo;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=false)
      */
     private $texto;
 
@@ -51,7 +51,7 @@ class Norma
     private $fechaPublicacionBoletin;
 
     /**
-     * @ORM\Column(type="string", length=255,nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $estado;
 
@@ -89,7 +89,7 @@ class Norma
     private $relaciones;
 
 /**
-* @ORM\Column(type="boolean",nullable=true)
+* @ORM\Column(type="boolean")
 */
 protected $rela = false;
 

@@ -20,6 +20,7 @@ use App\Form\DecretoType;
 use App\Form\LeyTypeEdit;
 use App\Form\BusquedaType;
 use App\Form\CircularType;
+use App\Form\ItemEditType;
 use App\Form\RelacionType;
 use App\Form\OrdenanzaType;
 use App\Form\TextoEditType;
@@ -218,6 +219,11 @@ class NormaController extends AbstractController
      */
     public function updateInstancia(SeguridadService $seguridad,EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request)
     {
+        if(!empty($_POST['checkbox'])){
+            $b=1;
+        }else{
+            $b=0;
+        }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -287,7 +293,7 @@ class NormaController extends AbstractController
                 $norma->setInstancia(3);
                 $norma->setFechaPublicacion($today);
                 $auditoria->setAccion("Publicacion");
-                //$norma->setPublico($b);
+                $norma->setPublico($b);
                 $entityManager->persist($auditoria);
                 $entityManager->persist($norma);
                 //$entityManager->persist($userObj);
@@ -643,6 +649,7 @@ class NormaController extends AbstractController
     //este metodo recibe los valores del formulario de busqueda de la pagina "Busqueda Avanzada"
     public function formBusquedaResult(ReparticionService $reparticionService,AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
+
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -662,6 +669,10 @@ class NormaController extends AbstractController
             $reparticionUsuario = $areaRepository->find($idReparticion);
         }
 
+
+        $texto=$request->query->get('texto');
+        $textos=$normaRepository->findByTexto($texto);
+        dd($textos);
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
@@ -832,7 +843,7 @@ class NormaController extends AbstractController
             'texto' =>$texto,
         ]);
     }
-    
+
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
@@ -1092,8 +1103,9 @@ class NormaController extends AbstractController
                     $session=$this->get('session');
                     $usuario=$session->get('username');
                     
-                    //crear auditoria
-                    $auditoria=new Auditoria();
+                    //crear auditoria pero antes pregunto en que estado esta la norma
+                    if($norma->getEstado()=="Borrador"){
+                        $auditoria=new Auditoria();
                     $auditoria->setFecha($today);
                     $auditoria->setAccion("Carga archivo");
                     $instancia=$norma->getInstancia();
@@ -1108,9 +1120,27 @@ class NormaController extends AbstractController
                     $norma->setInstancia(1);
                     $norma->addAuditoria($auditoria);
 
-                    //setear instancia=1;
-                    $norma->setInstancia(1);
-                    $entityManager->persist($norma);                        
+
+                    $entityManager->persist($norma);  
+                    }
+                    if($norma->getEstado()=="Lista"){
+                        $auditoria=new Auditoria();
+                        $auditoria->setFecha($today);
+                        $auditoria->setAccion("Carga archivo");
+                        $instancia=$norma->getInstancia();
+                        $auditoria->setInstanciaAnterior($instancia);
+                        $auditoria->setInstanciaActual(2);
+                        $estadoAnt=$norma->getEstado();
+                        $auditoria->setEstadoAnterior($estadoAnt);
+                        $auditoria->setEstadoActual("Lista");
+                        $auditoria->setNombreUsuario($usuario);
+                        $auditoria->setNorma($norma);
+                        $entityManager->persist($auditoria);
+                        $norma->setInstancia(2);
+                        $norma->addAuditoria($auditoria);
+
+                        $entityManager->persist($norma);  
+                    }
                 }
             }
             $entityManager->flush();
@@ -1193,8 +1223,8 @@ class NormaController extends AbstractController
                     $session=$this->get('session');
                     $usuario=$session->get('username');
                     $today=new DateTime();
-
-                    //crear auditoria
+                    if($norma->getEstado()=="Borrador"){
+                        //crear auditoria
                     $auditoria=new Auditoria();
                     $auditoria->setFecha($today);
                     $auditoria->setAccion("Modificacion texto");
@@ -1212,6 +1242,28 @@ class NormaController extends AbstractController
                     //setear instancia=1;
                     $norma->setInstancia(1);
                     $entityManager->persist($norma);
+                    }
+                    if($norma->getEstado()=="Lista"){
+                        //crear auditoria
+                        $auditoria=new Auditoria();
+                        $auditoria->setFecha($today);
+                        $auditoria->setAccion("Modificacion texto");
+                        $instancia=$norma->getInstancia();
+                        $auditoria->setInstanciaAnterior($instancia);
+                        $auditoria->setInstanciaActual(2);
+                        $estadoAnt=$norma->getEstado();
+                        $auditoria->setEstadoAnterior($estadoAnt);
+                        $auditoria->setEstadoActual("Lista");
+                        $auditoria->setNombreUsuario($usuario);
+                        $auditoria->setNorma($norma);
+                        $entityManager->persist($auditoria);
+                        $norma->addAuditoria($auditoria);
+
+                        //setear instancia=1;
+                        $norma->setInstancia(2);
+                        $entityManager->persist($norma);
+                    }
+                    
                     
                     $entityManager->flush();
                     return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
@@ -1357,24 +1409,47 @@ class NormaController extends AbstractController
             $usuario=$session->get('username');
             $today=new DateTime();
 
-            //crear auditoria
-            $auditoria=new Auditoria();
-            $auditoria->setFecha($today);
-            $auditoria->setAccion("Modificacion");
-            $instancia=$norma->getInstancia();
-            $auditoria->setInstanciaAnterior($instancia);
-            $auditoria->setInstanciaActual(1);
-            $estadoAnt=$norma->getEstado();
-            $auditoria->setEstadoAnterior($estadoAnt);
-            $auditoria->setEstadoActual("Borrador");
-            $auditoria->setNombreUsuario($usuario);
-            $auditoria->setNorma($norma);
-            $entityManager->persist($auditoria);
-            $norma->addAuditoria($auditoria);
+            if($norma->getEstado()=="Borrador"){
+                //crear auditoria
+                $auditoria=new Auditoria();
+                $auditoria->setFecha($today);
+                $auditoria->setAccion("Modificacion");
+                $instancia=$norma->getInstancia();
+                $auditoria->setInstanciaAnterior($instancia);
+                $auditoria->setInstanciaActual(1);
+                $estadoAnt=$norma->getEstado();
+                $auditoria->setEstadoAnterior($estadoAnt);
+                $auditoria->setEstadoActual("Borrador");
+                $auditoria->setNombreUsuario($usuario);
+                $auditoria->setNorma($norma);
+                $entityManager->persist($auditoria);
+                $norma->addAuditoria($auditoria);
 
-            //setear instancia=1;
-            $norma->setInstancia(1);
-            $entityManager->persist($norma);
+                //setear instancia=1;
+                $norma->setInstancia(1);
+                $entityManager->persist($norma);
+            }
+            if($norma->getEstado()=="Lista"){
+                //crear auditoria
+                $auditoria=new Auditoria();
+                $auditoria->setFecha($today);
+                $auditoria->setAccion("Modificacion");
+                $instancia=$norma->getInstancia();
+                $auditoria->setInstanciaAnterior($instancia);
+                $auditoria->setInstanciaActual(2);
+                $estadoAnt=$norma->getEstado();
+                $auditoria->setEstadoAnterior($estadoAnt);
+                $auditoria->setEstadoActual("Lista");
+                $auditoria->setNombreUsuario($usuario);
+                $auditoria->setNorma($norma);
+                $entityManager->persist($auditoria);
+                $norma->addAuditoria($auditoria);
+
+                //setear instancia=1;
+                $norma->setInstancia(2);
+                $entityManager->persist($norma);
+            }
+            
 
             $entityManager->flush();
             return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);

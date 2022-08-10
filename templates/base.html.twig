@@ -10,7 +10,10 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     {% endblock %}
+
     {% block addStyleSheets %}
+    {{ encore_entry_link_tags('footer') }}
+    {{ encore_entry_link_tags('barrita') }}
     {# {{ encore_entry_link_tags('base') }} #}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('boton') }} 
@@ -73,7 +76,7 @@
         </nav>
     </div>
     <div class="barrita container">
-        <div class="d-none d-sm-flex cont">
+        <div class="d-sm-flex cont">
             <div class="barra" style="background-color: #47BCCA"></div>
             <div class="barra" style="background-color: #66A1AA"></div>
             <div class="barra" style="background-color: #005B88"></div>

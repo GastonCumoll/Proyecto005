@@ -171,15 +171,17 @@ class RelacionController extends AbstractController
         
         $repository = $this->getDoctrine()->getRepository(Norma::class);
         $norma = $repository->find($id);
+        
         $relacion->setNorma($norma);
+        
         $opcion=$tipoRelaRepository->findByPrioridad(1);
         $session=$this->get('session');
         $usuario=$session->get('username');
         $relacion->setUsuario($usuario);
         //dd($opcion);
+        // dd($relacion);
         $form = $this->createForm(RelacionType::class, $relacion);
         $form->handleRequest($request);
-        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($relacion);
