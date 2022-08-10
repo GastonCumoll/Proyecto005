@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Area;
 use App\Form\AreaType;
+use App\Form\AreaEditType;
 use App\Service\SeguridadService;
-use App\Service\FindReparticionService;
 use App\Repository\AreaRepository;
+use App\Service\FindReparticionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,7 +96,8 @@ class AreaController extends AbstractController
      */
     public function edit(Request $request, Area $area, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(AreaType::class, $area);
+
+        $form = $this->createForm(AreaEditType::class, $area);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

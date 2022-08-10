@@ -16,11 +16,10 @@ import 'bootstrap';
         botonEditar[i].addEventListener('click', function(){
             botonLupita.disabled = true;
             modal.style.display = "block";
-   
             body.style.position = "static";
             body.style.height = "100%";
             body.style.overflow = "hidden";
-   
+
             botonSi.addEventListener('click', function(){
                 var link= "/norma/"+botonEditar[i].value+"/generarPDF";
 

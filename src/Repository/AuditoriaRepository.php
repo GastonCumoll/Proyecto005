@@ -25,15 +25,26 @@ class AuditoriaRepository extends ServiceEntityRepository
     
     public function findByNorma($value)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.norma = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.norma = :val')
             ->setParameter('val', $value)
-            ->orderBy('a.id', 'DESC')
+            ->orderBy('p.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             // ->getResult()
         ;
     }
+    public function findByNormaTexto($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.norma = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     
 
     /*

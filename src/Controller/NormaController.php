@@ -768,9 +768,19 @@ class NormaController extends AbstractController
      * @Route("/{id}/generarPDF", name="generar_pdf")
      */
     //este metodo genera un pdf del texto de la norma
-    public function generarPdf(EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
+    public function generarPdf(AuditoriaRepository $auditoriaRepository,EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
+        $var=false;
         $norma=$normaRepository->find($id);
+        $auditorias=$auditoriaRepository->findByNormaTexto($norma);
+        //dd($auditorias);
+        foreach ($auditorias as $unaAuditoria) {
+            if($unaAuditoria->getEstadoActual()=="Publicada" ){
+                $var=true;
+            }
+        }
+        if($var == true){
+        
         $normaNombre=$norma->getTitulo();
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
 
@@ -821,14 +831,18 @@ class NormaController extends AbstractController
                 $entityManager->remove($unArchi);
             }
         }
-        
+        //dd($archi);
         $entityManager->persist($archi);
         $norma->addArchivos($archi);
         $entityManager->persist($norma);
         $entityManager->flush();
-
+        
+        //return true;
         return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
         exit;
+    }else{
+        return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
+    }
     }
 
     /**
@@ -1202,8 +1216,9 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/editTexto", name="texto_edit", methods={"GET", "POST"})
      */
-    //este metodo se ejecuta cuando se quiere editar solamente el texto, por lo cual crea un pdf del texto como estaba antes de editarlo.
-    public function editTexto(Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    //este metodo se ejecuta cuando se quiere editar solamente el texto, por lo cual se puede crear un pdf del texto como estaba antes de editarlo o no, dependiendo si
+    //alguna vez esa norma estuvo publicada o no
+    public function editTexto(NormaRepository $normaRepository,ArchivoRepository $archivoRepository,Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,AuditoriaRepository $auditoriaRepository,MpdfFactory $MpdfFactory): Response
     {   
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
