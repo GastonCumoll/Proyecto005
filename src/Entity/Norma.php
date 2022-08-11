@@ -125,6 +125,11 @@ private $auditorias;
  */
 private $publico;
 
+/**
+ * @ORM\Column(type="boolean", nullable=true)
+ */
+private $edito;
+
 
 
 public function getRela(): ?bool
@@ -487,6 +492,18 @@ public function setRela(?bool $rela): self
     public function setPublico(bool $publico): self
     {
         $this->publico = $publico;
+
+        return $this;
+    }
+
+    public function getEdito(): ?bool
+    {
+        return $this->edito;
+    }
+
+    public function setEdito(?bool $edito): self
+    {
+        $this->edito = $edito;
 
         return $this;
     }

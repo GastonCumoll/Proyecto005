@@ -66,28 +66,34 @@ class TipoNormaController extends AbstractController
      */
     //este metodo se utiliza cuando se va a cargar una norma, primero pregunta que tipo de norma es, y luego redirige al metodo de creacion de norma, con un id, que es del tipo de norma 
     public function nuevoTipoNorma(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,AreaRepository $areaRepository,TipoNormaRepository $tipoNormaRepository,Request $request, SeguridadService $seguridad): Response
-    {
+    {   
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];//array roles es un array que contiene todos los roles del usuario.(lo hicimos porq hay usuarios que tienen mas de un rol)
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
             $rol="";
         }
+        //dd($stringRoles);
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         // dd($normasUsuario);
         $reparticionUsuario = $areaRepository->find($idReparticion);
-
+        //dd($roles);
         $idTipoNorma=[];
         $tiposDeNormas=[];
         //solamente el rol operador puede cargar normas
-        if($rol=='DIG_OPERADOR'){
+        if(in_array('DIG_OPERADOR',$arrayRoles)){
+            //dd("lo encontro");
             $tiposDeNormasRol=$tipoNormaRolRepository->findByNombreRol('DIG_OPERADOR');
             //dd($tiposDeNormasRol);
             foreach ($tiposDeNormasRol as $unTipoNormaRol) {

@@ -132,9 +132,9 @@ class NormaController extends AbstractController
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            //dd($roles);
+            // dd($roles);
             $rol=$roles[0]['id'];
-            // dd($rol);
+            //dd($rol);
         }else {
             $rol="";
         }
@@ -291,6 +291,7 @@ class NormaController extends AbstractController
                 $auditoria->setEstadoActual("Publicada");
                 $norma->setEstado("Publicada");
                 $norma->setInstancia(3);
+                $norma->setEdito(false);
                 $norma->setFechaPublicacion($today);
                 $auditoria->setAccion("Publicacion");
                 $norma->setPublico($b);
@@ -672,7 +673,7 @@ class NormaController extends AbstractController
 
         $texto=$request->query->get('texto');
         $textos=$normaRepository->findByTexto($texto);
-        dd($textos);
+        //dd($textos);
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
@@ -765,11 +766,76 @@ class NormaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/generarPDF", name="generar_pdf")
+     * @Route("/{id}/{b}/publicar", name="publicar")
+     */
+    public function publicar($id,$b,SeguridadService $seguridad,EntityManagerInterface $entityManager,NormaRepository $normaRepository,Request $request){
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        //$id=$_POST['normaId'];
+        $norma=$normaRepository->find($id);
+        $estadoNorma=$norma->getEstado();
+        $today=new DateTime();
+        // dd($today);
+        //obtener el nombre del usuario logeado;
+        $session=$this->get('session');
+        $usuario=$session->get('username');
+
+        $auditoria=new Auditoria();
+
+        $auditoria->setNorma($norma);
+        $auditoria->setNombreUsuario($usuario);
+        $auditoria->setFecha($today);
+        if($estadoNorma=="Lista"){
+            $cantidadListas=$sesion->get('cantL');
+            $cantidadListas--;
+            $sesion->set('cantL',$cantidadListas);
+            if("DIG_EDITOR"==$rol){
+                $auditoria->setInstanciaAnterior($norma->getInstancia());
+                $auditoria->setInstanciaActual($norma->getInstancia()+1);
+                $auditoria->setEstadoAnterior($norma->getEstado());
+                $auditoria->setEstadoActual("Publicada");
+                $norma->setEstado("Publicada");
+                $norma->setInstancia(3);
+                $norma->setEdito(false);
+                $norma->setFechaPublicacion($today);
+                $auditoria->setAccion("Publicacion");
+                $norma->setPublico($b);
+                $entityManager->persist($auditoria);
+                $entityManager->persist($norma);
+                //$entityManager->persist($userObj);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                return $this->render('general/notRole.html.twig');
+            }
+        }
+    }
+
+
+    /**
+     * @Route("/{id}/generarPDF", name="generar_pdf",methods={"POST"})
      */
     //este metodo genera un pdf del texto de la norma
     public function generarPdf(AuditoriaRepository $auditoriaRepository,EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
+        if(!empty($_POST['checkbox'])){
+            $b=1;
+        }else{
+            $b=0;
+        }
         $var=false;
         $norma=$normaRepository->find($id);
         $auditorias=$auditoriaRepository->findByNormaTexto($norma);
@@ -779,7 +845,7 @@ class NormaController extends AbstractController
                 $var=true;
             }
         }
-        if($var == true){
+        if($var == true && $norma->getEdito() == true){
         
         $normaNombre=$norma->getTitulo();
         $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
@@ -838,11 +904,11 @@ class NormaController extends AbstractController
         $entityManager->flush();
         
         //return true;
-        return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
         exit;
-    }else{
-        return $this->redirectToRoute('texto_edit', ['id' =>$id], Response::HTTP_SEE_OTHER);
-    }
+        }else{
+            return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**
@@ -1220,11 +1286,13 @@ class NormaController extends AbstractController
     //alguna vez esa norma estuvo publicada o no
     public function editTexto(NormaRepository $normaRepository,ArchivoRepository $archivoRepository,Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,AuditoriaRepository $auditoriaRepository,MpdfFactory $MpdfFactory): Response
     {   
+
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);  //se obtiene la repartición del usuario logueado
         $reparticionesNorma = $norma->getTipoNorma()->getTipoNormaReparticions(); //se obtienen las reparticiones a las que pertenece ese tipo de norma a editar
 
+        $textoAnterior=$norma->getTexto();//se obtiene el texto antes de modificarlo para comprarlo despues si se cambio o no
         foreach($reparticionesNorma as $unaReparticion){
             if($unaReparticion->getReparticionId()->getId() == $idReparticion){ //comparo el id de repartición del tipo de norma con el id de repartición del usuario logueado
                 $form = $this->createForm(TextoEditType::class, $norma);
@@ -1232,6 +1300,10 @@ class NormaController extends AbstractController
         
                 if ($form->isSubmitted() && $form->isValid())
                 {
+                    if($norma->getTexto() != $textoAnterior){
+                        $norma->setEdito(true);
+
+                    }
                     $entityManager->persist($norma);        
                     //usuarios
                     //obtener el nombre del usuario logeado;
@@ -1278,8 +1350,6 @@ class NormaController extends AbstractController
                         $norma->setInstancia(2);
                         $entityManager->persist($norma);
                     }
-                    
-                    
                     $entityManager->flush();
                     return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
                 }
@@ -1508,8 +1578,8 @@ class NormaController extends AbstractController
      */
     public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
+        
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
-            
             //buscar usuario
             $session=$this->get('session');
             $usuario=$session->get('username');
@@ -1517,7 +1587,9 @@ class NormaController extends AbstractController
             $today=new DateTime();
 
             //crear auditoria
+            
             $auditoria=new Auditoria();
+            $auditoria->setNombreUsuario($usuario);
             $auditoria->setFecha($today);
             $auditoria->setAccion("Eliminacion");
             $instancia=$norma->getInstancia();
@@ -1532,9 +1604,11 @@ class NormaController extends AbstractController
 
             //setear instancia=4;
             $norma->setInstancia(4);
+            $norma->setEstado("Eliminada");
+            $norma->setPublico(0);
             $entityManager->persist($norma);
 
-            $entityManager->remove($norma);
+            //$entityManager->remove($norma);
             $entityManager->flush();
         }
 

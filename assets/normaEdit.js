@@ -21,7 +21,7 @@ import 'bootstrap';
             body.style.overflow = "hidden";
 
             botonSi.addEventListener('click', function(){
-                var link= "/norma/"+botonEditar[i].value+"/generarPDF";
+                var link= "/norma/"+botonEditar[i].value+"/editTexto";
 
                 botonLupita.disabled = false;
 

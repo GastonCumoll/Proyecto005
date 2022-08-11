@@ -145,8 +145,6 @@ class GeneralController extends AbstractController
 
             // Para dumpear usuarios en el sistema
             //dd($seguridad->getListUserAction($session_id, 114));
-        
-
             // Obtener el ID de la repartición del usuario logueado
             $idReparticion = $seguridad->getIdReparticionAction($session_id);
             //dd($idReparticion);
@@ -157,8 +155,6 @@ class GeneralController extends AbstractController
                 }
             }
             $session->set('rolId', $idReparticion);
-            
-
             
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){

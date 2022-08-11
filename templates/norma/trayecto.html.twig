@@ -55,8 +55,23 @@
                     {{ unaAuditoria.accion }}
                 </td>
             </tr>
-            {% else %}
+            {% elseif unaAuditoria.estadoActual == "Publicada" %}
             <tr class="table-primary">
+                <td>
+                    {{unaAuditoria.id}}
+                </td>
+                <td>
+                    {{ unaAuditoria.fecha|date('Y-m-d') }}
+                </td>
+                <td>
+                    {{ unaAuditoria.nombreUsuario }}
+                </td>
+                <td>
+                    {{ unaAuditoria.accion }}
+                </td>
+            </tr>
+            {% else %}
+            <tr class="table-danger">
                 <td>
                     {{unaAuditoria.id}}
                 </td>
@@ -86,6 +101,7 @@
     <span class="badge badge-warning badgeEstado">Borrador</span>
     <span class="badge badge-success badgeEstado">Lista</span>
     <span class="badge badge-primary badgeEstado">Publicada</span>
+    <span class="badge badge-danger badgeEstado">Eliminada</span>
 </div>
 
 {% block javascripts %}
