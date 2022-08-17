@@ -4,7 +4,7 @@
 
 {% block body %}
 
-{% if rol == "DIG_OPERADOR" %}
+{% if "DIG_ADMINISTRADOR" in roles %}
 
 <a type="button" href="{{ path('norma_nueva') }}">Create new</a>
 

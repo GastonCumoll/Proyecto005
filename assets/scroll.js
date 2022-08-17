@@ -11,8 +11,13 @@ $(document).ready(function(){
 		boton.setAttribute("href","/indice/Vigentes");
 	}else if (urlAnt.includes("/indice/NoVigentes")){
 		boton.setAttribute("href","/indice/NoVigentes");
+	}else if(urlAnt.includes("/listas")){
+		boton.setAttribute("href","/norma/listas");
+	}
+	else if(urlAnt.includes("/borrador")){
+		boton.setAttribute("href","/norma/borrador");
 	}else{
-		boton.setAttribute("href","/norma/");
+		boton.setAttribute("href","/norma");
 	}
 
 	$('.ir-arriba').click(function(){

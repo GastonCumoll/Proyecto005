@@ -13,10 +13,14 @@
 {# {% block addStyleSheets %}
 {{ encore_entry_link_tags('botonKnp') }}
 {% endblock %} #}
-    <h1>Normas</h1>
-
+    {% if 'listas' in app.request.pathinfo  %}
+        <h1>Normas listas</h1>
+    {% elseif 'borrador' in app.request.pathinfo  %}
+        <h1>Normas borrador</h1>
+    {% else %}
+        <h1>Normas</h1>
+    {% endif %}
     <div class="container">
-
     <div id="myModal" class="modalContainer">
         <div class="modal-content">
             <span class="close">×</span>
@@ -139,6 +143,11 @@
         </div>
     </div>
     <br>
+    
+    {# {% if "DIG_OPERADOR" in roles %}
+        <h1>si</h1>
+    {% endif %} #}
+    
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-active">
@@ -189,16 +198,16 @@
                 <td class="columnaOp">
                     <div>
                         <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
-                        {% if rol == "DIG_OPERADOR" or rol == "DIG_EDITOR" or rol == "DIG_ADMINISTRADOR" %}
+                        {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
                             {% for unaNormaUsuario in normasUsuario %}
                                 {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
                                 {% set bandera = 1 %}
                                 {% endif %}
                             {% endfor %}
                             {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
-                            {% if bandera == 1 and norma.estado == "Borrador" and rol == "DIG_OPERADOR" %}
+                            {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% elseif bandera == 1 and norma.estado == "Lista" and rol == "DIG_EDITOR" %}
+                            {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% else %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>

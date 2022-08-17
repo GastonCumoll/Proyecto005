@@ -24,8 +24,8 @@
                 
             </h6>
             <div id="botones" class="text-center mt-5">
-                <a  href="{{path('norma_edit', {'id': norma.id})  }}" class="btn btn-primary w-25" >Editar</a>
-                <a href="{{path('texto_edit', {'id': norma.id})  }}" class="btn btn-success w-25" >Editar Texto</a>
+                <a class="btn btn-primary w-25" id="botonNo">Editar</a>
+            <a class="btn btn-success w-25" id="botonSi">Editar Texto</a>
             </div>
         </div>
     </div>
@@ -77,7 +77,6 @@
                     </div>
                 </div>
             {% endif %}
-            
             <div class="card-body">
                 <h5 class="card-title text-center">{{ norma.titulo }}</h5>
                 {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
@@ -95,7 +94,7 @@
                 {% endif %}
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
                 
-                {% if ( rol == "DIG_OPERADOR" and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( rol == "DIG_EDITOR" and norma.estado == "Lista" and usuarioReparticion == 1 ) %}
+                {% if ( "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( "DIG_EDITOR" in roles  and norma.estado == "Lista" and usuarioReparticion == 1 ) %}
                     {% if norma.getItems %}
                         <p class="card-text text-left">Tema que pertenece :
                         {% for unItem in norma.getItems %}
@@ -106,15 +105,15 @@
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
                         <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
-                        {% if rol == "DIG_OPERADOR" and norma.estado == "Borrador" and usuarioReparticion == 1 %}
+                        {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                             <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
                         {% endif %}
-                        {% if rol == "DIG_EDITOR" and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                        {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                             <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
                         {% endif %}
                         {% for unPdf in norma.archivos %}
                         <div>
-                            <a href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
                             <br>
                         </div>
                         {% endfor %}
@@ -126,8 +125,10 @@
                         <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
                     {% endfor %}
                     <br>
-                    <i class="fa-solid fa-user"></i>Publicado por :
-                    {{user}}
+                    {% if norma.estado == "Publicada" %}
+                        <i class="fa-solid fa-user"></i>Publicado por :
+                        {{user}}
+                    {% endif %}
                 </div>
                 <br>
                 
@@ -139,7 +140,7 @@
                     <div class="divBotones mt-3 mr-2">
                         <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
                     </div>
-                    {% if rol == "DIG_OPERADOR" and norma.estado == "Borrador" and usuarioReparticion == 1 %}
+                    {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
@@ -150,7 +151,7 @@
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
-                    {% if rol == "DIG_EDITOR" and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                    {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
@@ -165,7 +166,7 @@
                             <tr>
                                 <th scope="col">Relacion</th>
                                 <th scope="col">Norma</th>
-                                {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
+                                {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                 <th scope="col">Edit</th>
                                 {% endif %}
                             </tr>
@@ -175,7 +176,7 @@
                                     <tr>
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-                                        {% if rol == "DIG_OPERADOR" and norma.estado != "Publicada" and usuarioReparticion == 1 %}
+                                        {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                         <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
                                         {% endif %}
                                     </tr>
@@ -195,16 +196,15 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class=" divBotonVolver mt-4  text-left d-inline">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
-                    {% if norma.estado == "Borrador" and usuarioReparticion == 1 and rol =="DIG_OPERADOR" %}
+                    {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
                             <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
                         </form>
                     {% endif %}
-                    {% if norma.estado == "Lista" and usuarioReparticion == 1 and rol =="DIG_EDITOR" %}
+                    {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}
                         <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
                         <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">    
                             <input type="hidden" name="normaId" value="{{norma.id}}">
@@ -217,7 +217,7 @@
                         </form>
                     {% endif %}
 
-                    {% if norma.estado == "Publicada" and  rol == "DIG_ADMINISTRADOR" %}
+                    {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
                     <br>
                         <form action="{{path('acceso')}}" method="post">
                             <div class="text-right">

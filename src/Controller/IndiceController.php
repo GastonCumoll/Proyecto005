@@ -26,12 +26,16 @@ class IndiceController extends AbstractController
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -45,6 +49,7 @@ class IndiceController extends AbstractController
             //'normas' => $normaRepository->findAll(),
             'items' => $items,
             'rol' => $rol,
+            'roles'=>$arrayRoles,
         ]);
     }
     /**
@@ -54,12 +59,16 @@ class IndiceController extends AbstractController
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -72,6 +81,7 @@ class IndiceController extends AbstractController
             //'normas' => $normaRepository->findAll(),
             'items' => $items,
             'rol' => $rol,
+            'roles'=>$arrayRoles,
         ]);
     }
 

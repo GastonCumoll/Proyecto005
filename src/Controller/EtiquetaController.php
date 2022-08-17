@@ -29,11 +29,15 @@ class EtiquetaController extends AbstractController
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -64,6 +68,7 @@ class EtiquetaController extends AbstractController
             //'etiquetas' => $etiquetaRepository->findAll(),
             'etiquetas' => $etiquetas,
             'rol'=>$rol,
+            'roles'=>$arrayRoles,
         ]);
     }
 
@@ -91,7 +96,7 @@ class EtiquetaController extends AbstractController
         $norma->setCustomParameters([
             'align' => 'center',
         ]);
-        
+        $arrayRoles=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -99,6 +104,9 @@ class EtiquetaController extends AbstractController
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -121,6 +129,7 @@ class EtiquetaController extends AbstractController
             'tipoNormas' => $tipoRepository->findAll(),
             'etiquetas' =>$etiquetaRepository->findAll(),
             'rol' => $rol,
+            'roles'=>$arrayRoles,
             'normas' => $norma,
             'normasUsuario' => $normasUsuario,
         ]);
@@ -152,7 +161,7 @@ class EtiquetaController extends AbstractController
             // Items per page
             10
         );
-        
+        $arrayRoles=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -160,6 +169,9 @@ class EtiquetaController extends AbstractController
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -167,6 +179,7 @@ class EtiquetaController extends AbstractController
         return $this->render('etiqueta/index.html.twig', [
             'rol' => $rol,
             'etiquetas' => $etiquetas,
+            'roles'=>$arrayRoles,
         ]);
         
     }

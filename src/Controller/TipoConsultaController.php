@@ -25,12 +25,16 @@ class TipoConsultaController extends AbstractController
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -38,7 +42,8 @@ class TipoConsultaController extends AbstractController
 
         return $this->render('tipo_consulta/index.html.twig', [
             'tipo_consultas' => $tipoConsultaRepository->findAll(),
-            'rol'=>$rol
+            'rol'=>$rol,
+            'roles'=>$arrayRoles,
         ]);
     }
 

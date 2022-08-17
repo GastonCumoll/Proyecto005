@@ -7,19 +7,19 @@
     <h1>Etiquetas</h1>
 
     
-    
-        {% if rol =='DIG_ADMINISTRADOR' %}
-            <div id="contenedorBotonVolver" class="text-left mt-1">
-                <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-            </div>
+        <div id="contenedorBotonVolver" class="text-left mt-1">
+            <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+        </div>
+        {% if "DIG_ADMINISTRADOR" in roles %}
             <a href="{{ path('etiqueta_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+        {% endif %}
             <div class="input-group float-right ml-auto mr-2">
                 <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                 <div class="input-group-prepend">
                     <button class="boton btn-info btn-sm" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </div>
             </div>
-        {% endif %}
+        
     <div class="container">
         
 
@@ -46,7 +46,7 @@
             <tr>
                 <th>{{ knp_pagination_sortable(etiquetas, 'Id', 'p.id') }}</th>
                 <th>{{knp_pagination_sortable(etiquetas, 'Nombre', 'p.nombre')}}</th>
-                {% if rol =='DIG_ADMINISTRADOR' %}
+                {% if "DIG_ADMINISTRADOR" in roles %}
                 <th>Acciones</th>
                 {% endif %}
             </tr>
@@ -60,7 +60,7 @@
                     <td>
                         {{etiquetum.nombre}}
                     </td>
-                    {% if rol =='DIG_ADMINISTRADOR' %}
+                    {% if "DIG_ADMINISTRADOR" in roles %}
                     <td>
                         <a  href="{{path('etiqueta_edit', {'id': etiquetum.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                         {{ include('etiqueta/_delete_form.html.twig') }}

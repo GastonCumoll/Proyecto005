@@ -4,22 +4,21 @@
 
 {% block body %}
     <h1>Areas</h1>
-
-    {% if rol == "DIG_ADMINISTRADOR" %}
     <div id="contenedorBotonVolver" class="text-left mt-1">
         <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
     </div>
-    <a href="{{ path('area_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
-<br>
+    {% if "DIG_ADMINISTRADOR" in roles %}
+        <a href="{{ path('area_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+    {% endif %}
     <br>
-{% endif %}
+    <br>
     <div class="table-responsive">
         <table class="table table-hover ">
             <thead class="table-active" >
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
-                {% if rol == "DIG_ADMINISTRADOR" %}
+                {% if "DIG_ADMINISTRADOR" in roles %}
                 <th>Opciones</th>
                 {% endif %}
             </tr>
@@ -33,7 +32,7 @@
                 <td>
                     {{ area.nombre }}
                 </td>
-                {% if rol == "DIG_ADMINISTRADOR" %}
+                {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
                     <a  href="{{path('area_edit', {'id': area.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                     {{ include('area/_delete_form.html.twig') }}

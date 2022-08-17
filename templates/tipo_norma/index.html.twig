@@ -5,11 +5,11 @@
 {% block body %}
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
     <h1>Tipos de norma</h1>    
-
-    {% if rol=="DIG_ADMINISTRADOR" %}
-        <div id="contenedorBotonVolver" class="text-left mt-1">
-            <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-        </div>
+    <div id="contenedorBotonVolver" class="text-left mt-1">
+        <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+    </div>
+    {% if "DIG_ADMINISTRADOR" in roles %}
+        
         <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     {% endif %}
     <br>
@@ -21,7 +21,7 @@
             <tr>
                 <th>{{knp_pagination_sortable(tipo_normas, 'Id', 'p.id') }}</th>
                 <th>{{knp_pagination_sortable(tipo_normas, 'Nombre', 'p.nombre')}}</th>
-                {% if rol=="DIG_ADMINISTRADOR" %}
+                {% if "DIG_ADMINISTRADOR" in roles %}
                 <th>Acciones</th>
                 {% endif %}
             </tr>
@@ -33,7 +33,7 @@
                 <td>
                     {{tipo_norma.nombre}}
                 </td>
-                {% if rol=="DIG_ADMINISTRADOR" %}
+                {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
                     <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                     <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>

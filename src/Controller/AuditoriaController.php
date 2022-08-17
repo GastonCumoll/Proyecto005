@@ -26,11 +26,15 @@ class AuditoriaController extends AbstractController
         $sesion=$this->get('session');
         //dd($sesion);
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -54,6 +58,7 @@ class AuditoriaController extends AbstractController
         return $this->render('auditoria/index.html.twig', [
             'auditorias' =>$auditorias,
             'rol' =>$rol,
+            'roles'=>$arrayRoles,
         ]);
     }
 

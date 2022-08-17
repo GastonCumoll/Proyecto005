@@ -11,22 +11,22 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
-                {% if  app.session.get('rolAuth') != 4 %}
-                {% if app.session.get('rolAuth') == 2 %}
+                {% if 'DIG_OPERADOR' in app.session.get('roles') or  'DIG_EDITOR' in app.session.get('roles') or  'DIG_ADMINISTRADOR' in app.session.get('roles') %}
+                    {% if 'DIG_OPERADOR' in app.session.get('roles') %}
                     <a class="dropdown-item" href="{{ path('borrador') }}">Borradores <span class="badge badge-info">{{app.session.get('cantB')}}</span></a>
-                {% else %}
+                    {% else %}
                     <a class="dropdown-item" href="{{ path('borrador') }}">Borradores</a>
-                {% endif %}
-                {% if app.session.get('rolAuth') == 3 %}
+                    {% endif %}
+                    {% if 'DIG_EDITOR' in app.session.get('roles')%}
                     <a class="dropdown-item" href="{{ path('listas') }}">Listas <span class="badge badge-info">{{app.session.get('cantL')}}</span></a>
-                {% else %}
+                    {% else %}
                     <a class="dropdown-item" href="{{ path('listas') }}">Listas</a>
-                {% endif %}
+                    {% endif %}
                 <a class="dropdown-item" href="{{ path('norma_nueva') }}">Nueva</a>
-                {% endif %}
+                {# {% endif %} #}
             </div>
         </li>
-        {% if  app.session.get('rolAuth') != 4 %}
+        {# {% if  app.session.get('rolAuth') != 4 %} #}
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Índice</a>
             <div class="dropdown-menu">

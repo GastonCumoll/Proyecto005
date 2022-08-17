@@ -124,10 +124,11 @@ class NormaRepository extends ServiceEntityRepository
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
         ->orderBy('p.id','ASC');
-        foreach ($roles as $rol) {
-            $consulta->andWhere("tr.nombreRol='".$rol."'");
-        }
+        // foreach ($roles as $rol) {
+        //     $consulta->andWhere("tr.nombreRol='".$rol."'");
+        // }
         $consulta->andWhere("tnr.reparticionId = '".$reparticion->getId()."'");
+        //->andWhere("tr.nombreRol <> DIG_CONSULTOR");
         //dd($consulta);
         $query=$consulta->getQuery();
         //dd($query);
@@ -149,15 +150,23 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
     }
 
+
+    public function findByTexto($texto){
+        $consulta=$this->createQueryBuilder('p')->where('p.texto LIKE :t')->setParameter('t','%'.$texto.'%')->orderBy('p.id','ASC');
+        $query=$consulta->getQuery()->getArrayResult();
+        return $query;
+    }
+
+
     public function findListas($roles,$reparticion){
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
         ->orderBy('p.id','ASC');
-        foreach ($roles as $rol) {
-            $consulta->andWhere("tr.nombreRol='".$rol."'");
-        }
+        // foreach ($roles as $rol) {
+        //     $consulta->andWhere("tr.nombreRol='".$rol."'");
+        // }
         $consulta->andWhere("tnr.reparticionId='".$reparticion->getId()."'");
         $query=$consulta->getQuery();
         return $query;

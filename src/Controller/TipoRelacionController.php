@@ -24,6 +24,7 @@ class TipoRelacionController extends AbstractController
     public function index(SeguridadService $seguridad,TipoRelacionRepository $tipoRelacionRepository,Request $request, PaginatorInterface $paginator): Response
     {
         $sesion=$this->get('session');
+        $arrayRoles=[];
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
             
@@ -31,6 +32,9 @@ class TipoRelacionController extends AbstractController
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -51,6 +55,7 @@ class TipoRelacionController extends AbstractController
         return $this->render('tipo_relacion/index.html.twig', [
             'tipo_relacions' => $tiposRelacion,
             'rol' => $rol,
+            'roles'=>$arrayRoles,
         ]);
     }
 

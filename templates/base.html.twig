@@ -56,8 +56,23 @@
                             <i class="fa-regular fa-user"></i>{{ app.session.get('username')}}
                         </a>
                         <div class="dropdown-menu text-right border-right-0 border-left-0">
-                            <p style="font-size: 12px !important;">{{app.session.get('rolNombre')}}</p>
-                            <div class="dropdown-divider"></div>
+                            {% if 'DIG_ADMINISTRADOR' in app.session.get('roles') %}
+                                <p style="font-size: 12px !important;">DIG_ADMINISTRADOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_OPERADOR' in app.session.get('roles') %}
+                                <p style="font-size: 12px !important;">DIG_OPERADOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_CONSULTOR' in app.session.get('roles') %}
+                                <p style="font-size: 12px !important;">DIG_CONSULTOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_EDITOR' in app.session.get('roles') %}
+                                <p style="font-size: 12px !important;">DIG_EDITOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            
                             <p style="font-size: 12px !important;">{{app.session.get('repa')}}</p>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a>

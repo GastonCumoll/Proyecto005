@@ -155,31 +155,39 @@ class GeneralController extends AbstractController
                 }
             }
             $session->set('rolId', $idReparticion);
-            
+            $arrayRoles=[];
+            $autorizo=false;
             // Autorización
             if ($seguridad->checkAccessAction($session_id, 'DIG_OPERADOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '2'); // 1 = ADMIN
+                $arrayRoles[]='DIG_OPERADOR';
+                $session->set('roles',$arrayRoles);
                 $borradores=$normaRepo->findBorradoresCont('DIG_OPERADOR',$idReparticion);
                 $session->set('cantB',count($borradores));
-            
-            }   
-            else if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '1');
+                $autorizo=true;
             }
-            else if ($seguridad->checkAccessAction($session_id, 'DIG_CONSULTOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '4');
+            if ($seguridad->checkAccessAction($session_id, 'DIG_ADMINISTRADOR', $this->get('session'), false) == 1){
+                $arrayRoles[]='DIG_ADMINISTRADOR';
+                $session->set('roles',$arrayRoles);
+                $autorizo=true;
             }
-            else if ($seguridad->checkAccessAction($session_id, 'DIG_EDITOR', $this->get('session'), false) == 1){
-                $session->set('rolAuth', '3');
+            if ($seguridad->checkAccessAction($session_id, 'DIG_CONSULTOR', $this->get('session'), false) == 1){
+                $arrayRoles[]='DIG_CONSULTOR';
+                $session->set('roles',$arrayRoles);
+                $autorizo=true;
+            }
+            if ($seguridad->checkAccessAction($session_id, 'DIG_EDITOR', $this->get('session'), false) == 1){
+                $arrayRoles[]='DIG_EDITOR';
+                $session->set('roles',$arrayRoles);
                 $listas=$normaRepo->findListasCont('DIG_EDITOR',$idReparticion);
                 $session->set('cantL',count($listas));
+                $autorizo=true;
             }
             // No pude autorizar, por ende me deslogueo
-            else{
+            if(!$autorizo){
                 $bandera=1;
                 return $this->redirectToRoute('logout',['bandera'=>$bandera],Response::HTTP_SEE_OTHER);
             }
-
+            //dd($session->all());
             /*
             // Setear el Tipo
             if ($seguridad->checkAccessAction($session_id, 'FP_PRESUPUESTO', $this->get('session'), false) == 1)

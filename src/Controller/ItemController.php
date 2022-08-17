@@ -43,12 +43,16 @@ class ItemController extends AbstractController
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -56,6 +60,7 @@ class ItemController extends AbstractController
         return $this->render('item/index.html.twig', [
             'items' => $items,
             'rol' =>$rol,
+            'roles'=>$arrayRoles,
         ]);
     }
     
@@ -87,12 +92,16 @@ class ItemController extends AbstractController
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -100,6 +109,7 @@ class ItemController extends AbstractController
         return $this->render('item/index.html.twig', [
             'rol' => $rol,
             'items' => $items,
+            'roles'=>$arrayRoles,
         ]);
         
     }
@@ -127,7 +137,7 @@ class ItemController extends AbstractController
             // $entityManager->persist($item);
             // $entityManager->flush();
 
-            return $this->redirectToRoute('indice_vigente', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/new.html.twig', [
@@ -166,7 +176,7 @@ class ItemController extends AbstractController
             }    
             $entityManager->flush();
 
-            return $this->redirectToRoute('indice_vigente', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('item/edit.html.twig', [
@@ -211,6 +221,6 @@ class ItemController extends AbstractController
             }
             //dd($item);
         }
-        return $this->redirectToRoute('indice', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
     }
 }

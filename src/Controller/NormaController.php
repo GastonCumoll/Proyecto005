@@ -125,6 +125,7 @@ class NormaController extends AbstractController
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         //dd($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        $arrayRoles=[];
         if($idReparticion){
             $reparticionUsuario = $areaRepository->find($idReparticion);
         }
@@ -132,6 +133,9 @@ class NormaController extends AbstractController
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($roles);
             $rol=$roles[0]['id'];
             //dd($rol);
@@ -158,7 +162,9 @@ class NormaController extends AbstractController
         $normas->setCustomParameters([
             'align' => 'center',
         ]);
+        //dd($arrayRoles);
         return $this->render('norma/indexAdmin.html.twig', [
+            'roles'=>$arrayRoles,
             'rol' => $rol,
             'normas' => $normas,
             'tipoNormas' => $tipoNorma->findAll(),
@@ -238,6 +244,7 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
+        //dd($listaDeRolesUsuario);
         $id=$_POST['normaId'];
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
@@ -261,7 +268,7 @@ class NormaController extends AbstractController
             $cantidadListas++;
             $sesion->set('cantL',$cantidadListas);
             //$array[]="DIG_OPERADOR";
-            if("DIG_OPERADOR"==$rol){
+            if(in_array("DIG_OPERADOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
                 $auditoria->setEstadoAnterior($norma->getEstado());
@@ -284,7 +291,7 @@ class NormaController extends AbstractController
             $cantidadListas=$sesion->get('cantL');
             $cantidadListas--;
             $sesion->set('cantL',$cantidadListas);
-            if("DIG_EDITOR"==$rol){
+            if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
                 $auditoria->setEstadoAnterior($norma->getEstado());
@@ -310,7 +317,7 @@ class NormaController extends AbstractController
             $cantidadBorrador=$sesion->get('cantB');
             $cantidadBorrador++;
             $sesion->set('cantB',$cantidadBorrador);
-            if("DIG_ADMINISTRADOR"==$rol){
+            if(in_array("DIG_ADMINISTRADOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual(1);
                 $auditoria->setEstadoAnterior($norma->getEstado());
@@ -391,6 +398,7 @@ class NormaController extends AbstractController
             foreach ($roles as $unRol) {
                 $listaDeRolesUsuario[]= $unRol["id"];
             }
+            //dd($listaDeRolesUsuario);
             // dd($roles);
             $rol=$roles[0]['id'];
             // dd($rol);
@@ -415,6 +423,7 @@ class NormaController extends AbstractController
         
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
+            'roles'=>$listaDeRolesUsuario,
             'normas' => $normasListas,
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
@@ -431,10 +440,14 @@ class NormaController extends AbstractController
         $listaDeRolesUsuario;
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             foreach ($roles as $unRol) {
                 $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
             }
             $rol=$roles[0]['id'];
         }else {
@@ -462,6 +475,7 @@ class NormaController extends AbstractController
 
         return $this->render('norma/indexAdmin.html.twig', [
             'rol' => $rol,
+            'roles'=>$arrayRoles,
             'normas' => $normasBorrador,
             'tipoNormas' => $tipoNorma->findAll(),
             'etiquetas' =>$etiquetas->findAll(),
@@ -527,6 +541,7 @@ class NormaController extends AbstractController
         ]);
         return $this->render('norma/indexAdmin.html.twig', [
             'normas' => $normas,
+            'roles'=>$listaDeRolesUsuario,
             'rol' => $rol,
             'tipoNormas' => $tipo->findAll(),
             'normasUsuario' => $normasUsuario,
@@ -566,10 +581,14 @@ class NormaController extends AbstractController
     {   
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){                    
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
@@ -614,6 +633,7 @@ class NormaController extends AbstractController
             'tipoNormas' =>$tipoNormaRepository->findAll(),
             'normas' => $normasP,
             'rol' => $rol,
+            'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
         ]);
     }
@@ -626,12 +646,16 @@ class NormaController extends AbstractController
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -640,6 +664,7 @@ class NormaController extends AbstractController
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),
             'rol' => $rol,
+            'roles'=>$arrayRoles,
             //'form' =>$form,
         ]);
     }
@@ -653,12 +678,16 @@ class NormaController extends AbstractController
 
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
@@ -716,6 +745,7 @@ class NormaController extends AbstractController
             'tipoNormas' =>$tipoNormaRepository->findAll(),
             'normas' => $normasP,
             'rol' => $rol,
+            'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
         ]);
     }
@@ -801,7 +831,7 @@ class NormaController extends AbstractController
             $cantidadListas=$sesion->get('cantL');
             $cantidadListas--;
             $sesion->set('cantL',$cantidadListas);
-            if("DIG_EDITOR"==$rol){
+            if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
                 $auditoria->setEstadoAnterior($norma->getEstado());
@@ -931,10 +961,14 @@ class NormaController extends AbstractController
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             $rol=$roles[0]['id'];
             // dd($rol);
         }else {
@@ -1245,7 +1279,6 @@ class NormaController extends AbstractController
         
         foreach ($auditoria as $audi) {
             $unUser=$audi->getNombreUsuario();
-        
         }
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -1259,18 +1292,22 @@ class NormaController extends AbstractController
                 $usuarioReparticion = 1;
             }
         }
-
+        $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
             $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
             // dd($rol);
         }else {
             $rol="";
         }
 
         return $this->render('norma/show.html.twig', [
+            'roles'=>$arrayRoles,
             'norma' => $norma,
             'relacion' => $relacion,
             'rol'=>$rol,
@@ -1578,7 +1615,7 @@ class NormaController extends AbstractController
      */
     public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
-        
+
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
             //buscar usuario
             $session=$this->get('session');
