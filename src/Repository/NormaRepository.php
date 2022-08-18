@@ -173,7 +173,7 @@ class NormaRepository extends ServiceEntityRepository
     }
 
     //busqueda de los filtros
-    public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas): Query 
+    public function findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas,$texto): Query 
     {
         $cont=0;
         $tam=count($arrayDeNormas);
@@ -206,6 +206,9 @@ class NormaRepository extends ServiceEntityRepository
                             $consulta1.= " AND p.tipoNorma = ".$tipo;
                             //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
                         }
+                        if($texto){
+                            $consulta1.= " AND p.texto LIKE '%".$texto."%'";
+                        }
                         $consulta1.= ")";
                 }
                 
@@ -224,6 +227,9 @@ class NormaRepository extends ServiceEntityRepository
                     }
                     if($tipo){
                         $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
+                    }
+                    if($texto){
+                        $consulta->andWhere('p.texto LIKE :texto')->setParameter('texto','%'.$texto.'%');
                     }
         }
         $consultaAux="p.estado = 'Publicada' AND p.publico =1";
@@ -235,7 +241,7 @@ class NormaRepository extends ServiceEntityRepository
     }
 
     //busqueda de los filtros con session
-    public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion,$rol): Query 
+    public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion,$rol,$texto): Query 
     {
         if($rol=="DIG_CONSULTOR"){
             $consultaAux2=" AND p.estado='Publicada'";
@@ -244,7 +250,6 @@ class NormaRepository extends ServiceEntityRepository
         }
         $cont=0;
         $tam=count($arrayDeNormas);
-        
         $consulta=$this->createQueryBuilder('p');
         $consulta1="";
         if($arrayDeNormas){//entra si hay mas de una norma
@@ -273,6 +278,9 @@ class NormaRepository extends ServiceEntityRepository
                             $consulta1.= " AND p.tipoNorma = ".$tipo;
                             //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
                         }
+                        if($texto){
+                            $consulta1.= " AND p.texto LIKE '%".$texto."%'";
+                        }
                         $consulta1.= ")";
                 }
                 
@@ -281,7 +289,6 @@ class NormaRepository extends ServiceEntityRepository
             //dd($consulta1);
             //}
         }else{
-            
             if($titulo){
                     $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
                     }if($numero){
@@ -291,6 +298,9 @@ class NormaRepository extends ServiceEntityRepository
                     }
                     if($tipo){
                         $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
+                    }
+                    if($texto){
+                        $consulta->andWhere('p.texto LIKE :texto')->setParameter('texto','%'.$texto.'%');
                     }
         }
         $consultaAux="(tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2.") OR (p.estado = 'Publicada' AND p.publico =1)";

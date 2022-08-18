@@ -72,6 +72,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'trayecto_norma' => ['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'back_borrador'=>['DIG_EDITOR'],
                 'acceso'=>['DIG_ADMINISTRADOR'],
+                'publicar'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
 
 
                 //Relacion

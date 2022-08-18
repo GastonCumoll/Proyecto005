@@ -51,6 +51,11 @@
 {% if items %}
     <div class="container ">
         <div class="accordion" id="accordionItem">
+            {% if bandera == 1 %}
+            <h1>Normas vigentes</h1>
+            {% else %}
+            <h1>Normas no vigentes</h1>
+            {% endif %}
             {% for unItem in items %}
                 {# {% if (unItem.padre == null) %} #}
                     <div class="card">

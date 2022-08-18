@@ -230,6 +230,7 @@ class NormaController extends AbstractController
         }else{
             $b=0;
         }
+        $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -389,7 +390,7 @@ class NormaController extends AbstractController
     //este metodo trae un query de las normas que tienen "Lista" como estado
     public function listas(ReparticionService $reparticionService,TipoNormaRolRepository $tipoNormaRolRepository,TipoNormaReparticionRepository $tipoNormaReparticionRepository,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
-        $listaDeRolesUsuario;
+        $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -437,7 +438,7 @@ class NormaController extends AbstractController
     //este metodo trae un query de las normas que tienen "Lista" como estado
     public function borrador(ReparticionService $reparticionService,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
-        $listaDeRolesUsuario;
+        $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
@@ -489,7 +490,7 @@ class NormaController extends AbstractController
     //este metodo ejecuta una busqueda de normas por campo titulo, que contenga la palabra pasada por parametro
     public function busquedaRapida(ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
-        $listaDeRolesUsuario;
+        $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -603,6 +604,7 @@ class NormaController extends AbstractController
         $tipo=$request->query->get('tipoNorma');//string
         $numero=$request->query->get('numero');//string
         $año=$request->query->get('año');//string
+        $texto=$request->query->get('texto');
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
         //obtiene los datos de los campos;
         //dd($titulo);
@@ -610,9 +612,9 @@ class NormaController extends AbstractController
         //pregunta si hay alguien logeado, si no hay nadie,usa findNormas, si hay alguien logeado, busca findNormasSession y le pasa la reparticion del usuario logeado
         //dentro de los metodos findNormas y findNormasSession, pregunta si alguno de los campos está vacio o no
         if(!$idSession){
-            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas);
+            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$texto);
         }else{
-            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol);
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol,$texto);
         }
         
         //seccion paginator
@@ -675,7 +677,6 @@ class NormaController extends AbstractController
     //este metodo recibe los valores del formulario de busqueda de la pagina "Busqueda Avanzada"
     public function formBusquedaResult(ReparticionService $reparticionService,AreaRepository $areaRepository,Request $request,NormaRepository $normaRepository,PaginatorInterface $paginator,EtiquetaRepository $etiquetaRepository, TipoNormaRepository $tipoNormaRepository, SeguridadService $seguridad):Response
     {
-
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
@@ -701,7 +702,7 @@ class NormaController extends AbstractController
 
 
         $texto=$request->query->get('texto');
-        $textos=$normaRepository->findByTexto($texto);
+        //$textos=$normaRepository->findByTexto($texto);
         //dd($textos);
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
@@ -722,11 +723,10 @@ class NormaController extends AbstractController
         }
         //Lo mismo de siempre, discrimino si hay sesion o no.
         if(!$idSession){
-            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas);
+            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas,$texto);
         }else{
-            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol);
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol,$texto);
         }
-
         // Paginar los resultados de la consulta
         $normasP = $paginator->paginate(
             // Consulta Doctrine, no resultados

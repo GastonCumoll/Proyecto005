@@ -3,10 +3,70 @@ import './app.js';
 import 'bootstrap';
 import { contains } from 'jquery';
 
+
+	// var botonTexto = document.getElementById("botonBuscarTexto");
+	// botonTexto.addEventListener("click",function(){
+	// var texto = document.getElementById("busquedaTexto");
+	// const textCompleto =document.getElementById("textoCompleto");
+	// console.log(textCompleto.textContent);
+	// const textoSeparado=textCompleto.textContent.split(" ");
+	// var tamaño=textoSeparado.length;
+	// for (let i = 0; i < tamaño; i++) {
+	// 	if(textoSeparado[i]==texto.value){
+
+	// 	}
+	// 	const element = array[index];
+	// 	array
+	// }
+	// console.log(textoSeparado);
+	// });
+	
+	var botonTexto = document.getElementById("botonBuscarTexto");
+	// var busquedaTexto =document.getElementById("busquedaTexto");
+	var id=0;
+	botonTexto.addEventListener("click",function(){
+		var text = document.getElementById("busquedaTexto").value;
+		var query = new RegExp("(\\b" + text + "\\b)", "gim");
+		var e = document.getElementById("parrafo").innerHTML;
+		var enew = e.replace(/(<span>|<\/span>)/igm, "");
+		document.getElementById("parrafo").innerHTML = enew;
+		var newe = enew.replace(query, "<span>$1</span>");
+		document.getElementById("parrafo").innerHTML = newe;
+	})
+
+	var busquedaTexto = document.getElementById("busquedaTexto");
+    busquedaTexto.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        //document.getElementById("id_of_button").click();
+		var text = document.getElementById("busquedaTexto").value;
+		var query = new RegExp("(\\b" + text + "\\b)", "gim");
+		var e = document.getElementById("parrafo").innerHTML;
+		var enew = e.replace(/(<span>|<\/span>)/igm, "");
+		document.getElementById("parrafo").innerHTML = enew;
+		var newe = enew.replace(query, "<span>$1</span>");
+		document.getElementById("parrafo").innerHTML = newe;
+    }
+});
 $(document).ready(function(){
+
+	// 	var botonTexto = document.getElementById("botonBuscarTexto");
+	// 	botonTexto.addEventListener("click",function(){
+	//  	var texto = document.getElementById("busquedaTexto");
+	// 	const textCompleto =document.getElementById("parrafo");
+	// 	//console.log(texto.value);
+	// 	//const textoSeparado=textCompleto.split(" ");
+	// 	//console.log(textoSeparado);
+	// 	$("#parrafo p").each(function(){
+	// 		console.log($(this).html());
+	// 		$(this).html("<span>" + $(this).html().split(" ").join("</span> <span>") + "</span");
+	// 	});
+	// 	$("#parrafo span:contains('" + texto.value + "')").css("background-color","yellow");
+	// })
+
 	var boton=document.getElementById("botonVolverAtras");
 	var urlAnt=document.referrer;
-	console.log(urlAnt);
+	//console.log(urlAnt);
 	if(urlAnt.includes("/indice/Vigentes")){
 		boton.setAttribute("href","/indice/Vigentes");
 	}else if (urlAnt.includes("/indice/NoVigentes")){

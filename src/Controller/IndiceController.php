@@ -47,6 +47,7 @@ class IndiceController extends AbstractController
         
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             //'normas' => $normaRepository->findAll(),
+            'bandera' =>1,
             'items' => $items,
             'rol' => $rol,
             'roles'=>$arrayRoles,
@@ -79,6 +80,7 @@ class IndiceController extends AbstractController
         }
         return $this->render('indiceDigesto/indiceDigesto.html.twig', [
             //'normas' => $normaRepository->findAll(),
+            'bandera' =>0,
             'items' => $items,
             'rol' => $rol,
             'roles'=>$arrayRoles,
