@@ -92,6 +92,23 @@ class TipoNormaRolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $arreglo=[];
+            //dd($tipoNorma[0]->getTipoNormaReparticions()->toArray());
+            foreach ($tipo[0]->getTipoNormaRoles()->toArray() as $r) {
+                $arreglo[]=$r->getNombreRol();
+            }
+            
+            if(in_array($form['nombreRol']->getData(),$arreglo)){
+                $this->addFlash(
+                    'notice',
+                    "Este rol ya existe en el tipo de norma ".$tipo[0]->getNombre()
+                );
+                return $this->renderForm('tipo_norma_rol/new.html.twig', [
+                    'tipo_norma_rol' => $tipoNormaRol,
+                    'form' => $form,
+                    'tipoNorma' => $tipo[0]
+                ]);
+            }
             $entityManager->persist($tipoNormaRol);
             $entityManager->flush();
 

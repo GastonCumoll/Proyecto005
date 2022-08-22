@@ -58,7 +58,7 @@ class AreaController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager,FindReparticionService $findReparticionService): Response
     {
         $reparticiones = $findReparticionService->DatosReparticiones();
-
+        //dd($reparticiones);
         $area = new Area();
         $form = $this->createForm(AreaType::class,null,['reparticiones' => $reparticiones]);
         $form->handleRequest($request);

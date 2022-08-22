@@ -237,7 +237,6 @@ class NormaRepository extends ServiceEntityRepository
         $query=$consulta->getQuery();
         //dd($query);
         return $query;
-    
     }
 
     //busqueda de los filtros con session

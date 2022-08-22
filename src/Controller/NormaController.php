@@ -120,6 +120,7 @@ class NormaController extends AbstractController
      */
     public function index(ReparticionService $reparticionService,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request, PaginatorInterface $paginator, TipoNormaRepository $tipoNorma, EtiquetaRepository $etiquetas, AreaRepository $areaRepository): Response
     {   
+
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
@@ -1412,7 +1413,6 @@ class NormaController extends AbstractController
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
-
         $reparticionUsuario = $areaRepository->find($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         foreach($normasUsuario as $nU){
@@ -1457,7 +1457,7 @@ class NormaController extends AbstractController
                 $entityManager->persist($newItem);
             }
             $entityManager->persist($norma);
-
+            /*
             $brochureFile = $form->get('archivo')->getData();
 
             if ($brochureFile) {
@@ -1495,7 +1495,7 @@ class NormaController extends AbstractController
                     $norma->addArchivos($archi);
                 }
             }
-
+*/
             //si habilitamos crear etiquetas en el alta de la norma:
             //$etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             // $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);

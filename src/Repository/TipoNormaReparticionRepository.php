@@ -19,6 +19,7 @@ class TipoNormaReparticionRepository extends ServiceEntityRepository
         parent::__construct($registry, TipoNormaReparticion::class);
     }
 
+
     // /**
     //  * @return TipoNormaReparticion[] Returns an array of TipoNormaReparticion objects
     //  */

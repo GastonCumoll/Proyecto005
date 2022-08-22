@@ -19,6 +19,7 @@ class AreaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $reparticiones = $options['reparticiones'];
+        
         $reparticionChoice = [];
         foreach ($reparticiones as $r){
             $id = str_pad($r['idReparticion'], 3, "0", STR_PAD_LEFT);

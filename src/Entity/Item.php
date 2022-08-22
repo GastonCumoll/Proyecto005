@@ -69,6 +69,11 @@ class Item
      */
     private $contenido;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $raiz;
+
     public function __construct()
     {
         $this->dependencias = new ArrayCollection();
@@ -130,6 +135,7 @@ class Item
     {
         return $this->dependencias;
     }
+    
 
     public function addDependencia(self $dependencia): self
     {
@@ -221,6 +227,18 @@ class Item
     public function setContenido(?string $contenido): self
     {
         $this->contenido = $contenido;
+
+        return $this;
+    }
+
+    public function getRaiz(): ?string
+    {
+        return $this->raiz;
+    }
+
+    public function setRaiz(?string $raiz): self
+    {
+        $this->raiz = $raiz;
 
         return $this;
     }

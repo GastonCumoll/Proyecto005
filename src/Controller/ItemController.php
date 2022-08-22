@@ -19,6 +19,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ItemController extends AbstractController
 {
+    public function recursiva($item,$normas){
+        // dump($item);
+        // $normasA=[];
+        if($item->getDependencias()){
+            foreach ($item->getDependencias() as $unaDependencia) {
+                $normas=$this->recursiva($unaDependencia,$normas);
+            }
+            if($item->getNormas()){
+                //dd($item->getNormas()->toArray())
+                $normas=array_merge($normas,$item->getNormas()->toArray());
+                // foreach ($item->getNormas()->toArray() as $unaNorma) {
+                //     //dd($unaNorma);
+                //     $normas[]=$unaNorma->getId();
+                //     dump($normas);
+                // }
+
+            }
+        }else{
+            $normas=array_merge($normas,$item->getNormas()->toArray());
+            // foreach ($item->getNormas()->toArray() as $unaNorma) {
+            //     $normas[]=$unaNorma->getId();
+            // }
+    }
+    return $normas;
+    }
 
     /**
      * @Route("/", name="item_index", methods={"GET"})
@@ -26,8 +51,15 @@ class ItemController extends AbstractController
     public function index(ItemRepository $itemRepository,Request $request, SeguridadService $seguridad,PaginatorInterface $paginator): Response
     {
 
+        /*
+        //llamada a la funcion recursiva:
+        $normas=[];
+        $itemPadre=$itemRepository->findOneById(185);
+        $normas=$this->recursiva($itemPadre,$normas);
+        $normas=array_unique($normas);
+        //dd($normas);
         $itemsAll = $itemRepository->createQueryBuilder('p')->getQuery();
-
+        */
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(
             // Consulta Doctrine, no resultados

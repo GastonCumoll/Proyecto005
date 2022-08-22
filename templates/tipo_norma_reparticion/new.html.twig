@@ -10,7 +10,13 @@
 <h1 class="font-weight-bold text-center">Agregar reparticion</h1>
 <div class="container text-left" >
     <div class="mt-3 p-3 border border-secondary rounded bg-light shadow mb-5 bg-white ">
-
+        {% for flash_message in app.session.flashbag.get('notice') %}
+        <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+            <div class="flash-notice text-white font-weight-bolder text-center">
+                {{ flash_message }}
+            </div>
+        </div>
+        {% endfor %}
     {{ include('tipo_norma_reparticion/_form.html.twig') }}
     <a href="{{ path('reparticion_norma',{'id':idTipo}) }}" class="btn btn-primary">Cancelar</a>
 </div>

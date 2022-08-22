@@ -116,6 +116,24 @@ class TipoNormaReparticionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $arreglo=[];
+            
+            //dd($tipoNorma[0]->getTipoNormaReparticions()->toArray());
+            foreach ($tipoNorma[0]->getTipoNormaReparticions()->toArray() as $t) {
+                $arreglo[]=$t->getReparticionId();
+            }
+            
+            if(in_array($form['reparticionId']->getData(),$arreglo)){
+                $this->addFlash(
+                    'notice',
+                    "Esta reparticion ya existe en el tipo de norma ".$tipo->getNombre()
+                );
+                return $this->renderForm('tipo_norma_reparticion/new.html.twig', [
+                    'tipo_norma_reparticion' => $tipoNormaReparticion,
+                    'form' => $form,
+                    'idTipo'=> $idTipo,
+                ]);
+            }
             $entityManager->persist($tipoNormaReparticion);
             $entityManager->flush();
 
