@@ -108,31 +108,32 @@ class TipoNormaReparticionController extends AbstractController
     //este metodo le agrega una reparticion a un tipo de norma que es pasado por parametro con la variable id= id del tipo de norma
     public function new(AreaRepository $areaRepository,Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        //se crean arrays para almacenar las reparticiones que tiene el tipo de norma que se esta tratando y las que le faltan.
         $repaFaltantes=[];
         $reparticionesObj=[];
+        
         $tipoNormaReparticion = new TipoNormaReparticion();
         $tipoNorma=$tipoNormaRepository->findById($id);
         $tipo=$tipoNorma[0];
         $reparticionesTipo=$tipo->getTipoNormaReparticions()->toArray();
-        //dd($reparticionesTipo->toArray());
         foreach ($reparticionesTipo as $unRTipo) {
             $reparticionesObj[]=$areaRepository->findOneById($unRTipo->getReparticionId()->getId());
         }
         $todasRepa=$areaRepository->findAll();
-        //dd($reparticionesObj,$todasRepa);
         foreach ($todasRepa as $unaRepa) {
             if(!in_array($unaRepa,$reparticionesObj)){
+                //pregunto cuales faltan:
+                //repaFaltantes: las reparticiones que le faltan a ese tipo de norma
                 $repaFaltantes[]=$unaRepa;
             }
         }
-        //repaFaltantes: las reparticiones que le faltan a ese tipo de norma
-        //$idReparticion=$reparticionesTipo[0]->getReparticionId());
-        $idTipo=$tipo->getId();
+        //busco el id del tipo, pero int.
+        $idTipo=$tipo->getId(); 
         $tipoNormaReparticion->setTipoNormaId($tipo);
+        //le paso el array de reparticiones faltantes, sin antes setearle el tipoNorma al nuevo objeto de tipoNormaReparticion
         $form = $this->createForm(TipoNormaReparticionType::class, $tipoNormaReparticion,['reparticiones' => $repaFaltantes]);
         $form->handleRequest($request);
 
-        //dd($tipo->getTipoNormaReparticions());
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($tipoNormaReparticion);
             $entityManager->flush();

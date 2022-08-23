@@ -82,33 +82,44 @@ class TipoNormaRolController extends AbstractController
      * @Route("/new/{id}", name="tipo_norma_rol_new", methods={"GET", "POST"})
      */
     //este metodo le agrega un rol a un tipo de norma, su id es enviado por el parametro id.
-    public function new(Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
+    public function new(TipoNormaRolRepository $tipoNormaRolRepository,Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
-        $tipo=$tipoNormaRepository->findById($id);
+        $rolesDeTipo=[];
+        $rolesFaltantes=[];
+
+        $tipo=$tipoNormaRepository->findOneById($id);
+        foreach ($tipo->getTipoNormaRoles() as $unRol) {
+            $rolesDeTipo[]=$unRol->getNombreRol();
+        }
+        $todosRoles=['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR','DIG_CONSULTOR'];
+
+        foreach ($todosRoles as $unRol) {
+            if (!in_array($unRol,$rolesDeTipo)) {
+                $rolesFaltantes[]=$unRol;
+            }
+        }
         
+        //dd($rolesDeTipo,$todosRoles,$rolesFaltantes);
         $tipoNormaRol = new TipoNormaRol();
-        $tipoNormaRol->setTipoNorma($tipo[0]);
-        $form = $this->createForm(TipoNormaRolType::class, $tipoNormaRol);
+        $tipoNormaRol->setTipoNorma($tipo);
+        $form = $this->createForm(TipoNormaRolType::class, $tipoNormaRol,['roles'=>$rolesFaltantes]);
         $form->handleRequest($request);
 
+        if($rolesFaltantes == []){
+            $this->addFlash(
+                'notice',
+                $tipo->getNombre()." tiene todos los roles" 
+            );
+            return $this->renderForm('tipo_norma_rol/new.html.twig', [
+                'tipo_norma_rol' => $tipoNormaRol,
+                'form' => $form,
+                'tipoNorma' => $tipo
+            ]);
+        }
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $arreglo=[];
-            //dd($tipoNorma[0]->getTipoNormaReparticions()->toArray());
-            foreach ($tipo[0]->getTipoNormaRoles()->toArray() as $r) {
-                $arreglo[]=$r->getNombreRol();
-            }
+
             
-            if(in_array($form['nombreRol']->getData(),$arreglo)){
-                $this->addFlash(
-                    'notice',
-                    "Este rol ya existe en el tipo de norma ".$tipo[0]->getNombre()
-                );
-                return $this->renderForm('tipo_norma_rol/new.html.twig', [
-                    'tipo_norma_rol' => $tipoNormaRol,
-                    'form' => $form,
-                    'tipoNorma' => $tipo[0]
-                ]);
-            }
             $entityManager->persist($tipoNormaRol);
             $entityManager->flush();
 
@@ -118,7 +129,7 @@ class TipoNormaRolController extends AbstractController
         return $this->renderForm('tipo_norma_rol/new.html.twig', [
             'tipo_norma_rol' => $tipoNormaRol,
             'form' => $form,
-            'tipoNorma' => $tipo[0]
+            'tipoNorma' => $tipo
         ]);
     }
 
