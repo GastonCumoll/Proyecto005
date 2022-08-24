@@ -58,8 +58,9 @@ class ItemController extends AbstractController
         $normas=$this->recursiva($itemPadre,$normas);
         $normas=array_unique($normas);
         //dd($normas);
+         */
         $itemsAll = $itemRepository->createQueryBuilder('p')->getQuery();
-        */
+
         // Paginar los resultados de la consulta
         $items = $paginator->paginate(
             // Consulta Doctrine, no resultados
