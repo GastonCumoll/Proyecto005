@@ -14,6 +14,13 @@
     {% endif %}
     <br>
     <br>
+    {% for flash_message in app.session.flashbag.get('errorDelete') %}
+        <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+            <div class="flash-notice text-white font-weight-bolder text-center">
+                {{ flash_message }}
+            </div>
+        </div>
+    {% endfor %}
 
     <div class="table-responsive">
         <table class="table table-hover ">
@@ -39,7 +46,12 @@
                     <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>
                     <a  href="{{path('rol_tipo_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-user-shield"></i></button></a>
                     
-                    {{ include('tipo_norma/_delete_form.html.twig') }}
+                        {# <button class="btn btn-danger btn-sm d-inline" disabled><i class="fa-solid fa-trash-can"> #}
+                    
+                        {{ include('tipo_norma/_delete_form.html.twig') }}
+                    {# {% endif %} #}
+
+                    
                 </td>
                 {% endif %}
                 

@@ -76,43 +76,21 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        /*$normas=$normaRepository->findAll();
-        $tipoLey=$tipoNormaRepository->find(2);
-        $tipoOrd=$tipoNormaRepository->find(3);
-        $tipoCir=$tipoNormaRepository->find(4);
-        $tipoDir=$tipoNormaRepository->find(5);
-        $tipoDis=$tipoNormaRepository->find(6);
-        $tipoRes=$tipoNormaRepository->find(7);
+        $contador=0;
+        $normas=$normaRepository->findAll();
         foreach ($normas as $unaNorma) {
-            $titulo=$unaNorma->getTitulo();
-            $primeros30Caracteres=substr($titulo,0,30);
-            if(str_contains($primeros30Caracteres,"ORDENANZA") || str_contains($primeros30Caracteres,"Ordenanza") || str_contains($primeros30Caracteres,"ordenanza")){
-                $unaNorma->setTipoNorma($tipoOrd);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"directiva")){
-                $unaNorma->setTipoNorma($tipoDir);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"LEY") || str_contains($primeros30Caracteres,"Ley") || str_contains($primeros30Caracteres,"ley")){
-                $unaNorma->setTipoNorma($tipoLey);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"CIRCULAR") || str_contains($primeros30Caracteres,"Circular") || str_contains($primeros30Caracteres,"circular")){
-                $unaNorma->setTipoNorma($tipoCir);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"DISPOSICION") || str_contains($primeros30Caracteres,"Disposicion") || str_contains($primeros30Caracteres,"disposicion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
-                $unaNorma->setTipoNorma($tipoDis);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"RESOLUCION") || str_contains($primeros30Caracteres,"Resolucion") || str_contains($primeros30Caracteres,"resolucion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
-                $unaNorma->setTipoNorma($tipoRes);
-                $entityManager->persist($unaNorma);
-            }
+            // if(str_contains($unaNorma->getResumen(),"Sancion") || str_contains($unaNorma->getResumen(),"Sancionada") || str_contains($unaNorma->getResumen(),"SANCIONADA")){
+            //     $contador++;
+            // }
+            // if(str_contains($unaNorma->getResumen(),"Promulgada") || str_contains($unaNorma->getResumen(),"Promulga") || str_contains($unaNorma->getResumen(),"PROMULGADA") || str_contains($unaNorma->getResumen(),"PROMULGACION") ){
+            //     $contador++;
+            // }
+            // if(str_contains($unaNorma->getResumen(),"Boletin") || str_contains($unaNorma->getResumen(),"BOLETIN") || str_contains($unaNorma->getResumen(),"BOLE") || str_contains($unaNorma->getResumen(),"boletin") || str_contains($unaNorma->getResumen(),"boletín") || str_contains($unaNorma->getResumen(),"BOLETÍN") || str_contains($unaNorma->getResumen(),"Boletín")){
+            //     $contador++;
+            // }
         }
-        $entityManager->flush();
-        dd($normas);*/
+        dd($contador);
+
     }
 
     /**
