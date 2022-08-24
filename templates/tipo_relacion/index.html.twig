@@ -13,7 +13,13 @@
     {% endif %}
     <br>
     <br>
-
+    {% for flash_message in app.session.flashbag.get('errorDeleteTipoRela') %}
+    <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+        <div class="flash-notice text-white font-weight-bolder text-center">
+            {{ flash_message }}
+        </div>
+    </div>
+{% endfor %}
     <div class="table-responsive">
     <table class="table table-hover ">
         <thead class="table-active">

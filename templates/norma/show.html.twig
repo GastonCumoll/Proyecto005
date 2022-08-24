@@ -177,7 +177,10 @@
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
+                                        <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a>
+                                        {{include('relacion/_delete_form.html.twig')}}
+                                        </td>
+
                                         {% endif %}
                                     </tr>
                                     <tr>

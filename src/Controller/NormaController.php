@@ -1473,7 +1473,7 @@ class NormaController extends AbstractController
                     $norma->addArchivos($archi);
                 }
             }
-*/
+            */
             //si habilitamos crear etiquetas en el alta de la norma:
             //$etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             // $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);

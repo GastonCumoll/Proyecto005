@@ -213,7 +213,7 @@ class TipoNormaController extends AbstractController
         if(!empty($tipoNorma->getNormas()->toArray()) || !empty($tipoNorma->getTipoNormaRoles()->toArray) || !empty($tipoNorma->getTipoNormaReparticions()->toArray())){
             //dd(empty($tipoNorma->getNormas()));
             $this->addFlash(
-                'errorDelete',
+                'errorDeleteTipoNorma',
                 "No puede eliminar este tipo de norma debido a que tiene normas, roles y/o reparticiones."
             );
             return $this->redirectToRoute('tipo_norma_index',[],Response::HTTP_SEE_OTHER);

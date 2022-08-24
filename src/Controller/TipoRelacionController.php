@@ -133,6 +133,16 @@ class TipoRelacionController extends AbstractController
      */
     public function delete(Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
     {
+        // dd($tipoRelacion->getRela()->toArray());
+        if(!empty($tipoRelacion->getRela()->toArray())){
+            $this->addFlash(
+                'errorDeleteTipoRela',
+                "No puede eliminar este tipo de relacion ya que hay normas que la estan usando."
+            );
+            return $this->redirectToRoute('tipo_relacion_index',[],Response::HTTP_SEE_OTHER);
+        }
+        
+
         //$tipoRelacion=$tipoRelacionRepository->findOneById($id);
         $inverso=$tipoRelacion->getInverso();
         $tipoRelacion->setInverso(NULL);
