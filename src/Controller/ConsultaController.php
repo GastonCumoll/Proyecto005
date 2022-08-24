@@ -24,9 +24,10 @@ class ConsultaController extends AbstractController
      */
     public function index(ConsultaRepository $consultaRepository,PaginatorInterface $paginator,Request $request): Response
     {
-        $todasConsultas=$consultaRepository->createQueryBuilder('p')->getQuery();
+        $todasConsultas=$consultaRepository->findTodas();
+        //$consultaRepository->createQueryBuilder('p')->getQuery();
+        
         $consultas = $paginator->paginate(
-            
             // Consulta Doctrine, no resultados
             $todasConsultas,
             // Definir el parámetro de la página

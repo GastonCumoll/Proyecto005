@@ -15,6 +15,9 @@
             <thead class="table-active" >
                 <tr>
                     <th>{{knp_pagination_sortable(consultas, 'Id', 'p.id') }}</th>
+                    <th {% if consultas.isSorted('t.nombre') %} class="sorted" {% endif %}>
+                        {{knp_pagination_sortable(consultas, 'Tipo', 't.nombre')}}</th>
+                    {# <th>{{knp_pagination_sortable(consultas, 'tipo', 'p.tipo') }}</th> #}
                     <th>{{knp_pagination_sortable(consultas, 'Nombre', 'p.nombre')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Email', 'p.email')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Numero Tel', 'p.numeroTel')}}</th>
@@ -26,6 +29,7 @@
                 {% for consulta in consultas %}
                     <tr>
                         <td>{{consulta.id}}</td>
+                        <td>{{consulta.tipoConsulta.nombre}}</td>
                         <td>{{ consulta.nombre}}</td>
                         <td>{{ consulta.email }}</td>
                         <td>{{ consulta.numeroTel }}</td>
