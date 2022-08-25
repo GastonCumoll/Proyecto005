@@ -76,43 +76,24 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        /*$normas=$normaRepository->findAll();
-        $tipoLey=$tipoNormaRepository->find(2);
-        $tipoOrd=$tipoNormaRepository->find(3);
-        $tipoCir=$tipoNormaRepository->find(4);
-        $tipoDir=$tipoNormaRepository->find(5);
-        $tipoDis=$tipoNormaRepository->find(6);
-        $tipoRes=$tipoNormaRepository->find(7);
-        foreach ($normas as $unaNorma) {
-            $titulo=$unaNorma->getTitulo();
-            $primeros30Caracteres=substr($titulo,0,30);
-            if(str_contains($primeros30Caracteres,"ORDENANZA") || str_contains($primeros30Caracteres,"Ordenanza") || str_contains($primeros30Caracteres,"ordenanza")){
-                $unaNorma->setTipoNorma($tipoOrd);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"Directiva") || str_contains($primeros30Caracteres,"directiva")){
-                $unaNorma->setTipoNorma($tipoDir);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"LEY") || str_contains($primeros30Caracteres,"Ley") || str_contains($primeros30Caracteres,"ley")){
-                $unaNorma->setTipoNorma($tipoLey);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"CIRCULAR") || str_contains($primeros30Caracteres,"Circular") || str_contains($primeros30Caracteres,"circular")){
-                $unaNorma->setTipoNorma($tipoCir);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"DISPOSICION") || str_contains($primeros30Caracteres,"Disposicion") || str_contains($primeros30Caracteres,"disposicion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
-                $unaNorma->setTipoNorma($tipoDis);
-                $entityManager->persist($unaNorma);
-            }
-            if(str_contains($primeros30Caracteres,"RESOLUCION") || str_contains($primeros30Caracteres,"Resolucion") || str_contains($primeros30Caracteres,"resolucion")|| str_contains($primeros30Caracteres,"DISPOSICIONES") || str_contains($primeros30Caracteres,"Disposiciones") || str_contains($primeros30Caracteres,"disposiciones")){
-                $unaNorma->setTipoNorma($tipoRes);
-                $entityManager->persist($unaNorma);
-            }
-        }
-        $entityManager->flush();
-        dd($normas);*/
+        $norma=$normaRepository->findOneById(7212);
+        $numero=$norma->getNumero();
+        dd(gettype($numero));
+        //$contador=0;
+        //$normas=$normaRepository->findAll();
+        //foreach ($normas as $unaNorma) {
+            // if(str_contains($unaNorma->getResumen(),"Sancion") || str_contains($unaNorma->getResumen(),"Sancionada") || str_contains($unaNorma->getResumen(),"SANCIONADA")){
+            //     $contador++;
+            // }
+            // if(str_contains($unaNorma->getResumen(),"Promulgada") || str_contains($unaNorma->getResumen(),"Promulga") || str_contains($unaNorma->getResumen(),"PROMULGADA") || str_contains($unaNorma->getResumen(),"PROMULGACION") ){
+            //     $contador++;
+            // }
+            // if(str_contains($unaNorma->getResumen(),"Boletin") || str_contains($unaNorma->getResumen(),"BOLETIN") || str_contains($unaNorma->getResumen(),"BOLE") || str_contains($unaNorma->getResumen(),"boletin") || str_contains($unaNorma->getResumen(),"boletín") || str_contains($unaNorma->getResumen(),"BOLETÍN") || str_contains($unaNorma->getResumen(),"Boletín")){
+            //     $contador++;
+            // }
+        //}
+        //dd($contador);
+
     }
 
     /**
@@ -682,7 +663,6 @@ class NormaController extends AbstractController
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -1040,7 +1020,7 @@ class NormaController extends AbstractController
             $today = new DateTime();
             //$norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
-
+            
             $item =$form['items']->getData();
             
             foreach ($item as $unItem) {
@@ -1273,6 +1253,13 @@ class NormaController extends AbstractController
      */
     public function show(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
+        
+        if(!empty($itemDeNorma=$norma->getItems()->toArray())){
+            $item=$itemDeNorma[0];
+        }else{
+            $item="";
+        }
+        
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         $auditoria=$norma->getAuditorias();
@@ -1308,6 +1295,7 @@ class NormaController extends AbstractController
         }
 
         return $this->render('norma/show.html.twig', [
+            'item'=>$item,
             'roles'=>$arrayRoles,
             'norma' => $norma,
             'relacion' => $relacion,
@@ -1324,7 +1312,6 @@ class NormaController extends AbstractController
     //alguna vez esa norma estuvo publicada o no
     public function editTexto(NormaRepository $normaRepository,ArchivoRepository $archivoRepository,Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,AuditoriaRepository $auditoriaRepository,MpdfFactory $MpdfFactory): Response
     {   
-
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);  //se obtiene la repartición del usuario logueado
@@ -1408,8 +1395,10 @@ class NormaController extends AbstractController
      */
     public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
+        //itemPreEdit se usa para saber los items atados a la norma antes de que se edite
+        //se compara, y si viene uno que no es igual al que ya tiene, elimina el viejo y añade el nuevo
+        $itemsPreEdit=$norma->getItems()->toArray();
         $idTipoNorma=$norma->getTipoNorma()->getId();
-
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
@@ -1449,14 +1438,40 @@ class NormaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $item =$form['items']->getData();
-            foreach ($item as $unItem) {
-                $newItem= new Item();
-                $newItem=$unItem;
-                $norma->addItem($newItem);
-                $newItem->addNorma($norma); 
-                $entityManager->persist($newItem);
+            $itemsPostEdit=$item->toArray();
+            // dd(gettype($itemsPostEdit));
+            // if(count($itemsPostEdit) > 1){
+            //     $this->addFlash(
+            //         'errorItem',
+            //         "No puede agregar más de un item."
+            //     );
+            //     return $this->redirectToRoute('norma_edit',['id'=>$id],Response::HTTP_SEE_OTHER);
+            // }
+            if(empty($itemsPostEdit)){
+                foreach ($itemsPreEdit as $unItem) {
+                    $norma->removeItem($unItem);
+                    $unItem->removeNorma($norma);
+                    $entityManager->persist($norma);
+                    $entityManager->persist($unItem);
+                }
+            }else{
+                foreach ($itemsPreEdit as $unItem) {
+                    $norma->removeItem($unItem);
+                    $unItem->removeNorma($norma);
+                    $entityManager->persist($norma);
+                    $entityManager->persist($unItem);
+                }
+
+                foreach ($itemsPostEdit as $unItem) {
+                    $newItem= new Item();
+                    $newItem=$unItem;
+                    $norma->addItem($newItem);
+                    $newItem->addNorma($norma); 
+                    $entityManager->persist($newItem);
+                }
             }
             $entityManager->persist($norma);
+
             /*
             $brochureFile = $form->get('archivo')->getData();
 
@@ -1495,7 +1510,7 @@ class NormaController extends AbstractController
                     $norma->addArchivos($archi);
                 }
             }
-*/
+            */
             //si habilitamos crear etiquetas en el alta de la norma:
             //$etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
             // $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
@@ -1589,13 +1604,13 @@ class NormaController extends AbstractController
     //este metodo no se usa
     public function normaArbol(Norma $norma,$id,$t): Response
     {
-        
+        //dd($norma->getItems()->toArray());
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         
-        $itemDeNorma=$norma->getItems();
+        $itemDeNorma=$norma->getItems()->toArray();
         // dd($relacion);
-        $item;
+        $item=$itemDeNorma[0];
         foreach ($itemDeNorma as $unItem) {
             if($unItem->getId()==$t){
                 $item = $unItem;

@@ -25,29 +25,31 @@ class ItemType extends AbstractType
                 'class' => Item::class,
                 'placeholder' => '',
                 'required' =>false,
+                'multiple'=>true,
                 'choice_label' => 'nombre',
                 'attr' => [
                     'class'=>'selectpicker',
                     'data-size'=>'10',
                     'data-live-search'=>true,
+                    'data-max-options'=>1,
                 ]
             ])
-            ->add('orden', IntegerType::class,[
-                'required' =>false,
-            ])
-            //->add('dependencias')
-            ->add('normas',EntityType::class, [
-                'class' => Norma::class,
-                'multiple' => true,
-                'placeholder' => '',
-                'required' =>false,
-                'choice_label' => 'titulo',
-                'attr' => [
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
-                    'data-live-search'=>true,
-                ]
-            ]) 
+            // ->add('orden', IntegerType::class,[
+            //     'required' =>false,
+            // ])
+            // //->add('dependencias')
+            // ->add('normas',EntityType::class, [
+            //     'class' => Norma::class,
+            //     'multiple' => true,
+            //     'placeholder' => '',
+            //     'required' =>false,
+            //     'choice_label' => 'titulo',
+            //     'attr' => [
+            //         'class'=>'selectpicker',
+            //         'data-size'=>'10',
+            //         'data-live-search'=>true,
+            //     ]
+            // ]) 
         ;
         
             }

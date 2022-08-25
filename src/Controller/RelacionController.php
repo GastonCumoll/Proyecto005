@@ -212,20 +212,17 @@ class RelacionController extends AbstractController
             $auditoria->setAccion("Carga relacion");
             $instancia=$norma->getInstancia();
             $auditoria->setInstanciaAnterior($instancia);
-            $auditoria->setInstanciaActual(1);
+            $auditoria->setInstanciaActual($instancia);
             $estadoAnt=$norma->getEstado();
             $auditoria->setEstadoAnterior($estadoAnt);
-            $auditoria->setEstadoActual("Borrador");
+            $auditoria->setEstadoActual($estadoAnt);
             $auditoria->setNombreUsuario($usuario);
             $auditoria->setNorma($norma);
             $entityManager->persist($auditoria);
-            $norma->setInstancia(1);
+            $norma->setInstancia($instancia);
             $norma->addAuditoria($auditoria);
             //$userObj->addAuditoria($auditoria);
 
-
-            //setear instancia=1;
-            $norma->setInstancia(1);
             $entityManager->persist($norma);
             
 
@@ -245,14 +242,47 @@ class RelacionController extends AbstractController
      * @Route("/{id}", name="relacion_delete", methods={"POST"})
      */
     
-    public function delete(Request $request, Relacion $relacion, EntityManagerInterface $entityManager): Response
+    public function delete(RelacionRepository $relacionRepository,Request $request, Relacion $relacion, EntityManagerInterface $entityManager): Response
     {
+        //dd($relacion);
+        // dd($relacion->getComplementada()->getId());
+        $idComplementada=$relacion->getComplementada()->getId();
+        $relacionContraria=$relacionRepository->findOneByNorma($idComplementada);
+        $normaId=$relacion->getNorma()->getId();
+
+        //usuarios
+            //obtener el nombre del usuario logeado;
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            $today=new DateTime();
+            $norma=$relacion->getNorma();
+            //crear auditoria
+            $auditoria=new Auditoria();
+            $auditoria->setFecha($today);
+            $auditoria->setAccion("Eliminacion relacion");
+            $instancia=$norma->getInstancia();
+            $auditoria->setInstanciaAnterior($instancia);
+            $auditoria->setInstanciaActual($instancia);
+            $estadoAnt=$norma->getEstado();
+            $auditoria->setEstadoAnterior($estadoAnt);
+            $auditoria->setEstadoActual($estadoAnt);
+            $auditoria->setNombreUsuario($usuario);
+            $auditoria->setNorma($relacion->getNorma());
+            $entityManager->persist($auditoria);
+            $norma->setInstancia($instancia);
+            $norma->addAuditoria($auditoria);
+
+            $entityManager->persist($norma);
+            $entityManager->flush();
+
+        //relacionContraria y relacion son las 2 relaciones a eliminar
+        //dd($relacionContraria,$relacion);
         if ($this->isCsrfTokenValid('delete'.$relacion->getId(), $request->request->get('_token'))) {
-            
+            $entityManager->remove($relacionContraria);
             $entityManager->remove($relacion);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('relacion_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('norma_show', ['id'=>$normaId], Response::HTTP_SEE_OTHER);
     }
 }

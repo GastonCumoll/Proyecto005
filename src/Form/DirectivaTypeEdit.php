@@ -77,6 +77,7 @@ class DirectivaTypeEdit extends AbstractType
                     'class'=>'selectpicker',
                     'data-size'=>'10',
                     'data-live-search'=>true,
+                    'data-max-options'=>1,
                 ]
             ])
             // ->add('archivo', FileType::class,[

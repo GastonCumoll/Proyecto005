@@ -75,6 +75,7 @@ class LeyTypeEdit extends AbstractType
                 'class'=>'selectpicker',
                 'data-size'=>'10',
                 'data-live-search'=>true,
+                'data-max-options'=>1,
             ]
         ])
 

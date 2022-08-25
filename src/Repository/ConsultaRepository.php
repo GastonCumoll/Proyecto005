@@ -19,6 +19,16 @@ class ConsultaRepository extends ServiceEntityRepository
         parent::__construct($registry, Consulta::class);
     }
 
+
+    public function findTodas()
+    {
+        $consulta=$this->createQueryBuilder('p')->select('p')->join('App\Entity\TipoConsulta','t','WITH','p.tipoConsulta = t.id');
+        $consulta->orderBy('p.fechaYHora','DESC');
+        $query=$consulta->getQuery();
+        return $query;
+    }
+
+
     // /**
     //  * @return Consulta[] Returns an array of Consulta objects
     //  */

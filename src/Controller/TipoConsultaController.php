@@ -104,6 +104,17 @@ class TipoConsultaController extends AbstractController
      */
     public function delete(Request $request, TipoConsulta $tipoConsultum, EntityManagerInterface $entityManager): Response
     {
+
+        if(!empty($tipoConsultum->getConsultas()->toArray())){
+            //dd($tipoConsultum->getConsultas()->toArray());
+            //dd(empty($tipoNorma->getNormas()));
+            $this->addFlash(
+                'errorDeleteConsulta',
+                "No se pudo eliminar debido a que ya existen consultas referidas a este tipo."
+            );
+            return $this->redirectToRoute('tipo_consulta_index',[],Response::HTTP_SEE_OTHER);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$tipoConsultum->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tipoConsultum);
             $entityManager->flush();

@@ -177,60 +177,61 @@ class NormaRepository extends ServiceEntityRepository
     {
         $cont=0;
         $tam=count($arrayDeNormas);
-        
+        //dd($arrayDeNormas);
         $consulta=$this->createQueryBuilder('p');
         $consulta1="";
-        if($arrayDeNormas){//entra si hay mas de una norma
+        if($arrayDeNormas){
+            //entra si hay mas de una norma
             //if(count($arrayDeNormas)>1){
-                //$consulta->where('p.id = :id');
-                for ($i=0; $i < $tam; $i++) {
-                    if($i==0){
-                        $consulta1.= "(p.id = ".$arrayDeNormas[$i]->getId();
-                    //     $consulta->setParameter('id',$arrayDeNormas[$i]);
-                    }else{
-                        $consulta1.= "OR(p.id = " .$arrayDeNormas[$i]->getId();
-                    //     $consulta->orWhere($consulta->expr()->orX(
-                    //     'p.id = :id'))->setParameter('id',$arrayDeNormas[$i]);
-                    }
-                        if($titulo){
-                            $consulta1.= " AND p.titulo LIKE '%".$titulo."%'";
-                            //$consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
-                        }if($numero){
-                            $consulta1.= " AND p.numero LIKE '%".$numero."%'";
-                            //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
-                        }if($año){
-                            $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%'" ;
-                            //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
-                        }
-                        if($tipo){
-                            $consulta1.= " AND p.tipoNorma = ".$tipo;
-                            //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
-                        }
-                        if($texto){
-                            $consulta1.= " AND p.texto LIKE '%".$texto."%'";
-                        }
-                        $consulta1.= ")";
+            //$consulta->where('p.id = :id');
+            for ($i=0; $i < $tam; $i++) {
+                if($i==0){
+                    $consulta1.= "(p.id = ".$arrayDeNormas[$i]->getId();
+                //     $consulta->setParameter('id',$arrayDeNormas[$i]);
+                }else{
+                    $consulta1.= "OR(p.id = " .$arrayDeNormas[$i]->getId();
+                //     $consulta->orWhere($consulta->expr()->orX(
+                //     'p.id = :id'))->setParameter('id',$arrayDeNormas[$i]);
                 }
-                
+                if($titulo){
+                    $consulta1.= " AND p.titulo LIKE '%".$titulo."%'";
+                    //$consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+                }if($numero){
+                    $consulta1.= " AND p.numero LIKE '%".$numero."%'";
+                    //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+                }if($año){
+                    $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%'" ;
+                    //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
+                }
+                if($tipo){
+                    $consulta1.= " AND p.tipoNorma = ".$tipo;
+                    //$consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipoNorma',$tipo);
+                }
+                if($texto){
+                    $consulta1.= " AND p.texto LIKE '%".$texto."%'";
+                }
+                $consulta1.= ")";
+            }
                 $consulta=$this->createQueryBuilder('p')->where($consulta1);
-
             //dd($consulta1);
             //}
         }else{
-            
             if($titulo){
-                    $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
-                    }if($numero){
-                        $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
-                    }if($año){
-                        $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
-                    }
-                    if($tipo){
-                        $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
-                    }
-                    if($texto){
-                        $consulta->andWhere('p.texto LIKE :texto')->setParameter('texto','%'.$texto.'%');
-                    }
+            $consulta->andWhere('p.titulo LIKE :titulo')->setParameter('titulo','%'.$titulo.'%');
+            }
+            if($numero){
+                $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
+            }
+            if($año){
+                $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
+            }
+            if($tipo){
+                $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
+            }
+            if($texto){
+                $consulta->andWhere('p.texto LIKE :texto')->setParameter('texto','%'.$texto.'%');
+            }
+            // dd($consulta->getQuery());
         }
         $consultaAux="p.estado = 'Publicada' AND p.publico =1";
         $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')->andWhere($consultaAux)->orderBy('p.id','DESC');

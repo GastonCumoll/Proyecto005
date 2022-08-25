@@ -30,6 +30,50 @@
         </div>
     </div>
 </div>
+{# MACRO #}
+{% if item %}
+{% macro mostrarNorma(norma) %}
+    {{norma.titulo}}
+{% endmacro %}
+
+{% macro recursiveCategory(itemHijo, norma ) %}
+    
+    {% import _self as self %} 
+    
+        {% if itemHijo.padre != null %}
+        
+            {{ self.recursiveCategory(itemHijo.padre, norma) }} <i class="fa-solid fa-angle-right"></i>
+            {{itemHijo.nombre}}
+        {% else %}
+            {% if itemHijo.nombre == 'NORMAS VIGENTES' %}
+                <a href="{{path('indice_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a>
+            {% else %}
+                <a href="{{path('indice_no_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a>
+            {% endif %}
+        {% endif %}
+        
+{% endmacro %}
+
+{% from _self import recursiveCategory %}
+    {% from _self import mostrarNorma %}
+    <div class="alert alert-dark" role="alert">
+    <ul>{% if item.padre != null %}
+            {{ recursiveCategory(item, norma) }}
+            <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}}
+        {% else %}
+                {{item.nombre}} Ultimo renglon <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
+        {% endif %}
+
+    </ul>
+</div>
+{% endif %}
+
+
+{# ENDMACRO #}
+
+
+
+
 {# <div id="contenedorBotonVolver">
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
@@ -137,9 +181,9 @@
                         <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
                     </div> #}
                     
-                    <div class="divBotones mt-3 mr-2">
+                    {# <div class="divBotones mt-3 mr-2">
                         <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
-                    </div>
+                    </div> #}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
@@ -177,7 +221,11 @@
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a></td>
+                                        <td>
+                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                            {{include('relacion/_delete_form.html.twig')}}
+                                        </td>
+
                                         {% endif %}
                                     </tr>
                                     <tr>
@@ -191,6 +239,9 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
+                        <div class="float-left mt-2">
+                            <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver pdf <i class="fas fa-file-pdf"></i></a>
+                        </div>
                         <div class="input-group mr-2" id="busqueda-input">
                             <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                             <div class="input-group-prepend">

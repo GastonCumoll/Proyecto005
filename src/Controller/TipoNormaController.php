@@ -28,6 +28,11 @@ class TipoNormaController extends AbstractController
     public function index(SeguridadService $seguridad,TipoNormaRepository $tipoNormaRepository,Request $request, PaginatorInterface $paginator): Response
     {
 
+        // $ejemplo=$tipoNormaRepository->findOneById(9);
+        // foreach ($ejemplo->getNormas() as $unaN) {
+        //     dump($unaN);
+        // }
+        // dd($ejemplo->getNormas()->toArray());
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
@@ -111,6 +116,7 @@ class TipoNormaController extends AbstractController
             }
             //dd($tiposDeNormas);
         }
+        
         return $this->render('tipo_norma/newTipo.html.twig', [
             'tipo_normas' => $tiposDeNormas,
             'normasUsuario' => $normasUsuario,
@@ -200,6 +206,18 @@ class TipoNormaController extends AbstractController
      */
     public function delete(Request $request, TipoNorma $tipoNorma, EntityManagerInterface $entityManager): Response
     {
+        //para eliminar un tipo de norma, primero se pregunta si es que tiene alguna norma atada, rol o reparticion. Si es que las tiene, manda un mensaje flash a la vista
+        //avisando que no pudo eliminar ese tipo de norma por las razones antes descriptas.
+        //la funcion if(!empty($tipoNorma->getNormas()->toArray())...) se hace porque el ->getNormas() trae una collection, que no se sabe si es vacia o no
+        //entonces se la convierte a array y se pregunta si tiene algo, si no tiene, es posible eliminar. Si tiene, no puede
+        if(!empty($tipoNorma->getNormas()->toArray()) || !empty($tipoNorma->getTipoNormaRoles()->toArray) || !empty($tipoNorma->getTipoNormaReparticions()->toArray())){
+            //dd(empty($tipoNorma->getNormas()));
+            $this->addFlash(
+                'errorDeleteTipoNorma',
+                "No puede eliminar este tipo de norma debido a que tiene normas, roles y/o reparticiones."
+            );
+            return $this->redirectToRoute('tipo_norma_index',[],Response::HTTP_SEE_OTHER);
+        }
         if ($this->isCsrfTokenValid('delete'.$tipoNorma->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tipoNorma);
             $entityManager->flush();
