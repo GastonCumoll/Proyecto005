@@ -55,10 +55,24 @@ class AreaController extends AbstractController
     /**
      * @Route("/new", name="area_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,FindReparticionService $findReparticionService): Response
+    public function new(AreaRepository $areaRepository,Request $request, EntityManagerInterface $entityManager,FindReparticionService $findReparticionService): Response
     {
+        //se buscan todas las reparticiones, luego se hace un unset de las reparticiones que ya estan cargadas en el sistema;
         $reparticiones = $findReparticionService->DatosReparticiones();
-        //dd($reparticiones);
+        $areas=$areaRepository->findAll();
+        $idAreas=[];
+        foreach ($areas as $unArea) {
+            $idAreas[]=$unArea->getId();
+        }
+        for($i=0;$i<count($reparticiones);$i++){
+            foreach ($idAreas as $unId) {
+                if($unId == $reparticiones[$i]['idReparticion']){
+                    unset($reparticiones[$i]);
+                    break;
+                }
+            }
+        }
+
         $area = new Area();
         $form = $this->createForm(AreaType::class,null,['reparticiones' => $reparticiones]);
         $form->handleRequest($request);
@@ -101,7 +115,6 @@ class AreaController extends AbstractController
      */
     public function edit(Request $request, Area $area, EntityManagerInterface $entityManager): Response
     {
-
         $form = $this->createForm(AreaEditType::class, $area);
         $form->handleRequest($request);
 

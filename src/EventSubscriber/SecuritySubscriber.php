@@ -58,7 +58,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'generar_pdf'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'norma_new'=>['DIG_OPERADOR','DIG_ADMINISTRADOR'],
                 'mostrar_texto'=>[],
-                'norma_delete'=>['DIG_ADMINISTRADOR'],
+                'norma_delete'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
                 'busqueda_avanzada' =>[],
                 'formulario_busqueda_result'=>[],
                 'formulario_busqueda'=>[],

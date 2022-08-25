@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Norma;
-use App\Entity\TipoNorma;
 use Doctrine\ORM\Query;
+use App\Entity\TipoNorma;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -200,7 +202,7 @@ class NormaRepository extends ServiceEntityRepository
                     $consulta1.= " AND p.numero LIKE '%".$numero."%'";
                     //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
                 }if($año){
-                    $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%'" ;
+                    $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%' OR p.fechaSancion LIKE '%".$año."%'" ;
                     //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
                 }
                 if($tipo){
@@ -223,7 +225,7 @@ class NormaRepository extends ServiceEntityRepository
                 $consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
             }
             if($año){
-                $consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$año.'%');
+                $consulta->andWhere("p.fechaPublicacion LIKE :fecha OR p.fechaSancion LIKE :fecha")->setParameter('fecha','%'.$año.'%');
             }
             if($tipo){
                 $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);

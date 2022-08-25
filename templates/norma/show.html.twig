@@ -59,7 +59,7 @@
     <div class="alert alert-dark" role="alert">
     <ul>{% if item.padre != null %}
             {{ recursiveCategory(item, norma) }}
-            <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}}
+            {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
         {% else %}
                 {{item.nombre}} Ultimo renglon <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
         {% endif %}
@@ -138,14 +138,14 @@
                 {% endif %}
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
                 
-                {% if ( "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( "DIG_EDITOR" in roles  and norma.estado == "Lista" and usuarioReparticion == 1 ) %}
-                    {% if norma.getItems %}
+                {# {% if ( "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( "DIG_EDITOR" in roles  and norma.estado == "Lista" and usuarioReparticion == 1 ) %} #}
+                    {# {% if norma.getItems %}
                         <p class="card-text text-left">Tema que pertenece :
                         {% for unItem in norma.getItems %}
                             {{ unItem.getNombre }} 
                         {% endfor %}</p>
-                    {% endif %}
-                {% endif %}
+                    {% endif %} #}
+                {# {% endif %} #}
                 <div class="card " style="width: 100%;text-align:justify">
                     <div class="card-body">
                         <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
@@ -201,6 +201,9 @@
                         </div>
                         <div class="divBotones mt-3 mr-2">
                             <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
+                        </div>
+                        <div class="divBotones mt-3 mr-2">
+                            {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
                 </div>
