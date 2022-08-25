@@ -1018,7 +1018,7 @@ class NormaController extends AbstractController
             $today = new DateTime();
             //$norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
-
+            
             $item =$form['items']->getData();
             
             foreach ($item as $unItem) {
@@ -1251,6 +1251,13 @@ class NormaController extends AbstractController
      */
     public function show(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
+        
+        if(!empty($itemDeNorma=$norma->getItems()->toArray())){
+            $item=$itemDeNorma[0];
+        }else{
+            $item="";
+        }
+        
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         $auditoria=$norma->getAuditorias();
@@ -1286,6 +1293,7 @@ class NormaController extends AbstractController
         }
 
         return $this->render('norma/show.html.twig', [
+            'item'=>$item,
             'roles'=>$arrayRoles,
             'norma' => $norma,
             'relacion' => $relacion,
@@ -1386,8 +1394,10 @@ class NormaController extends AbstractController
      */
     public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
+        //itemPreEdit se usa para saber los items atados a la norma antes de que se edite
+        //se compara, y si viene uno que no es igual al que ya tiene, elimina el viejo y añade el nuevo
+        $itemsPreEdit=$norma->getItems()->toArray();
         $idTipoNorma=$norma->getTipoNorma()->getId();
-
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
@@ -1427,14 +1437,40 @@ class NormaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $item =$form['items']->getData();
-            foreach ($item as $unItem) {
-                $newItem= new Item();
-                $newItem=$unItem;
-                $norma->addItem($newItem);
-                $newItem->addNorma($norma); 
-                $entityManager->persist($newItem);
+            $itemsPostEdit=$item->toArray();
+            // dd(gettype($itemsPostEdit));
+            // if(count($itemsPostEdit) > 1){
+            //     $this->addFlash(
+            //         'errorItem',
+            //         "No puede agregar más de un item."
+            //     );
+            //     return $this->redirectToRoute('norma_edit',['id'=>$id],Response::HTTP_SEE_OTHER);
+            // }
+            if(empty($itemsPostEdit)){
+                foreach ($itemsPreEdit as $unItem) {
+                    $norma->removeItem($unItem);
+                    $unItem->removeNorma($norma);
+                    $entityManager->persist($norma);
+                    $entityManager->persist($unItem);
+                }
+            }else{
+                foreach ($itemsPreEdit as $unItem) {
+                    $norma->removeItem($unItem);
+                    $unItem->removeNorma($norma);
+                    $entityManager->persist($norma);
+                    $entityManager->persist($unItem);
+                }
+
+                foreach ($itemsPostEdit as $unItem) {
+                    $newItem= new Item();
+                    $newItem=$unItem;
+                    $norma->addItem($newItem);
+                    $newItem->addNorma($norma); 
+                    $entityManager->persist($newItem);
+                }
             }
             $entityManager->persist($norma);
+
             /*
             $brochureFile = $form->get('archivo')->getData();
 
@@ -1567,13 +1603,13 @@ class NormaController extends AbstractController
     //este metodo no se usa
     public function normaArbol(Norma $norma,$id,$t): Response
     {
-        
+        //dd($norma->getItems()->toArray());
         $repository = $this->getDoctrine()->getRepository(Relacion::class);
         $relacion= $repository->findByNorma($id);
         
-        $itemDeNorma=$norma->getItems();
+        $itemDeNorma=$norma->getItems()->toArray();
         // dd($relacion);
-        $item;
+        $item=$itemDeNorma[0];
         foreach ($itemDeNorma as $unItem) {
             if($unItem->getId()==$t){
                 $item = $unItem;

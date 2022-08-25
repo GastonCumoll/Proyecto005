@@ -41,8 +41,8 @@ class ItemController extends AbstractController
             // foreach ($item->getNormas()->toArray() as $unaNorma) {
             //     $normas[]=$unaNorma->getId();
             // }
-    }
-    return $normas;
+        }
+        return $normas;
     }
 
     /**

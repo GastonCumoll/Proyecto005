@@ -30,6 +30,47 @@
         </div>
     </div>
 </div>
+{# MACRO #}
+{% if item %}
+{% macro mostrarNorma(norma) %}
+    {{norma.titulo}}
+{% endmacro %}
+
+{% macro recursiveCategory(itemHijo, norma ) %}
+    
+    {% import _self as self %} 
+    
+        {% if itemHijo.padre != null %}
+        
+            {{ self.recursiveCategory(itemHijo.padre, norma) }} <i class="fa-solid fa-angle-right"></i>
+            {{itemHijo.nombre}}
+        {% else %}
+        
+            {{ itemHijo.nombre }}
+        {% endif %}
+        
+{% endmacro %}
+
+{% from _self import recursiveCategory %}
+    {% from _self import mostrarNorma %}
+    <div class="alert alert-dark" role="alert">
+    <ul>{% if item.padre != null %}
+            {{ recursiveCategory(item, norma) }}
+            <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}}
+        {% else %}
+                {{item.nombre}} <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
+        {% endif %}
+
+    </ul>
+</div>
+{% endif %}
+
+
+{# ENDMACRO #}
+
+
+
+
 {# <div id="contenedorBotonVolver">
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
@@ -177,8 +218,9 @@
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td><a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><i class="fas fa-solid fa-pen"></i></a>
-                                        {{include('relacion/_delete_form.html.twig')}}
+                                        <td>
+                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                            {{include('relacion/_delete_form.html.twig')}}
                                         </td>
 
                                         {% endif %}
