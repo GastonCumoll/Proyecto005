@@ -4,9 +4,7 @@ import 'bootstrap';
 
 window.onload = function(){
 
-    if (document.getElementById("spinnerFormulario") !== null) {
-        document.getElementById("spinnerFormulario").remove();
-    }
+
 
     var urlActual = window.location;
     var body = document.getElementsByTagName("body")[0];
@@ -87,6 +85,10 @@ window.onload = function(){
         
 
 
+    });
+
+    window.addEventListener("unload", function() {
+        document.getElementById("spinnerFormulario").remove();
     });
 
 
