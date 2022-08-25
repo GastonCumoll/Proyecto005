@@ -45,8 +45,11 @@
             {{ self.recursiveCategory(itemHijo.padre, norma) }} <i class="fa-solid fa-angle-right"></i>
             {{itemHijo.nombre}}
         {% else %}
-        
-            {{ itemHijo.nombre }}
+            {% if itemHijo.nombre == 'NORMAS VIGENTES' %}
+                <a href="{{path('indice_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a>
+            {% else %}
+                <a href="{{path('indice_no_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a>
+            {% endif %}
         {% endif %}
         
 {% endmacro %}
@@ -58,7 +61,7 @@
             {{ recursiveCategory(item, norma) }}
             <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}}
         {% else %}
-                {{item.nombre}} <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
+                {{item.nombre}} Ultimo renglon <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
         {% endif %}
 
     </ul>
@@ -178,9 +181,9 @@
                         <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
                     </div> #}
                     
-                    <div class="divBotones mt-3 mr-2">
+                    {# <div class="divBotones mt-3 mr-2">
                         <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
-                    </div>
+                    </div> #}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
@@ -236,6 +239,9 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
+                        <div class="float-left mt-2">
+                            <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver pdf <i class="fas fa-file-pdf"></i></a>
+                        </div>
                         <div class="input-group mr-2" id="busqueda-input">
                             <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                             <div class="input-group-prepend">

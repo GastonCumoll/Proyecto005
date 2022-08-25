@@ -76,9 +76,12 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        $contador=0;
-        $normas=$normaRepository->findAll();
-        foreach ($normas as $unaNorma) {
+        $norma=$normaRepository->findOneById(7212);
+        $numero=$norma->getNumero();
+        dd(gettype($numero));
+        //$contador=0;
+        //$normas=$normaRepository->findAll();
+        //foreach ($normas as $unaNorma) {
             // if(str_contains($unaNorma->getResumen(),"Sancion") || str_contains($unaNorma->getResumen(),"Sancionada") || str_contains($unaNorma->getResumen(),"SANCIONADA")){
             //     $contador++;
             // }
@@ -88,8 +91,8 @@ class NormaController extends AbstractController
             // if(str_contains($unaNorma->getResumen(),"Boletin") || str_contains($unaNorma->getResumen(),"BOLETIN") || str_contains($unaNorma->getResumen(),"BOLE") || str_contains($unaNorma->getResumen(),"boletin") || str_contains($unaNorma->getResumen(),"boletín") || str_contains($unaNorma->getResumen(),"BOLETÍN") || str_contains($unaNorma->getResumen(),"Boletín")){
             //     $contador++;
             // }
-        }
-        dd($contador);
+        //}
+        //dd($contador);
 
     }
 
@@ -660,7 +663,6 @@ class NormaController extends AbstractController
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
-            
             // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             // dd($roles);
@@ -1310,7 +1312,6 @@ class NormaController extends AbstractController
     //alguna vez esa norma estuvo publicada o no
     public function editTexto(NormaRepository $normaRepository,ArchivoRepository $archivoRepository,Request $request, SeguridadService $seguridad, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,AuditoriaRepository $auditoriaRepository,MpdfFactory $MpdfFactory): Response
     {   
-
         $session=$this->get('session');
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);  //se obtiene la repartición del usuario logueado
