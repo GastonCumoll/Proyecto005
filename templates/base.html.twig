@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
     <div id="contenedor_carga">
         <div id="carga"></div>
         <div id="carga2"></div>
@@ -114,11 +115,12 @@
 <br/>
 <br/>
 
-<footer class="footer">{{ include('footer.html.twig') }}</footer>
+<footer id="footer" class="footer">{{ include('footer.html.twig') }}</footer>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
 </body>
 
 
-{% block javascripts %}
-{{ encore_entry_script_tags('app') }}
-{% endblock %}
+
 </html>

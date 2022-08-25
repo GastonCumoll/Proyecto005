@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('spinnerCss') }}
+{% endblock %}
+    
+<div id="spinner" class="spinnerContainer">
+    <div class="spring-spinner">
+        <div class="spring-spinner-part top">
+            <div class="spring-spinner-rotator"></div>
+        </div>
+        <div class="spring-spinner-part bottom">
+            <div class="spring-spinner-rotator"></div>
+        </div>
+    </div>
+    <div class="textoSpinner text-center">
+        <h3>Buscando normas...</h3>
+    </div>
+</div>
+
+
+{% block javascripts %}
+    {{encore_entry_script_tags('spinnerJs')}}
+{% endblock %}
+{% endblock %}

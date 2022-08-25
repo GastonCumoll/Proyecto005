@@ -38,6 +38,7 @@ Encore
     .addEntry('consulta', './assets/consulta.js')
     .addEntry('redireccionLogout', './assets/redireccionLogout.js')
     .addEntry('scroll', './assets/scroll.js')
+    .addEntry('spinnerJs', './assets/spinnerJs.js')
 
     
     .addStyleEntry('base', '/assets/styles/app.css')
@@ -58,6 +59,7 @@ Encore
     .addStyleEntry('footer', '/assets/styles/footer.css')
     .addStyleEntry('botonBarraNavegacion', '/assets/styles/botonBarraNavegacion.css')
     .addStyleEntry('barrita', '/assets/styles/barrita.css')
+    .addStyleEntry('spinnerCss', '/assets/styles/spinner.css')
     
 
 

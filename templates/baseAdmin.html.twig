@@ -1,8 +1,14 @@
 <header class="headerAdmin">
     {% block addStyleSheets %}
     {{ encore_entry_link_tags('menuAdmin') }}
+    {{ encore_entry_link_tags('spinnerCss') }}
     {% endblock %}
     <br>
+
+    <div class="contenedorDinamicoSpinner">
+
+    </div>
+
 <div class="barraNavegacion">
     <ul class="nav nav-pills" id="listadoElementos">
         
@@ -63,6 +69,7 @@
     </div>
     {% block javascripts %}
 {{encore_entry_script_tags('busquedaJs')}}
+{{encore_entry_script_tags('spinnerJs')}}
 {% endblock %}
 
 </header>

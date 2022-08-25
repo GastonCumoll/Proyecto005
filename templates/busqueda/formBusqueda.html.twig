@@ -7,11 +7,14 @@
 {% block addStyleSheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('formularioBusqueda') }}
+    {{ encore_entry_link_tags('spinnerCss') }}
 {% endblock %}
+
+
 
 <div class="card shadow-sm">
     <div class="card-body sm">
-        <form action="{{path('formulario_busqueda_result')}}" method="get">
+        <form action="{{path('formulario_busqueda_result')}}" method="get" name="formulario">
             <div class="contenedor-inputs">
                 <div class="form-row mb-2">
                 <div class="col-6">
@@ -111,8 +114,7 @@
             </div>
         </div>
             <div class="text-center">
-                <button type="submit" class="btn btn-sm btn-outline-secondary cargando" ><i
-                    class="fa fa-search"></i> Buscar</button>
+                <a class="btn btn-sm btn-outline-secondary cargando buscarNorma" ><i class="fa fa-search"></i> Buscar</a>
             </div>
         </div>
         </form>
@@ -122,5 +124,6 @@
 {% block javascripts %}
         {{encore_entry_script_tags('etiqueta')}}
         {{encore_entry_script_tags('normaEdit')}}
-    {% endblock %}
+        {{encore_entry_script_tags('spinnerJs')}}
+{% endblock %}
 {% endblock %}
