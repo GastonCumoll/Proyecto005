@@ -8,6 +8,7 @@ parameters:
     brochures_directory: '%kernel.project_dir%/public/uploads/pdf'
     ws_seguridad: '%env(WS_SEGURIDAD)%'
     ws_reparticiones: '%env(WS_REPARTICIONES)%'
+    timezone: '%env(APP_TIMEZONE)%'
 
 services:
     App\EventSubscriber\ConsultaSubscriber:

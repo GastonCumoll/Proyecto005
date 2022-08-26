@@ -1032,13 +1032,14 @@ class NormaController extends AbstractController
             }
 
             $entityManager->persist($norma);
-            $entityManager->flush();
+
             
             $brochureFile = $form->get('archivo')->getData();
             //pregunto si se cargo un archivo.
             if ($brochureFile) {
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+                    
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
@@ -1057,7 +1058,7 @@ class NormaController extends AbstractController
                     // instead of its contents
                     
                     //se crea un objeto archivo. para vicularlo con la norma en la db 
-                    $newFilename=$carpeta.'/'.$newFilename;
+                    $newFilename='pdf/'.$newFilename;
 
                     $archi=new Archivo();
                     $archi->setRuta($newFilename);
@@ -1167,27 +1168,33 @@ class NormaController extends AbstractController
             if ($brochureFile) {
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
+
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
+                    $ruta = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
                     $carpeta=$unArchivo->guessExtension();
-                    //dd($unArchivo->guessExtension());
+
                     // Move the file to the directory where brochures are stored
                     try {
                         $unArchivo->move(
-                        $this->getParameter('brochures_directory'),$newFilename);
+                        $this->getParameter('brochures_directory'),$ruta);
                     } catch (FileException $e) {
                         // ... handle exception if something happens during file upload
                     }
                     // updates the 'brochureFilename' property to store the PDF file name
                     // instead of its contents
-                    //dd($newFilename);
-                    $newFilename=$carpeta.'/'.$newFilename;
-                    //dd($newFilename);
+                    $ruta='pdf/'.$ruta;
+
                     $archi=new Archivo();
-                    $archi->setRuta($newFilename);
+                    $archi->setRuta($ruta);
                     $archi->setNorma($norma);
-                    $archi->setNombre($nombreArchivo);
+
+                    if($nombreArchivo){
+                        $archi->setNombre($nombreArchivo);
+                    }else{
+                        $archi->setNombre($originalFilename);
+                    }
+
                     $archi->setTipo($carpeta);
 
                     $entityManager->persist($archi);

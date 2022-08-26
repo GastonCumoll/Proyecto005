@@ -61,7 +61,7 @@
             {{ recursiveCategory(item, norma) }}
             {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
         {% else %}
-                {{item.nombre}} Ultimo renglon <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
+                {{item.nombre}} <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
         {% endif %}
 
     </ul>
@@ -157,7 +157,14 @@
                         {% endif %}
                         {% for unPdf in norma.archivos %}
                         <div>
-                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                            {% if unPdf.tipo == 'pdf' %}
+                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                            {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
+                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
+                            {% else %}
+                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}</a>
+                                {% endif %}
+                            
                             <br>
                         </div>
                         {% endfor %}
@@ -228,7 +235,6 @@
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
-
                                         {% endif %}
                                     </tr>
                                     <tr>
@@ -280,7 +286,6 @@
                             {% endif %}
                         </form>
                     {% endif %}
-
                     {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
                     <br>
                         <form action="{{path('acceso')}}" method="post">
