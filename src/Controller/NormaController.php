@@ -1039,7 +1039,15 @@ class NormaController extends AbstractController
             if ($brochureFile) {
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
-                    
+                    //mayor a 10 mb
+                    dd($unArchivo->getSize());
+                    if($unArchivo->getSize() > 1000000){
+                        $this->addFlash(
+                            'archivoMaxSize',
+                            "El archivo que esta queriendo cargar es muy grande. No debe superar los 10 Mb."
+                        );
+                        return $this->redirectToRoute('norma_new',['id'=>$id],Response::HTTP_SEE_OTHER);
+                    }
                     // this is needed to safely include the file name as part of the URL
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
@@ -1221,7 +1229,6 @@ class NormaController extends AbstractController
                     $entityManager->persist($auditoria);
                     $norma->setInstancia(1);
                     $norma->addAuditoria($auditoria);
-
 
                     $entityManager->persist($norma);  
                     }

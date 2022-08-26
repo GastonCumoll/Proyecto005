@@ -20,7 +20,11 @@ class ArchivoType extends AbstractType
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,
-            'attr' => ['class'=>'custom-file-imput'],
+            
+            'attr' => [
+                'class'=>'custom-file-imput',
+                'maxSize' => '5M',
+            ],
         ])
         ->add('nombre', TextType::class,[
             'mapped'=>false,

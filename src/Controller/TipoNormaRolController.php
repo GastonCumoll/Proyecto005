@@ -150,11 +150,36 @@ class TipoNormaRolController extends AbstractController
     //y t se refiere al id de tipo de norma
     public function edit($t,Request $request, TipoNormaRolRepository $tipoNormaRolRepository, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
-        //busca el tipo de norma y la relacion entre un tipo de norma y un rol, que se encuentra en la tabla de $tipoNormaRolRepository;
+        $rolActual=$tipoNormaRolRepository->findOneById($id)->getNombreRol();
+        // dd($rolActual);
+        if($rolActual){
+            $rolesFaltantes[0]=$rolActual;
+        }else{
+            $rolesFaltantes=[];
+        }
+        $rolesDeTipo=[];
+        
+
         $tipoNorma=$tipoNormaRepository->findOneById($t);
+        foreach ($tipoNorma->getTipoNormaRoles() as $unRol) {
+            $rolesDeTipo[]=$unRol->getNombreRol();
+        }
+        $todosRoles=['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR','DIG_CONSULTOR'];
+
+        foreach ($todosRoles as $unRol) {
+            if (!in_array($unRol,$rolesDeTipo)) {
+                $rolesFaltantes[]=$unRol;
+            }
+        }
+        
+        //dd($rolesDeTipo,$todosRoles,$rolesFaltantes);
+        $tipoNormaRol = new TipoNormaRol();
+        $tipoNormaRol->setTipoNorma($tipoNorma);
+        //busca el tipo de norma y la relacion entre un tipo de norma y un rol, que se encuentra en la tabla de $tipoNormaRolRepository;
+        
         $tipoN=$tipoNormaRolRepository->findOneById($id);
 
-        $form = $this->createForm(TipoNormaRolType::class, $tipoN);
+        $form = $this->createForm(TipoNormaRolType::class, $tipoN,['roles'=>$rolesFaltantes]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

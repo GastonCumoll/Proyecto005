@@ -9,6 +9,7 @@ use App\Entity\TipoNormaReparticion;
 use App\Form\TipoNormaReparticionType;
 use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\TipoNormaReparticionTypeEdit;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,24 +35,42 @@ class TipoNormaReparticionController extends AbstractController
      * @Route("/{id}/edit/{t}", name="tipo_norma_reparticion_edit", methods={"GET", "POST"})
      */
     //este metodo se ejecuta cuando se quiere editar una reparticion a un tipo de norma id = id de la reparticion y t = id del tipo de norma
-    public function edit($id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository,$t): Response
+    public function edit(AreaRepository $areaRepository,$id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository,$t): Response
     {
-        $tipo=$tipoNormaRepository->findById($t);
-        
+        //tipo=tipo de norma
+        $tipo=$tipoNormaRepository->findOneById($t);
+        //tipoNormaReparticion array de tipoNormaReparticion donde se encuentra la reparticion dada
         $tipoNormaReparticion=$tipoNormaReparticionRepository->findByReparticionId($id);
+        //dd($tipoNormaReparticion);
         foreach ($tipoNormaReparticion as $tpr) {
-            if($tpr->getTipoNormaId()==$t){
+            if($tpr->getTipoNormaId()->getId()==$t){
+                //tipoNR es el objeto tipoNormaReparticion que quiero editar
                 $tipoNR=$tpr;
             }
         }
-        
-        $form = $this->createForm(TipoNormaReparticionType::class, $tpr);
+        //le pasamos las reparticiones que no tiene...como el metodo new
+        //se crean arrays para almacenar las reparticiones que tiene el tipo de norma que se esta tratando y las que le faltan.
+        $repaFaltantes=[];
+        $reparticionesObj=[];
+        $reparticionesTipo=$tipo->getTipoNormaReparticions()->toArray();
+        foreach ($reparticionesTipo as $unRTipo) {
+            $reparticionesObj[]=$areaRepository->findOneById($unRTipo->getReparticionId()->getId());
+        }
+        $todasRepa=$areaRepository->findAll();
+        foreach ($todasRepa as $unaRepa) {
+            if(!in_array($unaRepa,$reparticionesObj)){
+                //pregunto cuales faltan:
+                //repaFaltantes: las reparticiones que le faltan a ese tipo de norma
+                $repaFaltantes[]=$unaRepa;
+            }
+        }
+        $form = $this->createForm(TipoNormaReparticionType::class, $tipoNR,['reparticiones' => $repaFaltantes]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $repa=$form->get('reparticionId')->getData();
-            $tpr->setReparticionId($repa);
-            $entityManager->persist($tpr);
+            $tipoNR->setReparticionId($repa);
+            $entityManager->persist($tipoNR);
             $entityManager->flush();
 
             return $this->redirectToRoute('reparticion_norma', ['id'=>$t], Response::HTTP_SEE_OTHER);
@@ -60,9 +79,10 @@ class TipoNormaReparticionController extends AbstractController
         return $this->renderForm('tipo_norma_reparticion/edit.html.twig', [
             'tipo_norma_reparticion' => $tipoNormaReparticion,
             'form' => $form,
-            'tipoNorma' =>$tipo[0],
+            'tipoNorma' =>$tipo,
         ]);
     }
+    
 
     /**
      * @Route("/reparticionNorma/{id}", name="reparticion_norma", methods={"GET"})
