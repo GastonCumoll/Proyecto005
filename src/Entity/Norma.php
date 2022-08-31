@@ -130,6 +130,11 @@ private $publico;
  */
 private $edito;
 
+/**
+ * @ORM\Column(type="text", nullable=true)
+ */
+private $textoAnterior;
+
 
 
 public function getRela(): ?bool
@@ -504,6 +509,18 @@ public function setRela(?bool $rela): self
     public function setEdito(?bool $edito): self
     {
         $this->edito = $edito;
+
+        return $this;
+    }
+
+    public function getTextoAnterior(): ?string
+    {
+        return $this->textoAnterior;
+    }
+
+    public function setTextoAnterior(?string $textoAnterior): self
+    {
+        $this->textoAnterior = $textoAnterior;
 
         return $this;
     }

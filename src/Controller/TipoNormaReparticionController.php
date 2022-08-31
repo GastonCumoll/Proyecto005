@@ -42,6 +42,9 @@ class TipoNormaReparticionController extends AbstractController
         //tipoNormaReparticion array de tipoNormaReparticion donde se encuentra la reparticion dada
         $tipoNormaReparticion=$tipoNormaReparticionRepository->findByReparticionId($id);
         //dd($tipoNormaReparticion);
+        
+        
+        $rolesDeTipo=[];
         foreach ($tipoNormaReparticion as $tpr) {
             if($tpr->getTipoNormaId()->getId()==$t){
                 //tipoNR es el objeto tipoNormaReparticion que quiero editar
@@ -52,6 +55,14 @@ class TipoNormaReparticionController extends AbstractController
         //se crean arrays para almacenar las reparticiones que tiene el tipo de norma que se esta tratando y las que le faltan.
         $repaFaltantes=[];
         $reparticionesObj=[];
+
+        $repaActual=$areaRepository->findOneById($id);
+        if($repaActual){
+            $repaFaltantes[0]=$repaActual;
+        }else{
+            $repaFaltantes=[];
+        }
+
         $reparticionesTipo=$tipo->getTipoNormaReparticions()->toArray();
         foreach ($reparticionesTipo as $unRTipo) {
             $reparticionesObj[]=$areaRepository->findOneById($unRTipo->getReparticionId()->getId());
@@ -64,6 +75,7 @@ class TipoNormaReparticionController extends AbstractController
                 $repaFaltantes[]=$unaRepa;
             }
         }
+        //dd($repaFaltantes);
         $form = $this->createForm(TipoNormaReparticionType::class, $tipoNR,['reparticiones' => $repaFaltantes]);
         $form->handleRequest($request);
 

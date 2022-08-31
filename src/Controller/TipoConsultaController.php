@@ -104,7 +104,6 @@ class TipoConsultaController extends AbstractController
      */
     public function delete(Request $request, TipoConsulta $tipoConsultum, EntityManagerInterface $entityManager): Response
     {
-
         if(!empty($tipoConsultum->getConsultas()->toArray())){
             //dd($tipoConsultum->getConsultas()->toArray());
             //dd(empty($tipoNorma->getNormas()));

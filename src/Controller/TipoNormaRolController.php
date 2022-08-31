@@ -178,7 +178,7 @@ class TipoNormaRolController extends AbstractController
         //busca el tipo de norma y la relacion entre un tipo de norma y un rol, que se encuentra en la tabla de $tipoNormaRolRepository;
         
         $tipoN=$tipoNormaRolRepository->findOneById($id);
-
+        //dd($rolesFaltantes);
         $form = $this->createForm(TipoNormaRolType::class, $tipoN,['roles'=>$rolesFaltantes]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

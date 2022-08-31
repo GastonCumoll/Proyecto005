@@ -10,11 +10,12 @@
 {% endblock %}
 
     <h1>Editar Norma</h1>
-    
+    <h5>Los campos con (*) son obligatorios</h5>
     {{ include('norma/_form.html.twig') }}
+    
     <input type="hidden" id="id" value="{{norma.id}}">
     <input type="hidden" id="idNombre" value="{{norma.titulo}}">
-    <a href="{{ path('norma_index') }}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
+    <a href="{{app.request.headers.get('referer')}}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
 
     {% block javascripts %}
         {{ parent() }}

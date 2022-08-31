@@ -12,6 +12,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -25,7 +26,9 @@ class CircularType extends AbstractType
     {
         $builder
             ->add('numero')
-            ->add('titulo')
+            ->add('titulo',TextType::class,[
+                'label'=> 'Titulo(*)'
+            ])
             ->add('fechaSancion',DateType::class,[
                 'required' => false,
                 'widget' =>'single_text',
@@ -74,6 +77,8 @@ class CircularType extends AbstractType
                     'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
                 ],
                 'purify_html' => true,
+                'constraints'=>[new NotBlank(),],
+            'label'=>'Texto(*)'
             ])
             ->add('items',EntityType::class,[
                 'class' => Item::class,

@@ -14,7 +14,7 @@
 {% endblock %}
 
 
-<div id="myModal" class="modalContainer">
+{# <div id="myModal" class="modalContainer">
     <div class="modal-content">
         <span class="close">×</span>
         <div class="text-center">
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> #}
 {# MACRO #}
 {% if item %}
 {% macro mostrarNorma(norma) %}
@@ -78,7 +78,6 @@
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
     <div class="container mt-3 mb-3">
-        
         <div class="card text-center shadow mb-5 bg-white rounded">
             
             {% if norma.numero != null  %}
@@ -106,7 +105,11 @@
                 {% else %}
                     <div class="card-header text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            {% if 'listas' in app.request.headers.get('referer') or 'borrador' in app.request.headers.get('referer') %}
+                                <a href="{{app.request.headers.get('referer')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            {% else %}
+                                <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            {% endif %}
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
@@ -193,22 +196,18 @@
                     </div> #}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
-                        <div class="divBotones mt-3 mr-2">
-                            <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
-                        </div>
+                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                         </div>
-                        <div class="divBotones mt-3 mr-2">
-                            <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones"> Agregar relacion</button></a>
-                        </div>
+                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
@@ -241,10 +240,31 @@
                                         <td>Observaciones</td>
                                         <td>{{rela.getDescripcion}}</td>
                                     </tr>
+                                    {% if rela.getResumen %}
+                                    <tr>
+                                        <td>Resumen</td>
+                                        <td>{{rela.getResumen}}</td>
+                                    </tr>
+                                    {% endif %}
                                 </tbody>
                             {% endfor %}
                     </table>
+                    
                 </div>
+                
+                {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
+                    <div class="divBotones text-center">
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                    </div>
+                    {% endif %}
+                    {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                    <div class="divBotones text-center">
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                    </div>
+                    <br>
+                    
+                    {% endif %}
+                <br>
                 <br>
                 <div class="card">
                     <div class="card-header">
@@ -271,7 +291,7 @@
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                            <button type="submit" class="btn btn-danger mt-2" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}

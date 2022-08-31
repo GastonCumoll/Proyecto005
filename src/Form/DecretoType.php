@@ -11,17 +11,18 @@ use App\Form\Type\TagsInputType;
 use App\Repository\ItemRepository;
 use App\Repository\EtiquetaRepository;
 use Symfony\Component\Form\AbstractType;
+use Gregwar\CaptchaBundle\Type\CaptchaType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Gregwar\CaptchaBundle\Type\CaptchaType;
 
 class DecretoType extends AbstractType
 {
@@ -29,7 +30,9 @@ class DecretoType extends AbstractType
     {
         $builder
         ->add('numero')
-        ->add('titulo')
+        ->add('titulo',TextType::class,[
+            'label'=>'Titulo(*)'
+        ])
         ->add('fechaSancion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -85,6 +88,8 @@ class DecretoType extends AbstractType
                 'pasteFilter' => 'h1 h2 p ul ol li',
             ],
             'purify_html' => true,
+            'constraints'=>[new NotBlank(),],
+            'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
             'class' => Item::class,

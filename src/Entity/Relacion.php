@@ -28,7 +28,7 @@ class Relacion
     private $descripcion;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $resumen;
 
@@ -87,7 +87,7 @@ class Relacion
         return $this->resumen;
     }
 
-    public function setResumen(string $resumen): self
+    public function setResumen(?string $resumen): self
     {
         $this->resumen = $resumen;
 
