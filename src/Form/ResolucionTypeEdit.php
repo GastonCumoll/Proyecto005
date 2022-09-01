@@ -7,9 +7,11 @@ use App\Entity\Norma;
 use App\Entity\Etiqueta;
 use App\Repository\EtiquetaRepository;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use KMS\FroalaEditorBundle\Form\Type\FroalaEditorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -23,7 +25,9 @@ class ResolucionTypeEdit extends AbstractType
     {
         $builder
             ->add('numero')
-            ->add('titulo')
+            ->add('titulo',TextType::class,[
+                'label'=> 'Titulo(*)'
+            ])
             ->add('fechaSancion',DateType::class,[
                 'required' => false,
                 'widget' =>'single_text',
@@ -65,6 +69,16 @@ class ResolucionTypeEdit extends AbstractType
             ])
             //->add('fechaPublicacion')
             ->add('resumen')
+            ->add('texto',  CKEditorType::class,[
+                'config' => [
+                    'conf' => 'default',
+                    'config_name' => 'basic_config',
+                    'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
+                ],
+                'purify_html' => true,
+                'constraints'=>[new NotBlank(),],
+            'label'=>'Texto(*)'
+            ])
             //->add('texto',  FroalaEditorType::class)
             //->add('fechaPublicacionBoletin')
             //->add('estado')

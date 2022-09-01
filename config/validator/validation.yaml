@@ -1,0 +1,4 @@
+App/Entity/Norma:
+  properties:
+    texto: 
+      - NotBlank: { message: 'forms.norma.texto'}

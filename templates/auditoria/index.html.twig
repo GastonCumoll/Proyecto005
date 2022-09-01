@@ -34,7 +34,7 @@
             {% for auditoria in auditorias %}
             <tr>
                 <td>{{auditoria.id}}</td>
-                <td>{{ auditoria.fecha|date('Y-m-d') }}</td>
+                <td>{{ auditoria.fecha|date('d-m-Y\\ H:i') }}</td>
                 <td>{{ auditoria.nombreUsuario }}</td>
                 <td>{{ auditoria.instanciaAnterior }}</td>
                 <td>{{ auditoria.instanciaActual }}</td>

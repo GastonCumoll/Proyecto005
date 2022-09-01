@@ -53,9 +53,7 @@ class RelacionType extends AbstractType
                 ])
             //->add('fechaRelacion')
             ->add('descripcion')
-            ->add('resumen',TextType::class,[
-                'required' => false
-            ]);
+            ->add('resumen');
             
     }
 

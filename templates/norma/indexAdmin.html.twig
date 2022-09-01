@@ -23,7 +23,7 @@
     
 
     <div class="container">
-    <div id="myModal" class="modalContainer">
+    {# <div id="myModal" class="modalContainer">
         <div class="modal-content">
             <span class="close">×</span>
             <div class="text-center">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
         <div class="row">
             <div class="col-sm-12">
                 <div id="contenedorBotonVolver" class="text-left mt-1">
@@ -205,7 +205,7 @@
                         <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
                     {% endif %}
                 {% endif %}
-                <td class="colFecha">{{norma.fechaPublicacion|date('Y-m-d')}}</td>
+                <td class="colFecha">{{norma.fechaPublicacion|date('d-m-Y')}}</td>
 
                 {% set bandera = 0 %}
 
@@ -220,9 +220,9 @@
                             {% endfor %}
                             {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
                             {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" ><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
-                                <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" ><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% else %}
                                 <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% endif %}
