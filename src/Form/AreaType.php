@@ -29,6 +29,7 @@ class AreaType extends AbstractType
         $builder
             ->add('nombre', ChoiceType::class, [
                 'choices' => $reparticionChoice,
+                'required'=>true,
                 'attr'=> [
                     'class'=>'selectpicker',
                     'data-size'=>'10',

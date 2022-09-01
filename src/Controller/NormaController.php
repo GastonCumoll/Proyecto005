@@ -875,7 +875,7 @@ class NormaController extends AbstractController
             $hoy = $today->format('d-m-Y\\ H:i');
 
             // Recupere el HTML generado en nuestro archivo twig
-            $html = $this->renderView('norma/textoPdf.html.twig', [
+            $html = $this->renderView('norma/generarPdf.html.twig', [
                 //'texto' => $norma->getTexto(),
                 'id' => $normaRepository->find($id)
             ]);
