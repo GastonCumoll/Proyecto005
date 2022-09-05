@@ -45,13 +45,21 @@ $(document).ready(function()
                                 for(var i = 0; i < data.length; i++) {  
                                     var norma = data[i];
                                     
-                                    var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
-                                    var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                                    if(norma['numero']){
+                                        var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
+                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                                        
+                                        $('#tipoNorma', c).html(norma['tipo']);
+                                        $('#n',c).html(" N° ");
+                                        $('#numero', c).html(norma['numero']);
+                                        $('#titulo', c).html(norma['titulo']);
+                                    }else{
+                                        var c =$('<tr><td class="" id="tipoNorma"></td><td id="titulo"></td></tr> ');
+                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
                                     
-                                    $('#tipoNorma', c).html(norma['tipo']);
-                                    $('#n',c).html(" N° ");
-                                    $('#numero', c).html(norma['numero']);
-                                    $('#titulo', c).html(norma['titulo']);
+                                        $('#tipoNorma', c).html(norma['tipo']);
+                                        $('#titulo', c).html(norma['titulo']);
+                                    }
                                     
                                     $('#container').append(c);
                                     var link = norma['id'];
@@ -86,13 +94,21 @@ $(document).ready(function()
                         for(var i = 0; i < data.length; i++) {  
                             var norma = data[i];
                             
-                            var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
-                            var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                            if(norma['numero']){
+                                var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
+                                var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                                
+                                $('#tipoNorma', c).html(norma['tipo']);
+                                $('#n',c).html(" N° ");
+                                $('#numero', c).html(norma['numero']);
+                                $('#titulo', c).html(norma['titulo']);
+                            }else{
+                                var c =$('<tr><td class="" id="tipoNorma"></td><td id="titulo"></td></tr> ');
+                                var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
                             
-                            $('#tipoNorma', c).html(norma['tipo']);
-                            $('#n',c).html(" N° ");
-                            $('#numero', c).html(norma['numero']);
-                            $('#titulo', c).html(norma['titulo']);
+                                $('#tipoNorma', c).html(norma['tipo']);
+                                $('#titulo', c).html(norma['titulo']);
+                            }
                             
                             $('#container').append(c);
                             var link = norma['id'];

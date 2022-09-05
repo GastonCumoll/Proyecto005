@@ -567,16 +567,31 @@ class NormaController extends AbstractController
                 $nH[]=$norma;
             }
         }
-        //dd($nH);
+        // dd($nH);
         $jsonData = array();  
         $idx = 0;  
-        foreach($nH as $unaNorma) {  
+        foreach($nH as $unaNorma) { 
+            if($unaNorma->getTipoNorma()->getNombre()=='Decreto' && $unaNorma->getNumeroAuxiliar()!=0){
+                $numero=$unaNorma->getNumeroAuxiliar().'/'.$unaNorma->getYear();
+                
+            }else if($unaNorma->getNumeroAuxiliar()!=0){
+                $numero=$unaNorma->getNumeroAuxiliar();
+                
+            }else{
+                $temp = array(
+                    'titulo' => $unaNorma->getTitulo(),  
+                    'tipo' => $unaNorma->getTipoNorma()->getNombre(),
+                    'id' => $unaNorma->getId(),
+                    ); 
+                    $jsonData[$idx++] = $temp;  
+                    return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
+            }
             $temp = array(
-                'numero' => $unaNorma->getNumeroAuxiliar(),  
+                'numero' => $numero,  
                 'titulo' => $unaNorma->getTitulo(),  
                 'tipo' => $unaNorma->getTipoNorma()->getNombre(),
                 'id' => $unaNorma->getId(),
-                'año'=>$unaNorma->getYear(),
+
                 );   
                 $jsonData[$idx++] = $temp;  
             }
