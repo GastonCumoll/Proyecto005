@@ -715,8 +715,8 @@ class NormaController extends AbstractController
         //dd($textos);
         $titulo=$request->query->get('titulo');
         $tipo=$request->query->get('tipoNorma');//string
-        $numero=$request->query->get('numero');//string
-        $año=$request->query->get('año');//string
+        $numero=intval($request->query->get('numero'));//int
+        $año=intval($request->query->get('año'));//int
         $etiquetas=$request->query->get('etiquetas');
 
         $arrayDeNormas=[];
