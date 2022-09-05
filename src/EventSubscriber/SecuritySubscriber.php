@@ -5,14 +5,15 @@ namespace App\EventSubscriber;
 //use Twig\Environment;
 use InvalidArgumentException;
 use App\Service\SeguridadService;
-use App\Controller\GeneralController;
 use App\Controller\NormaController;
+use App\Repository\NormaRepository;
+use App\Controller\GeneralController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -22,13 +23,15 @@ class SecuritySubscriber implements EventSubscriberInterface
     private $seguridad;
     //private $_engine;
     
-    public function __construct(SeguridadService $seguridad, /*Environment $engine,*/ SessionInterface $session) {
+    public function __construct(SeguridadService $seguridad, /*Environment $engine,*/ SessionInterface $session, NormaRepository $normaRepo) {
         $this->seguridad = $seguridad;
         //$this->_engine = $engine;
         $this->session = $session;
+        $this->normas = $normaRepo;
     }
 
     public function onRequestEvent(RequestEvent $event) {
+
         // Verificación de sesión expirada
         
         //  if (!$this->seguridad->checkSessionActive($this->session->get('session_id'))) {
@@ -37,6 +40,16 @@ class SecuritySubscriber implements EventSubscriberInterface
         //      $event->setResponse(new RedirectResponse('/logout'));
         // }
         // else {
+            //notificaciones:
+                //$session = $this->get('session');
+                $session_id=$this->session->get('session_id');
+                $idReparticion =  $this->seguridad->getIdReparticionAction($session_id);
+
+                $borradores=$this->normas->findBorradoresCont('DIG_OPERADOR',$idReparticion);
+                $this->session->set('cantB',count($borradores));
+                $listas=$this->normas->findListasCont('DIG_EDITOR',$idReparticion);
+                $this->session->set('cantL',count($listas));
+
             $request = $event->getRequest();
             //dd($request);
             $routeName = $request->attributes->get('_route');

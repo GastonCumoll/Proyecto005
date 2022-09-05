@@ -265,12 +265,12 @@ class NormaController extends AbstractController
         $auditoria->setFecha($today);
 
         if($estadoNorma == "Borrador"){
-            $cantidadBorrador=$sesion->get('cantB');
-            $cantidadBorrador--;
-            $sesion->set('cantB',$cantidadBorrador);
-            $cantidadListas=$sesion->get('cantL');
-            $cantidadListas++;
-            $sesion->set('cantL',$cantidadListas);
+            // $cantidadBorrador=$sesion->get('cantB');
+            // $cantidadBorrador--;
+            // $sesion->set('cantB',$cantidadBorrador);
+            // $cantidadListas=$sesion->get('cantL');
+            // $cantidadListas++;
+            // $sesion->set('cantL',$cantidadListas);
             //$array[]="DIG_OPERADOR";
             if(in_array("DIG_OPERADOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
@@ -292,9 +292,9 @@ class NormaController extends AbstractController
             }
         }
         if($estadoNorma=="Lista"){
-            $cantidadListas=$sesion->get('cantL');
-            $cantidadListas--;
-            $sesion->set('cantL',$cantidadListas);
+            // $cantidadListas=$sesion->get('cantL');
+            // $cantidadListas--;
+            // $sesion->set('cantL',$cantidadListas);
             if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
@@ -365,12 +365,12 @@ class NormaController extends AbstractController
         $auditoria->setFecha($today);
 
         if($estadoNorma=="Lista"){
-            $cantidadBorrador=$session->get('cantB');
-            $cantidadBorrador++;
-            $session->set('cantB',$cantidadBorrador);
-            $cantidadListas=$session->get('cantL');
-            $cantidadListas--;
-            $session->set('cantL',$cantidadListas);
+            // $cantidadBorrador=$session->get('cantB');
+            // $cantidadBorrador++;
+            // $session->set('cantB',$cantidadBorrador);
+            // $cantidadListas=$session->get('cantL');
+            // $cantidadListas--;
+            // $session->set('cantL',$cantidadListas);
             $auditoria->setInstanciaAnterior($norma->getInstancia());
             $auditoria->setInstanciaActual(1);
             $auditoria->setEstadoAnterior($norma->getEstado());
@@ -612,8 +612,9 @@ class NormaController extends AbstractController
         }
         $titulo=$request->query->get('titulo');//string
         $tipo=$request->query->get('tipoNorma');//string
-        $numero=$request->query->get('numero');//string
-        $año=$request->query->get('año');//string
+        $numero=intval($request->query->get('numero'));//int
+        $año=intval($request->query->get('año'));//int
+
         $texto=$request->query->get('texto');
         //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
         //obtiene los datos de los campos;
@@ -837,9 +838,9 @@ class NormaController extends AbstractController
         $auditoria->setNombreUsuario($usuario);
         $auditoria->setFecha($today);
         if($estadoNorma=="Lista"){
-            $cantidadListas=$sesion->get('cantL');
-            $cantidadListas--;
-            $sesion->set('cantL',$cantidadListas);
+            // $cantidadListas=$sesion->get('cantL');
+            // $cantidadListas--;
+            // $sesion->set('cantL',$cantidadListas);
             if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
