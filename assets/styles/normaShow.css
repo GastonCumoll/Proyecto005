@@ -1,6 +1,6 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-@media (max-width: 504px) {
+@media (max-width: 504px) and (min-width: 400px){
     #containerBotones{
         text-align: center !important;
     }
@@ -10,8 +10,8 @@
 
     .botones{
         margin: auto;
-        width: 50% !important;
-        height: 5em !important;
+        width: 100% !important;
+        height: 2.5em !important;
     }
 
     #botonVolver{
@@ -23,7 +23,34 @@
 
     .divBotonVolver{
         width: 100% !important;
-       
+
+    }
+    
+    .busqueda-input{
+        width: 100% !important;
+    }
+
+    .headerPdf{
+        text-align: center !important;
+    }
+
+    #busquedaTexto{
+        width: 80% !important;
+    }
+    .botonVerde{
+        width: 20% !important;
+        margin: 0% !important
+    }
+
+    .contenedorBotonVolver{
+        margin-right: auto !important;
+    }
+
+    .h4{
+        float: none !important;
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
     }
 
     .modalContainer {
@@ -74,7 +101,7 @@
 
 }
 
-@media (max-width: 767px) {
+@media (max-width: 767px) and (min-width: 505px) {
     #containerBotones{
         text-align: center !important;
     }
@@ -142,9 +169,13 @@
 
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1999px) and (min-width: 768px) {
     #containerBotones{
         text-align: center !important;
+    }
+
+    .contenedorBotonVolver{
+        float: left !important;
     }
 
     .divBotones{
@@ -162,6 +193,15 @@
 
     .divBotonVolver{
         width: 100% !important;
+    }
+
+    .contenedorBotonPDF{
+        float: left !important;
+        width: 30% !important;
+    }
+
+    .card-header{
+        text-align: center !important;
     }
 
     .modalContainer {
@@ -230,6 +270,10 @@
         margin-left: 80%!important;
     }
 
+    .contenedorBotonPDF{
+        width: 20% !important;
+    }
+
     .divBotonVolver{
         width: 100% !important;
     }
@@ -278,7 +322,7 @@
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
-    }
+    } 
 
 
 }

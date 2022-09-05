@@ -89,9 +89,7 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numeroAuxiliar }}
-                        
-                        (borrador)
+                        {{ norma.numero }}(borrador)
                         </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
@@ -101,24 +99,17 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numeroAuxiliar }} 
+                            {{ norma.numero }} 
                         </h4>
                     </div>
                 {% else %}
                     <div class="card-header text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            {% if 'listas' in app.request.headers.get('referer') or 'borrador' in app.request.headers.get('referer') %}
-                                <a href="{{app.request.headers.get('referer')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                            {% else %}
-                                <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                            {% endif %}
+                            <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{norma.numeroAuxiliar}}
-                            {# {% if norma.tipoNorma.nombre == 'Decreto' %}
-                                /{{norma.year}}
-                            {% endif %} #}
+                            {{ norma.numero }}
                         </h4>
                     </div>
                 {% endif %}
@@ -272,13 +263,13 @@
                 <br>
                 <br>
                 <div class="card">
-                    <div class="card-header">
-                        <div class="float-left mt-2">
-                            <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver pdf <i class="fas fa-file-pdf"></i></a>
+                    <div class="card-header headerPdf">
+                        <div class="mt-2 contenedorBotonPDF">
+                            <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" class="btn btn-danger botones editar">Ver pdf <i class="fas fa-file-pdf"></i></button></a>
                         </div>
-                        <div class="input-group mr-2" id="busqueda-input">
+                        <div class="input-group mr-2 mt-2" id="busqueda-input">
                             <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-                            <div class="input-group-prepend">
+                            <div class="input-group-prepend botonVerde">
                                 <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
@@ -291,30 +282,36 @@
                         </div >
                     </div>
                 </div>
-                <div class=" divBotonVolver mt-4  text-left d-inline">
+                <div class=" divBotonVolver mt-4  text-center">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn btn-danger mt-2" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                            <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}
-                        <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
-                        <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">    
-                            <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button class="btn btn-danger" id="botonVolver">Publicar<i class="fa-solid fa-check-double"></i></button>
-                            {% if norma.publico == 1 %}
-                                <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
-                            {% else %}
-                                <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
-                            {% endif %}
-                        </form>
+                        <div class="text-center">
+                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                            <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">
+                                <div class="text-center mt-2">
+                                    <input type="hidden" name="normaId" value="{{norma.id}}">
+                                    <button class="btn btn-danger">Publicar<i class="fa-solid fa-check-double"></i></button>
+                                    <div class="text-center">
+                                        {% if norma.publico == 1 %}
+                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
+                                        {% else %}
+                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     {% endif %}
                     {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
                     <br>
                         <form action="{{path('acceso')}}" method="post">
-                            <div class="text-right">
+                            <div class="text-center">
                                 {% if norma.publico == 1 %}
                                     <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
@@ -327,8 +324,10 @@
                             </div>
                         </form>
                         <form action="{{path('updateInstancia')}}" method="post">
-                            <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                            <div class="text-center">
+                                <input type="hidden" name="normaId" value="{{norma.id}}">
+                                <button type="submit" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                            </div>
                         </form>
                         {{ include('norma/_delete_form.html.twig') }}
                         

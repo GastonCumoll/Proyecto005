@@ -570,7 +570,7 @@ class NormaController extends AbstractController
         // dd($nH);
         $jsonData = array();  
         $idx = 0;  
-        foreach($nH as $unaNorma) { 
+        foreach($nH as $unaNorma) {
             if($unaNorma->getTipoNorma()->getNombre()=='Decreto' && $unaNorma->getNumeroAuxiliar()!=0){
                 $numero=$unaNorma->getNumeroAuxiliar().'/'.$unaNorma->getYear();
                 
@@ -591,7 +591,6 @@ class NormaController extends AbstractController
                 'titulo' => $unaNorma->getTitulo(),  
                 'tipo' => $unaNorma->getTipoNorma()->getNombre(),
                 'id' => $unaNorma->getId(),
-
                 );   
                 $jsonData[$idx++] = $temp;  
             }
@@ -912,11 +911,11 @@ class NormaController extends AbstractController
             $result = $today->format('d-m-Y H-i-s');
             $hoy = $today->format('d-m-Y\\ H:i');
 
-            // Recupere el HTML generado en nuestro archivo twig
-            $html = $this->renderView('norma/generarPdf.html.twig', [
-                //'texto' => $norma->getTexto(),
-                'id' => $normaRepository->find($id)
-            ]);
+        // Recupere el HTML generado en nuestro archivo twig
+        $html = $this->renderView('norma/textoPdf.html.twig', [
+            //'texto' => $norma->getTexto(),
+            'id' => $normaRepository->find($id)
+        ]);
 
             //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
             $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
@@ -1097,7 +1096,8 @@ class NormaController extends AbstractController
             }
 
             $entityManager->persist($norma);
-
+            $entityManager->flush();
+            
             $brochureFile = $form->get('archivo')->getData();
             //pregunto si se cargo un archivo.
             if ($brochureFile) {
@@ -1520,22 +1520,6 @@ class NormaController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
-                $fecha=$form->get('fechaSancion')->getData();
-                $fecha=date_format($fecha, "Y");
-                // dd($fecha);
-                // strtotime($fecha);
-                // $año=date("Y",$fecha);
-                $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
-                $norma->setNumero($numYAño);
-                // dd($numYAño);
-            }
-            if($form->get('fechaSancion')->getData()){
-                $fecha=$form->get('fechaSancion')->getData();
-                $fecha=date_format($fecha, "Y");
-                $norma->setYear($fecha);
-            }
-            //dd($textoPreSubmit,$form['texto']->getData());
             $item =$form['items']->getData();
             $itemsPostEdit=$item->toArray();
             // dd(gettype($itemsPostEdit));
