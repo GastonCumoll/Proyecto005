@@ -80,7 +80,7 @@
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             
-            {% if norma.numero != null  %}
+            {% if norma.numeroAuxiliar != 0  %}
                 {% if norma.estado == "Borrador" %}
                 
                     <div class="card-header bg-warning text-left">
@@ -89,7 +89,9 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numero }}(borrador)
+                        {{ norma.numeroAuxiliar }}
+                        
+                        (borrador)
                         </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
@@ -99,7 +101,7 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }} 
+                            {{ norma.numeroAuxiliar }} 
                         </h4>
                     </div>
                 {% else %}
@@ -113,7 +115,10 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }}
+                            {{norma.numeroAuxiliar}}
+                            {# {% if norma.tipoNorma.nombre == 'Decreto' %}
+                                /{{norma.year}}
+                            {% endif %} #}
                         </h4>
                     </div>
                 {% endif %}

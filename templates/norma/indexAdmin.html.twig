@@ -170,7 +170,7 @@
                 <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
                     {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
                 <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
-                <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numero')}}</th>
+                <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
                 <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
                 {% if rol != "" %}
                 <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
@@ -196,7 +196,7 @@
                 <td class="colId">{{norma.id}}</td>
                 <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
                 <td class="colTit">{{norma.titulo}}</td>
-                <td class="colNum">{{norma.numero}}</td>
+                <td class="colNum">{{norma.numeroAuxiliar}}</td>
                 <td class="colEstado">{{norma.estado}}</td>
                 {% if rol != "" %}
                     {% if norma.publico == 1 %}

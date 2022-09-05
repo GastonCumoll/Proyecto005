@@ -135,6 +135,16 @@ private $edito;
  */
 private $textoAnterior;
 
+/**
+ * @ORM\Column(type="integer", nullable=true)
+ */
+private $year;
+
+/**
+ * @ORM\Column(type="integer", nullable=true)
+ */
+private $numeroAuxiliar;
+
 
 
 public function getRela(): ?bool
@@ -521,6 +531,30 @@ public function setRela(?bool $rela): self
     public function setTextoAnterior(?string $textoAnterior): self
     {
         $this->textoAnterior = $textoAnterior;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(?int $year): self
+    {
+        $this->year = $year;
+
+        return $this;
+    }
+
+    public function getNumeroAuxiliar(): ?int
+    {
+        return $this->numeroAuxiliar;
+    }
+
+    public function setNumeroAuxiliar(?int $numeroAuxiliar): self
+    {
+        $this->numeroAuxiliar = $numeroAuxiliar;
 
         return $this;
     }

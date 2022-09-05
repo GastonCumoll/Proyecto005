@@ -76,10 +76,31 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        $norma=$normaRepository->findOneById(7212);
-        $numero=$norma->getNumero();
-        dd(gettype($numero));
-        //$contador=0;
+        // $normas=$normaRepository->findAll();
+        // // dd($normas->getNumero());
+        // $contador=0;
+        // $array;
+        // foreach($normas as $unaNorma){
+        //     $num=$unaNorma->getNumero();
+            
+        //     if(str_contains($num,"/")){
+        //        $arrayDoble=explode("/",$num);
+        //         $año=intval($arrayDoble[1]);
+        //         $numAux=intval($arrayDoble[0]);
+
+        //         // $año=$arrayDoble[0]=//numero de la norma
+        //         // $arrayDoble[1]=//el año
+        //         $unaNorma->setNumeroAuxiliar($numAux);
+        //         $unaNorma->setYear($año);
+        //         $entityManager->persist($unaNorma);
+        //     }else{
+        //         $numAux1=intval($unaNorma->getNumero());
+        //         $unaNorma->setNumeroAuxiliar($numAux1);
+        //        $entityManager->persist($unaNorma);
+        //      }
+        // }
+        // $entityManager->flush();
+        // dd($normas[0]);
         //$normas=$normaRepository->findAll();
         //foreach ($normas as $unaNorma) {
             // if(str_contains($unaNorma->getResumen(),"Sancion") || str_contains($unaNorma->getResumen(),"Sancionada") || str_contains($unaNorma->getResumen(),"SANCIONADA")){
@@ -551,10 +572,11 @@ class NormaController extends AbstractController
         $idx = 0;  
         foreach($nH as $unaNorma) {  
             $temp = array(
-                'numero' => $unaNorma->getNumero(),  
+                'numero' => $unaNorma->getNumeroAuxiliar(),  
                 'titulo' => $unaNorma->getTitulo(),  
                 'tipo' => $unaNorma->getTipoNorma()->getNombre(),
                 'id' => $unaNorma->getId(),
+                'año'=>$unaNorma->getYear(),
                 );   
                 $jsonData[$idx++] = $temp;  
             }
@@ -1033,7 +1055,21 @@ class NormaController extends AbstractController
             $today = new DateTime();
             //$norma->setFechaPublicacion($today);
             $norma->setEstado("Borrador");
-            
+            if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                // dd($fecha);
+                // strtotime($fecha);
+                // $año=date("Y",$fecha);
+                $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
+                $norma->setNumero($numYAño);
+                // dd($numYAño);
+            }
+            if($form->get('fechaSancion')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                $norma->setYear($fecha);
+            }
             $item =$form['items']->getData();
             
             foreach ($item as $unItem) {
@@ -1046,7 +1082,6 @@ class NormaController extends AbstractController
 
             $entityManager->persist($norma);
 
-            
             $brochureFile = $form->get('archivo')->getData();
             //pregunto si se cargo un archivo.
             if ($brochureFile) {
@@ -1469,6 +1504,21 @@ class NormaController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid())
         {
+            if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                // dd($fecha);
+                // strtotime($fecha);
+                // $año=date("Y",$fecha);
+                $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
+                $norma->setNumero($numYAño);
+                // dd($numYAño);
+            }
+            if($form->get('fechaSancion')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                $norma->setYear($fecha);
+            }
             //dd($textoPreSubmit,$form['texto']->getData());
             $item =$form['items']->getData();
             $itemsPostEdit=$item->toArray();
