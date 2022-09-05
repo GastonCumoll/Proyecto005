@@ -27,7 +27,30 @@
     }
     
     .busqueda-input{
-        margin: auto !important;
+        width: 100% !important;
+    }
+
+    .headerPdf{
+        text-align: center !important;
+    }
+
+    #busquedaTexto{
+        width: 80% !important;
+    }
+    .botonVerde{
+        width: 20% !important;
+        margin: 0% !important
+    }
+
+    .contenedorBotonVolver{
+        margin-right: auto !important;
+    }
+
+    .h4{
+        float: none !important;
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
     }
 
     .modalContainer {
@@ -151,6 +174,10 @@
         text-align: center !important;
     }
 
+    .contenedorBotonVolver{
+        float: left !important;
+    }
+
     .divBotones{
         display: inline-block;
         width: 40% !important;
@@ -170,6 +197,7 @@
 
     .contenedorBotonPDF{
         float: left !important;
+        width: 30% !important;
     }
 
     .card-header{
@@ -242,6 +270,10 @@
         margin-left: 80%!important;
     }
 
+    .contenedorBotonPDF{
+        width: 20% !important;
+    }
+
     .divBotonVolver{
         width: 100% !important;
     }
@@ -290,7 +322,7 @@
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
-    }
+    } 
 
 
 }

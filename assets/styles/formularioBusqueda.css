@@ -33,20 +33,35 @@
     .card-body{
         text-align: center !important;
     }
-    .js-example-basic-multiple{
-        width: 100% !important;
-        margin-right: 5% !important;
-    }
+    
     .cargando{
         margin-top: 1rem !important;
         margin-right: 2% !important;
     }
+    
     .select{
-        width: 80% !important;
+        width: 100% !important;
     }
+
+    .etiquetas{
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .etiquetas-col{
+        width: 100% !important;
+    }
+    
     .select-input{
-        margin-left: 10% !important;
+        width: 100% !important;
     }
+
+    .js-example-basic-multiple{
+        width: 100% !important;
+        
+    }
+
+
 }
 @media (max-width: 991px) and (min-width: 768px){
     .select{
@@ -63,17 +78,14 @@
         width: 100% !important;
     }
     .js-example-basic-multiple{
-        width: 43% !important;
+        width: 90% !important;
     }
 }
 @media (min-width: 992px){
     .col-auto{
         width: 20% !important;
     }
-    .etiquetas{
-        text-align: start !important;
-        width: 10% !important;
-    }
+    
     .js-example-basic-multiple{
         width: 100% !important;
     }

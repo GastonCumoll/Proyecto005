@@ -87,20 +87,25 @@
                         <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right">
-                            <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numero }}(borrador)
-                        </h4>
+                        <div class="h4 float-right">
+                            <h4 class="">
+                                <th>{{norma.tipoNorma.nombre}} N° </th>
+                            {{ norma.numero }}(borrador)
+                            </h4>
+                        </div>
+                        
                     </div>
                 {% elseif norma.estado == "Lista" %}
                     <div class="card-header bg-success text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right">
-                            <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }} 
-                        </h4>
+                        <div class="h4 float-right">
+                            <h4 class="">
+                                <th>{{norma.tipoNorma.nombre}} N° </th>
+                            {{ norma.numero }}(borrador)
+                            </h4>
+                        </div>
                     </div>
                 {% else %}
                     <div class="card-header text-left">
@@ -111,10 +116,12 @@
                                 <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                             {% endif %}
                         </div>
-                        <h4 class="h4 float-right">
-                            <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }}
-                        </h4>
+                        <div class="h4 float-right">
+                            <h4 class="">
+                                <th>{{norma.tipoNorma.nombre}} N° </th>
+                            {{ norma.numero }}(borrador)
+                            </h4>
+                        </div>
                     </div>
                 {% endif %}
                 {% else %}
@@ -267,13 +274,13 @@
                 <br>
                 <br>
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header headerPdf">
                         <div class="mt-2 contenedorBotonPDF">
                             <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" class="btn btn-danger botones editar">Ver pdf <i class="fas fa-file-pdf"></i></button></a>
                         </div>
-                        <div class="input-group mr-2" id="busqueda-input">
+                        <div class="input-group mr-2 mt-2" id="busqueda-input">
                             <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-                            <div class="input-group-prepend">
+                            <div class="input-group-prepend botonVerde">
                                 <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
