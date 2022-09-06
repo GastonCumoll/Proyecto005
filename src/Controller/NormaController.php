@@ -1103,7 +1103,7 @@ class NormaController extends AbstractController
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
                     //mayor a 10 mb
-                    dd($unArchivo->getSize());
+                    
                     if($unArchivo->getSize() > 1000000){
                         $this->addFlash(
                             'archivoMaxSize',
