@@ -76,13 +76,94 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        // $normas=$normaRepository->findAll();
+        $normas=$normaRepository->findOneById(53);
+        // foreach ($normas as $unaNorma) {
+            preg_match_all('/\d{4} /i', $normas->getResumen(), $matches, PREG_SET_ORDER);
+            dd($matches);
+            // var_dump($matches);
+        // }
+        // dd($matches);
         // // dd($normas->getNumero());
         // $contador=0;
-        // $array;
+        // $contadorFecha=0;
+        // $contadorJ=0;
+        // $contadorCoincidentes=0;
+        // $array=[];
+        // $contadorNull=0;
         // foreach($normas as $unaNorma){
-        //     $num=$unaNorma->getNumero();
-            
+        //     if(str_contains($unaNorma->getResumen(),'SANCIONADA')){
+        //         $contador++;
+        //         if(str_contains($unaNorma->getResumen(),'DE FECHA')){
+        //             //dd($string);
+        //             $posicion=strpos($unaNorma->getResumen(),'DE FECHA')+10;
+        //             $string=substr($unaNorma->getResumen(),$posicion,24);
+                    
+        //             for($i=1853;$i<2023;$i++){
+        //                 $j=strval($i);
+        //                 if(str_contains($string,$j)){
+        //                     if(!$unaNorma->getYear()){
+        //                         $unaNorma->setYear($i);
+        //                     }
+        //                     $contadorJ++;
+        //                     break;
+        //                 }
+        //             }
+        //             // dd($string);
+        //             $contadorFecha++;
+        //         }else if(str_contains($unaNorma->getResumen(),'EN FECHA')){
+        //             $posicion=strpos($unaNorma->getResumen(),'EN FECHA')+10;
+        //             $string=substr($unaNorma->getResumen(),$posicion,24);
+                    
+        //             for($i=1853;$i<2023;$i++){
+        //                 $j=strval($i);
+        //                 if(str_contains($string,$j)){
+        //                     if(!$unaNorma->getYear()){
+        //                         $unaNorma->setYear($i);
+        //                     }
+        //                     $contadorJ++;
+        //                     break;
+        //                 }
+        //             }
+        //         }
+        //         // $posicion=strpos($unaNorma->getResumen(),'SANCIONADA')+11;
+        //         // dd($posicion);
+        //     }else if(str_contains($unaNorma->getResumen(),'DE FECHA')){
+        //         $posicion=strpos($unaNorma->getResumen(),'DE FECHA')+10;
+        //         $string=substr($unaNorma->getResumen(),$posicion,24);
+                    
+        //             for($i=1853;$i<2023;$i++){
+        //                 $j=strval($i);
+        //                 if(str_contains($string,$j)){
+        //                     if(!$unaNorma->getYear()){
+        //                         $unaNorma->setYear($i);
+        //                     }
+        //                     $contadorJ++;
+        //                     break;
+        //                 }
+        //             }
+        //     }else if(str_contains($unaNorma->getResumen(),'EN FECHA')){
+        //         $posicion=strpos($unaNorma->getResumen(),'EN FECHA')+10;
+        //         $string=substr($unaNorma->getResumen(),$posicion,24);
+                
+        //         for($i=1853;$i<2023;$i++){
+        //             $j=strval($i);
+        //             if(str_contains($string,$j)){
+        //                 if(!$unaNorma->getYear()){
+        //                     $unaNorma->setYear($i);
+        //                 }
+        //                 $contadorJ++;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        //     $entityManager->persist($unaNorma);
+
+        // }
+        // $entityManager->flush();
+        
+        
+        // dd($normas);
+        // dd($contador,$contadorFecha,$contadorJ,$contadorCoincidentes,$contadorNull);
         //     if(str_contains($num,"/")){
         //        $arrayDoble=explode("/",$num);
         //         $año=intval($arrayDoble[1]);

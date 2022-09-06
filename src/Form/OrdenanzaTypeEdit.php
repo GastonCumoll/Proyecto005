@@ -27,9 +27,13 @@ class OrdenanzaTypeEdit extends AbstractType
     {
         $builder
         ->add('numeroAuxiliar',NumberType::class,[
-            'label' => 'Numero'
+            'label' => 'Numero(*)',
+            'help' => 'Solo números',
+        ]
+        )
+        ->add('titulo',TextType::class,[
+            'label'=> 'Titulo (*)'
         ])
-        ->add('titulo')
         ->add('fechaSancion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',

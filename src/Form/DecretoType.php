@@ -38,6 +38,7 @@ class DecretoType extends AbstractType
         ->add('titulo',TextType::class,[
             'label'=> 'Titulo (*)'
         ])
+        
         ->add('fechaSancion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -134,6 +135,7 @@ class DecretoType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
+        
         ;
     }
 
