@@ -130,6 +130,21 @@ private $publico;
  */
 private $edito;
 
+/**
+ * @ORM\Column(type="text", nullable=true)
+ */
+private $textoAnterior;
+
+/**
+ * @ORM\Column(type="integer", nullable=true)
+ */
+private $year;
+/**
+ * @ORM\Column(type="integer", nullable=true)
+ */
+private $numeroAuxiliar;
+
+
 
 
 public function getRela(): ?bool

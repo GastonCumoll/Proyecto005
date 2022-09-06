@@ -89,7 +89,7 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numero }}(borrador)
+                        {{ norma.numeroAuxiliar }}(borrador)
                         </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
@@ -99,7 +99,7 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }} 
+                            {{ norma.numeroAuxiliar }} 
                         </h4>
                     </div>
                 {% else %}
@@ -109,7 +109,7 @@
                         </div>
                         <h4 class="h4 float-right">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numero }}
+                            {{ norma.numeroAuxiliar }}
                         </h4>
                     </div>
                 {% endif %}

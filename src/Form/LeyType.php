@@ -25,7 +25,9 @@ class LeyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('numero')
+        ->add('numeroAuxiliar',NumberType::class,[
+            'label' => 'Numero'
+        ])
         ->add('titulo')
         ->add('fechaSancion',DateType::class,[
             'required' => false,

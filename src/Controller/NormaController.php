@@ -1062,7 +1062,6 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
                 break;
         }
-        
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form->get('nombre_archivo','id')->getData());
             //dd($form['etiquetas']->getData());
@@ -1522,6 +1521,21 @@ class NormaController extends AbstractController
         {
             $item =$form['items']->getData();
             $itemsPostEdit=$item->toArray();
+            if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                // dd($fecha);
+                // strtotime($fecha);
+                // $año=date("Y",$fecha);
+                $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
+                $norma->setNumero($numYAño);
+                // dd($numYAño);
+            }
+            if($form->get('fechaSancion')->getData()){
+                $fecha=$form->get('fechaSancion')->getData();
+                $fecha=date_format($fecha, "Y");
+                $norma->setYear($fecha);
+            }
             // dd(gettype($itemsPostEdit));
             // if(count($itemsPostEdit) > 1){
             //     $this->addFlash(
