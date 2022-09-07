@@ -175,7 +175,7 @@
                 {% if rol != "" %}
                 <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
                 {% endif %}
-                <th class="colFecha">{{knp_pagination_sortable(normas, 'Fecha de publicacion', 'p.fechaPublicacion')}}</th>
+                <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
                 <th class="columnaOp">Opciones</th>
             </tr>
         </thead>
@@ -205,7 +205,7 @@
                         <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
                     {% endif %}
                 {% endif %}
-                <td class="colFecha">{{norma.fechaPublicacion|date('d-m-Y')}}</td>
+                <td class="colFecha">{{norma.year}}</td>
 
                 {% set bandera = 0 %}
 

@@ -76,10 +76,10 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        $normas=$normaRepository->findOneById(53);
-        // foreach ($normas as $unaNorma) {
-            preg_match_all('/\d{4} /i', $normas->getResumen(), $matches, PREG_SET_ORDER);
-            dd($matches);
+        // $normas=$normaRepository->findOneById(53);
+        // // foreach ($normas as $unaNorma) {
+        //     preg_match_all('/\d{4} /i', $normas->getResumen(), $matches, PREG_SET_ORDER);
+        //     dd($matches);
             // var_dump($matches);
         // }
         // dd($matches);
@@ -346,13 +346,6 @@ class NormaController extends AbstractController
         $auditoria->setFecha($today);
 
         if($estadoNorma == "Borrador"){
-            // $cantidadBorrador=$sesion->get('cantB');
-            // $cantidadBorrador--;
-            // $sesion->set('cantB',$cantidadBorrador);
-            // $cantidadListas=$sesion->get('cantL');
-            // $cantidadListas++;
-            // $sesion->set('cantL',$cantidadListas);
-            //$array[]="DIG_OPERADOR";
             if(in_array("DIG_OPERADOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
@@ -363,9 +356,7 @@ class NormaController extends AbstractController
                 $auditoria->setAccion("Revision");
                 $entityManager->persist($auditoria);
                 $norma->addAuditoria($auditoria);
-                //$userObj->addAuditoria($auditoria);
                 $entityManager->persist($norma);
-                //$entityManager->persist($userObj);
                 $entityManager->flush();
                 return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
             }else{
@@ -373,9 +364,6 @@ class NormaController extends AbstractController
             }
         }
         if($estadoNorma=="Lista"){
-            // $cantidadListas=$sesion->get('cantL');
-            // $cantidadListas--;
-            // $sesion->set('cantL',$cantidadListas);
             if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);
@@ -700,8 +688,11 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
+
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        //normas usuario son el tipo de normas que puede trabajar el usuario logeado
         if($idReparticion){
             $reparticionUsuario = $areaRepository->find($idReparticion);
         }
@@ -722,7 +713,7 @@ class NormaController extends AbstractController
         }else{
             $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol,$texto);
         }
-        
+        // dd($normas);
         //seccion paginator
         // Paginar los resultados de la consulta
         $normasP = $paginator->paginate(
@@ -933,9 +924,6 @@ class NormaController extends AbstractController
         $auditoria->setNombreUsuario($usuario);
         $auditoria->setFecha($today);
         if($estadoNorma=="Lista"){
-            // $cantidadListas=$sesion->get('cantL');
-            // $cantidadListas--;
-            // $sesion->set('cantL',$cantidadListas);
             if(in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual($norma->getInstancia()+1);

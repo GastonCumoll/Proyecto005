@@ -305,7 +305,7 @@ class NormaRepository extends ServiceEntityRepository
                         $consulta->andWhere('p.texto LIKE :texto')->setParameter('texto','%'.$texto.'%');
                     }
         }
-        $consultaAux="(tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2.") OR (p.estado = 'Publicada' AND p.publico =1)";
+        $consultaAux="((tnr.reparticionId='".$reparticion->getId()."'".$consultaAux2.") OR (p.estado = 'Publicada' AND p.publico =1))";
         $consulta->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')

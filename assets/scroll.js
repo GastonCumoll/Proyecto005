@@ -77,7 +77,7 @@ $(document).ready(function(){
 	else if(urlAnt.includes("/borrador")){
 		boton.setAttribute("href","/norma/borrador");
 	}else{
-		boton.setAttribute("href","/norma");
+		boton.setAttribute("href",urlAnt);
 	}
 
 	$('.ir-arriba').click(function(){
