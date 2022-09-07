@@ -88,6 +88,7 @@ window.onload = function(){
     });
 
     window.addEventListener("unload", function() {
+        
         document.getElementById("spinnerFormulario").remove();
     });
 

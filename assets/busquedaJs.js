@@ -5,6 +5,11 @@ import 'bootstrap';
 
 $(document).ready(function(){
 
+    window.addEventListener("unload", function() {
+        
+        document.getElementById("spinnerFormulario").remove();
+    });
+
     $("#busquedaRapida").keypress(function(event){
         //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
         var keycode=(event.keyCode ? event.keyCode : event.which);
