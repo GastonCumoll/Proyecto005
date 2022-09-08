@@ -214,7 +214,7 @@
 
                 <td class="columnaOp">
                     <div>
-                        <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm"><i class="far fa-eye"></i></button></a>
+                        <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
                         {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
                             {% for unaNormaUsuario in normasUsuario %}
                                 {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
@@ -223,13 +223,13 @@
                             {% endfor %}
                             {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
                             {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" ><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" ><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% else %}
-                                <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
                             {% endif %}
-                            <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                            <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
                         {% endif %}
                     </div>
 
