@@ -1,8 +1,9 @@
 import './app.js';
-
+import 'popper.js';
 import 'bootstrap';
 
 $(document).ready(function(){
+    $('#example').tooltip(options);
 
     $("#busquedaParam").keypress(function(event){
         //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
