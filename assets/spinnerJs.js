@@ -11,10 +11,14 @@ window.onload = function(){
     var spinner = document.getElementsByClassName("spring-spinner");
     var botonLupita = document.getElementById("botonLupita");
     var itemPageActive = document.getElementsByClassName("page-item active")[0];
-    var footer = document.getElementById("footer");
+    var footer = document.getElementsByTagName("footer");
     var botonBuscar = document.getElementsByClassName("buscarNorma")[0];
     var formulario = document.getElementsByTagName("formulario")[0];
     var contenedorDinamicoSpinner = document.getElementsByClassName("contenedorDinamicoSpinner")[0];
+
+    var cantidad = footer.length;
+
+    console.log(cantidad);
 
     var elemento1 = document.createElement('div');
         elemento1.setAttribute("id","spinnerFormulario");
@@ -40,7 +44,7 @@ window.onload = function(){
 
         var elemento8 = document.createElement('h3');
         elemento8.setAttribute("class","textoSpinner text-center");
-        
+       
         var elemento9 = document.createTextNode("Buscando normas...");
 
         elemento8.appendChild(elemento9);
@@ -54,11 +58,14 @@ window.onload = function(){
 
 
     botonLupita.addEventListener('click', function(){
-        
+
+        for(var i = 0; i < cantidad; i++){
+            footer[i].style.visibility = "hidden";
+        }
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-        footer.style.visibility = "hidden";
+       
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";
@@ -69,6 +76,10 @@ window.onload = function(){
 
     botonBuscar.addEventListener('click', function(){
 
+        for(var i = 0; i < cantidad; i++){
+            footer[i].style.visibility = "hidden";
+        }
+
         setTimeout(function(){
             document.formulario.submit();
         },3000);
@@ -76,32 +87,32 @@ window.onload = function(){
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-        footer.style.visibility = "hidden";
+       
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";
         body.style.overflow = "hidden";
 
-        
+       
 
 
     });
 
     window.addEventListener("unload", function() {
-        
+       
         document.getElementById("spinnerFormulario").remove();
     });
 
 
-    
+   
 
 
 
 
     // if(urlActual.includes("formularioBusqueda")){
-        
+       
     //     var spinnerContainer = document.getElementById("spinnerFormulario");
-        
+       
     //     botonLupita.addEventListener('click', function(){
     //         botonLupita.style.visibility = "hidden";
     //         itemPageActive.style.visibility = "hidden";
@@ -111,7 +122,7 @@ window.onload = function(){
     //         body.style.height = "100%";
     //         body.style.overflow = "hidden";
     //     });
-        
+       
     //         botonBuscar.addEventListener('click', function(){
     //             alert("hola");
     //             botonLupita.style.visibility = "hidden";
@@ -124,7 +135,7 @@ window.onload = function(){
     //             setTimeout(function(){
     //                 document.formulario.submit();
     //             },3000);
-        
+       
     //     });
     // }
     // else{
@@ -143,7 +154,7 @@ window.onload = function(){
     //     });
 
     //         botonBuscar.addEventListener('click', function(){
-                
+               
     //             botonLupita.style.visibility = "hidden";
     //             itemPageActive.style.visibility = "hidden";
     //             footer.style.visibility = "hidden";
@@ -154,15 +165,15 @@ window.onload = function(){
     //             setTimeout(function(){
     //                 document.formulario.submit();
     //             },3000);
-        
+       
     //     });
     // }
-    
-    
+   
+   
 
 
 
-    
+   
 
     // // setTimeout(function(){
     // //     botonLupita.style.visibility = "visible";
@@ -175,8 +186,3 @@ window.onload = function(){
     // // },3000);
 
 }
-
-
-
-
-

@@ -34,6 +34,9 @@
             text-align: center !important;
         }
 
+        .btn-outline-info{
+            margin-right:0% !important;
+        }
         .btn-primary{
             margin-top: 2% !important;
         }
