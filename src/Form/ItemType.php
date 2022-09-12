@@ -25,7 +25,7 @@ class ItemType extends AbstractType
                 'class' => Item::class,
                 'placeholder' => '',
                 'required' =>false,
-                'multiple'=>true,
+                'multiple'=>false,
                 'choice_label' => 'nombre',
                 'attr' => [
                     'class'=>'selectpicker',

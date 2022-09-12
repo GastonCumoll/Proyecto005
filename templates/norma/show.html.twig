@@ -77,6 +77,13 @@
 {# <div id="contenedorBotonVolver">
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
+{% for flash_message in app.session.flashbag.get('verifPublicar') %}
+        <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+            <div class="flash-notice text-white font-weight-bolder text-center">
+                {{ flash_message }}
+            </div>
+        </div>
+    {% endfor %}
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             

@@ -1046,13 +1046,24 @@ class NormaController extends AbstractController
     //este metodo genera un pdf del texto de la norma
     public function generarPdf(AuditoriaRepository $auditoriaRepository,EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
+
+        $norma=$normaRepository->find($id);
+        if(!$norma->getFechaSancion() || !$norma->getNumero()){
+            $this->addFlash(
+                'verifPublicar',
+                "No fue posible publicar la norma debido a que no tiene una fecha de sancion y/o un numero definido."
+            );
+            return $this->redirectToRoute('norma_show',['id'=>$id],Response::HTTP_SEE_OTHER);
+        }
+
+
         if(!empty($_POST['checkbox'])){
             $b=1;
         }else{
             $b=0;
         }
         $var=false;
-        $norma=$normaRepository->find($id);
+        
         $auditorias=$auditoriaRepository->findByNormaTexto($norma);
         //dd($auditorias);
         foreach ($auditorias as $unaAuditoria) {

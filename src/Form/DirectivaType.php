@@ -26,12 +26,15 @@ class DirectivaType extends AbstractType
     {
         $builder
         ->add('numeroAuxiliar',NumberType::class,[
-            'label' => 'Numero(*)',
+            'label' => 'Numero',
             'help' => 'Solo números',
+            'required' => false,
         ]
         )
         ->add('titulo',TextType::class,[
-            'label'=> 'Titulo (*)'
+            'label'=> 'Titulo (*)',
+            'required' => false,
+            'constraints'=>[new NotBlank(),],
         ])
         ->add('fechaSancion',DateType::class,[
             'required' => false,
