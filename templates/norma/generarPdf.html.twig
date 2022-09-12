@@ -1,4 +1,5 @@
-
+<img alt="" src="uploads/imagenes/Logomunicipalidad.png?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_type_edit_texto&amp;CKEditorFuncNum=3&amp;langCode=es" style="height:75px;width:150px;" />
+<br>
 {% block title %}{{id.getTitulo}}{% endblock %}
 
 {% block body %}
@@ -8,12 +9,21 @@
 <br>
 {{ id.titulo }}
 <br>
-Fecha de sanción: {{ id.fechaSancion ? id.fechaSancion|date('Y-m-d') : '' }}
+{% if id.fechaSancion %}
+    Fecha de sanción: {{ id.fechaSancion ? id.fechaSancion|date('Y-m-d') : '' }}
 <br>
+{% endif %}
+{# {% if id.fechaPublicacion %}
 Fecha de publicacion: {{ id.fechaPublicacion ? id.fechaPublicacion|date('Y-m-d') : '' }}
 <br>
+{% endif %} #}
+
+{% if id.resumen %}
 Resumen: {{ id.resumen }}
 <br>
+{% endif %}
+
+
 <hr>
 {{(id.textoAnterior) | purify}}
 

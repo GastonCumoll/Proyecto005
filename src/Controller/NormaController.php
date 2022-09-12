@@ -949,14 +949,19 @@ class NormaController extends AbstractController
 
         $today = new DateTime();
         $result = $today->format('d-m-Y H:i:s');
+        // return $this->render('norma/textoPdf.html.twig', [
+        //     //'texto' => $norma->getTexto(),
+        //     'id' => $normaRepository->find($id)
+        // ]);
         // Recupere el HTML generado en nuestro archivo twig
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        
+        //dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+
         //dd($htmlModificado);
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
