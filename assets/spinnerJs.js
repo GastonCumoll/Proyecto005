@@ -11,10 +11,12 @@ window.onload = function(){
     var spinner = document.getElementsByClassName("spring-spinner");
     var botonLupita = document.getElementById("botonLupita");
     var itemPageActive = document.getElementsByClassName("page-item active")[0];
-    var footer = document.getElementById("footer");
+    var footer = document.getElementsByTagName("footer");
     var botonBuscar = document.getElementsByClassName("buscarNorma")[0];
     var formulario = document.getElementsByTagName("formulario")[0];
     var contenedorDinamicoSpinner = document.getElementsByClassName("contenedorDinamicoSpinner")[0];
+
+    var cantidad = footer.length;
 
     var elemento1 = document.createElement('div');
         elemento1.setAttribute("id","spinnerFormulario");
@@ -54,11 +56,14 @@ window.onload = function(){
 
 
     botonLupita.addEventListener('click', function(){
-        
+
+        for(var i = 0; i < cantidad; i++){
+            footer[i].style.visibility = "hidden";
+        }
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-        footer.style.visibility = "hidden";
+        
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";
@@ -69,6 +74,10 @@ window.onload = function(){
 
     botonBuscar.addEventListener('click', function(){
 
+        for(var i = 0; i < cantidad; i++){
+            footer[i].style.visibility = "hidden";
+        }
+
         setTimeout(function(){
             document.formulario.submit();
         },3000);
@@ -76,7 +85,7 @@ window.onload = function(){
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-        footer.style.visibility = "hidden";
+        
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";

@@ -77,49 +77,58 @@
 {# <div id="contenedorBotonVolver">
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
+{# <div id="contenedorBotonAtras" class="">
+    <a class="btn btn-primary rounded-circle" id="botonAtras" href="{{path('norma_index')}}" ><i class="fa-solid fa-chevron-left"></i></a>
+</div> #}
     <div class="container mt-3 mb-3">
         <div class="card text-center shadow mb-5 bg-white rounded">
             
-            {% if norma.numeroAuxiliar != 0  %}
                 {% if norma.estado == "Borrador" %}
                 
                     <div class="card-header bg-warning text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right">
+                        <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                        {{ norma.numeroAuxiliar }}(borrador)
+                            {% if norma.numeroAuxiliar != null  %}
+                                {{ norma.numeroAuxiliar }}(borrador)
+                            {% else %}
+                                {{ "----" }}
+                            {% endif %}
+
                         </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
                     <div class="card-header bg-success text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right">
+                        <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numeroAuxiliar }} 
+                            {% if norma.numeroAuxiliar != null  %}
+                                {{ norma.numeroAuxiliar }}
+                            {% else %}
+                                {{ "----" }}
+                            {% endif %}
                         </h4>
                     </div>
                 {% else %}
                     <div class="card-header text-left">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
-                            <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                            <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right">
+                        <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
-                            {{ norma.numeroAuxiliar }}
+                            {% if norma.numeroAuxiliar != null  %}
+                                {{ norma.numeroAuxiliar }}(borrador)
+                            {% else %}
+                                {{ "----" }}
+                            {% endif %}
                         </h4>
                     </div>
                 {% endif %}
-                {% else %}
-                <div class="card-header text-left">
-                    <div id="contenedorBotonVolver" class="text-left mt-1">
-                        <a class="btn btn-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                    </div>
-                </div>
-            {% endif %}
+            
             <div class="card-body">
                 <h5 class="card-title text-center">{{ norma.titulo }}</h5>
                 {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
