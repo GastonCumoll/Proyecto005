@@ -40,6 +40,11 @@
         .btn-primary{
             margin-top: 2% !important;
         }
+
+        .btn-outline-info{
+            margin-right: 0% !important;
+
+        }
 }
 
 @media (max-width: 991px) {

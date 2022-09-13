@@ -18,8 +18,6 @@ window.onload = function(){
 
     var cantidad = footer.length;
 
-    console.log(cantidad);
-
     var elemento1 = document.createElement('div');
         elemento1.setAttribute("id","spinnerFormulario");
         elemento1.setAttribute("class","spinnerContainer");
@@ -65,7 +63,7 @@ window.onload = function(){
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-       
+        
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";
@@ -87,7 +85,7 @@ window.onload = function(){
         contenedorDinamicoSpinner.append(elemento1);
         botonLupita.style.visibility = "hidden";
         itemPageActive.style.visibility = "hidden";
-       
+        
         spinnerContainer.style.display = "block";
         body.style.position = "static";
         body.style.height = "100%";
