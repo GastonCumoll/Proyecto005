@@ -1051,9 +1051,8 @@ class NormaController extends AbstractController
     //este metodo genera un pdf del texto de la norma
     public function generarPdf(AuditoriaRepository $auditoriaRepository,EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
-
         $norma=$normaRepository->find($id);
-        if(!$norma->getFechaSancion() || !$norma->getNumero()){
+        if(!$norma->getFechaSancion() || !$norma->getNumeroAuxiliar()){
             $this->addFlash(
                 'verifPublicar',
                 "No fue posible publicar la norma debido a que no tiene una fecha de sancion y/o un numero definido."
@@ -1658,6 +1657,12 @@ class NormaController extends AbstractController
         $itemsPreEdit=$norma->getItems()->toArray();
         $idTipoNorma=$norma->getTipoNorma()->getId();
         $session=$this->get('session');
+        //se crea una variable en sesion 'urlAnterior' para guardar la url de donde vengo a editar, ya que al submitear el formulario, se pierde 
+        //la ultima url
+        //urlAnterior solo se guarda la primera vez que entra, por eso pregunta si esta definida, una vez definida no la vuelve a pisar
+        if(!$session->get('urlAnterior')){ 
+            $session->set('urlAnterior',$_SERVER['HTTP_REFERER']);
+        }
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
         $reparticionUsuario = $areaRepository->find($idReparticion);
@@ -1691,7 +1696,6 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
             break;
         }
-        
         
         if ($form->isSubmitted() && $form->isValid())
         {
@@ -1885,9 +1889,24 @@ class NormaController extends AbstractController
                 $entityManager->persist($norma);
             }
             
-
             $entityManager->flush();
-            return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
+            //dependiendo de cual es la urlAnterior redirecciona a ciertas vistas
+            if(str_contains($session->get('urlAnterior'),'borrador')){
+                $session->remove('urlAnterior');
+                return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+            }
+            else if(str_contains($session->get('urlAnterior'),'listas')){
+                $session->remove('urlAnterior');
+                return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+            }
+            else if(str_contains($session->get('urlAnterior'),'norma/'.$norma->getId())){
+                $session->remove('urlAnterior');
+                return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
+            }
+            else{
+                $session->remove('urlAnterior');
+                return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->renderForm('norma/edit.html.twig', [

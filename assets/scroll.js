@@ -76,7 +76,11 @@ $(document).ready(function(){
 	}
 	else if(urlAnt.includes("/borrador")){
 		boton.setAttribute("href","/norma/borrador");
-	}else{
+	}else if(urlAnt.includes("/edit")){
+		console.log("edit");
+		boton.setAttribute("href",history.go(-2));
+	}
+	else{
 		boton.setAttribute("href",urlAnt);
 	}
 

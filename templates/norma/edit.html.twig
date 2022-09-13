@@ -10,8 +10,18 @@
 {% endblock %}
 
     <h1>Editar Norma</h1>
-    
     {{ include('norma/_form.html.twig') }}
+    {% if "/norma/borrador" in  app.request.headers.get('referer') %}
+        <input type="hidden" name="urlAnterior" value="{{'borrador'}}">
+    {% endif %}
+    {% if "/norma/listas" in  app.request.headers.get('referer') %}
+        <input type="hidden" name="urlAnterior" value="{{'listas'}}">
+    {% endif %}
+    {% if "/norma/" ~ norma.id in  app.request.headers.get('referer') %}
+        <input type="hidden" name="urlAnterior" value="norma_show">
+    {% endif %}
+
+    
     <input type="hidden" id="id" value="{{norma.id}}">
     <input type="hidden" id="idNombre" value="{{norma.titulo}}">
     <a href="{{app.request.headers.get('referer')}}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
