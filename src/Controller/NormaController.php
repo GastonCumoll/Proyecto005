@@ -1258,7 +1258,7 @@ class NormaController extends AbstractController
             if($form->get('fechaSancion')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
-                $norma->setYear($fecha);
+                $norma->setYear(intval($fecha));
             }
             $item =$form['items']->getData();
             
@@ -1710,7 +1710,7 @@ class NormaController extends AbstractController
             if($form->get('fechaSancion')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
-                $norma->setYear($fecha);
+                $norma->setYear(intval($fecha));
             }
             // dd(gettype($itemsPostEdit));
             // if(count($itemsPostEdit) > 1){
@@ -1928,7 +1928,6 @@ class NormaController extends AbstractController
      */
     public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
-
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
             //buscar usuario
             $session=$this->get('session');

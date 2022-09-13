@@ -202,7 +202,7 @@ class NormaRepository extends ServiceEntityRepository
                     $consulta1.= " AND p.numeroAuxiliar LIKE '%".$numero."%'";
                     //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
                 }if($año){
-                    $consulta1.= " AND p.fechaPublicacion LIKE '%".$año."%' OR p.fechaSancion LIKE '%".$año."%'" ;
+                    $consulta1.= " AND p.fechaSancion LIKE '%".$año."%' OR p.year =".$año;
                     //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
                 }
                 if($tipo){
@@ -225,7 +225,7 @@ class NormaRepository extends ServiceEntityRepository
                 $consulta->andWhere('p.numeroAuxiliar LIKE :numero')->setParameter('numero','%'.$numero.'%');
             }
             if($año){
-                $consulta->andWhere("p.fechaPublicacion LIKE :fecha OR p.year LIKE :fecha")->setParameter('fecha','%'.$año.'%');
+                $consulta->andWhere("p.fechaSancion LIKE :fecha OR p.year LIKE :fecha")->setParameter('fecha','%'.$año.'%');
             }
             if($tipo){
                 $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);
@@ -273,7 +273,7 @@ class NormaRepository extends ServiceEntityRepository
                             $consulta1.= " AND p.numeroAuxiliar LIKE '%".$numero."%'";
                             //$consulta->andWhere('p.numero LIKE :numero')->setParameter('numero','%'.$numero.'%');
                         }if($año){
-                            $consulta1.= " AND p.year LIKE '%".$año."%'" ;
+                            $consulta1.= " AND p.fechaSancion LIKE '%".$año."%' OR p.year =".$año;
                             //$consulta->andWhere('p.fechaPublicacion LIKE :fecha')->setParameter('fechaPublicacion', '%'.$año.'%');
                         }
                         if($tipo){
@@ -296,7 +296,7 @@ class NormaRepository extends ServiceEntityRepository
                     }if($numero){
                         $consulta->andWhere('p.numeroAuxiliar LIKE :numero')->setParameter('numero','%'.$numero.'%');
                     }if($año){
-                        $consulta->andWhere('p.year LIKE :fecha')->setParameter('fecha','%'.$año.'%');
+                        $consulta->andWhere('p.fechaSancion LIKE :fecha OR p.year LIKE :fecha')->setParameter('fecha','%'.$año.'%');
                     }
                     if($tipo){
                         $consulta->andWhere('p.tipoNorma = :tipo')->setParameter('tipo',$tipo);

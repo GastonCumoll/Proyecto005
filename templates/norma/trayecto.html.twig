@@ -70,7 +70,7 @@
                     {{ unaAuditoria.accion }}
                 </td>
             </tr>
-            {% else %}
+            {% elseif unaAuditoria.estadoActual == "Eliminada" %}
             <tr class="table-danger">
                 <td>
                     {{unaAuditoria.id}}
