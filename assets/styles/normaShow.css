@@ -134,6 +134,10 @@
         margin-top: 1px;
     }
 
+    .columnaRela{
+        width: 20% !important;
+    }
+    
 
     .h4{
         float: none !important;

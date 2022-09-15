@@ -54,6 +54,10 @@
 .navbar{
     padding: 0 0;
 }
+#tituloD{
+    /* font: 20px !important; */
+    font-family:'Montserrat', sans-serif !important;
+}
 .barrita{
     margin-top: 6px;
 }

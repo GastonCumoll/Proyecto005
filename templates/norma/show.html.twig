@@ -127,7 +127,7 @@
                         <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
-                                {{ norma.numeroAuxiliar }}(borrador)
+                                {{ norma.numeroAuxiliar }}
                             {% else %}
                                 {{ "----" }}
                             {% endif %}
@@ -152,6 +152,23 @@
                 {% endif %}
                 <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
                 
+                {# <div style="text-align:left ;"> #}
+                {% if norma.etiquetas %}
+                    <p class="card-text text-left"><i class="fa-solid fa-tags"></i>Etiquetas:
+                    {% for etiqueta in norma.etiquetas %}
+                        <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
+                    
+                    {% endfor %}
+                </p>
+                {% endif %}
+                
+                {% if norma.estado == "Publicada" %}
+                <p class="card-text text-left"><i class="fa-solid fa-user"></i>Publicado por :
+                    {{user}}</p>
+                {% endif %}
+                <br>
+                
+                {# </div> #}
                 {# {% if ( "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( "DIG_EDITOR" in roles  and norma.estado == "Lista" and usuarioReparticion == 1 ) %} #}
                     {# {% if norma.getItems %}
                         <p class="card-text text-left">Tema que pertenece :
@@ -160,43 +177,6 @@
                         {% endfor %}</p>
                     {% endif %} #}
                 {# {% endif %} #}
-                <div class="card " style="width: 100%;text-align:justify">
-                    <div class="card-body">
-                        <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
-                        {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
-                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
-                        {% endif %}
-                        {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
-                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
-                        {% endif %}
-                        {% for unPdf in norma.archivos %}
-                        <div>
-                            {% if unPdf.tipo == 'pdf' %}
-                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
-                            {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
-                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
-                            {% else %}
-                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}</a>
-                                {% endif %}
-                            
-                            <br>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div style="text-align:left ;">
-                    <i class="fa-solid fa-tags"></i>Etiquetas:
-                    {% for etiqueta in norma.etiquetas %}
-                        <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
-                    {% endfor %}
-                    <br>
-                    {% if norma.estado == "Publicada" %}
-                        <i class="fa-solid fa-user"></i>Publicado por :
-                        {{user}}
-                    {% endif %}
-                </div>
-                <br>
-                
                 <div class="container" id="containerBotones">
                     {# <div class="divBotones mt-3 mr-2">
                         <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
@@ -224,6 +204,31 @@
                         </div>
                     {% endif %}
                 </div>
+                <div class="card mt-3" style="width: 100%;text-align:justify">
+                    <div class="card-body">
+                        <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
+                        {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
+                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
+                        {% endif %}
+                        {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
+                        {% endif %}
+                        {% for unPdf in norma.archivos %}
+                        <div>
+                            {% if unPdf.tipo == 'pdf' %}
+                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                            {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
+                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
+                            {% else %}
+                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}</a>
+                                {% endif %}
+                            
+                            <br>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
                 <div class="card-footer text-left mt-3">
                     <table class="table table-bordered">
                         <thead class="thead-dark">
@@ -231,7 +236,7 @@
                                 <th scope="col">Relacion</th>
                                 <th scope="col">Norma</th>
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                <th scope="col">Edit</th>
+                                <th class="columnaRela" scope="col">Editar</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -241,7 +246,7 @@
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td>
+                                        <td class="columnaRela">
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
