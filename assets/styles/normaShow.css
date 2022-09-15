@@ -26,13 +26,13 @@
 
     }
     
-    .busqueda-input{
+    /* .busqueda-input{
         width: 100% !important;
-    }
+    } */
 
-    .headerPdf{
+    /* .headerPdf{
         text-align: center !important;
-    }
+    } */
 
     #busquedaTexto{
         width: 80% !important;
@@ -129,6 +129,7 @@
         height: 40px;
         font-size: 20px;
     }
+
 
     .fa-chevron-left{
         margin-top: 1px;
@@ -237,10 +238,86 @@
     .contenedorBotonPDF{
         float: left !important;
         width: 30% !important;
+        display: inline;
     }
 
+    #cardRelaciones{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+
+    #relacionCol{
+        width: 20% !important;
+    }
     .card-header{
         text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        /* box-shadow: 10px 10px lightblue; */
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+    /* #busqueda-input{
+        border-color: #005B88;
+        width: 100% !important;
+        margin-top: 8px;
+
+    } */
+    .findAndSeek{
+        margin-top:15px;
+        display: inline;
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
     }
 
     .modalContainer {
@@ -354,8 +431,24 @@
         cursor: pointer;
     }
 
+    #linkArchivo{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* regular */
+        margin-top: 2%;
+        font-size: small;
+    }
+
+
+
     #h5Archivos{
         display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: x-large;
+        font-stretch: semi-condensed;
     }
 
     #botonMas{
