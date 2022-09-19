@@ -166,88 +166,86 @@
     {% endif %} #}
     
     <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-active">
-            <tr>
-                <th class="colId">{{knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
-                <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
-                    {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
-                <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
-                <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
-                <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
-                {% if rol != "" %}
-                <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
-                {% endif %}
-                <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
-                <th class="columnaOp">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for norma in normas %}
-                {% set tipoNorma = 0 %}
-                {% for unaNormaUsuario in normasUsuario %}
-                    {% if unaNormaUsuario == norma.tipoNorma.nombre%}
-                        {% set tipoNorma = 1 %}
+        <table class="table">
+            <thead id="headIndex">
+                <tr>
+                    <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th>
+                    <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
+                        {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
+                    <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
+                    <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
+                    <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
+                    {% if rol != "" %}
+                    <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
                     {% endif %}
-                {% endfor %}
-
-            {% if tipoNorma == 1 %}
-            <tr>
-            {% else %}
-            <tr class="table-secondary">
-            {% endif %}
-                <td class="colId">{{norma.id}}</td>
-                <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
-                <td class="colTit">{{norma.titulo}}</td>
-                <td class="colNum">{{norma.numeroAuxiliar}}</td>
-                <td class="colEstado">{{norma.estado}}</td>
-                {% if rol != "" %}
-                    {% if norma.publico == 1 %}
-                        <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
-                    {% else %}
-                        <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
-                    {% endif %}
-                {% endif %}
-                <td class="colFecha">{{norma.year}}</td>
-
-                {% set bandera = 0 %}
-
-                <td class="columnaOp">
-                    <div>
-                        <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
-                        {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
-                            {% for unaNormaUsuario in normasUsuario %}
-                                {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
-                                {% set bandera = 1 %}
-                                {% endif %}
-                            {% endfor %}
-                            {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
-                            {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% else %}
-                                <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% endif %}
-                            <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
-                            <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
-                            <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a>
+                    <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
+                    <th class="columnaOp">{{knp_pagination_sortable(normas, 'Opciones', 'p.id')}}</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for norma in normas %}
+                    {% set tipoNorma = 0 %}
+                    {% for unaNormaUsuario in normasUsuario %}
+                        {% if unaNormaUsuario == norma.tipoNorma.nombre%}
+                            {% set tipoNorma = 1 %}
                         {% endif %}
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation" style="text-align:center !important;">
-        {{ knp_pagination_render(normas) }}
+                    {% endfor %}
+                    {% if tipoNorma == 1 %}
+                        <tr>
+                    {% else %}
+                        <tr class="table-secondary">
+                    {% endif %}
+
+                    <td class="colId"><strong>{{norma.id}}</strong></td>
+                    <td class="colTipo"><strong>{{norma.tipoNorma.nombre}}</strong></td>
+                    <td class="colTit"><strong>{{norma.titulo}}</strong></td>
+                    <td class="colNum"><strong>{{norma.numeroAuxiliar}}</strong></td>
+                    <td class="colEstado"><strong>{{norma.estado}}</strong></td>
+                    {% if rol != "" %}
+                        {% if norma.publico == 1 %}
+                            <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
+                        {% else %}
+                            <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
+                        {% endif %}
+                    {% endif %}
+                    <td class="colFecha"><strong>{{norma.year}}</strong></td>
+                    {% set bandera = 0 %}
+                    <td class="columnaOp">
+                        <div id="divBotonesOpNorma">
+                            <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
+                            {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
+                                {% for unaNormaUsuario in normasUsuario %}
+                                    {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
+                                        {% set bandera = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
+                                {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
+                                    <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
+                                    <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% else %}
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% endif %}
+                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                                {# <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
+                                <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a> #}
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation" style="text-align:center !important;">
+            {{ knp_pagination_render(normas) }}
+        </div>
     </div>
-    </div>
-    </div>
+    
     {% block javascripts %}
         {{encore_entry_script_tags('busquedaParamNorma')}}
         {{encore_entry_script_tags('normaEdit')}}

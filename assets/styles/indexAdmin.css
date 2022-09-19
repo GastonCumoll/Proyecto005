@@ -37,15 +37,62 @@
     cursor: pointer;
 }
 
+.columnaOp{
+    color:white !important;
+    font-size: larger;
+    text-align: center !important;
+}
 .colId{
     width: 5% !important;
+
 }
 .colNum{
-    width: 8% !important;
+    width: 12% !important;
 }
 .colEstado{
-    width: 8% !important;
+    width: 10% !important;
 }
 .colFecha{
     width: 7% !important;
+
 }
+.desc{
+    color:white !important;
+    font-size: larger;
+}
+.asc{
+    color:white !important;
+    font-size: larger;
+}
+.sortable{
+    color:white !important;
+    font-size: larger;
+}
+#divBotonesOpNorma{
+    text-align: center !important;
+}
+#headIndex{
+    font-family:'Montserrat', sans-serif !important;
+
+    background-color: #008FA3;
+    color:white !important;
+}
+
+.tbody{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 400;
+    font-size: small;
+    background-color: #d3d3d3;
+    color:#595959 !important;
+}
+.btn{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 300;
+    font-size: small;
+    background-color: #005B88;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    height: 100% !important;
+}
+
+

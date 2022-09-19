@@ -175,24 +175,27 @@
     font-size: 0.54rem;
 } */
 /*============== Paginator pagination v2 =============**/
+.pagination{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 600;
+}
 .page-item.active .page-link {
-    background-color: #66A1AA  !important;
-    border: 1px solid black;
+    background-color:white  !important;
+    border: 2px solid #595959;
 }
 .page-link {
-    color: black !important;
+    color:#808080 !important;
+    margin-left: 3px;
+    border-radius: 5px;
 }
 .input-group{
     width: 16rem;
-    
-
 }
 #botonLupita{
     width: 5rem!important;
     margin-left: 2px;
     display: inline !important;
 }
-
 
 .barraNavegacion{
     font-size: medium;
