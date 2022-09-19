@@ -241,14 +241,26 @@
         display: inline;
     }
 
-    #cardRelaciones{
+    #tablaRela{
         font-family:'Montserrat', sans-serif !important;
-        color: #005B88;
-        border-color:008FA3 ;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
     }
     .thead{
         background-color: #005B88;
         color: white;
+    }
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal; /* regular */
+        /* font-stretch: narrower; */
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
     }
 
     #relacionCol{

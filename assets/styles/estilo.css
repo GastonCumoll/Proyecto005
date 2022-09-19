@@ -36,9 +36,9 @@
     color:#005B88 !important;
 }
 .datepicker,
-.table-condensed {
+/* .table-condensed {
   max-width: 200px;
-}
+} */
 .badgeEstado{
     width: 5rem;
 }
@@ -170,10 +170,10 @@
 .hide{
     visibility: hidden;
 }
-.btn-sm-table{
+/* .btn-sm-table{
     padding: 0.3rem 0.8rem;
     font-size: 0.54rem;
-}
+} */
 /*============== Paginator pagination v2 =============**/
 .page-item.active .page-link {
     background-color: #66A1AA  !important;

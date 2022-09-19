@@ -235,8 +235,8 @@
                 </div>
                 
 
-                <div class="card" id="cardRelaciones">
-                    <table class="table table-bordered">
+                {# <div class="card" id="cardRelaciones"> #}
+                    <table class="table" id="tablaRela">
                         <thead class="thead">
                             <tr>
                                 <th scope="col" id="relacionCol">Relacion</th>
@@ -247,7 +247,7 @@
                             </tr>
                         </thead>
                                 {% for rela in relacion %}
-                                <tbody>
+                                <tbody class="tbody">
                                     <tr>
                                         <td id="relacionCol">{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
@@ -268,11 +268,10 @@
                                         <td>{{rela.getResumen}}</td>
                                     </tr>
                                     {% endif %}
-                                </tbody>
-                            {% endfor %}
+                                
+                            {% endfor %}</tbody>
                     </table>
-                    
-                </div>
+                {# </div> #}
                 
                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
