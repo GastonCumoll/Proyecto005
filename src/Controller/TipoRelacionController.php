@@ -49,7 +49,7 @@ class TipoRelacionController extends AbstractController
             // Definir el parámetro de la página
             $request->query->getInt('page', 1),
             // Items per page
-            10
+            11
         );
         
         return $this->render('tipo_relacion/index.html.twig', [
@@ -68,10 +68,11 @@ class TipoRelacionController extends AbstractController
         //Esto se implemento para facilitar la carga de tipos de relaciones y su vinculacion con el inverso de verdad
         //Entonces, cada vez que se crea un tipo, se setea su inverso a inversoBase, y luego cuando se esta creando el inverso del tipo se que se acaba de crear,
         //se busca el unico que el inverso es $inversoBase y se vinculan ellos dos
-        $inversoBase=$tipoRelacionRepository->findOneById(0);
-
+        $inversoBase=$tipoRelacionRepository->findOneByNombre('Base');
+        $idBase=$inversoBase->getId();
+        $inv=$tipoRelacionRepository->findOneByInverso($idBase);
         $tipoRelacion = new TipoRelacion();
-        $form = $this->createForm(TipoRelacionType::class, $tipoRelacion);
+        $form = $this->createForm(TipoRelacionType::class, $tipoRelacion,['id'=>$inv]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -131,7 +132,7 @@ class TipoRelacionController extends AbstractController
     /**
      * @Route("/{id}", name="tipo_relacion_delete", methods={"POST"})
      */
-    public function delete(Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
+    public function delete(TipoRelacionRepository $tipoRelacionRepository,Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
     {
         // dd($tipoRelacion->getRela()->toArray());
         if(!empty($tipoRelacion->getRela()->toArray())){
@@ -145,17 +146,31 @@ class TipoRelacionController extends AbstractController
 
         //$tipoRelacion=$tipoRelacionRepository->findOneById($id);
         $inverso=$tipoRelacion->getInverso();
-        $tipoRelacion->setInverso(NULL);
-        $inverso->setInverso(NULL);
-        $entityManager->persist($tipoRelacion);
-        $entityManager->persist($inverso);
-        $entityManager->flush();
-        // dd($inverso->getInverso());
-        if ($this->isCsrfTokenValid('delete'.$tipoRelacion->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($tipoRelacion);
-            $entityManager->remove($inverso);
+        if($inverso){
+            $inv=$tipoRelacionRepository->findOneById($inverso->getId());
+            
+            $tipoRelacion->setInverso(NULL);
+            $inv->setInverso(NULL);
+            
+            $entityManager->persist($tipoRelacion);
+            $entityManager->persist($inv);
             $entityManager->flush();
+            // dd($inverso->getInverso());
+            if ($this->isCsrfTokenValid('delete'.$tipoRelacion->getId(), $request->request->get('_token'))) {
+                $entityManager->remove($tipoRelacion);
+                $entityManager->remove($inverso);
+                $entityManager->flush();
+            }
+        }else{
+            $tipoRelacion->setInverso(NULL);
+            $entityManager->persist($tipoRelacion);
+            if ($this->isCsrfTokenValid('delete'.$tipoRelacion->getId(), $request->request->get('_token'))) {
+                $entityManager->remove($tipoRelacion);
+                
+                $entityManager->flush();
         }
+    }
+        
 
         return $this->redirectToRoute('tipo_relacion_index', [], Response::HTTP_SEE_OTHER);
     }

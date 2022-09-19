@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('tipo_relacion_delete', {'id': tipo_relacion.id}) }}" onsubmit="return confirm('¿Estas seguro de que queres eliminar este item?Borraras su inverso');">
+<form method="post" action="{{ path('tipo_relacion_delete', {'id': tipo_relacion.id}) }}" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este ítem?Eliminarás su inverso, en caso de que exista');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tipo_relacion.id) }}">
     <button class="btn btn-danger btn-sm d-inline"><i class="fa-solid fa-trash-can">
 </form>

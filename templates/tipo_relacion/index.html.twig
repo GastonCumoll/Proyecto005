@@ -33,7 +33,7 @@
         </thead>
         <tbody>
             {% for tipo_relacion in tipo_relacions %}
-            {% if tipo_relacion.id != 0 %}
+            {% if tipo_relacion.nombre != 'Base' %}
             <tr>
                 <td>
                     {{tipo_relacion.id}}
