@@ -95,19 +95,23 @@
 
         </nav>
     </div>
-    <div class="barrita container">
+    {# <div class="barrita container">
         <div class="d-sm-flex cont">
             <div class="barra" style="background-color: #47BCCA"></div>
             <div class="barra" style="background-color: #66A1AA"></div>
             <div class="barra" style="background-color: #005B88"></div>
         </div>
-    </div>
+    </div> #}
     <div class="container contenido">
         {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
         <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
         {% elseif app.request.pathinfo != "/inicio" %}
         {# para saber si no estoy logeado y estoy en la pagina de inicio#} 
-        <header class="headerPublic">{{ include('basePublic.html.twig') }}</header>
+        {# <header class="headerPublic">{{ include('basePublic.html.twig') }}</header> #}
+
+            <header class="header">{{ include('header.html.twig') }}</header>
+
+        
         {% endif %}
 
 

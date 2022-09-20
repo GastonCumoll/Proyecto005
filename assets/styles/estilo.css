@@ -197,16 +197,58 @@
     display: inline !important;
 }
 
-.barraNavegacion{
-    font-size: medium;
-    border: 2px solid !important;
-    border-radius:5px !important;
+#containerHeader{
+    background-color: #005B88;
+    color:white;
+    font-family:'Montserrat', sans-serif !important;
+    height: 6%;
+    width: 100% !important;
+    /* font-size: medium; */
+    /* border: 2px solid !important; */
+    /* border-radius:5px !important; */
     /* border-top-color: #47BCCA  !important;
     border-bottom-color: #66A1AA  !important; */
-    border-color: #ffffff  !important;
-    box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.2);
-    margin-bottom: 1rem !important;
+    /* border-color: #ffffff  !important; */
+    /* box-shadow: 0px 4px 4px 1px rgba(0, 0, 0, 0.2); */
+    /* margin-bottom: 1rem !important; */
+    /* position: relative !important; */
+}
+.nav-link{
+    color: white;
+}
+#busquedaRapida{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 500;
+    font-size: small;
+    float: right;
+    margin-top: 4%; 
+    margin-bottom: 4%; 
+    margin-right: 8%;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    border-radius: 5px;
+}
+#busqueda-input{
     position: relative !important;
+}
+#iconoLupa{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 500;
+    font-size: small;
+    color: #595959;
+	position: absolute;
+	width: 13px;
+	height: 13px;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+#txt{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 500;
+    font-size: large;
+    color:white;
+    float: left;
+    margin-top: 15px;
 }
 
 
