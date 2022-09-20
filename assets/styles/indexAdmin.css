@@ -49,6 +49,9 @@
 .colNum{
     width: 12% !important;
 }
+.colTipo{
+    width: 7%;
+}
 .colEstado{
     width: 10% !important;
 }
