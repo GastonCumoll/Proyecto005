@@ -127,7 +127,7 @@
                         <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
-                                {{ norma.numeroAuxiliar }}(borrador)
+                                {{ norma.numeroAuxiliar }}
                             {% else %}
                                 {{ "----" }}
                             {% endif %}
@@ -322,6 +322,11 @@
                                 </div>
                             </form>
                         </div>
+                    {% endif %}
+                    {% if norma.estado == "Publicada" and  "DIG_EDITOR" in roles %}
+                    <div class="divBotones mt-3 mr-2">
+                        <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                    </div>
                     {% endif %}
                     {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
                     <br>

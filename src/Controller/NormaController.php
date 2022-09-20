@@ -960,9 +960,11 @@ class NormaController extends AbstractController
         ]);
         //dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
-        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
 
-        //dd($htmlModificado);
+        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+        // $cabecera=substr($htmlModificado,0,202);
+        // $htmlModificado=substr($htmlModificado,202);
+        $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
 
@@ -973,7 +975,8 @@ class NormaController extends AbstractController
         else{
             $mod=$htmlModificado;
         }
-        //dd($mod);
+        $mod=$cabecera.$mod;
+
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -1041,18 +1044,21 @@ class NormaController extends AbstractController
             }else{
                 return $this->render('general/notRole.html.twig');
             }
+        }else if($estadoNorma=="Publicada"){
+            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
         }
     }
 
 
     /**
-     * @Route("/{id}/generarPDF", name="generar_pdf",methods={"POST"})
+     * @Route("/{id}/generarPDF", name="generar_pdf",methods={"GET","POST"})
      */
     //este metodo genera un pdf del texto de la norma
     public function generarPdf(AuditoriaRepository $auditoriaRepository,EntityManagerInterface $entityManager,NormaRepository $normaRepository,ArchivoRepository $archivoRepository , $id, MpdfFactory $MpdfFactory): Response
     {
         $norma=$normaRepository->find($id);
         if(!$norma->getFechaSancion() || !$norma->getNumeroAuxiliar()){
+
             $this->addFlash(
                 'verifPublicar',
                 "No fue posible publicar la norma debido a que no tiene una fecha de sancion y/o un numero definido."
@@ -1062,8 +1068,10 @@ class NormaController extends AbstractController
 
 
         if(!empty($_POST['checkbox'])){
+
             $b=1;
         }else{
+
             $b=0;
         }
         $var=false;
@@ -1071,7 +1079,7 @@ class NormaController extends AbstractController
         $auditorias=$auditoriaRepository->findByNormaTexto($norma);
         //dd($auditorias);
         foreach ($auditorias as $unaAuditoria) {
-            if($unaAuditoria->getEstadoActual()=="Publicada" ){
+            if($unaAuditoria->getEstadoActual()=="Publicada"){
                 $var=true;
             }
         }
@@ -1081,7 +1089,7 @@ class NormaController extends AbstractController
             
             $normaNombre=$norma->getTitulo();
             $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
-
+            $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
             $today = new DateTime();
             $result = $today->format('d-m-Y H-i-s');
             $hoy = $today->format('d-m-Y\\ H:i');
@@ -1095,7 +1103,7 @@ class NormaController extends AbstractController
             //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
             $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
             $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
-            
+            $mod=$cabecera.$mod;
             $mPdf = $MpdfFactory->createMpdfObject([
                 'mode' => 'utf-8',
                 'format' => 'A4',
@@ -1138,7 +1146,8 @@ class NormaController extends AbstractController
             //return true;
             return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
             exit;
-            }else{
+            }
+            else{
                 return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
             }
         }
@@ -1657,12 +1666,8 @@ class NormaController extends AbstractController
         $itemsPreEdit=$norma->getItems()->toArray();
         $idTipoNorma=$norma->getTipoNorma()->getId();
         $session=$this->get('session');
-        //se crea una variable en sesion 'urlAnterior' para guardar la url de donde vengo a editar, ya que al submitear el formulario, se pierde 
-        //la ultima url
-        //urlAnterior solo se guarda la primera vez que entra, por eso pregunta si esta definida, una vez definida no la vuelve a pisar
-        if(!$session->get('urlAnterior')){ 
-            $session->set('urlAnterior',$_SERVER['HTTP_REFERER']);
-        }
+        
+
         $session_id = $session->get('session_id') * 1;
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
         $reparticionUsuario = $areaRepository->find($idReparticion);
@@ -1671,9 +1676,30 @@ class NormaController extends AbstractController
             $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
             $normasU[]=$normasUsuarioObj[0]->getId();
         }
-        if(!in_array($idTipoNorma,$normasU,true)){
+
+        if($seguridad->checkSessionActive($session_id)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($session_id), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        if(!in_array($idTipoNorma,$normasU,true) || ($norma->getEstado()=='Publicada' && (!in_array('DIG_EDITOR',$arrayRoles)))){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         }
+        //se crea una variable en sesion 'urlAnterior' para guardar la url de donde vengo a editar, ya que al submitear el formulario, se pierde 
+        //la ultima url
+        //urlAnterior solo se guarda la primera vez que entra, por eso pregunta si esta definida, una vez definida no la vuelve a pisar
+        
+        if(!$session->get('urlAnterior') && $_SERVER['HTTP_REFERER']){
+            $session->set('urlAnterior',$_SERVER['HTTP_REFERER']);
+        }
+
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
                 $form = $this->createForm(DecretoTypeEdit::class, $norma);
@@ -1696,7 +1722,6 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
             break;
         }
-        
         if ($form->isSubmitted() && $form->isValid())
         {
             $item =$form['items']->getData();
@@ -1774,65 +1799,6 @@ class NormaController extends AbstractController
             }
             $entityManager->persist($norma);
 
-            /*
-            $brochureFile = $form->get('archivo')->getData();
-
-            if ($brochureFile) {
-                foreach ($brochureFile as $unArchivo) {
-                    $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$unArchivo->guessExtension();
-                    $carpeta=$unArchivo->guessExtension();
-
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $unArchivo->move(
-                            $this->getParameter('brochures_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $newFilename=$carpeta.'/'.$newFilename;
-                    $archi=new Archivo();
-                    $archi->setTipo($carpeta);
-                    $archi->setRuta($newFilename);
-                    $archi->setNorma($norma);
-
-                    if($form->get('nombre_archivo')->getData()){
-                        $archi->setNombre($form->get('nombre_archivo')->getData());
-                    }else{
-                        $archi->setNombre($originalFilename);
-                    }
-
-                    $entityManager->persist($archi);
-                    $norma->addArchivos($archi);
-                }
-            }
-            */
-            //si habilitamos crear etiquetas en el alta de la norma:
-            //$etiquetas = explode(", ", $form['nueva_etiqueta']->getData());
-            // $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
-            // foreach ($etiquetas as $unaEtiqueta) {
-            //     $etiquetaSinEspacios="";
-            //     for($i=0; $i<strlen($unaEtiqueta) ;$i++) {
-            //             if(($unaEtiqueta[$i]==" " && $unaEtiqueta[$i-1]!=" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]==" ") || ($unaEtiqueta[$i]!=" " && $unaEtiqueta[$i-1]!=" ")){
-            //                 $etiquetaSinEspacios.=$unaEtiqueta[$i];
-            //             }
-            //         }
-            // if(!$etiquetaRepository->findOneBy(['nombre' => $etiquetaSinEspacios]))
-            // {
-            //     $etiquetaNueva = new Etiqueta();
-            //     $etiquetaNueva->setNombre($etiquetaSinEspacios);
-            //     $etiquetaNueva->addNorma($norma);
-            //     $norma->addEtiqueta($etiquetaNueva);
-            //     $entityManager->persist($etiquetaNueva);
-            // }
-            //     $entityManager->persist($norma);   
-            // }
             $etiquetasDeNorma=$form['etiquetas']->getData();
             //foreach para asignarle nuevas etiquetas ya creadas a Norma
             foreach ($etiquetasDeNorma as $eti) {
@@ -1888,6 +1854,32 @@ class NormaController extends AbstractController
                 $norma->setInstancia(2);
                 $entityManager->persist($norma);
             }
+            if($norma->getEstado()=="Publicada"){
+                //crear auditoria
+                $auditoria=new Auditoria();
+                $auditoria->setFecha($today);
+                $auditoria->setAccion("Modificacion");
+                $instancia=$norma->getInstancia();
+                $auditoria->setInstanciaAnterior($instancia);
+                $auditoria->setInstanciaActual($instancia);
+                $estadoAnt=$norma->getEstado();
+                $auditoria->setEstadoAnterior($estadoAnt);
+                $auditoria->setEstadoActual($estadoAnt);
+                $auditoria->setNombreUsuario($usuario);
+                $auditoria->setNorma($norma);
+                $entityManager->persist($auditoria);
+                $norma->addAuditoria($auditoria);
+
+                //setear instancia=1;
+                $norma->setInstancia($instancia);
+                $entityManager->persist($norma);
+                $entityManager->flush();
+                //como la norma ya esta publicada, redirecciona a generar pdf
+                $session->remove('urlAnterior');
+                return $this->redirectToRoute('generar_pdf', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
+
+
+            }
             
             $entityManager->flush();
             //dependiendo de cual es la urlAnterior redirecciona a ciertas vistas
@@ -1915,32 +1907,35 @@ class NormaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/{t}", name="norma_show_arbol", methods={"GET"})
-     */
-    //este metodo no se usa
-    public function normaArbol(Norma $norma,$id,$t): Response
-    {
-        //dd($norma->getItems()->toArray());
-        $repository = $this->getDoctrine()->getRepository(Relacion::class);
-        $relacion= $repository->findByNorma($id);
+    // /**
+    //  * @Route("/{id}/{t}", name="norma_show_arbol", methods={"GET"})
+    //  */
+    // //este metodo no se usa
+    // public function normaArbol(Norma $norma,$id,$t): Response
+    // {
+    //     //dd($norma->getItems()->toArray());
+    //     $repository = $this->getDoctrine()->getRepository(Relacion::class);
+    //     $relacion= $repository->findByNorma($id);
         
-        $itemDeNorma=$norma->getItems()->toArray();
-        // dd($relacion);
-        $item=$itemDeNorma[0];
-        foreach ($itemDeNorma as $unItem) {
-            if($unItem->getId()==$t){
-                $item = $unItem;
-            }
-            $complementada=$repository->findByComplementada($id);
+    //     $itemDeNorma=$norma->getItems()->toArray();
+    //     // dd($relacion);
+    //     if(!empty($itemDeNorma)){
+    //         $item=$itemDeNorma[0];
+    //     }
         
-            return $this->render('norma/normaShowArbol.html.twig', [
-                'item' => $item,
-                'norma' => $norma,
-                'relacion' => $relacion,
-            ]);
-        }
-    }
+    //     foreach ($itemDeNorma as $unItem) {
+    //         if($unItem->getId()==$t){
+    //             $item = $unItem;
+    //         }
+    //         $complementada=$repository->findByComplementada($id);
+        
+    //         return $this->render('norma/normaShowArbol.html.twig', [
+    //             'item' => $item,
+    //             'norma' => $norma,
+    //             'relacion' => $relacion,
+    //         ]);
+    //     }
+    // }
 
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})
