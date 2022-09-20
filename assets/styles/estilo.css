@@ -305,6 +305,39 @@
     padding-bottom: 0.5% !important;
     
 }
+.cardNorma{
+    border: none !important;
+    box-shadow: none !important;
+}
+.cardWhite{
+    background-color: #ffffff;
+    border: none;
+}
+.h5Norma{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700 !important;
+    color: #005B88;
+    font-size: 30px !important;
+}
+.cardNormasBody{
+    border: 2px solid #b2b2b2;
+}
+.fuenteNorma{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700 !important;
+    color: #005B88;
+    font-size: 20px !important;
+}
+.botonVerNorma{
+    background-color: #005B88;
+    color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 10px;
+    width: 18%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400 !important;
+    font-size: 25px !important;
+    border-radius: 10px !important;
+}
 
 
 
