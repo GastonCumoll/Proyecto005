@@ -3,6 +3,59 @@
 #consulta{
     display: inline !important;
 }
+#tituloInicio{
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    color: #008FA3 !important;
+    font-size: 40px !important;
+    margin-top: 10% !important;
+}
+.botonesInicio{
+    width: 22% !important;
+    background-color: white !important;
+    border: 5px solid #012d43;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    color: #005b88 !important;
+    font-size: 25px !important;
+    padding: 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+}
+.botonConsulta{
+    width: 22% !important;
+    border: 5px solid;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 25px !important;
+    padding: 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+}
+.card{
+    border: 5px solid;
+    border-color: #008FA3 !important;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    color: #008FA3;
+}
+.btn-outline-info{
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+}
+#contenedorBotonesInicio{
+    margin-top: 5% !important;
+}
+input{
+    border-color: #808080 !important;
+}
+textarea{
+    border-color: #808080 !important;
+}
+.selectpicker{
+    border-color: #808080 !important;
+}
 @media (max-width: 350px) {
 
 }
