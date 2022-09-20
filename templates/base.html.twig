@@ -9,6 +9,13 @@
         <title>Municipalidad de Paraná </title>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+
     {% endblock %}
 
     {% block addStyleSheets %}
@@ -28,14 +35,14 @@
         <div id="carga2"></div>
         <div id="carga3"></div>
     </div>
-    <div class="{#header-top #}container">
+    <div class="{#header-top #}container-fluid headerPrincipal">
 
 
 
-        <nav class="navbar navbar-expand-lg  navbar-light bg-white" id="nav">
-            <div class="d-flex flex-grow-1">
+        <nav class="navbar navbar-expand-lg text-center" id="nav">
+            <div class="d-flex flex-grow-1 ml-4 imagen">
                 <a class="navbar-brand" href="{{ path('inicio') }}" >
-                    <img src="{{asset('/municipalidad.png')}}" width="173" height="auto" alt="">
+                    <img src="{{asset('/logoMunicipalidadAzul.png')}}" width="250" height="auto" alt="" id="logoMunicipalidad">
                 </a>
                 
 
@@ -45,12 +52,12 @@
                     </button>
                 </div>
             </div>
-            <div >
-                <h3 class="float-left mt-2"id="tituloD"><strong>Obra Digesto Municipal</strong></h3>
+            <div class="titulo">
+                <h3 class="float-left" id="tituloD">Digesto Municipal</h3>
             </div>
             
-            <div class="collapse navbar-collapse text-right" id="myNavbar">
-                <ul class="navbar-nav ml-auto">
+            <div class="collapse navbar-collapse text-right " id="myNavbar">
+                <ul class="navbar-nav ml-auto text-center">
                 {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
@@ -84,27 +91,30 @@
                         </div>
                     </li>
                     {% else %}
-                        <a class="btn btn-info" type="button" href="{{ path('login') }}"><i class="fa-regular fa-user"></i> Ingresar</a>
+                    <div class="text-left">
+                        <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25; height:25;"></i>INGRESAR</p></a>
+                    </div>
                 {% endif %}
                 </ul>
             </div>
 
         </nav>
     </div>
-    <div class="barrita container">
-        <div class="d-sm-flex cont">
+    <div class="barrita container-fluid">
+        {# <div class="d-sm-flex cont">
             <div class="barra" style="background-color: #47BCCA"></div>
             <div class="barra" style="background-color: #66A1AA"></div>
             <div class="barra" style="background-color: #005B88"></div>
-        </div>
-    </div>
-    <div class="container contenido">
+        </div> #}
+
         {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
         <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
         {% elseif app.request.pathinfo != "/inicio" %}
         {# para saber si no estoy logeado y estoy en la pagina de inicio#} 
         <header class="headerPublic">{{ include('basePublic.html.twig') }}</header>
         {% endif %}
+    </div>
+    <div class="container-fluid contenido">
 
 
 

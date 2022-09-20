@@ -22,6 +22,9 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
 } */
+.headerPrincipal{
+    
+}
 
 .js-example-basic-multiple{
     border: 0px !important;
@@ -71,9 +74,6 @@
     margin-right: 6rem !important;
 } */
 
-.foto{
-    width: 120px;
-}
 
 .btn-info, .bg-info{
     background-color: #66A1AA !important;
@@ -85,6 +85,11 @@
 /* .btn-primary{
     width: 15rem !important;
 }  */
+
+#nav{
+    background-color: #008FA3;
+    height: 15%;
+}
 
 #nav li a {
     text-decoration: none;
@@ -101,18 +106,206 @@
 
 #nav li a span {
     text-align: center;
-    /* padding: 0px !important; */
     color: #ffffff;
-    /* padding: 4px 10px; */
     display: inline-block;
     background-color: orangered;
     line-height: 25px;
-    /* display: initial; */
     height: 25px;
     margin-left: 5px;
     width: 25px;
     border-radius: 50%;
 }
+.vigente-noVigente{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #008FA3;
+    font-size: 40px;
+    margin-left: 33% !important;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.titulo{
+    margin-right: 10%;
+    margin-top: 2%;
+}
+#tituloD{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: white;
+    font-size: 45px;
+}
+.navbar-nav{
+    align-items: center !important;
+    margin-right: 10% !important;
+    margin-top: 4%;
+}
+.botonModificado{
+    width: 150px;
+    height: 38px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #808080;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+.white{
+    background-color: white !important;
+    border: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.whiteSubitem{
+    background-color: white !important;
+    border: none !important;
+    padding: 0px !important;
+}
+.cardAzul{
+    background-color: #005B88 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 15px;
+    border-radius: 15px !important;
+    padding: 20px;
+    width: 60%;
+    margin-left: 20%;
+}
+
+.cardTurquesa{
+    background-color: #008FA3 !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 15px;
+    border-radius: 15px !important;
+    padding: 20px;
+    width: 60%;
+    margin-left: 20%;
+}
+
+
+.btn-block{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 15px;
+    border: none !important;
+    box-shadow: none !important;
+}
+.btn-block:hover { color: #b2b2b2; }
+
+.botonAzul{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #595959;
+    background-color: #ffffff;
+    border: solid #ffffff;
+    border-radius: 7px !important;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+.botonTurquesa{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #595959;
+    background-color: #ffffff;
+    border: solid #ffffff;
+    border-radius: 7px !important;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+}
+.botonAzul:hover {
+    background-color: #595959 ;
+    border: solid #595959;
+    border-radius: 7px !important;
+    color: #ffffff;
+}
+.botonTurquesa:hover {
+    background-color: #595959;
+    border: solid #595959;
+    border-radius: 7px !important;
+    color: #ffffff;
+}
+
+.cardAzulSubitem{
+    background-color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #005B88 !important;
+    font-size: 15px;
+    border: solid #005B88;
+    border-radius: 15px !important;
+    padding: 20px;
+    width: 60%;
+    margin-left: 20%;
+}
+.cardTurquesaSubitem{
+    background-color: #ffffff !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #008FA3 !important;
+    font-size: 15px;
+    border: solid #008FA3 !important;
+    border-radius: 15px !important;
+    padding: 20px;
+    width: 60%;
+    margin-left: 20%;
+}
+.btnSubitemAzul{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #005B88;
+    font-size: 15px;
+    border: none !important;
+    box-shadow: none !important;
+}
+.btnSubitemTurquesa{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #008FA3;
+    font-size: 15px;
+    border: none !important;
+    box-shadow: none !important;
+}
+.botonSubitemAzul{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #005B88;
+    border: solid #005B88;
+    border-radius: 7px !important;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+}
+.botonSubitemTurquesa{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #008FA3;
+    border: solid #008FA3;
+    border-radius: 7px !important;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
+}
+.botonSubitemAzul:hover {
+    background-color: #005B88 ;
+    border: solid #005B88;
+    border-radius: 7px !important;
+    color: #ffffff;
+}
+.botonSubitemTurquesa:hover {
+    background-color: #008FA3;
+    border: solid #008FA3;
+    border-radius: 7px !important;
+    color: #ffffff;
+}
+.headerItem{
+    border: none !important;
+    background-color: white !important;
+    margin: 0px !important;
+    padding-top: 0.5% !important;
+    padding-bottom: 0.5% !important;
+    
+}
+
 
 
 #consultaEnviada{
@@ -216,13 +409,14 @@
     text-align: center;
     position: fixed;
     bottom: 0px;
-    background-color: #FFFFFF;
-    border-top:1px solid #66A1AA;
-    color: #000000;
+    background-color: #ffffff;
+    color: #005b88;
     width: 100%;  
     height: 5%;
     min-height: 30px;
     z-index: 3;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 }
 
 .PENDIENTE{
