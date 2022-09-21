@@ -97,5 +97,14 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     height: 100% !important;
 }
-
+.h1{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #008FA3;
+    font-size: 40px;
+    /* margin-left: 33% !important;
+    margin-top: 2%;
+    margin-bottom: 2%; */
+    text-align: center;
+}
 

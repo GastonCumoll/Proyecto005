@@ -239,8 +239,8 @@
                     <table class="table" id="tablaRela">
                         <thead class="thead">
                             <tr>
-                                <th scope="col" id="relacionCol">Relacion</th>
-                                <th scope="col">Norma</th>
+                                <th scope="col" id="relacionColHead">Relacion</th>
+                                <th scope="col" id="relacionNorHead">Norma</th>
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                 <th class="columnaRela" scope="col">Editar</th>
                                 {% endif %}
@@ -248,9 +248,9 @@
                         </thead>
                                 {% for rela in relacion %}
                                 <tbody class="tbody">
-                                    <tr>
+                                    <tr id="trRela">
                                         <td id="relacionCol">{{rela.getTipoRelacion.getNombre}}</td>
-                                        <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                        <td id="relacionNor"> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                         <td class="columnaRela">
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>

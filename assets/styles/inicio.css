@@ -43,6 +43,20 @@
 .btn-outline-info{
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 700 !important;
+    background-color: white !important;
+}
+#consultar{
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    background-color: white !important;
+    box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+    border: 2px solid;
+    border-color: #008FA3 !important;
+    border-radius: 8px;
+}
+.btn-outline-info:hover{
+    background-color: #008fa3 !important;
+    color: white !important;
 }
 #contenedorBotonesInicio{
     margin-top: 5% !important;
@@ -55,6 +69,32 @@ textarea{
 }
 .selectpicker{
     border-color: #808080 !important;
+}
+.form-control{
+    background-color: #d3d3d3;
+    box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+    border-radius: 5px;
+}
+.btn.dropdown-toggle.btn-light.bs-placeholder {
+    background-color: #d3d3d3;
+    box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+    border-radius: 5px;
+    border-color: #d3d3d3;
+    height: 35px !important;
+}
+.filter-option-inner-inner {
+    background-color: #d3d3d3;
+    margin-top: 0%;
+}
+.dropdown-toggle {
+    background-color: #d3d3de;
+}
+.btn.dropdown-toggle.btn-light {
+    background-color: #d3d3d3;
+    box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+    border-radius: 5px;
+    border-color: #d3d3d3;
+    height: 35px !important;
 }
 @media (max-width: 350px) {
 
@@ -115,5 +155,6 @@ textarea{
     .mb-3{
         text-align: center;
     }
+
 
 }
