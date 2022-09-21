@@ -263,8 +263,26 @@
         border-right:2px solid #005B88 !important;
     }
 
-    #relacionCol{
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+    #relacionColHead{
+        border-top: #005B88 solid !important;
         width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+    #relacionNor{
+        border-top: #005B88 solid !important;
+
+    }
+    .columnaRela{
+        border-top: #005B88 solid !important;
+
     }
     .card-header{
         text-align: center !important;

@@ -19,8 +19,8 @@
                             {{unSubitem.nombre}}
                             
                         </button>
-                        <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                        {# <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                             {% if "DIG_ADMINISTRADOR" in roles %}
                                 <a class="btn btn-sm ml-3 botonSubitemAzul" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
                                     Editar
@@ -48,8 +48,8 @@
                             {{unSubitem.nombre}}
                             
                         </button>
-                        <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                        {# <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                             {% if "DIG_ADMINISTRADOR" in roles %}
                                 <a class="btn btn-sm ml-3 botonSubitemTurquesa" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
                                     Editar
@@ -117,8 +117,8 @@
                                             Eliminar
                                         </a>
                                     {% endif %}
-                                    <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                                    {# <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                                         {% set bandera = 0 %}
                                     {% if unItem.getNormas()|length >= 1 %}
                                         {% for norma in unItem.getNormas %}
@@ -145,8 +145,8 @@
                                             Eliminar
                                         </a>
                                     {% endif %}
-                                    <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                                    {# <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                                         {% set bandera = 0 %}
                                     {% if unItem.getNormas()|length >= 1 %}
                                         {% for norma in unItem.getNormas %}

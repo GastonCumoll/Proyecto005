@@ -14,11 +14,11 @@
 {{ encore_entry_link_tags('botonKnp') }}
 {% endblock %} #}
     {% if 'listas' in app.request.pathinfo  %}
-        <h1>Normas listas</h1>
+        <h1 class="h1">Normas listas</h1>
     {% elseif 'borrador' in app.request.pathinfo  %}
-        <h1>Normas borrador</h1>
+        <h1 class="h1">Normas borrador</h1>
     {% else %}
-        <h1>Normas</h1>
+        <h1 class="h1">Normas</h1>
     {% endif %}
     
 
@@ -169,7 +169,7 @@
         <table class="table">
             <thead id="headIndex">
                 <tr>
-                    <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th>
+                    {# <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th> #}
                     <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
                         {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
                     <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
@@ -196,7 +196,7 @@
                         <tr class="table-secondary">
                     {% endif %}
 
-                    <td class="colId"><strong>{{norma.id}}</strong></td>
+                    {# <td class="colId"><strong>{{norma.id}}</strong></td> #}
                     <td class="colTipo"><strong>{{norma.tipoNorma.nombre}}</strong></td>
                     <td class="colTit"><strong>{{norma.titulo}}</strong></td>
                     <td class="colNum"><strong>{{norma.numeroAuxiliar}}</strong></td>

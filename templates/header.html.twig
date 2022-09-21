@@ -1,64 +1,31 @@
 {% block addStyleSheets %}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('menuAdmin') }}
-    {# {{ encore_entry_link_tags('spinnerCss') }} #}
     {% endblock %}
-<header class="header">
+<header class="headerNorma">
     <div class="container-fluid" id="containerHeader">
-        <!--<div id="txt">
-            Normas vigentes | Tomo I | Ley N° 123 | Volver
-        </div> -->
-        <div class="input-group mr-2" id="busqueda-input">
-            
-            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-            {# <div class="input-group-prepend">
-                <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div> #}
-                <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+        <div>
+            <div id="txt">
+                {% if app.request.get('_route') == 'indice_vigente' %}
+                    Normas vigentes | Volver
+                {% endif %}
+                {% if app.request.get('_route') == 'indice_no_vigente' %}
+                    Normas no vigentes | Volver
+                {% endif %}
+                {% if app.request.get('_route') == 'indice_no_vigente' %}
+                    Normas no vigentes | Volver
+                {% endif %}
+                {% if app.request.get('_route') == 'formulario_busqueda' %}
+                    Búsqueda Avanzada | Volver
+                {% endif %}
+                
             </div>
-            
+        </div>
+        <div class="input-group mr-2" id="busqueda-input">
+            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+            <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+        </div>
     </div>
-    {# <div class="contenedorDinamicoSpinner">
-
-    </div> #}
-
-
-    {# <div class="row">
-        <div class="col-8">
-            {# <li class="nav-item dropdown">
-                
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Normas</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
-                    <a class="dropdown-item" href="{{ path('indice_vigente') }}">Vigentes</a>
-                    <a class="dropdown-item" href="{{ path('indice_no_vigente') }}">No vigentes</a>
-                    
-                </div>
-            </li> #}
-        {# </div>
-        <div class="col-4">
-            {# <div class="input-group mr-2" id="busqueda-input">
-                <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Buscar norma" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-                {# <div class="input-group-prepend">
-                    <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div> #}
-                {# </div> #}
-        {# </div> #}
-        {# <ul class="nav nav-pills" id="listadoElementos">
-            
-    
-            
-        
-            <li class="nav-item">
-                <a class="nav-link"href="{{ path('formulario_busqueda') }}" role="button" aria-expanded="false">Búsqueda</a>
-                
-            </li>
-
-            
-            
-        </ul> #}
-        {# </div> #}
-
 
     {% block javascripts %}
     {{encore_entry_script_tags('busquedaJs')}}
