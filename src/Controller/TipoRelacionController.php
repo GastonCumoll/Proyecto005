@@ -72,12 +72,14 @@ class TipoRelacionController extends AbstractController
         $idBase=$inversoBase->getId();
         $inv=$tipoRelacionRepository->findOneByInverso($idBase);
         $tipoRelacion = new TipoRelacion();
-        $form = $this->createForm(TipoRelacionType::class, $tipoRelacion,['id'=>$inv]);
-        $form->handleRequest($request);
 
+        $form = $this->createForm(TipoRelacionType::class, $tipoRelacion,['inverso'=>$inv]);
+        $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
             $inverso =$form['inverso']->getData();
+            
             if($inverso!=null){
                 $inverso->setInverso($tipoRelacion);
                 $entityManager->persist($tipoRelacion);

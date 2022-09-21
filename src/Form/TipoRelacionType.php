@@ -19,14 +19,17 @@ class TipoRelacionType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $idBase = $options['id'];
+        $idBase = $options['inverso'];
+        
         $choices[]=$idBase;
-        $builder
+        if(!$choices[0]){
+            $builder
             ->add('nombre')
             ->add('inverso',EntityType::class,[
                 'required' => false,
                 'class' => TipoRelacion::class,
-                'choices'=>$choices,
+                'choices'=>$choices[0],
+                'disabled'=>true,
                 // 'query_builder' => function(TipoRelacionRepository $t){
                     
                 //     // return $t->createQueryBuilder('t')->where('t.prioridad = 1')->andWhere('t.inverso = b')->setParameter('b',$idBase)->orderBy('t.nombre','ASC');
@@ -37,12 +40,36 @@ class TipoRelacionType extends AbstractType
                 ])
             // ->add('prioridad')
         ;
+        }else{
+            $builder
+                ->add('nombre')
+                ->add('inverso',EntityType::class,[
+                    'required' => true,
+                    'class' => TipoRelacion::class,
+                    'choices'=>$choices,
+                    // 'query_builder' => function(TipoRelacionRepository $t){
+                        
+                    //     // return $t->createQueryBuilder('t')->where('t.prioridad = 1')->andWhere('t.inverso = b')->setParameter('b',$idBase)->orderBy('t.nombre','ASC');
+                    //     return $t->findOneById($idBase);
+                    // },
+                    'choice_label' => 'nombre',
+                    'multiple' => false
+                    ])
+                // ->add('prioridad')
+            ;
+        }
+        // dd($choices);
+        // if(!$choices[0]){
+        //     $choices[0]='';
+        // }
+        // dd($choices);
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'id'=> NULL,
+            'inverso'=> NULL,
         ]);
     }
 }
