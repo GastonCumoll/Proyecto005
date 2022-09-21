@@ -471,10 +471,10 @@
 #txt{
     font-family:'Montserrat', sans-serif !important;
     font-weight: 500;
-    font-size: large;
+    font-size: medium;
     color:white;
     float: left;
-    margin-top: 15px;
+    margin-top: 18px;
 }
 
 
@@ -537,4 +537,7 @@
 }
 .h4{
     margin-right: 38% !important;
+}
+#footerFont{
+    font-style: italic !important;
 }

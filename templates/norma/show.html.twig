@@ -30,8 +30,10 @@
         </div>
     </div>
 </div> #}
+
 {# MACRO #}
-{% if item %}
+
+{# {% if item %}
 {% macro mostrarNorma(norma) %}
     {{norma.titulo}}
 {% endmacro %}
@@ -60,18 +62,16 @@
     <ul>{% if item.padre != null %}
             {{ recursiveCategory(item, norma) }}
             {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
-        {% else %}
+        {#{% else %}
                 {{item.nombre}} <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
         {% endif %}
 
     </ul>
 </div>
-{% endif %}
+{% endif %} #}
 
 
 {# ENDMACRO #}
-
-
 
 
 {# <div id="contenedorBotonVolver">

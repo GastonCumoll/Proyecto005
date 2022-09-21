@@ -103,7 +103,15 @@
             </div>
 
         </nav>
-        <header class="header">{{ include('header.html.twig') }}</header>
+{% if app.request.get('_route') == 'norma_show' %}
+    <header class="header">{{ include('headerNorma.html.twig') }}</header>
+    {% else %}
+    <header class="header">{{ include('header.html.twig') }}</header>
+{% endif %}
+            
+
+        
+        
     </div>
     
     <div class="barrita container-fluid">
