@@ -7,11 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <title>Municipalidad de Paraná </title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,26 +99,26 @@
             </div>
 
         </nav>
-        <header class="header">{{ include('header.html.twig') }}</header>
     </div>
-    
     <div class="barrita container-fluid">
-        
         {# <div class="d-sm-flex cont">
             <div class="barra" style="background-color: #47BCCA"></div>
             <div class="barra" style="background-color: #66A1AA"></div>
             <div class="barra" style="background-color: #005B88"></div>
-        </div>
-    </div> #}
-    <div class="container contenido">
+        </div> #}
+
         {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
         <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
         {% elseif app.request.pathinfo != "/inicio" %}
         {# para saber si no estoy logeado y estoy en la pagina de inicio#} 
-        {# <header class="headerPublic">{{ include('basePublic.html.twig') }}</header> #}
+        <header class="headerPublic">{{ include('basePublic.html.twig') }}</header>
         {% endif %}
     </div>
     <div class="container-fluid contenido">
+
+
+
+
     {% block body %}{% endblock %}
 </div>  
 <br/>
