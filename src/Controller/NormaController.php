@@ -1571,7 +1571,7 @@ class NormaController extends AbstractController
 
         $idReparticion = $seguridad->getIdReparticionAction($idSession);  //se obtiene la repartición del usuario logueado
         $reparticionesNorma = $norma->getTipoNorma()->getTipoNormaReparticions(); //se obtienen las reparticiones a las que pertenece ese tipo de norma a editar
-
+        
         foreach($reparticionesNorma as $unaReparticion){
             if($unaReparticion->getReparticionId()->getId() == $idReparticion){
                 $usuarioReparticion = 1;

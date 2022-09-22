@@ -42,15 +42,53 @@ class RelacionController extends AbstractController
      * @Route("/edit/{id}/{idA}/{idR}", name="relacion_edit", methods={"GET","POST"})
      */
     //este metodo es usado cuando se quiere editar relacion existente en 2 normas
-    public function edit($id,$idR,$idA,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
+    public function edit($id,$idR,$idA,TipoNormaRepository $tipoNormaRepository,SeguridadService $seguridad,AreaRepository $areaRepository,ReparticionService $reparticionService,NormaRepository $normaRepositorty,RelacionRepository $relacionRepository,Request $request,TipoRelacionRepository $tipoRelaRepository, EntityManagerInterface $entityManager): Response
     {
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $normasU=[];
+        $normasUsuarioObj=[];
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        // dd($id);
+        $repository = $this->getDoctrine()->getRepository(Norma::class);
+        $norma = $repository->find($id);
+        $idTipoNorma=$norma->getTipoNorma()->getId();
+        
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        if(!in_array($idTipoNorma,$normasU)){
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+        }
+        if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+        }
+
+
         $today=new DateTime();
         //buscar la relacion ya creada entre las dos normas y eliminarla ($idR)
         $relacion=$relacionRepository->find($idR);//relacion=id de la primera relacion entre las dos normas
         $relacion->setFechaRelacion($today);
         
-        $repository = $this->getDoctrine()->getRepository(Norma::class);
-        $norma = $repository->find($id);
+        
         $relacion->setNorma($norma);
         $opcion=$tipoRelaRepository->findByPrioridad(1);
         
@@ -200,13 +238,11 @@ class RelacionController extends AbstractController
         
         //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         if(!in_array($idTipoNorma,$normasU)){
-            
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
         }
         if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
             return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
         }
-
 
         $today=new DateTime();
         $relacion=new Relacion();

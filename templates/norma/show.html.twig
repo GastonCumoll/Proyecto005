@@ -233,6 +233,9 @@
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                 <th scope="col">Edit</th>
                                 {% endif %}
+                                {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
+                                <th scope="col">Edit</th>
+                                {% endif %}
                             </tr>
                         </thead>
                                 {% for rela in relacion %}
@@ -241,6 +244,12 @@
                                         <td>{{rela.getTipoRelacion.getNombre}}</td>
                                         <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
+                                        <td>
+                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                            {{include('relacion/_delete_form.html.twig')}}
+                                        </td>
+                                        {% endif %}
+                                        {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
                                         <td>
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
@@ -268,7 +277,7 @@
                         <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
                     </div>
                     {% endif %}
-                    {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                    {% if "DIG_EDITOR" in roles and (norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
                         <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
                     </div>
@@ -323,7 +332,7 @@
                             </form>
                         </div>
                     {% endif %}
-                    {% if norma.estado == "Publicada" and  "DIG_EDITOR" in roles %}
+                    {% if norma.estado == "Publicada" and  "DIG_EDITOR" in roles and usuarioReparticion == 1 %}
                     <div class="divBotones mt-3 mr-2">
                         <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
                     </div>
