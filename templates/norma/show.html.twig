@@ -92,6 +92,7 @@
                 {% if norma.estado == "Borrador" %}
                 
                     <div class="card-header text-center" id="headerText">
+                        
                         {# <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div> #}
@@ -117,9 +118,12 @@
                     </div>
                 {% else %}
                     <div class="card-header text-center" id="headerText">
-                        {# <div id="contenedorBotonVolver" class="text-left mt-1">
+                        <div class="circulo">
+                            
+                        </div>
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                        </div> #}
+                        </div> 
                         
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
