@@ -7,8 +7,12 @@ use App\Entity\Norma;
 use App\Entity\Relacion;
 use App\Entity\Auditoria;
 use App\Form\RelacionType;
+use App\Service\SeguridadService;
+use App\Repository\AreaRepository;
 use App\Repository\NormaRepository;
+use App\Service\ReparticionService;
 use App\Repository\RelacionRepository;
+use App\Repository\TipoNormaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TipoRelacionRepository;
 use App\EventSubscriber\SecuritySubscriber;
@@ -162,8 +166,48 @@ class RelacionController extends AbstractController
      * @Route("/{id}/relaFormEdit", name="form_rela_edit", methods={"GET", "POST"})
      */
     //este metodo es usado cuando se quiere agregarle una relacion a una norma
-    public function relacionFormEditar($id,TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
+    public function relacionFormEditar(TipoNormaRepository $tipoNormaRepository,NormaRepository $normaRepositorty,SeguridadService $seguridad,ReparticionService $reparticionService,AreaRepository $areaRepository,$id,TipoRelacionRepository $tipoRelaRepository, RelacionRepository $relacionRepository,Request $request, EntityManagerInterface $entityManager, NormaRepository $repository): Response
     {
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $normasU=[];
+        $normasUsuarioObj=[];
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        // dd($id);
+        $norma=$normaRepositorty->findOneById($id);
+        // dd($norma);
+        $idTipoNorma=$norma->getTipoNorma()->getId();
+        
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        if(!in_array($idTipoNorma,$normasU)){
+            
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+        }
+        if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+        }
+
+
         $today=new DateTime();
         $relacion=new Relacion();
 

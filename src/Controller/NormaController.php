@@ -1410,8 +1410,44 @@ class NormaController extends AbstractController
      * @Route("/{id}/agregarArchivo", name="agregar_archivo", methods={"GET", "POST"})
      */
     //este metodo sirve para agregarle un archivo a la norma una vez cargada.Tambien se le puede setear el nombre que uno quiera que aparezca .
-    public function agregarArchivo(Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    public function agregarArchivo(TipoNormaRepository $tipoNormaRepository,AreaRepository $areaRepository,ReparticionService $reparticionService,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $normasU=[];
+        $normasUsuarioObj=[];
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        // dd($id);
+        $idTipoNorma=$norma->getTipoNorma()->getId();
+        
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        if(!in_array($idTipoNorma,$normasU)){
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+        }
+        if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
+            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+        }
+
         $form = $this->createForm(ArchivoType::class, $norma);
         $form->handleRequest($request);
 

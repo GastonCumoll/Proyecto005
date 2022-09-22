@@ -166,7 +166,7 @@
                         {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                             <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
                         {% endif %}
-                        {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                        {% if "DIG_EDITOR" in roles and ( norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                             <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
                         {% endif %}
                         {% for unPdf in norma.archivos %}
