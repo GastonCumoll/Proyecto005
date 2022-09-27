@@ -44,47 +44,47 @@
                                     <div class="card-body sm mt-4">
                                         <form id="form-consulta" action="consulta/consulta" method="POST">
                                             <div class="row modificable">
-                                                <div class="col-3 text-left mb-3 cambio" >
+                                                <div class="text-left mb-3 cambio1" >
                                                     <strong>Nombre</strong>
                                                 </div>
-                                                <div class="col-3 mb-3 cambio" >
+                                                <div class="mb-3 cambio2" >
                                                     <input type="text" class="form-control form-control-sm" id="nombre" name="nombre"
                                                     placeholder="nombre" />
                                                 </div>
-                                                <div class="col-3 text-left mb-3 cambio" >
+                                                <div class="text-left mb-3 ml-4 cambio1" >
                                                     <strong>Correo electronico</strong>
                                                 </div>
-                                                <div class="col-3 mb-3 cambio" >
+                                                <div class="mb-3 cambio2" >
                                                     <input type="text" class="form-control form-control-sm" id="correo" name="correo"
                                                     placeholder="ejemplo@gmail.com" />
                                                 </div>
                                             </div>
                                             <div class="row modificable">
-                                                <div class="col-3 text-left mb-3 cambio" >
+                                                <div class="text-left mb-3 cambio1" >
                                                     <strong>Tema de consulta</strong>
                                                 </div>
-                                                <div class="col-3 mb-3 cambio" >
+                                                <div class="mb-3 cambio2" >
                                                     <select name="tema" id="tema" class="form-control selectpicker" data-live-search="true">
                                                         {% for unTipoConsulta in tiposConsultas %}
                                                             <option value="{{unTipoConsulta.nombre}}">{{unTipoConsulta.nombre}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <div class="col-3 text-left mb-3 cambio" >
+                                                <div class="text-left mb-3 ml-4 cambio1" >
                                                     <strong>Teléfono</strong>
                                                 </div>
-                                                <div class="col-3 mb-3 cambio" >
+                                                <div class="mb-3 cambio2" >
                                                     <input type="number" class="form-control form-control-sm" id="telefono" name="telefono"
                                                         placeholder="Ej: 3435555555 (sin 0 y 15)" />
                                                 </div>
                                             </div>
                                             <div class="row modificable">
-                                                <div class="col-3 mb-3 cambio"></div>
-                                                <div class="col-6 text-center mb-3 cambio">
+                                                
+                                                <div class="text-left mb-3 cambio3">
                                                     <textarea  rows="4" cols="50" class="form-control form-control-sm" id="consulta" name="consulta"
                                                         placeholder="Escriba su consulta aqui..." /></textarea>
                                                 </div>
-                                                <div class="col-3 mb-3 cambio"></div>
+                                
                                             </div>
                                             <div class="text-center">
                                                 <button id="consultar" type="button" class="btn btn-sm btn-outline-info cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>

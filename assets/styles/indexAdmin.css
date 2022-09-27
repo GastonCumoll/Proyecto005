@@ -88,14 +88,19 @@
     background-color: #d3d3d3;
     color:#595959 !important;
 }
-.btn-sm{
+.btnFiltro{
     font-family:'Montserrat', sans-serif !important;
-    font-weight: 300;
+    font-weight: 700;
     font-size: small;
-    background-color: #005B88;
-    color: white;
+    background-color: white;
+    color: #005B88;
+    border: solid #005B88;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    /* height: 100% !important; */
+}
+.btnFiltro:hover{
+    background-color: #005B88;
+    color: #ffffff;
+    border: solid #005B88;
 }
 h1{
     font-family: 'Montserrat', sans-serif;

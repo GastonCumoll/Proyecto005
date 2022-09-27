@@ -37,4 +37,7 @@
         float: inline-start !important;
         margin-left: auto !important;
     }
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
 }
