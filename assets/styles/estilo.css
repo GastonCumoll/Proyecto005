@@ -39,16 +39,21 @@
     color:#005B88 !important;
 }
 .datepicker,
-/* .table-condensed {
-  max-width: 200px;
-} */
+.table-condensed {
+    font-family:'Montserrat', sans-serif !important;
+    max-width: 200px;
+}
 .badgeEstado{
     width: 5rem;
 }
 #login{
     margin-top: 15vh !important;
 }
-
+.headeradmin{
+    margin-top: 0% !important;
+    font-family:'Montserrat', sans-serif !important;
+    background-color: #b2b2b2;
+}
 .header-top {
     width: 100%;
     height: 80px;
@@ -94,16 +99,65 @@
     background-color: #008FA3;
     height: 15%;
 }
-
+/* .dropdown-toggle::after {
+    
+        width: 40%;
+        margin: 20px auto; 
+        display: inline !important;
+        height: 3px;
+        line-height: 2px; 
+        margin-top: 20% !important;
+} */
+.mt-auto{
+    display: inline !important;
+}
 #nav li a {
-    text-decoration: none;
+    background-color: white;
+    width: 150px;
+    height: 38px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #808080;
+    font-size: 15px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    border-radius: 5px;
+    /* text-decoration: none;
     color: #4F5159;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     text-transform: none;
-    padding: 0 12px;
+    padding: 0 12px; */
 }
+#dropdownMenu{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    text-align: left !important;
+    min-width: 100% !important;
+    width: fit-content !important;
+}
+/* .dropdown-menu.show{
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    text-align: left !important;
+    min-width: 100% !important;
 
+} */
+#rol{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400 solid;
+    color: #808080;
+    font-size: small;
+    /* text-align: center; */
+    margin-right: 2%;
+    margin-left: 2%;
+}
+.option{
+    /* background-color: #d3d3d3; */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    color: white;
+    font-size: small;
+}
 #nav li a:hover, #nav li.active a {
     color: #005B88;
 }
@@ -442,6 +496,17 @@
 .nav-link{
     color: white;
 }
+/* #dropdownUser{
+    width: 150px !important;
+    height: 38px !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600 !important;
+    color: #808080 !important;
+    font-size: 15px !important;
+    box-shadow: rgb(0 0 0 / 50%) 2px 5px 15px !important; 
+    background-color: white;
+    border-radius: 0.25rem;
+} */
 #busquedaRapida{
     font-family:'Montserrat', sans-serif !important;
     font-weight: 500;

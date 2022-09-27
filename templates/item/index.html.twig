@@ -4,7 +4,11 @@
 
 {% block body %}
 
-
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('indexAdmin') }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 <h1>Índice</h1>
 
@@ -18,16 +22,14 @@
         <a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     {% endif %}
     <div class="input-group float-right ml-auto mr-2">
-    <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-    <div class="input-group-prepend">
-        <button class="boton btn-info btn-sm" id="btnBusquedaParam"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="   Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+        <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
     </div>
-    </div>
-</div>
+
 <br>
 <div class="table-responsive">
-    <table class="table table-hover ">
-        <thead class="table-active" >
+    <table class="table">
+        <thead id="headIndex">
         <tr>
             <th>{{ knp_pagination_sortable(items, 'Id', 'p.id') }}</th>
             <th>{{knp_pagination_sortable(items, 'Nombre', 'p.nombre')}}</th>
@@ -37,7 +39,7 @@
 
         </tr>
     </thead>
-    <tbody>
+    <tbody class="tbody">
         {% for item in items %}
         <tr>
 
@@ -67,7 +69,7 @@
 </div>
 </div>
 <br>
-
+</div>
 {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}

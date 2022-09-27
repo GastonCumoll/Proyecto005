@@ -1,4 +1,4 @@
-{% extends 'baseLogin.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Login{% endblock %}
 
@@ -8,6 +8,7 @@
     {{ parent() }}
     {{ encore_entry_link_tags('botonBarraNavegacion') }}
     {{ encore_entry_link_tags('footer') }}
+    {{ encore_entry_link_tags('login') }}
 {% endblock %}
 
     <form class="form-signin" id="login" method="POST" action="{{ path('autenticar') }}">
@@ -31,7 +32,7 @@
                 <input type="password" class="form-control" name="password" placeholder="Contraseña" >
                 <br>
                 <hr>
-                <button style="width:100% !important;" class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+                <button style="width:100% !important;" class="btn btn-lg btn-primary" type="submit">Ingresar</button>
             </div>
         </div>
     </form>

@@ -2,8 +2,9 @@
 
 @media (max-width: 767px){
     #listadoElementos{
-        margin-left: 10vw !important;
-
+        /* margin-left: 10vw !important; */
+        background-color: #d3d3d3 !important;
+        color: #d3d3d3;
     }
     .ultimoItem{
         display: inline-block !important;
@@ -16,6 +17,22 @@
 
 }
 @media (min-width: 768px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: white !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
     #busqueda-input{
         float: inline-start !important;
         margin-left: auto !important;

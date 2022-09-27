@@ -14,11 +14,11 @@
 {{ encore_entry_link_tags('botonKnp') }}
 {% endblock %} #}
     {% if 'listas' in app.request.pathinfo  %}
-        <h1 class="h1">Normas listas</h1>
+        <h1>Normas listas</h1>
     {% elseif 'borrador' in app.request.pathinfo  %}
-        <h1 class="h1">Normas borrador</h1>
+        <h1>Normas borrador</h1>
     {% else %}
-        <h1 class="h1">Normas</h1>
+        <h1 >Normas</h1>
     {% endif %}
     
 
@@ -197,10 +197,10 @@
                     {% endif %}
 
                     {# <td class="colId"><strong>{{norma.id}}</strong></td> #}
-                    <td class="colTipo"><strong>{{norma.tipoNorma.nombre}}</strong></td>
-                    <td class="colTit"><strong>{{norma.titulo}}</strong></td>
-                    <td class="colNum"><strong>{{norma.numeroAuxiliar}}</strong></td>
-                    <td class="colEstado"><strong>{{norma.estado}}</strong></td>
+                    <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
+                    <td class="colTit">{{norma.titulo}}</td>
+                    <td class="colNum">{{norma.numeroAuxiliar}}</td>
+                    <td class="colEstado">{{norma.estado}}</td>
                     {% if rol != "" %}
                         {% if norma.publico == 1 %}
                             <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
@@ -208,7 +208,7 @@
                             <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
                         {% endif %}
                     {% endif %}
-                    <td class="colFecha"><strong>{{norma.year}}</strong></td>
+                    <td class="colFecha">{{norma.year}}</td>
                     {% set bandera = 0 %}
                     <td class="columnaOp">
                         <div id="divBotonesOpNorma">

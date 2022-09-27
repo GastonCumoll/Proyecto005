@@ -60,7 +60,8 @@ Encore
     .addStyleEntry('botonBarraNavegacion', '/assets/styles/botonBarraNavegacion.css')
     .addStyleEntry('barrita', '/assets/styles/barrita.css')
     .addStyleEntry('spinnerCss', '/assets/styles/spinner.css')
-    
+    .addStyleEntry('login', '/assets/styles/login.css')
+
 
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

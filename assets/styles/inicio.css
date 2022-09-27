@@ -86,9 +86,9 @@ textarea{
     background-color: #d3d3d3;
     margin-top: 0%;
 }
-.dropdown-toggle {
+/* .dropdown-toggle {
     background-color: #d3d3de;
-}
+} */
 .btn.dropdown-toggle.btn-light {
     background-color: #d3d3d3;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
