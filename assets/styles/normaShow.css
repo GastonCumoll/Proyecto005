@@ -203,11 +203,19 @@
 
     .botonAtras{
         top:18;
-        left: 10;
+        left: 40;
         position: absolute;
         width: 40px;
         height: 40px;
         font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
     }
 
     .fa-chevron-left{
@@ -239,6 +247,7 @@
         float: left !important;
         width: 30% !important;
         display: inline;
+        margin-left: 6% !important;
     }
 
     #tablaRela{
@@ -313,12 +322,13 @@
         color: #005B88;
         border-color:008FA3 ;
     }
-    /* #busqueda-input{
-        border-color: #005B88;
-        width: 100% !important;
-        margin-top: 8px;
+    #busqueda-input{
+        margin-right: 28% !important;
 
-    } */
+    }
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
     .findAndSeek{
         margin-top:15px;
         display: inline;
@@ -391,9 +401,19 @@
         display: inline !important;
     }
 
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+    .iconoMas{
+        margin-top: 25% !important;
     }
 }
 

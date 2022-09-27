@@ -92,9 +92,9 @@
                 {% if norma.estado == "Borrador" %}
                 
                     <div class="card-header text-center" id="headerText">
-                        {# <div id="contenedorBotonVolver" class="text-left mt-1">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                        </div> #}
+                        </div>
                         
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
@@ -105,9 +105,9 @@
                     </div>
                 {% elseif norma.estado == "Lista" %}
                     <div class="card-header text-center" id="headerText">
-                        {# <div id="contenedorBotonVolver" class="text-left mt-1">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                        </div> #}
+                        </div>
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
                                 {{ norma.numeroAuxiliar }}
@@ -117,9 +117,9 @@
                     </div>
                 {% else %}
                     <div class="card-header text-center" id="headerText">
-                        {# <div id="contenedorBotonVolver" class="text-left mt-1">
+                        <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
-                        </div> #}
+                        </div>
                         
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
@@ -159,10 +159,14 @@
                             <div class="card-body">
                                 <h5 id="h5Archivos" class="">Archivos adjuntos</h5>
                                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
-                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
+                                <div class="contenedorBotonMas">
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                </div>
                                 {% endif %}
                                 {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
-                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
+                                <div class="contenedorBotonMas">
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                </div>
                                 {% endif %}
                                 {% for unPdf in norma.archivos %}
                                 <div class="mt-2">
@@ -372,6 +376,7 @@
     <div>
         <span class="ir-arriba"><i class="fa-solid fa-circle-chevron-up"></i></span>
     </div>
+    
 {% block javascripts %}
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}

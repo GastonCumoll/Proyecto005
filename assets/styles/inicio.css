@@ -68,33 +68,42 @@ textarea{
     border-color: #808080 !important;
 }
 .selectpicker{
-    border-color: #808080 !important;
+    border-color: #e6e6e6 !important;
 }
 .form-control{
-    background-color: #d3d3d3;
+    background-color: #e6e6e6;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
 }
 .btn.dropdown-toggle.btn-light.bs-placeholder {
-    background-color: #d3d3d3;
+    background-color: #e6e6e6;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
     border-color: #d3d3d3;
     height: 35px !important;
 }
 .filter-option-inner-inner {
-    background-color: #d3d3d3;
+    background-color: #e3e3e3;
     margin-top: 0%;
 }
 .dropdown-toggle {
-    background-color: #d3d3de;
+    background-color: #e6e6e6;
 }
 .btn.dropdown-toggle.btn-light {
-    background-color: #d3d3d3;
+    background-color: #e3e3e3;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
-    border-color: #d3d3d3;
+    border-color: #e6e6e6;
     height: 35px !important;
+}
+.cambio1{
+    width: 10% !important;
+}
+.cambio2{
+    width: 38% !important;
+}
+.cambio3{
+    width: 98% !important;
 }
 @media (max-width: 350px) {
 
