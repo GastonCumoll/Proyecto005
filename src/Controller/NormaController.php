@@ -76,111 +76,111 @@ class NormaController extends AbstractController
      */
     public function settipo(NormaRepository $normaRepository,EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository)
     {
-        $normas=$normaRepository->findAll();
-        // // foreach ($normas as $unaNorma) {
-        //     preg_match_all('/\d{4} /i', $normas->getResumen(), $matches, PREG_SET_ORDER);
-        //     dd($matches);
-            // var_dump($matches);
+        // $normas=$normaRepository->findAll();
+        // // // foreach ($normas as $unaNorma) {
+        // //     preg_match_all('/\d{4} /i', $normas->getResumen(), $matches, PREG_SET_ORDER);
+        // //     dd($matches);
+        //     // var_dump($matches);
+        // // }
+        // // dd($matches);
+        // // // dd($normas->getNumero());
+        // // $contador=0;
+        // // $contadorFecha=0;
+        // // $contadorJ=0;
+        // // $contadorCoincidentes=0;
+        // $array=[];
+        // $resumenes=[];
+        // $meses=[];
+        // $años=[];
+        // $fechas=[];
+        // // $contadorNull=0;
+        // for($i=0;$i<6464;$i++){
+        //     $resumen=$normas[$i]->getResumen();
+        //     if(str_contains($resumen,'DE FECHA') && strlen($resumen)<36){
+        //         $posicion=strpos($resumen,'DE FECHA')+9;
+        //         $dia=substr($resumen,$posicion,4);
+        //         if(str_contains($resumen,'ENERO')){
+        //             $mes='01';
+        //         }
+        //         if(str_contains($resumen,'FEBRERO')){
+        //             $mes='02';
+        //         }
+        //         if(str_contains($resumen,'MARZO')){
+        //             $mes='03';
+        //         }
+        //         if(str_contains($resumen,'ABRIL')){
+        //             $mes='04';
+        //         }
+        //         if(str_contains($resumen,'MAYO')){
+        //             $mes='05';
+        //         }
+        //         if(str_contains($resumen,'JUNIO')){
+        //             $mes='06';
+        //         }
+        //         if(str_contains($resumen,'AGOSTO')){
+        //             $mes='08';
+        //         }
+        //         if(str_contains($resumen,'SEPTIEMBRE') || str_contains($resumen,'SETIEMBRE')){
+        //             $mes='09';
+        //         }
+        //         if(str_contains($resumen,'OCTUBRE')){
+        //             $mes='10';
+        //         }
+        //         if(str_contains($resumen,'NOVIEMBRE')){
+        //             $mes='11';
+        //         }
+        //         if(str_contains($resumen,'DICIEMBRE')){
+        //             $mes='12';
+        //         }
+        //         if(str_contains($resumen,'JULIO')){
+        //             $mes='07';
+        //         }
+        //         $resumen=trim($resumen);
+        //         $año=substr($resumen,-5);
+        //         // $mes=substr($resumen,$posicion+3,16);
+                
+        //         // if($dia==0){
+        //         //     dd($resumen);
+        //         // }
+                
+        //         if(intval($año)<1000){
+        //             $año=substr($resumen,-6);
+        //             if(intval($año)<1000){
+        //                 $año=substr($resumen,-7);
+        //                 if(intval($año)<1000){
+        //                     $año=substr($resumen,-8);
+        //                     if(intval($año)<1000){
+        //                         $año=substr($resumen,-9);
+        //                     }else{
+        //                         $años[]=intval($año);
+        //                     }
+        //                 }else{
+        //                     $años[]=intval($año);
+        //                 }
+        //             }else{
+        //                 $años[]=intval($año);
+        //             }
+        //         }else{
+        //             $años[]=intval($año);
+        //         }
+        //         $dia=intval($dia);
+        //         $año=intval($año);
+        //         $meses[]=$mes;
+        //         $array[]=intval($dia);
+        //         $resumenes[]=$resumen;
+        //         $fecha=$año.'/'.$mes.'/'.$dia;
+        //         $fecha=date("d-m-Y", strtotime($fecha));
+        //         //dd($fechas);
+        //         if(!$normas[$i]->getFechaSancion()){
+        //             $normas[$i]->setFechaSancion($fecha);
+        //         dd($normas[$i]);
+        //         }
+                
+        //         // $fechas1=strtotime($fecha);
+                
+        //     }
         // }
-        // dd($matches);
-        // // dd($normas->getNumero());
-        // $contador=0;
-        // $contadorFecha=0;
-        // $contadorJ=0;
-        // $contadorCoincidentes=0;
-        $array=[];
-        $resumenes=[];
-        $meses=[];
-        $años=[];
-        $fechas=[];
-        // $contadorNull=0;
-        for($i=0;$i<6464;$i++){
-            $resumen=$normas[$i]->getResumen();
-            if(str_contains($resumen,'DE FECHA') && strlen($resumen)<36){
-                $posicion=strpos($resumen,'DE FECHA')+9;
-                $dia=substr($resumen,$posicion,4);
-                if(str_contains($resumen,'ENERO')){
-                    $mes='01';
-                }
-                if(str_contains($resumen,'FEBRERO')){
-                    $mes='02';
-                }
-                if(str_contains($resumen,'MARZO')){
-                    $mes='03';
-                }
-                if(str_contains($resumen,'ABRIL')){
-                    $mes='04';
-                }
-                if(str_contains($resumen,'MAYO')){
-                    $mes='05';
-                }
-                if(str_contains($resumen,'JUNIO')){
-                    $mes='06';
-                }
-                if(str_contains($resumen,'AGOSTO')){
-                    $mes='08';
-                }
-                if(str_contains($resumen,'SEPTIEMBRE') || str_contains($resumen,'SETIEMBRE')){
-                    $mes='09';
-                }
-                if(str_contains($resumen,'OCTUBRE')){
-                    $mes='10';
-                }
-                if(str_contains($resumen,'NOVIEMBRE')){
-                    $mes='11';
-                }
-                if(str_contains($resumen,'DICIEMBRE')){
-                    $mes='12';
-                }
-                if(str_contains($resumen,'JULIO')){
-                    $mes='07';
-                }
-                $resumen=trim($resumen);
-                $año=substr($resumen,-5);
-                // $mes=substr($resumen,$posicion+3,16);
-                
-                // if($dia==0){
-                //     dd($resumen);
-                // }
-                
-                if(intval($año)<1000){
-                    $año=substr($resumen,-6);
-                    if(intval($año)<1000){
-                        $año=substr($resumen,-7);
-                        if(intval($año)<1000){
-                            $año=substr($resumen,-8);
-                            if(intval($año)<1000){
-                                $año=substr($resumen,-9);
-                            }else{
-                                $años[]=intval($año);
-                            }
-                        }else{
-                            $años[]=intval($año);
-                        }
-                    }else{
-                        $años[]=intval($año);
-                    }
-                }else{
-                    $años[]=intval($año);
-                }
-                $dia=intval($dia);
-                $año=intval($año);
-                $meses[]=$mes;
-                $array[]=intval($dia);
-                $resumenes[]=$resumen;
-                $fecha=$año.'/'.$mes.'/'.$dia;
-                $fecha=date("d-m-Y", strtotime($fecha));
-                //dd($fechas);
-                if(!$normas[$i]->getFechaSancion()){
-                    $normas[$i]->setFechaSancion($fecha);
-                dd($normas[$i]);
-                }
-                
-                // $fechas1=strtotime($fecha);
-                
-            }
-        }
-        dd($fechas,$resumenes);
+        // dd($fechas,$resumenes);
         // foreach($normas as $unaNorma){
         //     if(str_contains($unaNorma->getResumen(),'SANCIONADA')){
         //         $contador++;
