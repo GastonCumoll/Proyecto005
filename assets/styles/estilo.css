@@ -412,7 +412,14 @@
     border-radius: 10px !important;
 }
 
+#consultar{
 
+}
+
+#consultar:hover{
+    background-color: #008FA3 !important;
+    color: white !important;
+}
 
 #consultaEnviada{
     margin-top: 15% !important;

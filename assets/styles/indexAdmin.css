@@ -105,13 +105,13 @@ border-color: #008fa3;
     font-size: small;
     background-color: white;
     color: #005B88;
-    border: solid #005B88;
+    border: solid 2px #005B88;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .btnFiltro:hover{
     background-color: #005B88;
     color: #ffffff;
-    border: solid #005B88;
+    border: solid 2px #005B88;
 }
 h1{
     font-family: 'Montserrat', sans-serif;

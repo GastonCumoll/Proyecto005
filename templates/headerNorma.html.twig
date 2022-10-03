@@ -1,9 +1,13 @@
 {% block addStyleSheets %}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('menuAdmin') }}
+    {{ encore_entry_link_tags('spinnerCss') }}
     {% endblock %}
 <header class="headerNorma">
     <div class="container-fluid" id="containerHeader">
+        <div class="contenedorDinamicoSpinner">
+
+        </div>
         {% if item %}
         {% macro mostrarNorma(norma) %}
             {{norma.titulo}}

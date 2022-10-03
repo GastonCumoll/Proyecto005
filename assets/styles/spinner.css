@@ -76,13 +76,24 @@
         position: fixed;
         z-index: 1;
         padding-top: 100px;
-        left: 0;
-        top: 0;
+        left: 700;
+        top: 300;
         width: 100%;
         height: 100%;
         overflow: auto;
         background-color: rgb(255, 255, 255);
-        background-color: rgba(255,255,255,1);
+        background-color: rgba(255,255,255,0);
+    }
+    .spinnerFondo{
+        width: 30% !important;
+        height: 25% !important;
+        background-color: #d9d9d9;
+        font-family: 'Montserrat'; 
+        font-weight: 700 !important;
+        padding: auto;
+        border: 2px solid #005B88;
+        border-radius: 5px;
+        padding-top: 3% !important;
     }
 
     .spring-spinner, .spring-spinner * {
@@ -92,8 +103,7 @@
     .spring-spinner {
         height: 60px;
         width: 60px;
-        margin-top: 30vh;
-        margin-left: 48vw;
+        margin-left: 45%;
     }
 
     .spring-spinner .spring-spinner-part {

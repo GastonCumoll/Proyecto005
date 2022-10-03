@@ -9,7 +9,7 @@ window.onload = function(){
     var urlActual = window.location;
     var body = document.getElementsByTagName("body")[0];
     var spinner = document.getElementsByClassName("spring-spinner");
-    var botonLupita = document.getElementById("botonLupita");
+    //var botonLupita = document.getElementById("botonLupita");
     var itemPageActive = document.getElementsByClassName("page-item active")[0];
     var footer = document.getElementsByTagName("footer");
     var botonBuscar = document.getElementsByClassName("buscarNorma")[0];
@@ -42,8 +42,12 @@ window.onload = function(){
 
         var elemento8 = document.createElement('h3');
         elemento8.setAttribute("class","textoSpinner text-center");
-       
+        elemento8.setAttribute("style","color: #005B88 !important; font-family: 'Montserrat'; font-weight: 700 !important;");
+    
         var elemento9 = document.createTextNode("Buscando normas...");
+        
+        var elemento10 = document.createElement('div');
+        elemento10.setAttribute("class","spinnerFondo");
 
         elemento8.appendChild(elemento9);
         elemento7.append(elemento8);
@@ -51,29 +55,53 @@ window.onload = function(){
         elemento3.append(elemento4);
         elemento2.append(elemento3);
         elemento2.append(elemento5);
-        elemento1.append(elemento2);
-        elemento1.append(elemento7);
+        elemento10.append(elemento2);
+        elemento10.append(elemento7);
+        elemento1.append(elemento10);
 
 
-    botonLupita.addEventListener('click', function(){
+    // botonLupita.addEventListener('click', function(){
 
-        for(var i = 0; i < cantidad; i++){
-            footer[i].style.visibility = "hidden";
-        }
-        contenedorDinamicoSpinner.append(elemento1);
-        botonLupita.style.visibility = "hidden";
-        itemPageActive.style.visibility = "hidden";
+    //     for(var i = 0; i < cantidad; i++){
+    //         footer[i].style.visibility = "hidden";
+    //     }
+    //     contenedorDinamicoSpinner.append(elemento1);
+    //     botonLupita.style.visibility = "hidden";
+    //     itemPageActive.style.visibility = "hidden";
         
-        spinnerContainer.style.display = "block";
-        body.style.position = "static";
-        body.style.height = "100%";
-        body.style.overflow = "hidden";
+    //     spinnerContainer.style.display = "block";
+    //     body.style.position = "static";
+    //     body.style.height = "100%";
+    //     body.style.overflow = "hidden";
 
 
-    });
+    // });
+    $("#busquedaRapida").keypress(function(event){
+        //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada
+        var keycode=(event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            
+        var id=document.getElementById("busquedaRapida");
+        var idPalabra=id.value;
+        if(idPalabra==""){
+            idPalabra="-1";
+        }
+        const palabraNueva=idPalabra.replace('/','§');
+            
+        var urlController="/norma/"+palabraNueva+"/busquedaRapida";
+        window.location.href = urlController;
+        contenedorDinamicoSpinner.append(elemento1);
+        
+            spinnerContainer.style.display = "block";
+            body.style.position = "static";
+            body.style.height = "100%";
+            body.style.overflow = "hidden";
+        }
+        })
+
 
     botonBuscar.addEventListener('click', function(){
-
+        console.log("hola");
         for(var i = 0; i < cantidad; i++){
             footer[i].style.visibility = "hidden";
         }
@@ -91,18 +119,18 @@ window.onload = function(){
         body.style.height = "100%";
         body.style.overflow = "hidden";
 
-       
+
 
 
     });
 
     window.addEventListener("unload", function() {
-       
+
         document.getElementById("spinnerFormulario").remove();
     });
 
 
-   
+
 
 
 
