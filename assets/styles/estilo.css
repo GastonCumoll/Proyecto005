@@ -219,6 +219,7 @@
     color: #808080;
     font-size: 15px;
     box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+    background-color: white !important;
 }
 .white{
     background-color: white !important;

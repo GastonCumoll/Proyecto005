@@ -74,18 +74,25 @@ textarea{
     background-color: #e6e6e6;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
+    font-size: medium;
+    font-weight: 400;
+    color:#808080 !important;
+}
+.filter-option-inner-inner {
+    background-color: #e6e6e6;
+    margin-top: 0%;
+    color:#808080 !important;
+    font-size: medium;
+    font-weight: 400;
 }
 .btn.dropdown-toggle.btn-light.bs-placeholder {
     background-color: #e6e6e6;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
-    border-color: #d3d3d3;
+
     height: 35px !important;
 }
-.filter-option-inner-inner {
-    background-color: #e3e3e3;
-    margin-top: 0%;
-}
+
 .dropdown-toggle {
     background-color: #e6e6e6;
 }
@@ -93,7 +100,7 @@ textarea{
     background-color: #e3e3e3;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
     border-radius: 5px;
-    border-color: #e6e6e6;
+    border-color: #808080;
     height: 35px !important;
 }
 .cambio1{

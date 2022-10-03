@@ -211,27 +211,18 @@
                     {% endif %} #}
                 {# {% endif %} #}
                 <div class="container" id="containerBotones">
-                    {# <div class="divBotones mt-3 mr-2">
-                        <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
-                    </div> #}
-                    
-                    {# <div class="divBotones mt-3 mr-2">
-                        <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
-                    </div> #}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
@@ -246,7 +237,7 @@
                                 <th scope="col" id="relacionColHead">Relacion</th>
                                 <th scope="col" id="relacionNorHead">Norma</th>
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                <th class="columnaRela" scope="col">Editar</th>
+                                <th id="relacionEditHead"scope="col">Editar</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -254,9 +245,9 @@
                                 <tbody class="tbody">
                                     <tr id="trRela">
                                         <td id="relacionCol">{{rela.getTipoRelacion.getNombre}}</td>
-                                        <td id="relacionNor"> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                        <td id="relacionNor"><a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td class="columnaRela">
+                                        <td id="relacionEdit">
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
@@ -279,12 +270,12 @@
                 
                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
                     </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
                     </div>
                     <br>
                     
@@ -298,7 +289,7 @@
                                 <div class="ml-5 contenedorBotonPDF">
                                     <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" id="verPdf" class="btn"><strong>VER PDF </strong><i class="fas fa-file-pdf"></i></button></a>
                                 </div>
-                                <div class="mr-5 input-group" id="busqueda-input">
+                                <div class="mr-5 input-group" id="busqueda-input-texto">
                                     <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                                     {# <div class="input-group-prepend botonVerde">
                                         <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -317,21 +308,22 @@
                         </div >
                     </div>
                 </div>
+                
                 <div class=" divBotonVolver mt-4  text-center">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                            <button type="submit" class="btn" id="btn">Finalizar revisión<i class="fa-solid fa-check"></i></button>
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}
-                        <div class="text-center">
-                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                        <div class="text-center" id="containerBotones" >
+                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn" id="btn">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
                             <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">
                                 <div class="text-center mt-2">
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button class="btn btn-danger">Publicar<i class="fa-solid fa-check-double"></i></button>
+                                    <button class="btn " id="btn">Publicar<i class="fa-solid fa-check-double"></i></button>
                                     <div class="text-center">
                                         {% if norma.publico == 1 %}
                                             <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>

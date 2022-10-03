@@ -34,6 +34,7 @@ class AreaType extends AbstractType
                     'class'=>'selectpicker',
                     'data-size'=>'10',
                     'data-live-search'=>true,
+                    
                 ]
             ])
         ;

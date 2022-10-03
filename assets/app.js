@@ -28,6 +28,9 @@ import 'bootstrap-select/dist/css/bootstrap-select.css';
 
 $(function () {
     $('#selectpicker').selectpicker();
+    $('.selectpicker1').selectpicker();
+
+
     // var urlActual = window.location.href;
     
     // if(urlActual.includes("/inicio")){

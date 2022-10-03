@@ -149,6 +149,7 @@ label{
 .btn.dropdown-toggle.btn-light{
     background-color: #e6e6e6 !important;
     border-color: #b2b2b2;
+    width: 100% !important;
 }
 .btn{
     background-color: #008fa3;
@@ -158,6 +159,19 @@ label{
 background-color: white;
 box-shadow: none;
 }
+.custom-file-label::after {
+    content: "Examinar" !important;
+}
+/* .selectpi */
+/* .bootstrap-select .dropdown-menu {
+    overflow-x: bottom !important;
+}
+.bootstrap-select .dropdown-menu > li {
+
+
+  } */
+
+
     /* .bootstrap-select {
         display: block !important;
         width: 50% !important;

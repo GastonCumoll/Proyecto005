@@ -28,8 +28,8 @@ class ItemType extends AbstractType
                 'multiple'=>false,
                 'choice_label' => 'nombre',
                 'attr' => [
-                    'class'=>'selectpicker',
-                    'data-size'=>'10',
+                    'class'=>'selectpicker1',
+                    'data-size'=>'auto',
                     'data-live-search'=>true,
                     'data-max-options'=>1,
                 ]
