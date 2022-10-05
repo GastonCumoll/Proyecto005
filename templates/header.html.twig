@@ -11,14 +11,14 @@
         <div>
             <div id="txt">
                 {% if app.request.get('_route') == 'indice_vigente' %}
-                    Normas vigentes |<a id="linkVolver" href={{app.request.headers.get('referer')}}> Volver </a>
+                    Normas vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
                 {% endif %}
                 {% if app.request.get('_route') == 'indice_no_vigente' %}
-                    Normas no vigentes |<a id="linkVolver" href={{app.request.headers.get('referer')}}> Volver </a>
+                    Normas no vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
                 {% endif %}
 
                 {% if app.request.get('_route') == 'formulario_busqueda' %}
-                    Búsqueda Avanzada |<a id="linkVolver" href={{app.request.headers.get('referer')}}> Volver </a>
+                    Búsqueda Avanzada |<a id="linkVolver" href="/inicio"> Volver </a>
                 {% endif %}
                 
             </div>

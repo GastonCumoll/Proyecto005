@@ -39,7 +39,7 @@ $(document).ready(function()
 
                 var id = localStorage.getItem("idItem");
                         $.get("/norma/"+id+"/normasAjax",function(data){
-                            var c = $('<div class="card" id="tarjeta"></div >');  
+                            var c = $('<div class="" id="tarjeta"></div >');  
                                 $('#container').html('');  
                                 $('#container').append(c);
                                 for(var i = 0; i < data.length; i++) {  
@@ -47,7 +47,7 @@ $(document).ready(function()
                                     
                                     if(norma['numero']){
                                         var c =$('<tr><td class="" id="tipoNorma"></td><td id="numero"></td><td id="titulo"></td></tr> ');
-                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded cardNorma"><div class="card-header cardWhite"><h5 class="h5Norma" style="display:inline"; id="tipoNorma"></h5><h5 class="h5Norma" style="display:inline"; id="n"></h5><h5 class="h5Norma" style="display:inline"; id="numero"></h5></div><div class="card-body cardNormasBody"><h6 class="card-title fuenteNorma" id="titulo"></h6></div><div class="card-footer text-muted cardWhite"><a href="" id="verNorma" class="btn botonVerNorma" >Ver Norma</a></div></div>');
                                         
                                         $('#tipoNorma', c).html(norma['tipo']);
                                         $('#n',c).html(" N° ");
@@ -55,7 +55,7 @@ $(document).ready(function()
                                         $('#titulo', c).html(norma['titulo']);
                                     }else{
                                         var c =$('<tr><td class="" id="tipoNorma"></td><td id="titulo"></td></tr> ');
-                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded"><div class="card-header "><h5 style="display:inline"; id="tipoNorma"></h5><h5 style="display:inline"; id="n"></h5><h5 style="display:inline"; id="numero"></h5></div><div class="card-body"><h6 class="card-title" id="titulo"></h6></div><div class="card-footer text-muted"><a href="" id="verNorma" class="btn btn-primary" >Ver Norma</a></div></div>');
+                                        var c =$('<div class="card text-center  shadow mb-5 bg-white rounded cardNorma"><div class="card-header cardWhite"><h5 class="h5Norma" style="display:inline"; id="tipoNorma"></h5><h5 class="h5Norma" style="display:inline"; id="n"></h5><h5 class="h5Norma" style="display:inline"; id="numero"></h5></div><div class="card-body cardNormasBody"><h6 class="card-title fuenteNorma" id="titulo"></h6></div><div class="card-footer text-muted cardWhite"><a href="" id="verNorma" class="btn botonVerNorma" >Ver Norma</a></div></div>');
                                     
                                         $('#tipoNorma', c).html(norma['tipo']);
                                         $('#titulo', c).html(norma['titulo']);
