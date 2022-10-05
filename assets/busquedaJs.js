@@ -5,6 +5,25 @@ import 'bootstrap';
 
 $(document).ready(function(){
 
+    var cadenaRuta=document.getElementById("cadenaRuta");
+    var cadena= cadenaRuta.innerText
+
+    var longitud=cadena.length;
+
+    console.log(longitud);
+    if (longitud > 145) {
+        var cadena1=cadena.substring(0,145);
+        cadena1=cadena1 + " ...";
+    }else{
+        var cadena1=cadena;
+    }
+    cadenaRuta.remove();
+    let texto = document.createTextNode(cadena1)
+    let p = document.createElement("p");
+    p.append(texto);
+    document.getElementById("txt").append(p);
+
+
     window.addEventListener("unload", function() {
         
         document.getElementById("spinnerFormulario").remove();

@@ -136,16 +136,16 @@
                 <h5 class="card-title">{{ norma.titulo }}</h5>
                 {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
                 {% if norma.estado =="Publicada" %}
-                    <p class="card-text"><strong>Fecha de publicacion: </strong>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text"><strong>Fecha de publicacion: </strong>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaSancion %}
-                    <p class="card-text text-left"><strong>Fecha de sancion: </strong>{{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de sancion: </strong>{{ norma.fechaSancion ? norma.fechaSancion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPromulgacion %}
-                    <p class="card-text text-left"><strong>Fecha de promulgacion: </strong>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de promulgacion: </strong>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPublicacionBoletin %}
-                <p class="card-text text-left"><strong>Fecha de Publicacion Boletín: </strong>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('Y-m-d') : '' }}</p>
+                <p class="card-text text-left"><strong>Fecha de Publicacion Boletín: </strong>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 <p class="card-text text-left"><strong>Resumen: </strong>{{ norma.resumen }}</p>
 
@@ -236,8 +236,11 @@
                             <tr>
                                 <th scope="col" id="relacionColHead">Relacion</th>
                                 <th scope="col" id="relacionNorHead">Norma</th>
+                                
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
                                 <th id="relacionEditHead"scope="col">Editar</th>
+                                {% else %}
+                                    <th scope="col" id="relacionNorHead" ></th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -251,16 +254,20 @@
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
+                                        {% else %}
+                                        <td id="relacionEdit"></td>
                                         {% endif %}
                                     </tr>
                                     <tr>
                                         <td>Observaciones</td>
                                         <td>{{rela.getDescripcion}}</td>
+                                        <td></td>
                                     </tr>
                                     {% if rela.getResumen %}
                                     <tr>
                                         <td>Resumen</td>
                                         <td>{{rela.getResumen}}</td>
+                                        <td></td>
                                     </tr>
                                     {% endif %}
                                 
@@ -314,16 +321,16 @@
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn" id="btn">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                            <button type="submit" class="btn" id="btn">Finalizar revisión</button>
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}
                         <div class="text-center" id="containerBotones" >
-                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn" id="btn">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn" id="btn">Mandar a borrador</button></a>
                             <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">
                                 <div class="text-center mt-2">
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button class="btn " id="btn">Publicar<i class="fa-solid fa-check-double"></i></button>
+                                    <button class="btn " id="btn">Publicar</button>
                                     <div class="text-center">
                                         {% if norma.publico == 1 %}
                                             <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
@@ -353,10 +360,16 @@
                         <form action="{{path('updateInstancia')}}" method="post">
                             <div class="text-center">
                                 <input type="hidden" name="normaId" value="{{norma.id}}">
-                                <button type="submit" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                                <button type="submit" class="btn" id="btn">Mandar a borrador</button></a>
                             </div>
                         </form>
-                        {{ include('norma/_delete_form.html.twig') }}
+                        
+                            <div class="containerEliminar">
+                                {{ include('norma/_delete_form.html.twig') }}
+                            </div>
+                        
+                        
+                        
                         
                         {# <a href="{{path('updateInstancia')}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a> #}
                     {% endif %}

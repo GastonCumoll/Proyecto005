@@ -27,14 +27,15 @@
     </div>
 
 <br>
+<br>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="tablaIndex">
         <thead id="headIndex">
         <tr>
             <th>{{ knp_pagination_sortable(items, 'Id', 'p.id') }}</th>
             <th>{{knp_pagination_sortable(items, 'Nombre', 'p.nombre')}}</th>
             {% if "DIG_ADMINISTRADOR" in roles %}
-            <th>Opciones</th>
+            <th class="thOp">Opciones</th>
             {% endif %}
 
         </tr>

@@ -38,6 +38,8 @@
 }
 .btn:hover{
     background-color: #d3d3d3 !important;
-    color: #005B88 !important;
+    color: #008fa3 !important;
     border-color: #005B88;
+    font-weight:400 !important;
+    font-size: large !important;
 }

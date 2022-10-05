@@ -69,25 +69,34 @@
 }
 .sortable{
     color:white !important;
-    font-size: larger;
+    font-size: medium;
 }
 #divBotonesOpNorma{
     text-align: center !important;
 }
 #headIndex{
     font-family:'Montserrat', sans-serif !important;
-
-    background-color: #008FA3;
-    color:white !important;
+    background-color: #005B88;
+    color: white;
 }
 
 .tbody{
     font-family:'Montserrat', sans-serif !important;
     font-weight: 600;
     font-size: small;
+    background-color: white;
+    color: #005B88;
+}
+.thOp{
+    font-size: medium;
+}
+/* .tbody{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 600;
+    font-size: small;
     background-color: #d3d3d3;
     color:#595959 !important;
-}
+} */
 .btn-sm{
     font-family: 'Montserrat', sans-serif !important;
 font-weight: 300;
@@ -98,7 +107,11 @@ box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
 border-color: #008fa3;
 /* height: 100% !important; */
 }
-
+.btn-sm:hover:enabled{
+    background-color: #d3d3d3 !important;
+    color: #008fa3 !important;
+    border-color: #005B88;
+}
 .btnFiltro{
     font-family:'Montserrat', sans-serif !important;
     font-weight: 700;
@@ -133,6 +146,26 @@ h1{
     box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
     border-radius: 5px !important;
 }
+#filtro{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.badge.borrador{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #FFEEBA;
+}
+.badge.lista{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #C3E6CB;
+}
+.badge.publicada{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #B8DAFF;
+}
+.badge.eliminada{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #F5C6CB;
+}
 #iconoLupa{
     font-family:'Montserrat', sans-serif !important;
     font-weight: 300;
@@ -145,4 +178,9 @@ h1{
 	top: 50%;
 	transform: translateY(-50%);
 }
+/* #editarDisabled:hover{
+    background-color: none !important;
+    color: none !important;
+    border-color:none !important;
+} */
 

@@ -672,13 +672,16 @@ class NormaController extends AbstractController
         if($idReparticion){
             $reparticionUsuario = $areaRepository->find($idReparticion);
         }
+        // $filtros=[];
         //pregunto si estoy logeado
         if(!$idSession){
             //si no hay nadie logueado, hace la busqueda por la palabra que ingrese(o busca todas si no ingrese palabra(-1))
             if($palabra=="-1"){
+                
                 $normasQuery=$normaRepository->findAllQuery();
             }else{
                 $palabra=str_replace("§","/",$palabra);
+                // $filtros[]=$palabra;
                 $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
             }
         }else{
@@ -688,6 +691,7 @@ class NormaController extends AbstractController
             }else{
                 $palabra=str_replace("§","/",$palabra);
                 $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
+                // $filtros[]=$palabra;
             }
         }
         
@@ -709,6 +713,7 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'tipoNormas' => $tipo->findAll(),
             'normasUsuario' => $normasUsuario,
+            // 'filtros' =>$filtros
         ]);
         
     }
@@ -804,6 +809,28 @@ class NormaController extends AbstractController
         }else{
             $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol,$texto);
         }
+        /*$filtros=[];
+        if($titulo){
+            $filtros[]=$titulo;
+        }
+        if($tipo){
+            $filtros[]=$tipo;
+        }
+        if($numero){
+            $filtros[]=$numero;
+        }
+        if($año){
+            $filtros[]=$año;
+        }
+        if($tipo){
+            $filtros[]=$tipo;
+        }
+        if($texto){
+            $filtros[]=$texto;
+        }
+        foreach ($arrayDeEtiquetas as $eti) {
+            $filtros[]=$eti;
+        }*/
         // dd($normas);
         //seccion paginator
         // Paginar los resultados de la consulta
@@ -825,6 +852,7 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
+            // 'filtros' => $filtros
         ]);
     }
 

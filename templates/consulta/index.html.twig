@@ -15,7 +15,7 @@
     <br>
     <br>
     <div class="table-responsive">
-        <table class="table ">
+        <table class="table" id="tablaIndex">
             <thead id="headIndex" >
                 <tr>
                     <th>{{knp_pagination_sortable(consultas, 'Id', 'p.id') }}</th>
@@ -26,7 +26,7 @@
                     <th>{{knp_pagination_sortable(consultas, 'Email', 'p.email')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Numero Tel', 'p.numeroTel')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Consulta', 'p.texto')}}</th>
-                    <th>Acciones</th>
+                    <th class="thOp">Acciones</th>
                 </tr>
             </thead>
             <tbody class="tbody">

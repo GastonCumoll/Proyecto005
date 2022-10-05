@@ -492,6 +492,22 @@
         align-items: center;
         /* width: 20% !important; */
     }
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        /* border: #008fa3; */
+
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    
+    }
 
     .modalContainer {
         display: none;
@@ -552,21 +568,40 @@
         font-size: x-large;
         font-stretch: semi-condensed;
     }
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
 
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
     } 
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
     #trRela{
         border-bottom:#005B88 !important ;
     }
     #relacionEdit{
         border-top: #005B88 solid !important;
         width: 10% !important;
+        border-bottom: #005B88  !important;
     }
     #relacionEditHead{
         border-top: #005B88 solid !important;
         width: 10% !important;
         border-bottom: #005B88 solid !important; 
+    }
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
     }
 }

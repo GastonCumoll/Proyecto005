@@ -16,10 +16,10 @@
     <br>
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="tablaIndex">
             <thead id="headIndex">
             <tr>
-                <th>{{knp_pagination_sortable(auditorias, 'Id', 'p.id') }}</th>
+                {# <th>{{knp_pagination_sortable(auditorias, 'Id', 'p.id') }}</th> #}
                 <th>{{knp_pagination_sortable(auditorias, 'Fecha', 'p.fecha')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Usuario', 'p.nombreUsuario')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Instancia Anterior', 'p.instanciaAnterior')}}</th>
@@ -28,7 +28,7 @@
                 <th>{{knp_pagination_sortable(auditorias, 'Estado Actual', 'p.estadoActual')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Tarea', 'p.accion')}}</th>
                 {% if   "DIG_ADMINISTRADOR" in roles %}
-                <th>Acciones</th>
+                <th class="thOp">Acciones</th>
                 {% endif %}
                 
     
@@ -37,7 +37,7 @@
         <tbody class="tbody"> 
             {% for auditoria in auditorias %}
             <tr>
-                <td>{{auditoria.id}}</td>
+                {# <td>{{auditoria.id}}</td> #}
                 <td>{{ auditoria.fecha|date('d-m-Y\\ H:i') }}</td>
                 <td>{{ auditoria.nombreUsuario }}</td>
                 <td>{{ auditoria.instanciaAnterior }}</td>
