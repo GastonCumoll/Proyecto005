@@ -53,15 +53,16 @@
                         <div class="card-body sm">
                             <form action="{{path('busqueda_filtro')}}" method="get" name="formulario">
                                 <div class="form-row mb-2">
-                                <div class="col-6">
+                                    <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Titulo:</strong>
+                                            <div id="titulo"> Título</div>
                                         </div>
-                                        <div class="col modificar">
+                                        <div class="col">
                                             <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm" id="titulo" name="titulo"
-                                                    placeholder="titulo" />
+                                                <input type="text" class="form-control form-control-sm"  id="textoInput" name="titulo"
+                                                    placeholder="Título" />
                                             </div>
                                         </div>
                                     </div>
@@ -69,13 +70,13 @@
                                 <div class="col-6">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Tipo</strong>
+                                            <div id="titulo"> Tipo</div>
                                         </div>
                                         <div class="col">
                                             {# <input class="form-control form-control-sm" id="responsable"
                                             name="responsable" placeholder="responsable" /> #}
                                             <div class="input-group">
-                                                <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                                <select title="Seleccionar" name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
                                                     <option value = '' selected></option>
                                                     {% for tipo in tipoNormas %}
                                                         <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
@@ -87,15 +88,16 @@
                                 </div>
                             </div>
                             <div class="form-row mb-2">
-                                <div class="col-6">
+                                <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Numero:</strong>
+                                            <div id="titulo"> Número</div>
                                         </div>
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="number" class="form-control form-control-sm" id="numero" name="numero"
-                                                    placeholder="numero" />
+                                                <input type="number" class="form-control form-control-sm" id="textoInput" name="numero"
+                                                    placeholder="Número" />
                                             </div>
                                         </div>
                                     </div>
@@ -103,13 +105,13 @@
                                 <div class="col-6">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Año:</strong>
+                                            <div id="titulo"> Año</div>
                                         </div>
                                         <div class="col">
                                             <div class="input-group">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control form-control-sm" id="año" name="año"
-                                                        placeholder="año" />
+                                                    <input type="number" class="form-control form-control-sm" id="textoInput" name="año"
+                                                        placeholder="Año" />
                                                 </div>
                                             </div>
                                         </div>
@@ -117,15 +119,16 @@
                                 </div>
                             </div>
                             <div class="form-row mb-2">
-                                <div class="col-6">
+                                <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Texto:</strong>
+                                            <div id="titulo"> Texto</div>
                                         </div>
-                                        <div class="col modificar">
+                                        <div class="col">
                                             <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm" id="texto" name="texto"
-                                                    placeholder="texto" />
+                                                <input type="text" class="form-control form-control-sm" id="textoInput" name="texto"
+                                                    placeholder="Texto" />
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +153,13 @@
                                 </div>
                             </div> #}
                             <div class="text-center">
-                                <a class="btn btn-sm btn-outline-secondary cargando buscarNorma"><i class="fa fa-search"></i> Buscar</a>
+                                
+                                    <a class="btn btn-sm btn-outline-secondary cargando buscarNorma">
+                                        <div id="botoncito">
+                                        <i class="fa fa-search"></i> BUSCAR
+                                    </div>
+                                    </a>
+                                
                             </div>
                             </form>
                         </div>

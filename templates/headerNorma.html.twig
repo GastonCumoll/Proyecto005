@@ -8,9 +8,9 @@
         <div class="contenedorDinamicoSpinner">
 
         </div>
-        
-        {% if item %}
         {% set cadena = '' %}
+        {% if item %}
+        
             {% macro mostrarNorma(norma) %}
                 {{norma.titulo}}
             {% endmacro %}

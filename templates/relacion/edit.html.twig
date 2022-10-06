@@ -14,7 +14,7 @@
         <div class="container">
     {{ include('relacion/_form.html.twig', {'button_label': 'Guardar'}) }}
 
-    <a href={{app.request.headers.get('referer')}} class="btn btn-primary">Cancelar</a>
+    <a href={{app.request.headers.get('referer')}} class="btn btn-primary">Volver</a>
         </div>
     </div>
 {% endblock %}

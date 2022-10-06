@@ -9,13 +9,21 @@ $(document).ready(function(){
     var cadena= cadenaRuta.innerText
 
     var longitud=cadena.length;
-
-    console.log(longitud);
-    if (longitud > 145) {
-        var cadena1=cadena.substring(0,145);
-        cadena1=cadena1 + " ...";
-    }else{
-        var cadena1=cadena;
+    console.log(screen.width);
+    if(screen.width>=1920){
+        if (longitud > 145) {
+            var cadena1=cadena.substring(0,145);
+            cadena1=cadena1 + " ...";
+        }else{
+            var cadena1=cadena;
+        }
+    }else if(screen.width<1920 && screen.width>1300){
+        if (longitud > 80) {
+            var cadena1=cadena.substring(0,80);
+            cadena1=cadena1 + " ...";
+        }else{
+            var cadena1=cadena;
+        }
     }
     cadenaRuta.remove();
     let texto = document.createTextNode(cadena1)

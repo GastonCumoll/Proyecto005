@@ -123,6 +123,7 @@
     .filter-option-inner-inner{
         background-color: #E6E6E6;
         margin-top: 0%;
+        color: #495057;
     }
     .bootstrap-select .dropdown-toggle .filter-option{
         margin-top: 0%;
@@ -144,6 +145,9 @@
         border-color: #E6E6E6;
         height: 35px !important;
     }
+    .dropdown-item.active, .dropdown-item:active{
+        background-color: #41b1c3 !important;
+    }
     .col{
         height: 35px !important;
     }
@@ -160,7 +164,7 @@
         border-radius: 5px;
         border-color: #E6E6E6;
     }
-     .select2-search__field{
+    .select2-search__field{
         font-family:'Montserrat', sans-serif !important;
     }
     .select2-results__option--selectable{

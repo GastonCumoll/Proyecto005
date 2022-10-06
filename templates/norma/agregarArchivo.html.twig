@@ -15,7 +15,7 @@
     {{ include('norma/_form.html.twig') }}
     <input type="hidden" id="id" value="{{norma.id}}">
     <input type="hidden" id="idNombre" value="{{norma.titulo}}">
-    <a href="{{ path('norma_show', {'id': norma.id})}}" class="btn btn-primary mt-2 mb-2">Cancelar</a>
+    <a href="{{ path('norma_show', {'id': norma.id})}}" class="btn btn-primary mt-2 mb-2">Volver</a>
 </div>
 </div>
     {% block javascripts %}
