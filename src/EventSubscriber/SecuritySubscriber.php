@@ -42,6 +42,8 @@ class SecuritySubscriber implements EventSubscriberInterface
         // else {
             //notificaciones:
                 //$session = $this->get('session');
+                /*
+                //lo siguiente hace bajar mucho el rendimiento:
                 $session_id=$this->session->get('session_id');
                 $idReparticion =  $this->seguridad->getIdReparticionAction($session_id);
 
@@ -49,6 +51,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 $this->session->set('cantB',count($borradores));
                 $listas=$this->normas->findListasCont('DIG_EDITOR',$idReparticion);
                 $this->session->set('cantL',count($listas));
+                */
 
             $request = $event->getRequest();
             //dd($request);

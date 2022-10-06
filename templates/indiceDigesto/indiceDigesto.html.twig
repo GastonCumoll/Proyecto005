@@ -6,25 +6,26 @@
 {{ parent() }}
 
 
-{% macro recursiveItem(subitem,roles) %}
-
-<div class="accordion" id="accordionSubitem{{subitem.getId()}}">
+{% macro recursiveItem(subitem,roles,colorSubitem) %}
+{% set colorSubitem = colorSubitem + 1 %}
+<div class="accordion white" id="accordionSubitem{{subitem.getId()}}">
     {% if subitem.getDependencias != null %}
         {% for unSubitem in subitem.getDependencias %}
-            <div class="card ml-2 mr-2" >
-                <div class="card-header" id="headingSubitem{{subitem.getId()}}">
-                    <div class="">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
-                            {{unSubitem.nombre}} 
+            <div class="card ml-4 mr-4 whiteSubitem" >
+                <div class="card-header headerItem" id="headingSubitem{{subitem.getId()}}">
+                {% if (colorSubitem is even) %}
+                    <div class="cardAzulSubitem">
+                        <button class="btn btn-link btn-block text-left collapsed btnSubitemAzul" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
+                            {{unSubitem.nombre}}
                             
                         </button>
-                        <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                        {# <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                             {% if "DIG_ADMINISTRADOR" in roles %}
-                                <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
+                                <a class="btn btn-sm ml-3 botonSubitemAzul" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
                                     Editar
                                 </a>
-                                <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
+                                <a class="btn btn-sm ml-3 botonSubitemAzul" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
                                     Eliminar
                                 </a>
                             {% endif %}
@@ -36,17 +37,50 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% if bandera == 1 %}
-                                    <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
+                                    <a id="scroll" href="#item"><button class="valor123 btn btn-sm ml-3 botonSubitemAzul" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
                                 {% endif %}
                                 {# <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a> #}
                             {% endif %}
                     </div>
+                {% else %}
+                    <div class="cardTurquesaSubitem">
+                        <button class="btn btn-link btn-block text-left collapsed btnSubitemTurquesa" type="button" data-toggle="collapse" data-target="#collapseSubitem{{unSubitem.getId()}}" aria-expanded="false" aria-controls="collapseSubitem{{unSubitem.getId()}}">
+                            {{unSubitem.nombre}}
+                            
+                        </button>
+                        {# <span class="fa-stack fa-sm"><i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
+                            {% if "DIG_ADMINISTRADOR" in roles %}
+                                <a class="btn btn-sm ml-3 botonSubitemTurquesa" type="button" href="{{ path('item_edit', {'id': unSubitem.id})   }}">
+                                    Editar
+                                </a>
+                                <a class="btn btn-sm ml-3 botonSubitemTurquesa" type="button" href="{{ path('item_delete', {'id': unSubitem.id})   }}">
+                                    Eliminar
+                                </a>
+                            {% endif %}
+                            {% set bandera = 0 %}
+                            {% if unSubitem.getNormas()|length >= 1 %}
+                                {% for norma in unSubitem.getNormas %}
+                                    {% if norma.estado == "Publicada" and norma.publico == true %}
+                                        {% set bandera = 1 %} 
+                                    {% endif %}
+                                {% endfor %}
+                                {% if bandera == 1 %}
+                                    <a id="scroll" href="#item"><button class="valor123 btn btn-sm ml-3 botonSubitemTurquesa" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a>
+                                {% endif %}
+                                {# <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unSubitem.getId()}}">Ver normas</button></a> #}
+                            {% endif %}
+                    </div>
+                {% endif %}
+                        
+                        
                     
                 </div>
                 <div id="collapseSubitem{{unSubitem.getId()}}" class="collapse" aria-labelledby="headingSubitem{{subitem.getId()}}" data-parent="#accordionSubitem{{subitem.getId()}}">
-                    {{ _self.recursiveItem(unSubitem,roles) }}
+                    {{ _self.recursiveItem(unSubitem,roles,colorSubitem) }}
                 </div>
             </div>
+            {% set colorSubitem = colorSubitem + 1 %}
         {% endfor %}
         
     {% endif %}
@@ -58,31 +92,33 @@
 
 
 {% if items %}
+    {% set color = 0 %}
     <div class="container ">
-        <div class="accordion" id="accordionItem">
+        <div class="accordion white" id="accordionItem">
             {% if bandera == 1 %}
-            <h1>Normas vigentes</h1>
+            <h1 class="vigente-noVigente">Normas vigentes</h1>
             {% else %}
-            <h1>Normas no vigentes</h1>
+            <h1 class="vigente-noVigente">Normas no vigentes</h1>
             {% endif %}
             {% for unItem in items %}
                 {# {% if (unItem.padre == null) %} #}
-                    <div class="card">
-                        <div class="card-header"  id="headingItem{{unItem.getId()}}">
-                                <div class="">
+                    <div class="card white">
+                        <div class="card-header headerItem"  id="headingItem{{unItem.getId()}}">
+                            {% if (color is even) %}
+                                <div class="cardAzul">
                                     <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
                                         {{unItem.nombre}}
                                     </button>
                                     {% if "DIG_ADMINISTRADOR" in roles %}
-                                        <a class="btn btn-outline-info btn-sm ml-3" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
+                                        <a class="btn btn-sm ml-3 botonAzul" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
                                             Editar
                                         </a>
-                                        <a class="btn btn-outline-danger btn-sm ml-3" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
+                                        <a class="btn btn-sm ml-3 botonAzul" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
                                             Eliminar
                                         </a>
                                     {% endif %}
-                                    <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span>
+                                    {# <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
                                         {% set bandera = 0 %}
                                     {% if unItem.getNormas()|length >= 1 %}
                                         {% for norma in unItem.getNormas %}
@@ -91,18 +127,48 @@
                                             {% endif %}
                                         {% endfor %}
                                         {% if bandera == 1 %}
-                                            <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
+                                            <a id="scroll" href="#item"><button class="valor123 btn btn-sm ml-3 botonAzul" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
                                         {% endif %}
                                         {# <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unItem.getId()}}">Ver normas</button></a> #}
                                     {% endif %}
                                 </div>
+                            {% else %}
+                                <div class="cardTurquesa">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseItem{{unItem.getId()}}" aria-expanded="false" aria-controls="collapseItem{{unItem.getId()}}">
+                                        {{unItem.nombre}}
+                                    </button>
+                                    {% if "DIG_ADMINISTRADOR" in roles %}
+                                        <a class="btn btn-sm ml-3 botonTurquesa" type="button" href="{{ path('item_edit', {'id': unItem.id})   }}">
+                                            Editar
+                                        </a>
+                                        <a class="btn btn-sm ml-3 botonTurquesa" type="button" href="{{ path('item_delete', {'id': unItem.id})   }}">
+                                            Eliminar
+                                        </a>
+                                    {% endif %}
+                                    {# <span class="fa-stack fa mt-2"><i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-plus fa-stack-1x fa-inverse"></i></span> #}
+                                        {% set bandera = 0 %}
+                                    {% if unItem.getNormas()|length >= 1 %}
+                                        {% for norma in unItem.getNormas %}
+                                            {% if norma.estado == "Publicada" and norma.publico == true %}
+                                                {% set bandera = 1 %} 
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if bandera == 1 %}
+                                            <a id="scroll" href="#item"><button class="valor123 btn btn-sm ml-3 botonTurquesa" type="button" value="{{unItem.getId()}}">Ver normas</button></a>
+                                        {% endif %}
+                                        {# <a id="scroll" href="#item"><button class="valor123 btn btn-outline-success btn-sm ml-3" type="button" value="{{unItem.getId()}}">Ver normas</button></a> #}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                             
                         </div>
                         <div id="collapseItem{{unItem.getId()}}" class="collapse" aria-labelledby="headingItem{{unItem.getId()}}" data-parent="#accordionItem">
-                            {{ _self.recursiveItem(unItem,rol) }}
+                            {{ _self.recursiveItem(unItem,rol,color) }}
                         </div>
                     </div>
                 {# {% endif %} #}
+                {% set color = color + 1 %}
             {% endfor %}
         </div>
     </div>

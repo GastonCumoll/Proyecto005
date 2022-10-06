@@ -18,7 +18,7 @@
     {% elseif 'borrador' in app.request.pathinfo  %}
         <h1>Normas borrador</h1>
     {% else %}
-        <h1>Normas</h1>
+        <h1 >Normas</h1>
     {% endif %}
     
 
@@ -44,7 +44,7 @@
                 <div id="contenedorBotonVolver" class="text-left mt-1">
                     <a href="{{path('inicio')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                 </div>
-                <a class="btn btn-outline-info btn-sm dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample"
+                <a class="btn btn-outline-info btnFiltro dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">
                     Filtros <span class="caret"></span>
                 </a>
@@ -53,15 +53,16 @@
                         <div class="card-body sm">
                             <form action="{{path('busqueda_filtro')}}" method="get" name="formulario">
                                 <div class="form-row mb-2">
-                                <div class="col-6">
+                                    <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Titulo:</strong>
+                                            <div id="titulo"> Título</div>
                                         </div>
-                                        <div class="col modificar">
+                                        <div class="col">
                                             <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm" id="titulo" name="titulo"
-                                                    placeholder="titulo" />
+                                                <input type="text" class="form-control form-control-sm"  id="textoInput" name="titulo"
+                                                    placeholder="Título" />
                                             </div>
                                         </div>
                                     </div>
@@ -69,13 +70,13 @@
                                 <div class="col-6">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Tipo</strong>
+                                            <div id="titulo"> Tipo</div>
                                         </div>
                                         <div class="col">
                                             {# <input class="form-control form-control-sm" id="responsable"
                                             name="responsable" placeholder="responsable" /> #}
                                             <div class="input-group">
-                                                <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                                <select title="Seleccionar" name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
                                                     <option value = '' selected></option>
                                                     {% for tipo in tipoNormas %}
                                                         <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
@@ -87,15 +88,16 @@
                                 </div>
                             </div>
                             <div class="form-row mb-2">
-                                <div class="col-6">
+                                <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Numero:</strong>
+                                            <div id="titulo"> Número</div>
                                         </div>
                                         <div class="col">
                                             <div class="input-group">
-                                                <input type="number" class="form-control form-control-sm" id="numero" name="numero"
-                                                    placeholder="numero" />
+                                                <input type="number" class="form-control form-control-sm" id="textoInput" name="numero"
+                                                    placeholder="Número" />
                                             </div>
                                         </div>
                                     </div>
@@ -103,13 +105,13 @@
                                 <div class="col-6">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Año:</strong>
+                                            <div id="titulo"> Año</div>
                                         </div>
                                         <div class="col">
                                             <div class="input-group">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control form-control-sm" id="año" name="año"
-                                                        placeholder="año" />
+                                                    <input type="number" class="form-control form-control-sm" id="textoInput" name="año"
+                                                        placeholder="Año" />
                                                 </div>
                                             </div>
                                         </div>
@@ -117,15 +119,16 @@
                                 </div>
                             </div>
                             <div class="form-row mb-2">
-                                <div class="col-6">
+                                <div class="col-1"></div>
+                                <div class="col-5">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <strong>Texto:</strong>
+                                            <div id="titulo"> Texto</div>
                                         </div>
-                                        <div class="col modificar">
+                                        <div class="col">
                                             <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm" id="texto" name="texto"
-                                                    placeholder="texto" />
+                                                <input type="text" class="form-control form-control-sm" id="textoInput" name="texto"
+                                                    placeholder="Texto" />
                                             </div>
                                         </div>
                                     </div>
@@ -150,7 +153,13 @@
                                 </div>
                             </div> #}
                             <div class="text-center">
-                                <a class="btn btn-sm btn-outline-secondary cargando buscarNorma" ><i class="fa fa-search"></i> Buscar</a>
+                                
+                                    <a class="btn btn-sm btn-outline-secondary cargando buscarNorma">
+                                        <div id="botoncito">
+                                        <i class="fa fa-search"></i> BUSCAR
+                                    </div>
+                                    </a>
+                                
                             </div>
                             </form>
                         </div>
@@ -158,7 +167,21 @@
                 </div>
             </div>
         </div>
-    </div>
+        <br>
+        {% if filtros is defined %}
+            <div class="row">
+                <div class="col-12" id="filtro">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+                    </svg>
+                    {% for filtro in filtros %}
+                        {{ filtro }} |
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+    
     <br>
     
     {# {% if "DIG_OPERADOR" in roles %}
@@ -166,88 +189,87 @@
     {% endif %} #}
     
     <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-active">
-            <tr>
-                <th class="colId">{{knp_pagination_sortable(normas, 'Id', 'p.id') }}</th>
-                <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
-                    {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
-                <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
-                <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
-                <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
-                {% if rol != "" %}
-                <th class="colPublico text-center">{{knp_pagination_sortable(normas, 'Acceso publico', 'p.publico')}}</th></th>
-                {% endif %}
-                <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
-                <th class="columnaOp">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for norma in normas %}
-                {% set tipoNorma = 0 %}
-                {% for unaNormaUsuario in normasUsuario %}
-                    {% if unaNormaUsuario == norma.tipoNorma.nombre%}
-                        {% set tipoNorma = 1 %}
+        <table class="table" id="tablaIndex">
+            <thead id="headIndex">
+                <tr>
+                    {# <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th> #}
+                    <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
+                        {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
+                    <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
+                    <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
+                    <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
+                    {% if rol != "" %}
+                    <th class="colPublico">{{knp_pagination_sortable(normas, 'Acceso', 'p.publico')}}</th></th>
                     {% endif %}
-                {% endfor %}
-
-            {% if tipoNorma == 1 %}
-            <tr>
-            {% else %}
-            <tr class="table-secondary">
-            {% endif %}
-                <td class="colId">{{norma.id}}</td>
-                <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
-                <td class="colTit">{{norma.titulo}}</td>
-                <td class="colNum">{{norma.numeroAuxiliar}}</td>
-                <td class="colEstado">{{norma.estado}}</td>
-                {% if rol != "" %}
-                    {% if norma.publico == 1 %}
-                        <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
-                    {% else %}
-                        <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
-                    {% endif %}
-                {% endif %}
-                <td class="colFecha">{{norma.year}}</td>
-
-                {% set bandera = 0 %}
-
-                <td class="columnaOp">
-                    <div>
-                        <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
-                        {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
-                            {% for unaNormaUsuario in normasUsuario %}
-                                {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
-                                {% set bandera = 1 %}
-                                {% endif %}
-                            {% endfor %}
-                            {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
-                            {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
-                                <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% else %}
-                                <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
-                            {% endif %}
-                            <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
-                            {# <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
-                            <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a> #}
+                    <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
+                    <th class="columnaOp">{{knp_pagination_sortable(normas, 'Opciones', 'p.id')}}</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                {% for norma in normas %}
+                    {% set tipoNorma = 0 %}
+                    {% for unaNormaUsuario in normasUsuario %}
+                        {% if unaNormaUsuario == norma.tipoNorma.nombre%}
+                            {% set tipoNorma = 1 %}
                         {% endif %}
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation" style="text-align:center !important;">
-        {{ knp_pagination_render(normas) }}
+                    {% endfor %}
+                    {% if tipoNorma == 1 %}
+                        <tr>
+                    {% else %}
+                        {# <tr class="table-secondary"> #}
+                            <tr>
+                    {% endif %}
+
+                    {# <td class="colId"><strong>{{norma.id}}</strong></td> #}
+                    <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
+                    <td class="colTit">{{norma.titulo}}</td>
+                    <td class="colNum">{{norma.numeroAuxiliar}}</td>
+                    <td class="colEstado">{{norma.estado}}</td>
+                    {% if rol != "" %}
+                        {% if norma.publico == 1 %}
+                            <td class="text-center text-success"><i class="fa-solid fa-circle-check"></i></td>
+                        {% else %}
+                            <td class="text-center text-danger"><i class="fa-solid fa-circle-xmark"></i> </td>
+                        {% endif %}
+                    {% endif %}
+                    <td class="colFecha">{{norma.year}}</td>
+                    {% set bandera = 0 %}
+                    <td class="columnaOp">
+                        <div id="divBotonesOpNorma">
+                            <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
+                            {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
+                                {% for unaNormaUsuario in normasUsuario %}
+                                    {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
+                                        {% set bandera = 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
+                                {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
+                                    <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% elseif bandera == 1 and norma.estado == "Lista" and "DIG_EDITOR" in roles %}
+                                    <a  href="{{path('norma_edit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% else %}
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                {% endif %}
+                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                                {# <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
+                                <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a> #}
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation" style="text-align:center !important;">
+            {{ knp_pagination_render(normas) }}
+        </div>
     </div>
-    </div>
-    </div>
+</div>
     {% block javascripts %}
         {{encore_entry_script_tags('busquedaParamNorma')}}
         {{encore_entry_script_tags('normaEdit')}}

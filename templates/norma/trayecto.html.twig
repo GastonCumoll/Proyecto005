@@ -1,29 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Trayecto de la norma{% endblock %}
-
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('indexAdmin') }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 {% block body %}
 
 
 {# <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header> #}
 <h1>Trayecto de la norma </h1>
-
+<div class="container">
 <div id="contenedorBotonVolver" class="text-left mt-1">
     <a href="{{app.request.headers.get('referer')}}" class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
 </div>
 <br>
 <br>
 <div class="table-responsive">
-    <table class="table table-hover ">
-        <thead class="table-active" >
+    <table class="table ">
+        <thead id="headIndex">
         <tr>
             <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Id', 'p.id') }}</th>
-            <th>{{knp_pagination_sortable(auditoriasDeNorma, 'Fecha', 'p.fecha')}}</th>
+            <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Fecha', 'p.fecha')}}</th>
             <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Autor', 'p.nombreUsuario') }}</th>
-            <th>{{knp_pagination_sortable(auditoriasDeNorma, 'Accion', 'p.accion')}}</th>
+            <th>{{ knp_pagination_sortable(auditoriasDeNorma, 'Accion', 'p.accion')}}</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="tbody">
         {% for unaAuditoria in auditoriasDeNorma %}
             {% if unaAuditoria.estadoActual == "Borrador" %}
             <tr class="table-warning">
@@ -98,12 +102,12 @@
 </div>
 </div>
 <div class="text-center">
-    <span class="badge badge-warning badgeEstado">Borrador</span>
-    <span class="badge badge-success badgeEstado">Lista</span>
-    <span class="badge badge-primary badgeEstado">Publicada</span>
-    <span class="badge badge-danger badgeEstado">Eliminada</span>
+    <span class="badge borrador">Borrador</span>
+    <span class="badge lista">Lista</span>
+    <span class="badge publicada">Publicada</span>
+    <span class="badge eliminada">Eliminada</span>
 </div>
-
+</div>
 {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}

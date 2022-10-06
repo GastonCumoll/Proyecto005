@@ -30,8 +30,10 @@
         </div>
     </div>
 </div> #}
+
 {# MACRO #}
-{% if item %}
+
+{# {% if item %}
 {% macro mostrarNorma(norma) %}
     {{norma.titulo}}
 {% endmacro %}
@@ -60,18 +62,16 @@
     <ul>{% if item.padre != null %}
             {{ recursiveCategory(item, norma) }}
             {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
-        {% else %}
+        {#{% else %}
                 {{item.nombre}} <i class="fa-solid fa-angle-right"></i> {{norma.titulo}}
         {% endif %}
 
     </ul>
 </div>
-{% endif %}
+{% endif %} #}
 
 
 {# ENDMACRO #}
-
-
 
 
 {# <div id="contenedorBotonVolver">
@@ -87,71 +87,121 @@
     {% endfor %}
 
     <div class="container mt-3 mb-3">
-        <div class="card text-center shadow mb-5 bg-white rounded">
+        <div class="card text-center shadow mb-5 bg-white rounded" id="cardGeneral">
             
                 {% if norma.estado == "Borrador" %}
                 
-                    <div class="card-header bg-warning text-left">
+                    <div class="card-header text-center" id="headerText">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right mt-2">
+                        
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
                                 {{ norma.numeroAuxiliar }}(borrador)
                             {% else %}
                                 {{ "----" }}
                             {% endif %}
-
-                        </h4>
                     </div>
                 {% elseif norma.estado == "Lista" %}
-                    <div class="card-header bg-success text-left">
+                    <div class="card-header text-center" id="headerText">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right mt-2">
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
                                 {{ norma.numeroAuxiliar }}
                             {% else %}
                                 {{ "----" }}
                             {% endif %}
-                        </h4>
                     </div>
                 {% else %}
-                    <div class="card-header text-left">
+                    <div class="card-header text-center" id="headerText">
                         <div id="contenedorBotonVolver" class="text-left mt-1">
                             <a href="{{path('norma_index')}}" class="btn btn-primary rounded-circle botonAtras" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                         </div>
-                        <h4 class="h4 float-right mt-2">
+                        
                             <th>{{norma.tipoNorma.nombre}} N° </th>
                             {% if norma.numeroAuxiliar != null  %}
                                 {{ norma.numeroAuxiliar }}
                             {% else %}
                                 {{ "----" }}
                             {% endif %}
-                        </h4>
+                        
                     </div>
                 {% endif %}
             
             <div class="card-body">
-                <h5 class="card-title text-center">{{ norma.titulo }}</h5>
+
+                <h5 class="card-title">{{ norma.titulo }}</h5>
                 {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
                 {% if norma.estado =="Publicada" %}
-                    <p class="card-text text-left">Fecha de publicacion: {{ norma.fechaPublicacion ? norma.fechaPublicacion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text"><strong>Fecha de publicacion: </strong>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaSancion %}
-                    <p class="card-text text-left">Fecha de sancion: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de sancion: </strong>{{ norma.fechaSancion ? norma.fechaSancion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPromulgacion %}
-                    <p class="card-text text-left">Fecha de promulgacion: {{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('Y-m-d') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de promulgacion: </strong>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPublicacionBoletin %}
-                <p class="card-text text-left">Fecha de Publicacion Boletín: {{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('Y-m-d') : '' }}</p>
+                <p class="card-text text-left"><strong>Fecha de Publicacion Boletín: </strong>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('d-m-Y') : '' }}</p>
                 {% endif %}
-                <p class="card-text text-left">Resumen: {{ norma.resumen }}</p>
+                <p class="card-text text-left"><strong>Resumen: </strong>{{ norma.resumen }}</p>
+
+                {# block de archivos: #}
+
+                <div class="row">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-6">
+                        <div class="card mt-3" id="cardArchivos">
+                            <div class="card-body">
+                                <h5 id="h5Archivos" class="">Archivos adjuntos</h5>
+                                {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
+                                <div class="contenedorBotonMas">
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                </div>
+                                {% endif %}
+                                {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                                <div class="contenedorBotonMas">
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                </div>
+                                {% endif %}
+                                {% for unPdf in norma.archivos %}
+                                <div class="mt-2">
+                                    {% if unPdf.tipo == 'pdf' %}
+                                        <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}"id="linkArchivo">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
+                                    {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
+                                        <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" id="linkArchivo">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
+                                    {% else %}
+                                    <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" id="linkArchivo">{{unPdf.nombre}}</a>
+                                        {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                    </div>
+                </div>
+                <br>
+                {% if norma.etiquetas %}
+                    <p class="card-text text-left mt-2"><strong><i class="fa-solid fa-tags"></i>Etiquetas:</strong>
+                    {% for etiqueta in norma.etiquetas %}
+                        <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
+                    
+                    {% endfor %}
+                </p>
+                {% endif %}
                 
+                {% if norma.estado == "Publicada" %}
+                <p class="card-text text-left"><strong><i class="fa-solid fa-user"></i>Publicado por :
+                    {{user}}</strong></p>
+                {% endif %}
+                <br>
+                
+                {# </div> #}
                 {# {% if ( "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 ) or ( "DIG_EDITOR" in roles  and norma.estado == "Lista" and usuarioReparticion == 1 ) %} #}
                     {# {% if norma.getItems %}
                         <p class="card-text text-left">Tema que pertenece :
@@ -160,78 +210,37 @@
                         {% endfor %}</p>
                     {% endif %} #}
                 {# {% endif %} #}
-                <div class="card " style="width: 100%;text-align:justify">
-                    <div class="card-body">
-                        <h5 id="h5Archivos" class="card-title text-center">Archivos adjuntos</h5>
-                        {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
-                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
-                        {% endif %}
-                        {% if "DIG_EDITOR" in roles and ( norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
-                            <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus"></i></a>
-                        {% endif %}
-                        {% for unPdf in norma.archivos %}
-                        <div>
-                            {% if unPdf.tipo == 'pdf' %}
-                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}} <i class="fas fa-file-pdf"></i></a>
-                            {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
-                                <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
-                            {% else %}
-                            <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" class="">{{unPdf.nombre}}</a>
-                                {% endif %}
-                            
-                            <br>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div style="text-align:left ;">
-                    <i class="fa-solid fa-tags"></i>Etiquetas:
-                    {% for etiqueta in norma.etiquetas %}
-                        <a href="{{path('busqueda_id_etiqueta',{'id':etiqueta.getId})}}">{{etiqueta}}  </a> |
-                    {% endfor %}
-                    <br>
-                    {% if norma.estado == "Publicada" %}
-                        <i class="fa-solid fa-user"></i>Publicado por :
-                        {{user}}
-                    {% endif %}
-                </div>
-                <br>
-                
                 <div class="container" id="containerBotones">
-                    {# <div class="divBotones mt-3 mr-2">
-                        <a href="{{path('mostrar_texto', {'id': norma.id})  }}" class="btn btn-primary botones" >Ver texto ordenado</a>
-                    </div> #}
-                    
-                    {# <div class="divBotones mt-3 mr-2">
-                        <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}" class="btn btn-danger botones">Ver texto en pdf <i class="fas fa-file-pdf"></i></a>
-                    </div> #}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
-                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
+                            <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        
                         <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
                         </div>
                     {% endif %}
                 </div>
-                <div class="card-footer text-left mt-3">
-                    <table class="table table-bordered">
-                        <thead class="thead-dark">
+                
+
+                {# <div class="card" id="cardRelaciones"> #}
+                    <table class="table" id="tablaRela">
+                        <thead class="thead">
                             <tr>
-                                <th scope="col">Relacion</th>
-                                <th scope="col">Norma</th>
+                                <th scope="col" id="relacionColHead">Relacion</th>
+                                <th scope="col" id="relacionNorHead">Norma</th>
+                                
                                 {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                <th scope="col">Edit</th>
+                                <th id="relacionEditHead"scope="col">Editar</th>
+                                {% else %}
+                                    <th scope="col" id="relacionNorHead" ></th>
                                 {% endif %}
                                 {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
                                 <th scope="col">Edit</th>
@@ -239,15 +248,17 @@
                             </tr>
                         </thead>
                                 {% for rela in relacion %}
-                                <tbody>
-                                    <tr>
-                                        <td>{{rela.getTipoRelacion.getNombre}}</td>
-                                        <td> <a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
+                                <tbody class="tbody">
+                                    <tr id="trRela">
+                                        <td id="relacionCol">{{rela.getTipoRelacion.getNombre}}</td>
+                                        <td id="relacionNor"><a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
-                                        <td>
+                                        <td id="relacionEdit">
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
+                                        {% else %}
+                                        <td id="relacionEdit"></td>
                                         {% endif %}
                                         {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
                                         <td>
@@ -259,44 +270,51 @@
                                     <tr>
                                         <td>Observaciones</td>
                                         <td>{{rela.getDescripcion}}</td>
+                                        <td></td>
                                     </tr>
                                     {% if rela.getResumen %}
                                     <tr>
                                         <td>Resumen</td>
                                         <td>{{rela.getResumen}}</td>
+                                        <td></td>
                                     </tr>
                                     {% endif %}
-                                </tbody>
-                            {% endfor %}
+                                
+                            {% endfor %}</tbody>
                     </table>
-                    
-                </div>
+                {# </div> #}
                 
                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
                     </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and (norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn btn-success botones mt-2"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
                     </div>
                     <br>
                     
                     {% endif %}
                 <br>
                 <br>
-                <div class="card">
-                    <div class="card-header headerPdf">
-                        <div class="mt-2 contenedorBotonPDF">
-                            <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" class="btn btn-danger botones editar">Ver pdf <i class="fas fa-file-pdf"></i></button></a>
-                        </div>
-                        <div class="input-group mr-2 mt-2" id="busqueda-input">
-                            <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-                            <div class="input-group-prepend botonVerde">
-                                <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <div class="card" id="cardTexto">
+                    <div class="headerPdf">
+                        <div class="row">
+                            <div class="col-7 findAndSeek">
+                                <div class="ml-5 contenedorBotonPDF">
+                                    <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" id="verPdf" class="btn"><strong>VER PDF </strong><i class="fas fa-file-pdf"></i></button></a>
+                                </div>
+                                <div class="mr-5 input-group" id="busqueda-input-texto">
+                                    <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                                    {# <div class="input-group-prepend botonVerde">
+                                        <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </div> #}
+                                </div>
                             </div>
+                            <div class="col-5"></div>
                         </div>
+                        
                     </div>
                     <div class="card-body">
                         <div class="text-justify" id="parrafo">
@@ -306,21 +324,22 @@
                         </div >
                     </div>
                 </div>
+                
                 <div class=" divBotonVolver mt-4  text-center">
                     {# <a href={{app.request.headers.get('referer')}}><button type="button" class="btn btn-primary" id="botonVolver"><i class="fas fa-arrow-left"></i> Volver</button></a> #}
                     {% if norma.estado == "Borrador" and usuarioReparticion == 1 and "DIG_OPERADOR" in roles %}
                         <form action="{{path('updateInstancia')}}" method="post">
                             <input type="hidden" name="normaId" value="{{norma.id}}">
-                            <button type="submit" class="btn btn-danger" id="botonVolver">Finalizar revisión<i class="fa-solid fa-check"></i></button>
+                            <button type="submit" class="btn" id="btn">Finalizar revisión</button>
                         </form>
                     {% endif %}
                     {% if norma.estado == "Lista" and usuarioReparticion == 1 and "DIG_EDITOR" in roles %}
-                        <div class="text-center">
-                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                        <div class="text-center" id="containerBotones" >
+                            <a href="{{path('back_borrador',{'id':norma.id})}}"><button type="button" class="btn" id="btn">Mandar a borrador</button></a>
                             <form action="{{path('generar_pdf',{'id':norma.id})}}" method="post">
                                 <div class="text-center mt-2">
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button class="btn btn-danger">Publicar<i class="fa-solid fa-check-double"></i></button>
+                                    <button class="btn " id="btn">Publicar</button>
                                     <div class="text-center">
                                         {% if norma.publico == 1 %}
                                             <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
@@ -355,10 +374,16 @@
                         <form action="{{path('updateInstancia')}}" method="post">
                             <div class="text-center">
                                 <input type="hidden" name="normaId" value="{{norma.id}}">
-                                <button type="submit" class="btn btn-danger">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a>
+                                <button type="submit" class="btn" id="btn">Mandar a borrador</button></a>
                             </div>
                         </form>
-                        {{ include('norma/_delete_form.html.twig') }}
+                        
+                            <div class="containerEliminar">
+                                {{ include('norma/_delete_form.html.twig') }}
+                            </div>
+                        
+                        
+                        
                         
                         {# <a href="{{path('updateInstancia')}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a> #}
                     {% endif %}
@@ -370,6 +395,7 @@
     <div>
         <span class="ir-arriba"><i class="fa-solid fa-circle-chevron-up"></i></span>
     </div>
+    
 {% block javascripts %}
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}

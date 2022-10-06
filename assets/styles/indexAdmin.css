@@ -37,15 +37,215 @@
     cursor: pointer;
 }
 
+.columnaOp{
+    color:white !important;
+    font-size: larger;
+    text-align: center !important;
+}
 .colId{
     width: 5% !important;
+
 }
 .colNum{
-    width: 8% !important;
+    width: 12% !important;
+}
+.colTipo{
+    width: 7%;
 }
 .colEstado{
-    width: 8% !important;
+    width: 10% !important;
 }
 .colFecha{
     width: 7% !important;
+
 }
+.desc{
+    color:white !important;
+    font-size: larger;
+}
+.asc{
+    color:white !important;
+    font-size: larger;
+}
+.sortable{
+    color:white !important;
+    font-size: medium;
+}
+#divBotonesOpNorma{
+    text-align: center !important;
+}
+#headIndex{
+    font-family:'Montserrat', sans-serif !important;
+    background-color: #005B88;
+    color: white;
+}
+
+.tbody{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 600;
+    font-size: small;
+    background-color: white;
+    color: #005B88;
+}
+.thOp{
+    font-size: medium;
+}
+/* .tbody{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 600;
+    font-size: small;
+    background-color: #d3d3d3;
+    color:#595959 !important;
+} */
+.btn-sm{
+    font-family: 'Montserrat', sans-serif !important;
+font-weight: 300;
+font-size: small;
+background-color: #008fa3 !important;
+color: white;
+box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+border-color: #008fa3;
+/* height: 100% !important; */
+}
+.btn-sm:hover:enabled{
+    background-color: #d3d3d3 !important;
+    color: #008fa3 !important;
+    border-color: #005B88;
+}
+.btnFiltro{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 700;
+    font-size: small;
+    background-color: white;
+    color: #005B88;
+    border: solid 2px #005B88;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.btnFiltro:hover{
+    background-color: #005B88;
+    color: #ffffff;
+    border: solid 2px #005B88;
+}
+h1{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #008FA3;
+    font-size: 40px;
+    margin-top: 1%;
+    /* margin-left: 33% !important;
+    margin-top: 2%;
+    margin-bottom: 2%; */
+    text-align: center;
+}
+.table-responsive{
+    margin-top: 1%;
+}
+#busquedaParam{
+    background-color: white!important;
+}
+.form-control{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #e6e6e6;
+    box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+    border-radius: 5px !important;
+}
+#filtro{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.badge.borrador{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #FFEEBA;
+}
+.badge.lista{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #C3E6CB;
+}
+.badge.publicada{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #B8DAFF;
+}
+.badge.eliminada{
+    font-family: 'Montserrat', sans-serif !important;
+    background-color: #F5C6CB;
+}
+#iconoLupa{
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 300;
+    /* font-size: small; */
+    color: #595959;
+	position: absolute;
+	width: 13px;
+	height: 13px;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+/* formulario collapse*/
+#collapseExample{
+    font-family:'Montserrat', sans-serif !important;
+}
+#titulo{
+    font-weight: 700;
+    color: #008fa3;
+    font-stretch: expanded;
+}
+#textoInput{
+    background-color: #E6E6E6;
+    box-shadow: rgb(0 0 0 / 40%) 0px 5px 5px;
+    border-radius: 5px;
+}
+.col-auto {
+    width: 20% !important;
+}
+.col {
+    height: 35px !important;
+}
+.input-group {
+    width: 16rem;
+}
+.btn.dropdown-toggle.btn-light.bs-placeholder {
+    background-color: #E6E6E6;
+    /* box-shadow: rgb(0 0 0 / 40%) 0px 5px 5px; */
+    border-radius: 5px;
+    border-color: #E6E6E6;
+    height: 35px !important;
+    color:#495057 !important;
+}
+.btn.dropdown-toggle.btn-light {
+    background-color: #E6E6E6;
+
+    border-radius: 5px;
+    border-color: #E6E6E6;
+    height: 35px !important;
+}
+.filter-option-inner-inner {
+    background-color: #E6E6E6;
+    margin-top: 0%;
+    color: #495057;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #41b1c3 !important;
+}
+
+.btn.btn-sm.btn-outline-secondary.cargando.buscarNorma {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 600;
+    font-size: large !important;
+    background-color: #008fa3;
+    color: white;
+    box-shadow: rgb(0 0 0 / 40%) 0px 5px 5px;
+    border-radius: 5px;
+    margin-top: 40px;
+    height: 50px !important;
+    width: 140px;
+}
+#botoncito{
+    margin-top: 6% !important;
+}
+/* #editarDisabled:hover{
+    background-color: none !important;
+    color: none !important;
+    border-color:none !important;
+} */
+

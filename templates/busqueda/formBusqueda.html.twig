@@ -12,34 +12,33 @@
 
 
 
-<div class="card shadow-sm">
-    <div class="card-body sm">
+<div class="container mt-5" id="containerFormulario">
         <form action="{{path('formulario_busqueda_result')}}" method="get" name="formulario">
             <div class="contenedor-inputs">
                 <div class="form-row mb-2">
-                <div class="col-6">
+                    <div class="col-1"></div>
+                <div class="col-5">
                     <div class="form-row align-items-center">
                         <div class="col-auto">
-                            <strong>Titulo:</strong>
+                            <div id="tituloInput">Título </div>
                         </div>
                         <div class="col">
                             <div class="input-group">
                                 <input type="text" class="form-control form-control-sm" id="titulo" name="titulo"
-                                    placeholder="titulo" />
+                                    placeholder="Título" />
                             </div>
                         </div>
                     </div>
                 </div>
+                {# <div class="col-1"></div> #}
                 <div class="col-6">
                     <div class="form-row align-items-center">
                         <div class="col-auto">
-                            <strong>Tipo</strong>
+                            <div id="tituloInput">Tipo </div>
                         </div>
                         <div class="col">
-                            {# <input class="form-control form-control-sm" id="responsable"
-                            name="responsable" placeholder="responsable" /> #}
                             <div class="input-group">
-                                <select name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                <select title="Seleccionar" name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
                                     <option ></option>
                                     {% for tipo in tipoNormas %}
                                         <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
@@ -51,29 +50,31 @@
                 </div>
             </div>
             <div class="form-row mb-2">
-                <div class="col-6">
+                <div class="col-1"></div>
+                <div class="col-5">
                     <div class="form-row align-items-center">
                         <div class="col-auto">
-                            <strong>Numero:</strong>
+                            <div id="tituloInput">Número </div>
                         </div>
                         <div class="col">
                             <div class="input-group">
                                 <input type="number" class="form-control form-control-sm" id="numero" name="numero"
-                                    placeholder="numero" />
+                                    placeholder="Número" />
                             </div>
                         </div>
                     </div>
                 </div>
+                {# <div class="col-1"></div> #}
                 <div class="col-6">
                     <div class="form-row align-items-center">
                         <div class="col-auto">
-                            <strong>Año:</strong>
+                            <div id="tituloInput">Año </div>
                         </div>
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group">
                                     <input type="number" class="form-control form-control-sm" id="año" name="año"
-                                        placeholder="año" />
+                                        placeholder="Año" />
                                 </div>
                             </div>
                         </div>
@@ -81,10 +82,11 @@
                 </div>
             </div>
             <div class="form-row mb-2">
-            <div class="col-6">
+                <div class="col-1"></div>
+            <div class="col-5">
                 <div class="form-row align-items-center">
                     <div class="col-auto">
-                        <strong>texto</strong>
+                        <div id="tituloInput">Texto </div>
                     </div>
                     <div class="col">
                         <div class="input-group">
@@ -94,10 +96,11 @@
                     </div>
                 </div>
             </div>
+            {# <div class="col-1"></div> #}
             <div class="col-6">
                 <div class="form-row align-items-center select">
                     <div class="col-auto etiquetas">
-                        <strong>Etiquetas</strong>
+                        <div id="tituloInput">Etiquetas </div>
                     </div>
                     <div class="col etiquetas-col">
                         <div class="input-group select select-input">
@@ -114,11 +117,11 @@
             </div>
         </div>
             <div class="text-center">
-                <a class="btn btn-sm btn-outline-secondary cargando buscarNorma" ><i class="fa fa-search"></i> Buscar</a>
+                <a class="btn btn-sm btn-outline-secondary cargando buscarNorma"><div id="botoncito"><i class="fa fa-search"></i> BUSCAR</div></a>
             </div>
         </div>
         </form>
-    </div>
+
 </div>
 
 {% block javascripts %}

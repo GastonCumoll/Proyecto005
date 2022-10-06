@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Consulta index{% endblock %}
-
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('indexAdmin') }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 {% block body %}
     <h1>Consultas</h1>
-
+<div class="container">
     <div id="contenedorBotonVolver" class="text-left mt-1">
         <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
     </div>
     <br>
     <br>
     <div class="table-responsive">
-        <table class="table table-hover ">
-            <thead class="table-active" >
+        <table class="table" id="tablaIndex">
+            <thead id="headIndex" >
                 <tr>
                     <th>{{knp_pagination_sortable(consultas, 'Id', 'p.id') }}</th>
                     <th {% if consultas.isSorted('t.nombre') %} class="sorted" {% endif %}>
@@ -22,10 +26,10 @@
                     <th>{{knp_pagination_sortable(consultas, 'Email', 'p.email')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Numero Tel', 'p.numeroTel')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Consulta', 'p.texto')}}</th>
-                    <th>Acciones</th>
+                    <th class="thOp">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="tbody">
                 {% for consulta in consultas %}
                     <tr>
                         <td>{{consulta.id}}</td>
@@ -48,6 +52,7 @@
         </div>
 
     </div>
+</div>
     {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}

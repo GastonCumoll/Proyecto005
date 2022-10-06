@@ -20,6 +20,31 @@ import { contains } from 'jquery';
 	// }
 	// console.log(textoSeparado);
 	// });
+
+	
+$(document).ready(function(){
+
+	var boton = document.getElementsByClassName("botonAtras")[0];
+
+	var urlAnt = document.referrer;
+	boton.addEventListener("click", function(){
+			if(urlAnt.includes("/indice/Vigentes")){
+				boton.setAttribute("href","/indice/Vigentes");
+			}else if (urlAnt.includes("/indice/NoVigentes")){
+				boton.setAttribute("href","/indice/NoVigentes");
+			}else if(urlAnt.includes("/listas")){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt.includes("/borrador")){
+				boton.setAttribute("href","/norma/borrador");
+			}else if(urlAnt.includes("/edit")){
+				console.log("edit");
+				boton.setAttribute("href",history.go(-2));
+			}
+			else{
+				boton.setAttribute("href",urlAnt);
+			}
+	});
 	
 	var botonTexto = document.getElementById("botonBuscarTexto");
 	// var busquedaTexto =document.getElementById("busquedaTexto");
@@ -48,8 +73,6 @@ import { contains } from 'jquery';
 		document.getElementById("parrafo").innerHTML = newe;
     }
 });
-$(document).ready(function(){
-
 	// 	var botonTexto = document.getElementById("botonBuscarTexto");
 	// 	botonTexto.addEventListener("click",function(){
 	//  	var texto = document.getElementById("busquedaTexto");
@@ -63,39 +86,22 @@ $(document).ready(function(){
 	// 	});
 	// 	$("#parrafo span:contains('" + texto.value + "')").css("background-color","yellow");
 	// })
+		
 
-	var boton=document.getElementById("botonVolverAtras");
-	var urlAnt=document.referrer;
-	//console.log(urlAnt);
-	if(urlAnt.includes("/indice/Vigentes")){
-		boton.setAttribute("href","/indice/Vigentes");
-	}else if (urlAnt.includes("/indice/NoVigentes")){
-		boton.setAttribute("href","/indice/NoVigentes");
-	}else if(urlAnt.includes("/listas")){
-		boton.setAttribute("href","/norma/listas");
+	
+
+});
+
+$('.ir-arriba').click(function(){
+	$('body, html').animate({
+		scrollTop: '0px'
+	}, 300);
+});
+
+$(window).scroll(function(){
+	if( $(this).scrollTop() > 0 ){
+		$('.ir-arriba').slideDown(300);
+	} else {
+		$('.ir-arriba').slideUp(300);
 	}
-	else if(urlAnt.includes("/borrador")){
-		boton.setAttribute("href","/norma/borrador");
-	}else if(urlAnt.includes("/edit")){
-		console.log("edit");
-		boton.setAttribute("href",history.go(-2));
-	}
-	else{
-		boton.setAttribute("href",urlAnt);
-	}
-
-	$('.ir-arriba').click(function(){
-		$('body, html').animate({
-			scrollTop: '0px'
-		}, 300);
-	});
-
-	$(window).scroll(function(){
-		if( $(this).scrollTop() > 0 ){
-			$('.ir-arriba').slideDown(300);
-		} else {
-			$('.ir-arriba').slideUp(300);
-		}
-	});
-
 });

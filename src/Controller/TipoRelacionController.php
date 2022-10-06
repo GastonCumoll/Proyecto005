@@ -51,6 +51,9 @@ class TipoRelacionController extends AbstractController
             // Items per page
             11
         );
+        $tiposRelacion->setCustomParameters([
+            'align' => 'center',
+        ]);
         
         return $this->render('tipo_relacion/index.html.twig', [
             'tipo_relacions' => $tiposRelacion,

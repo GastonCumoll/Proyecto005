@@ -1,0 +1,37 @@
+{% block addStyleSheets %}
+    {{ encore_entry_link_tags('estilo') }}
+    {{ encore_entry_link_tags('menuAdmin') }}
+    {{ encore_entry_link_tags('spinnerCss') }}
+    {% endblock %}
+<header class="headerNorma">
+    <div class="container-fluid" id="containerHeader">
+        <div class="contenedorDinamicoSpinner">
+
+        </div>
+        <div>
+            <div id="txt">
+                {% if app.request.get('_route') == 'indice_vigente' %}
+                    Normas vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
+                {% endif %}
+                {% if app.request.get('_route') == 'indice_no_vigente' %}
+                    Normas no vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
+                {% endif %}
+
+                {% if app.request.get('_route') == 'formulario_busqueda' %}
+                    Búsqueda Avanzada |<a id="linkVolver" href="/inicio"> Volver </a>
+                {% endif %}
+                
+            </div>
+        </div>
+        <div class="input-group mr-2" id="busqueda-input">
+            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+            <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+        </div>
+    </div>
+
+    {% block javascripts %}
+    {{encore_entry_script_tags('busquedaJs')}}
+    {{encore_entry_script_tags('spinnerJs')}}
+{% endblock %}
+
+</header>

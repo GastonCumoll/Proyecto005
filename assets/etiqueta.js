@@ -19,8 +19,7 @@ import bsCustomFileInput from 'bs-custom-file-input';
 //     });
 // });
 $(document).ready(function() {
-    
-    
+
     bsCustomFileInput.init();
 
     $('.js-example-basic-multiple').select2({

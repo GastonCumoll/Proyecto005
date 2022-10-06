@@ -3,19 +3,16 @@
     {{ encore_entry_link_tags('menuAdmin') }}
     {{ encore_entry_link_tags('spinnerCss') }}
     {% endblock %}
-    <br>
 
     <div class="contenedorDinamicoSpinner">
-
+        
     </div>
 
 <div class="barraNavegacion">
     <ul class="nav nav-pills" id="listadoElementos">
-        
-        
         <li class="nav-item dropdown" id="PrimerItem">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
-            <div class="dropdown-menu">
+            <a class="nav-link dropdown-toggle" id="navLinkDropdownToggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
+            <div class="dropdown-menu" id="dropdownMenu">
                 <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
                 {% if 'DIG_OPERADOR' in app.session.get('roles') or  'DIG_EDITOR' in app.session.get('roles') or  'DIG_ADMINISTRADOR' in app.session.get('roles') %}
                     {% if 'DIG_OPERADOR' in app.session.get('roles') %}
@@ -34,17 +31,17 @@
         </li>
         {# {% if  app.session.get('rolAuth') != 4 %} #}
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Índice</a>
-            <div class="dropdown-menu">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"  id="navLinkDropdownToggle" href="#" role="button" aria-expanded="false">Índice</a>
+            <div class="dropdown-menu" id="dropdownMenu">
                 <a class="dropdown-item" href="{{ path('item_index') }}">Ver todos</a>
                 <a class="dropdown-item" href="{{ path('item_new') }}">Nuevo</a>
                 
             </div>
         </li>
         
-        <li class="nav-item dropdown ultimoItem">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Parámetros</a>
-            <div class="dropdown-menu">
+        <li class="nav-item dropdown ultimoItem" >
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"  id="navLinkDropdownToggle" href="#" role="button" aria-expanded="false">Parámetros</a>
+            <div class="dropdown-menu" id="dropdownMenu">
                 <a class="dropdown-item" href="{{ path('area_index') }}">Areas</a>
                 <a class="dropdown-item" href="{{ path('etiqueta_index') }}">Etiquetas</a>
                 <a class="dropdown-item" href="{{ path('tipo_relacion_index') }}">Relaciones</a>
@@ -58,15 +55,9 @@
             </div>
         </li>
         {% endif %}
-        <div class="input-group mr-2" id="busqueda-input">
-            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="Buscar norma" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-            <div class="input-group-prepend">
-                <button class="btn btn-success btn-sm rounded" id="botonLupita"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-            </div>
         
     </ul>
-    </div>
+</div>
     {% block javascripts %}
 {{encore_entry_script_tags('busquedaJs')}}
 {{encore_entry_script_tags('spinnerJs')}}

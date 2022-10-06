@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Auditoria index{% endblock %}
-
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('indexAdmin') }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 {% block body %}
     <h1>Auditorias</h1>
-
+<div class="container">
     <div id="contenedorBotonVolver" class="text-left mt-1">
         <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
     </div>
@@ -12,10 +16,10 @@
     <br>
 
     <div class="table-responsive">
-        <table class="table table-hover ">
-            <thead class="table-active" >
+        <table class="table" id="tablaIndex">
+            <thead id="headIndex">
             <tr>
-                <th>{{knp_pagination_sortable(auditorias, 'Id', 'p.id') }}</th>
+                {# <th>{{knp_pagination_sortable(auditorias, 'Id', 'p.id') }}</th> #}
                 <th>{{knp_pagination_sortable(auditorias, 'Fecha', 'p.fecha')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Usuario', 'p.nombreUsuario')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Instancia Anterior', 'p.instanciaAnterior')}}</th>
@@ -24,16 +28,16 @@
                 <th>{{knp_pagination_sortable(auditorias, 'Estado Actual', 'p.estadoActual')}}</th>
                 <th>{{knp_pagination_sortable(auditorias, 'Tarea', 'p.accion')}}</th>
                 {% if   "DIG_ADMINISTRADOR" in roles %}
-                <th>Acciones</th>
+                <th class="thOp">Acciones</th>
                 {% endif %}
                 
     
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tbody"> 
             {% for auditoria in auditorias %}
             <tr>
-                <td>{{auditoria.id}}</td>
+                {# <td>{{auditoria.id}}</td> #}
                 <td>{{ auditoria.fecha|date('d-m-Y\\ H:i') }}</td>
                 <td>{{ auditoria.nombreUsuario }}</td>
                 <td>{{ auditoria.instanciaAnterior }}</td>
@@ -57,6 +61,7 @@
         {{ knp_pagination_render(auditorias) }}
     </div>
     </div>
+</div>
     {% block javascripts %}
     {{encore_entry_script_tags('busquedaParamItem')}}
     {% endblock %}

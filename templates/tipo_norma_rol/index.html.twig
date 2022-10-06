@@ -1,10 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}TipoNormaRol index{% endblock %}
-
+{% block addStyleSheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('indexAdmin') }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 {% block body %}
 
 <h1>Roles del tipo de norma {{tipoNorma.nombre}}</h1> 
+<div class="container">
 {% if "DIG_ADMINISTRADOR" in roles %}
     <div id="contenedorBotonVolver" class="text-left mt-1">
         <a href="{{path('tipo_norma_index')}}" class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
@@ -14,17 +19,17 @@
 <br>
 <br>
     <div class="table-responsive">
-        <table class="table table-hover ">
-            <thead class="table-active" >
+        <table class="table">
+            <thead id="headIndex">
             <tr>
-                <th>Id</th>
-                <th>Nombre</th>
+                <th class="thOp">Id</th>
+                <th class="thOp">Nombre</th>
                 {% if "DIG_ADMINISTRADOR" in roles %}
-                <th>Opciones</th>
+                <th class="thOp">Opciones</th>
                 {% endif %}
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tbody">
             {% for r in rolesTipo %}
             <tr>
                 <td>
@@ -48,5 +53,5 @@
         </tbody>
     </table>
     </div>
-
+</div>
 {% endblock %}

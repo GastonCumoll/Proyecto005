@@ -9,6 +9,12 @@
         <title>Municipalidad de Paraná </title>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
     {% endblock %}
 
     {% block addStyleSheets %}
@@ -28,14 +34,14 @@
         <div id="carga2"></div>
         <div id="carga3"></div>
     </div>
-    <div class="{#header-top #}container">
+    <div class="{#header-top #}container-fluid headerPrincipal">
 
 
 
-        <nav class="navbar navbar-expand-lg  navbar-light bg-white" id="nav">
-            <div class="d-flex flex-grow-1">
-                <a class="navbar-brand" href="{{ path('inicio') }}" >
-                    <img src="{{asset('/municipalidad.png')}}" width="173" height="auto" alt="">
+        <nav class="navbar navbar-expand-lg" id="nav">
+            <div class="contenedorImagenHeader text-left ml-5">
+                <a class="navbar-brand imagen" href="{{ path('inicio') }}" >
+                    <img src="{{asset('/logoMunicipalidadBlanco.png')}}"  alt="" id="logoMunicipalidad">
                 </a>
                 
 
@@ -45,70 +51,94 @@
                     </button>
                 </div>
             </div>
-            <div >
-                <h3 class="float-left mt-2"id="tituloD"><strong>Obra Digesto Municipal</strong></h3>
+            <div class="titulo text-center mt-4">
+                <h3 class="" id="tituloD">Digesto Municipal</h3>
             </div>
             
-            <div class="collapse navbar-collapse text-right" id="myNavbar">
-                <ul class="navbar-nav ml-auto">
+            <div class="collapse navbar-collapse text-right contenedorBotonIngresar mr-5" id="myNavbar">
+                <ul class="navbar-nav ml-auto text-center">
+                    {# si hay sesion: #}
                 {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-regular fa-user"></i>{{ app.session.get('username')}}
-                        </a>
-                        <div class="dropdown-menu text-right border-right-0 border-left-0">
+                        {# <div class="text-left">
+                            <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>INGRESAR</p></a>
+                        </div> #}
+                        <a class="nav-link dropdown-toggle botonModificado" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
+                            <p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>{{ app.session.get('username')}}</p></a>
+                        <div class="dropdown-menu" id="dropdownMenu">
                             {% if 'DIG_ADMINISTRADOR' in app.session.get('roles') %}
-                                <p style="font-size: 12px !important;">DIG_ADMINISTRADOR</p>
+                                <p id="rol">DIG_ADMINISTRADOR</p>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
                             {% if 'DIG_OPERADOR' in app.session.get('roles') %}
-                                <p style="font-size: 12px !important;">DIG_OPERADOR</p>
+                            <p id="rol">DIG_OPERADOR</p>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
                             {% if 'DIG_CONSULTOR' in app.session.get('roles') %}
-                                <p style="font-size: 12px !important;">DIG_CONSULTOR</p>
+                            <p id="rol">DIG_CONSULTOR</p>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
                             {% if 'DIG_EDITOR' in app.session.get('roles') %}
-                                <p style="font-size: 12px !important;">DIG_EDITOR</p>
+                            <p id="rol">DIG_EDITOR</p>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
                             
-                            <p style="font-size: 12px !important;">{{app.session.get('repa')}}</p>
+                            <p id="rol">{{app.session.get('repa')}}</p>
+                            <div class="dropdown-divider"></div> 
+                            <div class="option">
+                                <a href="{{ path('change_password') }}"><p id="rol">Cambiar contraseña</p></a>
+                            </div>
+                            {# <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a> #}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a>
+                            <div class="option">
+                                <a href="{{ path('inicio_admin') }}"><p id="rol">Panel de control</p></a>
+                            </div>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item cargando" href="{{ path('inicio_admin') }}"style="font-size: 12px !important;">Panel de control</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item cargando" href="{{path('logout',{'bandera':0})}}"style="font-size: 12px !important;">Salir</a>
+                            <div class="option">
+                                <a href="{{path('logout',{'bandera':0})}}"><p id="rol">Salir</p></a>
+                            </div>
                         </div>
                     </li>
-                    {% else %}
-                        <a class="btn btn-info" type="button" href="{{ path('login') }}"><i class="fa-regular fa-user"></i> Ingresar</a>
+                    {% elseif app.request.get('_route') != 'login' %}
+                    <div class="text-left">
+                        <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>INGRESAR</p></a>
+                    </div>
                 {% endif %}
                 </ul>
             </div>
 
         </nav>
+{% if app.request.get('_route') == 'norma_show' %}
+    <header class="header">{{ include('headerNorma.html.twig') }}</header>
+    {% else %}
+    <header class="header">{{ include('header.html.twig') }}</header>
+{% endif %}
+            
+
+        
+        
     </div>
-    <div class="barrita container">
-        <div class="d-sm-flex cont">
+    
+    {# <div class="barrita container-fluid"> #}
+        
+        {# <div class="d-sm-flex cont">
             <div class="barra" style="background-color: #47BCCA"></div>
             <div class="barra" style="background-color: #66A1AA"></div>
             <div class="barra" style="background-color: #005B88"></div>
         </div>
-    </div>
-    <div class="container contenido">
-        {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
-        <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+    </div> #}{% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
+        <div class="container-fluid">
+            <header class="headerAdmin">{{ include('baseAdmin.html.twig') }}</header>
+        </div>
+        <div class="container contenido">
+        
+        
         {% elseif app.request.pathinfo != "/inicio" %}
         {# para saber si no estoy logeado y estoy en la pagina de inicio#} 
-        <header class="headerPublic">{{ include('basePublic.html.twig') }}</header>
+        {# <header class="headerPublic">{{ include('basePublic.html.twig') }}</header> #}
         {% endif %}
-
-
-
-
+    </div>
+    <div class="container-fluid contenido">
     {% block body %}{% endblock %}
 </div>  
 <br/>

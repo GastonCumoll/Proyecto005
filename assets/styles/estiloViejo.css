@@ -163,13 +163,13 @@
     margin-left: 25px;
     margin-right: 25px;
 }
-.table thead tr th{
+/* .table thead tr th{
     font-weight:bold;
     font-size: 12px;
 }
 .table tbody tr td{
     font-size: 12px;
-}
+} */
 
 .hide{
     visibility: hidden;

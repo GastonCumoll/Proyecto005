@@ -28,4 +28,21 @@ import 'bootstrap-select/dist/css/bootstrap-select.css';
 
 $(function () {
     $('#selectpicker').selectpicker();
+    $('.selectpicker1').selectpicker();
+
+
+    // var urlActual = window.location.href;
+    
+    // if(urlActual.includes("/inicio")){
+    //     if(document.getElementsByClassName("headerAdmin")[0]){
+    //         var menuAdmin = document.getElementsByClassName("headerAdmin")[0];
+    //         menuAdmin.style.visibility = "hidden";
+    //     }
+        
+    //     if(document.getElementsByClassName("headerBusqueda")[0]){
+    //         var menuPublic = document.getElementsByClassName("headerBusqueda")[0];
+    //         menuPublic.style.visibility = "hidden";
+    //     }
+    // }
+    
 });

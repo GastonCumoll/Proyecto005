@@ -26,13 +26,13 @@
 
     }
     
-    .busqueda-input{
+    /* .busqueda-input{
         width: 100% !important;
-    }
+    } */
 
-    .headerPdf{
+    /* .headerPdf{
         text-align: center !important;
-    }
+    } */
 
     #busquedaTexto{
         width: 80% !important;
@@ -44,6 +44,9 @@
 
     .contenedorBotonVolver{
         margin-right: auto !important;
+        position: absolute !important;
+        left: 5% !important;
+        
     }
 
     .h4{
@@ -130,10 +133,15 @@
         font-size: 20px;
     }
 
+
     .fa-chevron-left{
         margin-top: 1px;
     }
 
+    .columnaRela{
+        width: 20% !important;
+    }
+    
 
     .h4{
         float: none !important;
@@ -194,15 +202,23 @@
     #containerBotones{
         text-align: center !important;
     }
-
+    
 
     .botonAtras{
         top:18;
-        left: 10;
+        left: 40;
         position: absolute;
         width: 40px;
         height: 40px;
         font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
     }
 
     .fa-chevron-left{
@@ -233,10 +249,142 @@
     .contenedorBotonPDF{
         float: left !important;
         width: 30% !important;
+        display: inline;
+        margin-left: 6% !important;
     }
 
+    #tablaRela{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+    }
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal; /* regular */
+        /* font-stretch: narrower; */
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
+    }
+
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+    #relacionColHead{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+    #relacionNor{
+        border-top: #005B88 solid !important;
+    }
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
     .card-header{
         text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 ;
+        position: relative !important;
+    }
+
+    .ciriculo{
+        position: absolute !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-color:red !important;
+        border-radius: 50% !important;
+        left: 10px !important;
+        top: 0 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        /* box-shadow: 10px 10px lightblue; */
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+    #busqueda-input-texto{
+        margin-right: 28% !important;
+    }
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
+    .findAndSeek{
+        margin-top:15px;
+        display: inline;
+    }
+    .btn-sm {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #008fa3 !important;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-color: #008fa3;
+        /* height: 100% !important; */
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
     }
 
     .modalContainer {
@@ -280,9 +428,19 @@
         display: inline !important;
     }
 
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+    .iconoMas{
+        margin-top: 25% !important;
     }
 }
 
@@ -295,9 +453,17 @@
         display: inline-block;
         width: 18% !important;
     }
+    .divBotones1{
+        display: inline-block;
+        width: 30% !important;
+    }
 
     .botones{
         width: 100% !important;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
     }
 
     #botonVolver{
@@ -310,7 +476,37 @@
     }
 
     .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
         width: 100% !important;
+    }
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+        /* width: 20% !important; */
+    }
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        /* border: #008fa3; */
+
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    
     }
 
     .modalContainer {
@@ -350,14 +546,62 @@
         cursor: pointer;
     }
 
-    #h5Archivos{
-        display: inline !important;
+    #linkArchivo{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* regular */
+        margin-top: 2%;
+        font-size: small;
     }
 
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: x-large;
+        font-stretch: semi-condensed;
+    }
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
     } 
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
 
-
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+    #trRela{
+        border-bottom:#005B88 !important ;
+    }
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88  !important;
+    }
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
+    }
 }
