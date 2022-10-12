@@ -8,7 +8,7 @@
         <div class="contenedorDinamicoSpinner">
 
         </div>
-        <div>
+        <div class="row">
             <div id="txt">
                 {% if app.request.get('_route') == 'indice_vigente' %}
                     Normas vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
@@ -22,11 +22,12 @@
                 {% endif %}
                 
             </div>
-        </div>
+        
         <div class="input-group mr-2" id="busqueda-input">
             <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
             <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
         </div>
+    </div>
     </div>
 
     {% block javascripts %}

@@ -6,72 +6,72 @@
 <header class="headerNorma">
     <div class="container-fluid" id="containerHeader">
         <div class="contenedorDinamicoSpinner">
-
         </div>
-        {% set cadena = '' %}
-        {% if item %}
-        
-            {% macro mostrarNorma(norma) %}
-                {{norma.titulo}}
-            {% endmacro %}
-        
-            {% macro recursiveCategory(itemHijo, norma ) %}
-                
-                {% import _self as self %} 
-                
-                    {% if itemHijo.padre != null %}
-                        {{ self.recursiveCategory(itemHijo.padre, norma) }} |
-                        {{itemHijo.nombre}}
-                    {% else %}
-                        {# {% if itemHijo.nombre == 'NORMAS VIGENTES' %} #}
-                            {# <a href="{{path('indice_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a> #}
-                            {{ itemHijo.nombre }}
-                        {# {% else %}
-                            {# <a href="{{path('indice_no_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a> #}
-                        {# {% endif %}  #}
-                    {% endif %}
+        <div class="row" id="headerN">
+            {% set cadena = '' %}
+            {% if item %}
+            
+                {% macro mostrarNorma(norma) %}
+                    {{norma.titulo}}
+                {% endmacro %}
+            
+                {% macro recursiveCategory(itemHijo, norma ) %}
                     
-            {% endmacro %}
-        
-            {% from _self import recursiveCategory %}
-                {% from _self import mostrarNorma %}
-                {# <div class="alert alert-dark" role="alert"> #}
+                    {% import _self as self %} 
                     
-                    {# <div> #}
-                        {# <div id="txt"> #}
-                            {% if item.padre != null %}
-                                    {% set cadena = cadena ~ recursiveCategory(item, norma) ~ ""  %}
-                                    {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
-                                {% else %}
-                                {% set cadena = cadena ~ item.nombre ~ "|" ~ norma.titulo ~ ""  %}
-                                {% endif %}
-                                {# {% if cadena|length < 80 %} #}
+                        {% if itemHijo.padre != null %}
+                            {{ self.recursiveCategory(itemHijo.padre, norma) }} |
+                            {{itemHijo.nombre}}
+                        {% else %}
+                            {# {% if itemHijo.nombre == 'NORMAS VIGENTES' %} #}
+                                {# <a href="{{path('indice_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a> #}
+                                {{ itemHijo.nombre }}
+                            {# {% else %}
+                                {# <a href="{{path('indice_no_vigente')}}"class="alert-link"> {{ itemHijo.nombre }}</a> #}
+                            {# {% endif %}  #}
+                        {% endif %}
+                        
+                {% endmacro %}
+                {% from _self import recursiveCategory %}
+                    {% from _self import mostrarNorma %}
+                    {# <div class="alert alert-dark" role="alert"> #}
+                        
+                        {# <div> #}
+                            {# <div id="txt"> #}
+                                {% if item.padre != null %}
+                                        {% set cadena = cadena ~ recursiveCategory(item, norma) ~ ""  %}
+                                        {# <i class="fa-solid fa-angle-right"></i> {{ mostrarNorma(norma)}} #}
+                                    {% else %}
+                                    {% set cadena = cadena ~ item.nombre ~ "|" ~ norma.titulo ~ ""  %}
+                                    {% endif %}
+                                    {# {% if cadena|length < 80 %} #}
+                                        
+                                    {# {% endif %} #}
                                     
-                                {# {% endif %} #}
                                 
-                            
-                            {# <br> #}
-                            {# <h1> {{cadena}} </h1> #}
+                                {# <br> #}
+                                {# <h1> {{cadena}} </h1> #}
+                            {# </div> #}
                         {# </div> #}
-                    {# </div> #}
+                        
                     
-                
-            {# </div> #}
-        {% endif %}
-        {# {% set cadena = cadena|trim %}
- 
-        <input type="hidden" value="{{cadena}}"> #}
-        <div id="txt"> <p id="cadenaRuta">{{cadena|trim}}</p> </div>
-            {# {% if cadena|trim|length > 515 %}
-            
-            {% else %}
+                {# </div> #}
+            {% endif %}
+            {# {% set cadena = cadena|trim %}
+    
+            <input type="hidden" value="{{cadena}}"> #}
             <div id="txt"> <p id="cadenaRuta">{{cadena|trim}}</p> </div>
-            {% endif %} #}
+                {# {% if cadena|trim|length > 515 %}
+                
+                {% else %}
+                <div id="txt"> <p id="cadenaRuta">{{cadena|trim}}</p> </div>
+                {% endif %} #}
+                
             
-        
-        <div class="input-group mr-2" id="busqueda-input">
-            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
-            <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+            <div class="input-group" id="busqueda-input">
+                <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+            </div>
         </div>
     </div>
 

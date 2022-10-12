@@ -26,12 +26,12 @@
     }
 }
 
-@media (max-width: 991px) and (min-width: 768px) {
+/* @media (max-width: 991px) and (min-width: 768px) {
     .btn-info{
         margin-bottom: 4% !important;
     }
 
-}
+} */
 
 @media (max-width: 1199px) and (min-width: 992px) {
     .btn-info{

@@ -672,7 +672,7 @@ class NormaController extends AbstractController
         if($idReparticion){
             $reparticionUsuario = $areaRepository->find($idReparticion);
         }
-        // $filtros=[];
+        $filtros=[];
         //pregunto si estoy logeado
         if(!$idSession){
             //si no hay nadie logueado, hace la busqueda por la palabra que ingrese(o busca todas si no ingrese palabra(-1))
@@ -681,7 +681,7 @@ class NormaController extends AbstractController
                 $normasQuery=$normaRepository->findAllQuery();
             }else{
                 $palabra=str_replace("§","/",$palabra);
-                // $filtros[]=$palabra;
+                $filtros[]=$palabra;
                 $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
             }
         }else{
@@ -691,7 +691,7 @@ class NormaController extends AbstractController
             }else{
                 $palabra=str_replace("§","/",$palabra);
                 $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
-                // $filtros[]=$palabra;
+                $filtros[]=$palabra;
             }
         }
         
@@ -713,7 +713,7 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'tipoNormas' => $tipo->findAll(),
             'normasUsuario' => $normasUsuario,
-            // 'filtros' =>$filtros
+            'filtros' =>$filtros
         ]);
         
     }
@@ -809,7 +809,7 @@ class NormaController extends AbstractController
         }else{
             $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol,$texto);
         }
-        /*$filtros=[];
+        $filtros=[];
         if($titulo){
             $filtros[]=$titulo;
         }
@@ -822,15 +822,12 @@ class NormaController extends AbstractController
         if($año){
             $filtros[]=$año;
         }
-        if($tipo){
-            $filtros[]=$tipo;
-        }
         if($texto){
             $filtros[]=$texto;
         }
         foreach ($arrayDeEtiquetas as $eti) {
             $filtros[]=$eti;
-        }*/
+        }
         // dd($normas);
         //seccion paginator
         // Paginar los resultados de la consulta
@@ -852,7 +849,7 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
-            // 'filtros' => $filtros
+            'filtros' => $filtros
         ]);
     }
 
@@ -924,7 +921,7 @@ class NormaController extends AbstractController
         $numero=intval($request->query->get('numero'));//int
         $año=intval($request->query->get('año'));//int
         $etiquetas=$request->query->get('etiquetas');
-
+        // dd($etiquetas);
         $arrayDeNormas=[];
 
         if($etiquetas!= null){
@@ -942,6 +939,31 @@ class NormaController extends AbstractController
         }else{
             $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol,$texto);
         }
+        $filtros=[];
+        if($titulo){
+            $filtros[]=$titulo;
+        }
+        if($tipo){
+            $filtros[]=$tipoNormaRepository->findOneById($tipo)->getNombre();
+            
+        }
+        if($numero){
+            $filtros[]=$numero;
+        }
+        if($año){
+            $filtros[]=$año;
+        }
+        if($texto){
+            $filtros[]=$texto;
+        }
+        $fEti=[];
+        if($etiquetas!= null){
+            foreach ($etiquetas as $eti) {
+                $fEti[]=$etiquetaRepository->findOneById($eti);
+            }
+        }
+        
+
         // Paginar los resultados de la consulta
         $normasP = $paginator->paginate(
             // Consulta Doctrine, no resultados
@@ -962,6 +984,8 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
+            'filtros' => $filtros,
+            'fEtiquetas' =>$fEti,
         ]);
     }
 

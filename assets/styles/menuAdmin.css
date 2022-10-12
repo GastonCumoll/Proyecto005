@@ -22,123 +22,7 @@
     } */
 @media (max-width: 350px) and (min-width: 300px){
     #listadoElementos{
-        background-color: #b2b2b2;
-        color: #d3d3d3;
-        margin-top: 0% !important;
-        /* margin-bottom: 5% !important; */
-    }
-    #PrimerItem{
-        margin-left: 2% !important;
-    }
-    .nav-pills .show>.nav-link{
-        background-color: #005B88 !important;
-        color: #303030 !important;
-    }
-    .nav-link:hover{
-        color: #005B88 !important;
-    }
-    #busqueda-input{
-        float: inline-start !important;
-        margin-left: auto !important;
-    }
-    #navLinkDropdownToggle{
-        background-color: #b2b2b2 !important;
-    }
-    #linkVolver{
-        color: white;
-    }
-    #linkVolver:hover{
-        color: #d3d3d3;
-        text-decoration: none !important;
-    }
-    #tablaIndex{
-        font-family:'Montserrat', sans-serif !important;
-        /* border: 2px solid #005B88;
-        border-radius: 5px !important; 
-        border-spacing: 0px; */
-        border-collapse: separate;
-    }
-}
-@media(max-width:519px) and (min-width:351px){
-#listadoElementos{
-        background-color: #b2b2b2;
-        color: #d3d3d3;
-        margin-top: 0% !important;
-        /* margin-bottom: 5% !important; */
-    }
-    #PrimerItem{
-        margin-left: 2% !important;
-    }
-    .nav-pills .show>.nav-link{
-        background-color: #005B88 !important;
-        color: #303030 !important;
-    }
-    .nav-link:hover{
-        color: #005B88 !important;
-    }
-    #busqueda-input{
-        float: inline-start !important;
-        margin-left: auto !important;
-    }
-    #navLinkDropdownToggle{
-        background-color: #b2b2b2 !important;
-    }
-    #linkVolver{
-        color: white;
-    }
-    #linkVolver:hover{
-        color: #d3d3d3;
-        text-decoration: none !important;
-    }
-    #tablaIndex{
-        font-family:'Montserrat', sans-serif !important;
-        /* border: 2px solid #005B88;
-        border-radius: 5px !important; 
-        border-spacing: 0px; */
-        border-collapse: separate;
-    }
-}
-@media (max-width: 767px) and (min-width: 520px){
-    #listadoElementos{
-        background-color: #b2b2b2;
-        color: #d3d3d3;
-        margin-top: 0% !important;
-        /* margin-bottom: 5% !important; */
-    }
-    #PrimerItem{
-        margin-left: 2% !important;
-    }
-    .nav-pills .show>.nav-link{
-        background-color: #005B88 !important;
-        color: #303030 !important;
-    }
-    .nav-link:hover{
-        color: #005B88 !important;
-    }
-    #busqueda-input{
-        float: inline-start !important;
-        margin-left: auto !important;
-    }
-    #navLinkDropdownToggle{
-        background-color: #b2b2b2 !important;
-    }
-    #linkVolver{
-        color: white;
-    }
-    #linkVolver:hover{
-        color: #d3d3d3;
-        text-decoration: none !important;
-    }
-    #tablaIndex{
-        font-family:'Montserrat', sans-serif !important;
-        /* border: 2px solid #005B88;
-        border-radius: 5px !important; 
-        border-spacing: 0px; */
-        border-collapse: separate;
-    }
-}
-@media (max-width: 1199px) and (min-width: 768px){
-    #listadoElementos{
+        /* margin-left: 10vw !important; */
         background-color: #b2b2b2;
         color: #d3d3d3;
         margin-top: 0% !important;
@@ -173,8 +57,93 @@
         border-radius: 5px !important; 
         border-spacing: 0px;
         border-collapse: separate;
+        /* margin-top: 2%; */
     }
 }
+
+@media(max-width:519px) and (min-width:351px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: #303030 !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: auto !important;
+    }
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
+    #linkVolver{
+        color: white;
+    }
+    #linkVolver:hover{
+        color: #d3d3d3;
+        text-decoration: none !important;
+    }
+    #tablaIndex{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important; 
+        border-spacing: 0px;
+        border-collapse: separate;
+        /* margin-top: 2%; */
+    }
+
+}
+
+@media(max-width:1199px) and (min-width:520px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: #303030 !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: auto !important;
+    }
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
+    #linkVolver{
+        color: white;
+    }
+    #linkVolver:hover{
+        color: #d3d3d3;
+        text-decoration: none !important;
+    }
+    #tablaIndex{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important; 
+        border-spacing: 0px;
+        border-collapse: separate;
+        /* margin-top: 2%; */
+    }
+}
+
 @media (min-width: 1200px){
     #listadoElementos{
         /* margin-left: 10vw !important; */

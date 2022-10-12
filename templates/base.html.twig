@@ -19,7 +19,7 @@
 
     {% block addStyleSheets %}
     {{ encore_entry_link_tags('footer') }}
-    {{ encore_entry_link_tags('barrita') }}
+    {# {{ encore_entry_link_tags('barrita') }} #}
     {# {{ encore_entry_link_tags('base') }} #}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('boton') }} 
@@ -28,23 +28,12 @@
 </head>
 
 <body>
-
-    <div id="contenedor_carga">
-        <div id="carga"></div>
-        <div id="carga2"></div>
-        <div id="carga3"></div>
-    </div>
-    <div class="{#header-top #}container-fluid headerPrincipal">
-
-
-
-        <nav class="navbar navbar-expand-lg" id="nav">
+    <div class="container-fluid headerPrincipal">
+        <nav class="navbar navbar-expand" id="nav">
             <div class="contenedorImagenHeader text-left ml-5">
                 <a class="navbar-brand imagen" href="{{ path('inicio') }}" >
                     <img src="{{asset('/logoMunicipalidadBlanco.png')}}"  alt="" id="logoMunicipalidad">
                 </a>
-                
-
                 <div class="w-100 mt-auto mb-auto text-right">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
                         <span class="navbar-toggler-icon"></span>
@@ -64,7 +53,7 @@
                             <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>INGRESAR</p></a>
                         </div> #}
                         <a class="nav-link dropdown-toggle botonModificado" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
-                            <p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>{{ app.session.get('username')}}</p></a>
+                            <p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg" style="width: 25;"></i>{{ app.session.get('username')}}</p></a>
                         <div class="dropdown-menu" id="dropdownMenu">
                             {% if 'DIG_ADMINISTRADOR' in app.session.get('roles') %}
                                 <p id="rol">DIG_ADMINISTRADOR</p>

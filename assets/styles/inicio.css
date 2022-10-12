@@ -1,44 +1,653 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-
-@media (max-width: 1519px) and (min-width: 1200px) {
+@media (max-width: 429px) and (min-width: 350px){
+    #cardAdvertencia{
+        border: red;
+    }
     #consulta{
         display: inline !important;
     }
     #tituloInicio{
         font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        color: #008FA3 !important;
+        font-size: 20px !important;
+        margin-top: 7% !important;
+    }
+    .botonesInicio{
+        margin-top: 5%;
+        display: block;
+        margin-left: 25% !important;
+        width: 50% !important;
+        background-color: white !important;
+        border: 1px solid #005B88;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005b88 !important;
+        font-size: x-small !important;
+        /* padding: 5% !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .botonConsulta{
+        width: 50% !important;
+        border: 1px solid;
+        border-radius: 4px;
+        /* margin-left: 2% !important; */
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: x-small !important;
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .card{
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400 !important;
+        color: #008FA3;
+        font-size: 12px !important;
+    }
+    .btn-outline-info{
+        font-family: 'Montserrat', sans-serif !important;
         font-weight: 700 !important;
+        background-color: white !important;
+    }
+    #consultar{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400 !important;
+        background-color: white !important;
+        box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 8px;
+        font-size: 12px !important;
+    }
+    .btn-outline-info:hover{
+        background-color: #008fa3 !important;
+        color: white !important;
+    }
+    #contenedorBotonesInicio{
+        margin-left: 0% !important;
+        display: block;
+        margin-top: 5% !important;
+    }
+    
+    input{
+        border-color: #808080 !important;
+    }
+    textarea{
+        border-color: #808080 !important;
+    }
+    .selectpicker{
+        border-color: #e6e6e6 !important;
+    }
+    .form-control{
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        font-size: 12px !important;
+        font-weight: 400;
+        color:#808080 !important;
+    }
+    .filter-option-inner-inner {
+        background-color: #e6e6e6;
+        margin-top: 0%;
+        color:#808080 !important;
+        font-size: 12px !important;
+        font-weight: 400;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder {
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        height: 35px !important;
+    }
+    .dropdown-toggle {
+        background-color: #e6e6e6;
+    }
+    .btn.dropdown-toggle.btn-light {
+        background-color: #e3e3e3;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        border-color: #808080;
+        height: 35px !important;
+    }
+    .row.modificable{
+        display: block;
+    }
+    .text-left{
+        margin-left: 0% !important;
+    }
+}
+@media (max-width: 600px) and (min-width: 430px){
+    #cardAdvertencia{
+        border: red;
+    }
+    #consulta{
+        display: inline !important;
+    }
+    #tituloInicio{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #008FA3 !important;
+        font-size: 25px !important;
+        margin-top: 7% !important;
+    }
+    .botonesInicio{
+        margin-top: 5%;
+        display: block;
+        margin-left: 25% !important;
+        width: 50% !important;
+        background-color: white !important;
+        border: 1px solid #005B88;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005b88 !important;
+        font-size: small !important;
+        /* padding: 5% !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .botonConsulta{
+        width: 50% !important;
+        border: 1px solid;
+        border-radius: 4px;
+        /* margin-left: 1% !important; */
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: small !important;
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .card{
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400 !important;
+        color: #008FA3;
+        font-size: 12px !important;
+    }
+    .btn-outline-info{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        background-color: white !important;
+    }
+    #consultar{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400 !important;
+        background-color: white !important;
+        box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 8px;
+        font-size: 12px !important;
+    }
+    .btn-outline-info:hover{
+        background-color: #008fa3 !important;
+        color: white !important;
+    }
+    #contenedorBotonesInicio{
+        margin-left: 0% !important;
+        display: block;
+        margin-top: 5% !important;
+    }
+    
+    input{
+        border-color: #808080 !important;
+    }
+    textarea{
+        border-color: #808080 !important;
+    }
+    .selectpicker{
+        border-color: #e6e6e6 !important;
+    }
+    .form-control{
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        font-size: 12px !important;
+        font-weight: 400;
+        color:#808080 !important;
+    }
+    .filter-option-inner-inner {
+        background-color: #e6e6e6;
+        margin-top: 0%;
+        color:#808080 !important;
+        font-size: 12px !important;
+        font-weight: 400;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder {
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        height: 35px !important;
+    }
+    .dropdown-toggle {
+        background-color: #e6e6e6;
+    }
+    .btn.dropdown-toggle.btn-light {
+        background-color: #e3e3e3;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        border-color: #808080;
+        height: 35px !important;
+    }
+    .row.modificable{
+        display: block;
+    }
+    .text-left{
+        margin-left: 0% !important;
+    }
+}
+@media (max-width: 910px) and (min-width: 600px){
+    #cardAdvertencia{
+        border: red;
+    }
+    #consulta{
+        display: inline !important;
+    }
+    #tituloInicio{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #008FA3 !important;
+        font-size: 30px !important;
+        margin-top: 7% !important;
+    }
+    .botonesInicio{
+        margin-top: 5%;
+        display: block;
+        margin-left: 31% !important;
+        width: 40% !important;
+        background-color: white !important;
+        border: 2px solid #005B88;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005b88 !important;
+        font-size: medium !important;
+        /* padding: 5% !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .botonConsulta{
+        width: 40% !important;
+        border: 2px solid;
+        border-radius: 6px;
+        margin-left: 2% !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: medium !important;
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .card{
+        border: 1px solid;
+        border-color: #008FA3 !important;
+        border-radius: 4px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        color: #008FA3;
+        font-size: 12px !important;
+    }
+    .row.modificable{
+        display: block;
+    }
+    .text-left{
+        margin-left: 0% !important;
+    }
+    .btn-outline-info{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        background-color: white !important;
+    }
+    #consultar{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        background-color: white !important;
+        box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 8px;
+        font-size: 12px !important;
+    }
+    .btn-outline-info:hover{
+        background-color: #008fa3 !important;
+        color: white !important;
+    }
+    #contenedorBotonesInicio{
+        margin-left: 0% !important;
+        display: block;
+        margin-top: 5% !important;
+    }
+    
+    input{
+        border-color: #808080 !important;
+    }
+    textarea{
+        border-color: #808080 !important;
+    }
+    .selectpicker{
+        border-color: #e6e6e6 !important;
+    }
+    .form-control{
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        font-size: 12px !important;
+        font-weight: 400;
+        color:#808080 !important;
+    }
+    .filter-option-inner-inner {
+        background-color: #e6e6e6;
+        margin-top: 0%;
+        color:#808080 !important;
+        font-size: 12px !important;
+        font-weight: 400;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder {
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        height: 35px !important;
+    }
+    .dropdown-toggle {
+        background-color: #e6e6e6;
+    }
+    .btn.dropdown-toggle.btn-light {
+        background-color: #e3e3e3;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        border-color: #808080;
+        height: 35px !important;
+    }
+
+}
+@media (max-width: 974px) and (min-width: 911px){
+    #cardAdvertencia{
+        border: red;
+    }
+    #consulta{
+        display: inline !important;
+    }
+    #tituloInicio{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #008FA3 !important;
+        font-size: 30px !important;
+        margin-top: 10% !important;
+    }
+    .botonesInicio{
+        margin-left: 1% !important;
+        margin-right: 1% !important;
+        width: 25% !important;
+        background-color: white !important;
+        border: 2px solid #005B88;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005b88 !important;
+        font-size: medium !important;
+        /* padding: 5% !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .botonConsulta{
+        width: 25% !important;
+        border: 2px solid;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: medium !important;
+        
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .card{
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        color: #008FA3;
+        font-size: 12px !important;
+    }
+    .btn-outline-info{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        background-color: white !important;
+    }
+    #consultar{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        background-color: white !important;
+        box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 8px;
+        font-size: 12px !important;
+    }
+    .btn-outline-info:hover{
+        background-color: #008fa3 !important;
+        color: white !important;
+    }
+    #contenedorBotonesInicio{
+        margin-top: 5% !important;
+    }
+    input{
+        border-color: #808080 !important;
+    }
+    textarea{
+        border-color: #808080 !important;
+    }
+    .selectpicker{
+        border-color: #e6e6e6 !important;
+    }
+    .form-control{
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        font-size: 12px !important;
+        font-weight: 400;
+        color:#808080 !important;
+    }
+    .filter-option-inner-inner {
+        background-color: #e6e6e6;
+        margin-top: 0%;
+        color:#808080 !important;
+        font-size: 12px !important;
+        font-weight: 400;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder {
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        height: 35px !important;
+    }
+    .dropdown-toggle {
+        background-color: #e6e6e6;
+    }
+    .btn.dropdown-toggle.btn-light {
+        background-color: #e3e3e3;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        border-color: #808080;
+        height: 35px !important;
+    }
+    .cambio1{
+        width: 10% !important;
+    }
+    .cambio2{
+        width: 38% !important;
+    }
+    .cambio3{
+        width: 98% !important;
+    }
+}
+@media (max-width: 1166px) and (min-width: 975px) {
+    #cardAdvertencia{
+        border: red;
+    }
+    #consulta{
+        display: inline !important;
+    }
+    #tituloInicio{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #008FA3 !important;
+        font-size: 30px !important;
+        margin-top: 10% !important;
+    }
+    .botonesInicio{
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+        width: 22% !important;
+        background-color: white !important;
+        border: 2px solid #005B88;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005b88 !important;
+        font-size: medium !important;
+        /* padding: 5% !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .botonConsulta{
+        width: 22% !important;
+        border: 2px solid;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: medium !important;
+        
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
+    }
+    .card{
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 6px;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        color: #008FA3;
+        font-size: small !important;
+    }
+    .btn-outline-info{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        background-color: white !important;
+    }
+    #consultar{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        background-color: white !important;
+        box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
+        border: 2px solid;
+        border-color: #008FA3 !important;
+        border-radius: 8px;
+        font-size: small !important;
+    }
+    .btn-outline-info:hover{
+        background-color: #008fa3 !important;
+        color: white !important;
+    }
+    #contenedorBotonesInicio{
+        margin-top: 5% !important;
+    }
+    input{
+        border-color: #808080 !important;
+    }
+    textarea{
+        border-color: #808080 !important;
+    }
+    .selectpicker{
+        border-color: #e6e6e6 !important;
+    }
+    .form-control{
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        font-size: small;
+        font-weight: 400;
+        color:#808080 !important;
+    }
+    .filter-option-inner-inner {
+        background-color: #e6e6e6;
+        margin-top: 0%;
+        color:#808080 !important;
+        font-size: small;
+        font-weight: 400;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder {
+        background-color: #e6e6e6;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        height: 35px !important;
+    }
+    .dropdown-toggle {
+        background-color: #e6e6e6;
+    }
+    .btn.dropdown-toggle.btn-light {
+        background-color: #e3e3e3;
+        box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px;
+        border-radius: 5px;
+        border-color: #808080;
+        height: 35px !important;
+    }
+    .cambio1{
+        width: 10% !important;
+    }
+    .cambio2{
+        width: 38% !important;
+    }
+    .cambio3{
+        width: 98% !important;
+    }
+}
+@media (max-width: 1533px) and (min-width: 1167px) {
+    #cardAdvertencia{
+        border: red;
+    }
+    #consulta{
+        display: inline !important;
+    }
+    #tituloInicio{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 600 !important;
         color: #008FA3 !important;
         font-size: 40px !important;
         margin-top: 10% !important;
     }
     .botonesInicio{
+        margin-left: 2% !important;
+        margin-right: 2% !important;
         width: 22% !important;
         background-color: white !important;
-        border: 2px solid #005B88;
-        border-radius: 15px;
+        border: 3px solid #005B88;
+        border-radius: 8px;
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
         color: #005b88 !important;
-        font-size: medium !important;
+        font-size: large !important;
         /* padding: 5% !important; */
-        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
     }
     .botonConsulta{
         width: 22% !important;
-        border: 5px solid;
-        border-radius: 15px;
+        border: 3px solid;
+        border-radius: 8px;
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 700 !important;
-        font-size: 25px !important;
-        padding: 20px !important;
-        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 10px;
+        font-weight: 600 !important;
+        font-size: large !important;
+        
+        /* padding: 20px !important; */
+        box-shadow: rgba(0, 0, 0, 0.5) 5px 5px 5px;
     }
     .card{
-        border: 5px solid;
+        border: 3px solid;
         border-color: #008FA3 !important;
-        border-radius: 15px;
+        border-radius: 8px;
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 700 !important;
+        font-weight: 500 !important;
         color: #008FA3;
     }
     .btn-outline-info{
@@ -48,7 +657,7 @@
     }
     #consultar{
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 700 !important;
+        font-weight: 500 !important;
         background-color: white !important;
         box-shadow: rgb(0 0 0 / 50%) 5px 5px 10px;
         border: 2px solid;
@@ -112,7 +721,10 @@
         width: 98% !important;
     }
 }
-@media (min-width: 1520px) {
+@media (min-width: 1534px) {
+    #cardAdvertencia{
+        border: red;
+    }
     #consulta{
         display: inline !important;
     }
@@ -124,6 +736,8 @@
         margin-top: 10% !important;
     }
     .botonesInicio{
+        margin-left: 2% !important;
+        margin-right: 2% !important;
         width: 22% !important;
         background-color: white !important;
         border: 5px solid #005B88;
@@ -222,67 +836,5 @@
     }
     .cambio3{
         width: 98% !important;
-    }
-}
-
-
-@media (max-width: 350px) {
-
-}
-@media (max-width: 563px) {
-    #casilleroBusqueda{
-        width: 92% !important;
-        margin-top: 2% !important;
-        margin-right: 4% !important;
-    }
-    
-    #contenedor{
-        text-align: center !important;
-    }
-
-    .btn-primary{
-        width: 92% !important;
-        margin-top: 2% !important;
-    }
-}
-
-@media (max-width: 767px) {
-        #casilleroBusqueda{
-            width: 92% !important;
-            margin-top: 2% !important;
-            margin-right: 4% !important;
-        }
-        
-        #contenedor{
-            text-align: center !important;
-        }
-
-        .btn-outline-info{
-            margin-right:0% !important;
-        }
-        .btn-primary{
-            margin-top: 2% !important;
-        }
-
-        .btn-outline-info{
-            margin-right: 0% !important;
-
-        }
-}
-
-@media (max-width: 991px) {
-
-    #casilleroBusqueda{
-        width: 92% !important;
-        margin-top: 2% !important;
-        margin-right: 4% !important;
-    }   
-
-    #contenedor{
-        text-align: center !important;
-    }
-
-    .mb-3{
-        text-align: center;
     }
 }

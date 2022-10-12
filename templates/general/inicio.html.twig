@@ -14,31 +14,32 @@
         {# <div class="card-body text-center" > #}
             <h1 id="tituloInicio"> ¡Bienvenido al digesto de la Municipalidad de Paraná! <br> Aquí encontrarás todas las normativas de la ciudad.  </h1>
             <div class="container-fluid text-center" id="contenedorBotonesInicio">
-                <a class="btn btn-light botonesInicio mr-5" type="button" href="{{ path('indice_vigente')  }}">
+                <a class="btn btn-light botonesInicio " type="button" href="{{ path('indice_vigente')  }}">
                     Normas vigentes
                 </a>
                 <a class="btn btn-light botonesInicio " type="button" href="{{ path('indice_no_vigente')  }}">
                     Normas no vigentes
                 </a>
-                <a class="btn btn-light botonesInicio ml-5" type="button" href="{{ path('formulario_busqueda')  }}">
+                <a class="btn btn-light botonesInicio " type="button" href="{{ path('formulario_busqueda')  }}">
                     Busqueda avanzada
                 </a>
                 <br>
                 <br>
-                <div class="row">
-                    <div class="col-sm-12">
-                        {% for flash_message in app.session.flashbag.get('notice') %}
-                    <div class="card shadow mb-5 rounded" id="cardAdvertencia">
-                        <div class="flash-notice text-white font-weight-bolder text-center">
-                            {{ flash_message }}
-                        </div>
-                    </div>
-                {% endfor %}
+                {# <div class="row">
+                    <div class="col-sm-12"> #}
+                        
                         <a class="btn btn-outline-info btn-sm dropdown-toggle mb-1 botonConsulta" role="button" data-toggle="collapse" href="#collapseExample"
                             aria-expanded="false" aria-controls="collapseExample">
                             Necesito ayuda <i class="fa-solid fa-circle-question"></i> <span class="caret"></span>
                         </a>
                         <div class="container-xl">
+                            {% for flash_message in app.session.flashbag.get('notice') %}
+                                <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+                                    <div class="flash-notice text-white font-weight-bolder text-center">
+                                        {{ flash_message }}
+                                    </div>
+                                </div>
+                            {% endfor %}
                             <div class="collapse" id="collapseExample">
                                 <div class="card shadow-sm">
                                     <div class="card-body sm mt-4">
@@ -90,7 +91,7 @@
                                                 <button id="consultar" type="button" class="btn btn-sm btn-outline-info cargando" > Consultar <i class="fa-solid fa-paper-plane"></i></button>
                                             </div>
                                         </form>
-                                    </div>
+                                    {# </div> #}
                                 </div>
                             </div>
                         </div>

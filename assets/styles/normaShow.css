@@ -1,208 +1,15 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-@media (max-width: 504px) and (min-width: 400px){
+@media (max-width: 524px) and (min-width: 400px){
     #containerBotones{
         text-align: center !important;
     }
-    .divBotones{
-        width: 100% !important;
+
+    .card .card-body{
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+        font-size: 12px !important;
     }
-
-    .botones{
-        margin: auto;
-        width: 100% !important;
-        height: 2.5em !important;
-    }
-
-    #botonVolver{
-        width: 100% !important;
-    }
-    #botonCheck{
-        width: 100% !important;
-    }
-
-    .divBotonVolver{
-        width: 100% !important;
-
-    }
-    
-    /* .busqueda-input{
-        width: 100% !important;
-    } */
-
-    /* .headerPdf{
-        text-align: center !important;
-    } */
-
-    #busquedaTexto{
-        width: 80% !important;
-    }
-    .botonVerde{
-        width: 20% !important;
-        margin: 0% !important
-    }
-
-    .contenedorBotonVolver{
-        margin-right: auto !important;
-        position: absolute !important;
-        left: 5% !important;
-        
-    }
-
-    .h4{
-        float: none !important;
-        display: block !important;
-        width: 100% !important;
-        text-align: center !important;
-    }
-
-    .modalContainer {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .modalContainer .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 15vh !important;
-        padding: 20px;
-        border: 1px solid lightgray;
-        width: 60%;
-    }
-
-    .modalContainer .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .modalContainer .close:hover,
-    .modalContainer .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    #h5Archivos{
-        display: inline !important;
-    }
-
-    #botonMas{
-        display: inline-block !important;
-        border-radius: 50% !important;
-    }
-
-}
-
-@media (max-width: 767px) and (min-width: 505px) {
-    #containerBotones{
-        text-align: center !important;
-    }
-    .divBotones{
-        width: 100% !important;
-    }
-
-    .botones{
-        width: 50% !important;
-    }
-
-    #botonVolver{
-        width: 40% !important;
-    }
-
-    .divBotonVolver{
-        width: 100% !important;
-    }
-
-    .botonAtras{
-        top:22;
-        left: 10;
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-    }
-
-
-    .fa-chevron-left{
-        margin-top: 1px;
-    }
-
-    .columnaRela{
-        width: 20% !important;
-    }
-    
-
-    .h4{
-        float: none !important;
-        display: block !important;
-        width: 100% !important;
-        text-align: center !important;
-    }
-
-    .modalContainer {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .modalContainer .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 15vh !important;
-        padding: 20px;
-        border: 1px solid lightgray;
-        width: 60%;
-    }
-
-    .modalContainer .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .modalContainer .close:hover,
-    .modalContainer .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    #h5Archivos{
-        display: inline !important;
-    }
-
-    #botonMas{
-        display: inline-block !important;
-        border-radius: 50% !important;
-    }
-
-}
-
-@media (max-width: 1999px) and (min-width: 768px) {
-    #containerBotones{
-        text-align: center !important;
-    }
-    
 
     .botonAtras{
         top:18;
@@ -215,6 +22,7 @@
         color: #005B88;
         border: 1px solid #ffffff;
     }
+
     .botonAtras:hover{
         background-color: #ffffff !important;
         color: #005B88 !important;
@@ -228,29 +36,53 @@
     .contenedorBotonVolver{
         float: left !important;
     }
-
     .divBotones{
         display: inline-block;
-        width: 40% !important;
+        width: 18% !important;
     }
-
-    .botones{
-        width: 80% !important;
-    }
-
-    #botonVolver{
+    .divBotones1{
+        display: inline-block;
         width: 30% !important;
     }
 
+    .botones{
+        width: 100% !important;
+    }
+    /* .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    } */
+
+    /* .botones{
+        width: 80% !important;
+    } */
+
     .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
         width: 100% !important;
     }
 
     .contenedorBotonPDF{
         float: left !important;
-        width: 30% !important;
+        width:30% !important;
         display: inline;
-        margin-left: 6% !important;
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+    }
+
+    #busqueda-input-texto{
+        width: 50% !important;
+        
+    }
+
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: 8px;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
     }
 
     #tablaRela{
@@ -260,10 +92,13 @@
         border-spacing: 0px;
         border-collapse: separate;
     }
+
     .thead{
         background-color: #005B88;
         color: white;
+        font-size: small !important;
     }
+
     .tbody{
         font-family:'Montserrat', sans-serif !important;
         font-weight: normal; /* regular */
@@ -279,27 +114,34 @@
         border-top: #005B88 solid !important;
         border-bottom: #005B88 solid !important;
     }
+
     #relacionColHead{
         border-top: #005B88 solid !important;
         width: 20% !important;
         border-bottom: #005B88 solid !important; 
     }
+
     #relacionCol{
         border-top: #005B88 solid !important;
         width: 20% !important;
     }
+
     #relacionNor{
         border-top: #005B88 solid !important;
     }
+
     #relacionEdit{
         border-top: #005B88 solid !important;
         width: 10% !important;
+        border-bottom: #005B88  !important;
     }
+
     #relacionEditHead{
         border-top: #005B88 solid !important;
         width: 10% !important;
         border-bottom: #005B88 solid !important; 
     }
+
     .card-header{
         text-align: center !important;
         font-family:'Montserrat', sans-serif !important;
@@ -331,8 +173,8 @@
         border-color: #005B88;
         border-width: 2px;
         border-radius: 10px;
-        /* box-shadow: 10px 10px lightblue; */
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
     }
 
     #cardTexto{
@@ -340,16 +182,18 @@
         color: #005B88;
         border-color:008FA3 ;
     }
-    #busqueda-input-texto{
-        margin-right: 28% !important;
-    }
+
+    
+
     #busquedaTexto{
         border: 1px solid #808080;
     }
+
     .findAndSeek{
         margin-top:15px;
         display: inline;
     }
+
     .btn-sm {
         font-family: 'Montserrat', sans-serif !important;
         font-weight: 300;
@@ -358,7 +202,1231 @@
         color: white;
         box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
         border-color: #008fa3;
-        /* height: 100% !important; */
+    }
+
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        font-size: 10px;
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
+    }
+
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    .iconoMas{
+        margin-top: 25% !important;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: small;
+        font-stretch: semi-condensed;
+    }
+
+    #linkArchivo {
+        text-align: center !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400;
+        margin-top: 2%;
+        font-size: xx-small;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
+    }
+
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+
+    #trRela{
+        border-bottom:#005B88 !important ;
+    }
+
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
+    }
+
+}
+
+@media (max-width: 767px) and (min-width: 525px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .botonAtras{
+        top:18;
+        left: 40;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
+    }
+
+    .fa-chevron-left{
+        margin-top: 1.5px;
+    }
+
+    .contenedorBotonVolver{
+        float: left !important;
+    }
+    .divBotones{
+        display: inline-block;
+        width: 18% !important;
+    }
+    .divBotones1{
+        display: inline-block;
+        width: 30% !important;
+    }
+
+    .botones{
+        width: 100% !important;
+    }
+    /* .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    } */
+
+    /* .botones{
+        width: 80% !important;
+    } */
+
+    .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
+        width: 100% !important;
+    }
+
+    .contenedorBotonPDF{
+        float: left !important;
+        width: 22% !important;
+        display: inline;
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+    }
+
+    #busqueda-input-texto{
+        width: 50% !important;
+    }
+
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: 10px;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
+    }
+
+    #tablaRela{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+    }
+
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal; /* regular */
+        /* font-stretch: narrower; */
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
+    }
+
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+
+    #relacionColHead{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+
+    #relacionNor{
+        border-top: #005B88 solid !important;
+    }
+
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88  !important;
+    }
+
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    .card-header{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 ;
+        position: relative !important;
+    }
+
+    .ciriculo{
+        position: absolute !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-color:red !important;
+        border-radius: 50% !important;
+        left: 10px !important;
+        top: 0 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+
+    
+
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
+
+    .findAndSeek{
+        margin-top:15px;
+        display: inline;
+    }
+
+    .btn-sm {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #008fa3 !important;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-color: #008fa3;
+    }
+
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        font-size: 10px;
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
+    }
+
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    .iconoMas{
+        margin-top: 25% !important;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: medium;
+        font-stretch: semi-condensed;
+    }
+
+    #linkArchivo {
+        text-align: center !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400;
+        margin-top: 2%;
+        font-size: small;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
+    }
+
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+
+    #trRela{
+        border-bottom:#005B88 !important ;
+    }
+
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 767px){
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .botonAtras{
+        top:18;
+        left: 40;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
+    }
+
+    .fa-chevron-left{
+        margin-top: 1.5px;
+    }
+
+    .contenedorBotonVolver{
+        float: left !important;
+    }
+    .divBotones{
+        display: inline-block;
+        width: 18% !important;
+    }
+    .divBotones1{
+        display: inline-block;
+        width: 30% !important;
+    }
+
+    .botones{
+        width: 100% !important;
+    }
+    /* .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    } */
+
+    /* .botones{
+        width: 80% !important;
+    } */
+
+    .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
+        width: 100% !important;
+    }
+
+    .findAndSeek{
+        margin-top:1%;
+        display: inline;
+    }
+
+    .contenedorBotonPDF{
+        float: left !important;
+        width: 18% !important;
+        display: inline ;
+        margin-left: 5% !important;
+        margin-right: 1% !important;
+    }
+
+    #busqueda-input-texto{
+        margin-right: 28% !important;
+    }
+
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
+
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
+        display: inline !important;
+    }
+
+    #tablaRela{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+    }
+
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal; /* regular */
+        /* font-stretch: narrower; */
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
+    }
+
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+
+    #relacionColHead{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+
+    #relacionNor{
+        border-top: #005B88 solid !important;
+    }
+
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88  !important;
+    }
+
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    .card-header{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 ;
+        position: relative !important;
+    }
+
+    .ciriculo{
+        position: absolute !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-color:red !important;
+        border-radius: 50% !important;
+        left: 10px !important;
+        top: 0 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+
+    .btn-sm {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #008fa3 !important;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-color: #008fa3;
+    }
+
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
+    }
+
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    .iconoMas{
+        margin-top: 25% !important;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: x-large;
+        font-stretch: semi-condensed;
+    }
+
+    #linkArchivo {
+        text-align: center !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400;
+        margin-top: 2%;
+        font-size: small;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
+    }
+
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+
+    #trRela{
+        border-bottom:#005B88 !important ;
+    }
+
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px){
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .botonAtras{
+        top:18;
+        left: 40;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
+    }
+
+    .fa-chevron-left{
+        margin-top: 1.5px;
+    }
+
+    .contenedorBotonVolver{
+        float: left !important;
+    }
+    .divBotones{
+        display: inline-block;
+        width: 18% !important;
+    }
+    .divBotones1{
+        display: inline-block;
+        width: 30% !important;
+    }
+
+    .botones{
+        width: 100% !important;
+    }
+    /* .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    } */
+
+    /* .botones{
+        width: 80% !important;
+    } */
+
+    .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
+        width: 100% !important;
+    }
+
+    .findAndSeek{
+        margin-top:1%;
+        display: inline;
+    }
+
+    .contenedorBotonPDF{
+        float: left !important;
+        width: 15% !important;
+        display: inline ;
+        margin-left: 3% !important;
+        margin-right:0% !important;
+    }
+
+    #busqueda-input-texto{
+        margin-right: 28% !important;
+    }
+
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
+
+    #verPdf{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #005B88;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        height: 100% !important;
+        display: inline !important;
+    }
+
+    #tablaRela{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+    }
+
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal; /* regular */
+        /* font-stretch: narrower; */
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
+    }
+
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+
+    #relacionColHead{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+
+    #relacionNor{
+        border-top: #005B88 solid !important;
+    }
+
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88  !important;
+    }
+
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    .card-header{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 ;
+        position: relative !important;
+    }
+
+    .ciriculo{
+        position: absolute !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-color:red !important;
+        border-radius: 50% !important;
+        left: 10px !important;
+        top: 0 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+
+    .btn-sm {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #008fa3 !important;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-color: #008fa3;
+    }
+
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    #cardGeneral{
+        border-color: #005B88;
+    }
+    
+    .form-control{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        
+    }
+    .card-text{
+        text-align: left !important;
+        font-size:smaller;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 400; /* bold */
+        color: #005B88;
+    }
+
+    .contenedorBotonMas{
+        display: inline-block !important;
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    #botonMas{
+        display: inline-block !important;
+        border-radius: 50% !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    #botonMas:hover{
+        color: #008fa3 !important;
+        border-color: #005B88 !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+    }
+
+    .iconoMas{
+        margin-top: 25% !important;
+    }
+
+    #h5Archivos{
+        display: inline !important;
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 550; /* bold */
+        color: #005B88;
+        font-size: x-large;
+        font-stretch: semi-condensed;
+    }
+
+    #linkArchivo {
+        text-align: center !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400;
+        margin-top: 2%;
+        font-size: small;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
+    }
+
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    #btn:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+        font-weight:400 !important;
+        font-size: large !important;
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+    }
+
+    #trRela{
+        border-bottom:#005B88 !important ;
+    }
+
+    .containerEliminar{
+        margin-left: 40%;
+        width: 20% !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    #containerBotones{
+        text-align: center !important;
+    }
+
+    .botonAtras{
+        top:18;
+        left: 40;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #ffffff;
+        color: #005B88;
+        border: 1px solid #ffffff;
+    }
+
+    .botonAtras:hover{
+        background-color: #ffffff !important;
+        color: #005B88 !important;
+        border: 1px solid #ffffff !important;
+    }
+
+    .fa-chevron-left{
+        margin-top: 1.5px;
+    }
+
+    .contenedorBotonVolver{
+        float: left !important;
+    }
+    .divBotones{
+        display: inline-block;
+        width: 18% !important;
+    }
+    .divBotones1{
+        display: inline-block;
+        width: 30% !important;
+    }
+
+    .botones{
+        width: 100% !important;
+    }
+    /* .divBotones{
+        display: inline-block;
+        width: 40% !important;
+    } */
+
+    /* .botones{
+        width: 80% !important;
+    } */
+
+    .divBotonVolver{
+        font-family:'Montserrat', sans-serif !important;
+        width: 100% !important;
+    }
+
+    .findAndSeek{
+        margin-top:1%;
+        display: inline;
+    }
+    .contenedorBotonPDF{
+        float: left !important;
+        width: 12% !important;
+        display: inline;
+        margin-left: 3% !important;
+    }
+
+    #busqueda-input-texto{
+        margin-right: 28% !important;
+    }
+
+    #busquedaTexto{
+        border: 1px solid #808080;
+    }
+
+    #tablaRela{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+    }
+
+    .thead{
+        background-color: #005B88;
+        color: white;
+    }
+
+    .tbody{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: normal;
+        color:#005B88;
+        border-top:2px solid #005B88 !important;
+        border-bottom:2px solid #005B88 !important;
+        border-left:2px solid #005B88 !important;
+        border-right:2px solid #005B88 !important;
+    }
+
+    #relacionNorHead{
+        border-top: #005B88 solid !important;
+        border-bottom: #005B88 solid !important;
+    }
+
+    #relacionColHead{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    #relacionCol{
+        border-top: #005B88 solid !important;
+        width: 20% !important;
+    }
+
+    #relacionNor{
+        border-top: #005B88 solid !important;
+    }
+
+    #relacionEdit{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88  !important;
+    }
+
+    #relacionEditHead{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
+        border-bottom: #005B88 solid !important; 
+    }
+
+    .card-header{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        font-size:x-large;
+        color:white;
+        background: #005B88 ;
+        position: relative !important;
+    }
+
+    .ciriculo{
+        position: absolute !important;
+        width: 20px !important;
+        height: 20px !important;
+        background-color:red !important;
+        border-radius: 50% !important;
+        left: 10px !important;
+        top: 0 !important;
+    }
+
+    .card-title{
+        text-align: center !important;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700; /* bold */
+        color: #005B88;
+    }
+
+    #cardArchivos{
+        border-color: #005B88;
+        border-width: 2px;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    #cardTexto{
+        font-family:'Montserrat', sans-serif !important;
+        color: #005B88;
+        border-color:008FA3 ;
+    }
+
+    .btn-sm {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: small;
+        background-color: #008fa3 !important;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-color: #008fa3;
+    }
+
+    .btn-sm:hover{
+        font-family: 'Montserrat', sans-serif !important;
+        color: #008fa3 !important;
+        border-color: #005B88;
+
+        background-color: #d3d3d3 !important;
+        border: 1px solid #008fa3 !important ;
     }
 
     #cardGeneral{
@@ -387,176 +1455,28 @@
         color: #005B88;
     }
 
-    .modalContainer {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .modalContainer .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 15vh !important;
-        padding: 20px;
-        border: 1px solid lightgray;
-        width: 60%;
-    }
-
-    .modalContainer .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .modalContainer .close:hover,
-    .modalContainer .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    #h5Archivos{
-        display: inline !important;
-    }
-
     .contenedorBotonMas{
         display: inline-block !important;
         width: 2rem !important;
         height: 2rem !important;
     }
+
     #botonMas{
         display: inline-block !important;
         border-radius: 50% !important;
         height: 100% !important;
         width: 100% !important;
     }
-    .iconoMas{
-        margin-top: 25% !important;
-    }
-}
 
-@media (min-width: 1200px) {
-    #containerBotones{
-        text-align: center !important;
-    }
-
-    .divBotones{
-        display: inline-block;
-        width: 18% !important;
-    }
-    .divBotones1{
-        display: inline-block;
-        width: 30% !important;
-    }
-
-    .botones{
-        width: 100% !important;
-    }
-
-    #pieNormaShow{
-        display: inline-block;
-    }
-
-    #botonVolver{
-        width: 20% !important;
-        margin-left: 80%!important;
-    }
-
-    .contenedorBotonPDF{
-        width: 20% !important;
-    }
-
-    .divBotonVolver{
-        font-family:'Montserrat', sans-serif !important;
-        width: 100% !important;
-    }
-    #btn{
-        font-family: 'Montserrat', sans-serif !important;
-        font-weight: 300;
-        font-size: large !important;
-        background-color: #008fa3;
-        border-color: #008fa3;
-        color: white;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        margin-top: 1%;
-        margin-bottom: 1%;
-        align-items: center;
-        /* width: 20% !important; */
-    }
-    #btn:hover{
-        font-family: 'Montserrat', sans-serif !important;
+    #botonMas:hover{
         color: #008fa3 !important;
-        border-color: #005B88;
-        font-weight:400 !important;
-        font-size: large !important;
+        border-color: #005B88 !important;
         background-color: #d3d3d3 !important;
         border: 1px solid #008fa3 !important ;
-        /* border: #008fa3; */
-
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        margin-top: 1%;
-        margin-bottom: 1%;
-        align-items: center;
-    
     }
 
-    .modalContainer {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        padding-top: 100px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgb(0,0,0);
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .modalContainer .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 10vh !important;
-        padding: 20px;
-        border: 1px solid lightgray;
-        width: 60%;
-    }
-
-    .modalContainer .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .modalContainer .close:hover,
-    .modalContainer .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    #linkArchivo{
-        text-align: center !important;
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 400; /* regular */
-        margin-top: 2%;
-        font-size: small;
-    }
-
-    .columnaRela{
-        border-top: #005B88 solid !important;
-        width: 10% !important;
+    .iconoMas{
+        margin-top: 25% !important;
     }
 
     #h5Archivos{
@@ -568,38 +1488,55 @@
         font-size: x-large;
         font-stretch: semi-condensed;
     }
-    .btn-sm:hover{
+
+    #linkArchivo {
+        text-align: center !important;
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 400;
+        margin-top: 2%;
+        font-size: small;
+    }
+
+    #pieNormaShow{
+        display: inline-block;
+    }
+
+    #btn{
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 300;
+        font-size: large !important;
+        background-color: #008fa3;
+        border-color: #008fa3;
+        color: white;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
+    }
+
+    #btn:hover{
         font-family: 'Montserrat', sans-serif !important;
         color: #008fa3 !important;
         border-color: #005B88;
-
+        font-weight:400 !important;
+        font-size: large !important;
         background-color: #d3d3d3 !important;
         border: 1px solid #008fa3 !important ;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        align-items: center;
     }
-    #botonMas{
-        display: inline-block !important;
-        border-radius: 50% !important;
-    } 
-    #botonMas:hover{
-        color: #008fa3 !important;
-        border-color: #005B88 !important;
 
-        background-color: #d3d3d3 !important;
-        border: 1px solid #008fa3 !important ;
+    .columnaRela{
+        border-top: #005B88 solid !important;
+        width: 10% !important;
     }
+
     #trRela{
         border-bottom:#005B88 !important ;
     }
-    #relacionEdit{
-        border-top: #005B88 solid !important;
-        width: 10% !important;
-        border-bottom: #005B88  !important;
-    }
-    #relacionEditHead{
-        border-top: #005B88 solid !important;
-        width: 10% !important;
-        border-bottom: #005B88 solid !important; 
-    }
+
     .containerEliminar{
         margin-left: 40%;
         width: 20% !important;

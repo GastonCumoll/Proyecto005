@@ -1,92 +1,331 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 @media (max-width: 575px) and (min-width: 400px) {
-
     .form-row{
         display: inline-block !important;
+        text-align: center !important;
     }
     .col-6{
         display: inline-block !important;
-        margin-right: 30% !important;
+        /* margin-right: 30% !important; */
     }
-    .card-body{
-        text-align: center !important;
+    #containerFormulario{
+        margin-top: 5px;
+    }
+    .contenedor-inputs{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    #tituloInput{
+        font-weight: 700;
+        color: #008fa3;
+        font-stretch: expanded;
+    }
+    #titulo{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    #TipoNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700;
+    }
+    #año{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    #numero{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    .filter-option-inner-inner{
+        background-color: #E6E6E6;
+        margin-top: 0%;
+        color: #495057;
+    }
+    .bootstrap-select .dropdown-toggle .filter-option{
+        margin-top: 0%;
+    }
+    .btn-light {
+        background-color: #E6E6E6;
+    }
+    .btn.dropdown-toggle.btn-light{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .dropdown-item.active, .dropdown-item:active{
+        background-color: #41b1c3 !important;
+    }
+    .col{
+        height: 35px !important;
+    }
+    #texto{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    .select2-selection.select2-selection--multiple{
+        background-color: #E6E6E6;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+    }
+    .select2-search__field{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-results__option--selectable{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+        background-color: #41b1c3 !important;
+    }
+    .col-auto{
+        width: 20% !important;
     }
     .js-example-basic-multiple{
         width: 100% !important;
-        margin-right: 5% !important;
     }
-    .cargando{
-        margin-top: 1rem !important;
-        margin-right: 2% !important;
+    .btn.btn-sm.btn-outline-secondary.cargando.buscarNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 600;
+        font-size: large !important;
+        background-color: #008fa3;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        margin-top: 40px;
+        height: 50px !important;
+        width: 140px;
+    }
+    #botoncito{
+        margin-top: 7% !important;
     }
 }
 @media (max-width: 767px) and (min-width: 576px){
     #containerFormulario{
+        margin-top: 5px;
+    }
+    .contenedor-inputs{
         font-family:'Montserrat', sans-serif !important;
     }
-    .form-row{
-        display: inline-block !important;
+    #tituloInput{
+        font-weight: 700;
+        color: #008fa3;
+        font-stretch: expanded;
     }
-    .col-6{
-        display: inline-block !important;
-        margin-right: 15% !important;
+    #titulo{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
     }
-    .card-body{
-        text-align: center !important;
+    #TipoNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700;
     }
-    
-    .cargando{
-        margin-top: 1rem !important;
-        margin-right: 2% !important;
+    #año{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
     }
-    
-    .select{
-        width: 100% !important;
+    #numero{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
     }
-
-    .etiquetas{
-        width: 100% !important;
-        text-align: center !important;
+    .filter-option-inner-inner{
+        background-color: #E6E6E6;
+        margin-top: 0%;
+        color: #495057;
     }
-
-    .etiquetas-col{
-        width: 100% !important;
+    .bootstrap-select .dropdown-toggle .filter-option{
+        margin-top: 0%;
     }
-    
-    .select-input{
-        width: 100% !important;
+    .btn-light {
+        background-color: #E6E6E6;
     }
-
+    .btn.dropdown-toggle.btn-light{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .dropdown-item.active, .dropdown-item:active{
+        background-color: #41b1c3 !important;
+    }
+    .col{
+        height: 35px !important;
+    }
+    #texto{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    .select2-selection.select2-selection--multiple{
+        background-color: #E6E6E6;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+    }
+    .select2-search__field{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-results__option--selectable{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+        background-color: #41b1c3 !important;
+    }
+    .col-auto{
+        width: 20% !important;
+    }
     .js-example-basic-multiple{
         width: 100% !important;
-        
+    }
+    .btn.btn-sm.btn-outline-secondary.cargando.buscarNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 600;
+        font-size: large !important;
+        background-color: #008fa3;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        margin-top: 40px;
+        height: 50px !important;
+        width: 140px;
+    }
+    #botoncito{
+        margin-top: 7% !important;
     }
 
 
 }
 @media (max-width: 991px) and (min-width: 768px){
-
     #containerFormulario{
+        margin-top: 5px;
+    }
+    .contenedor-inputs{
         font-family:'Montserrat', sans-serif !important;
     }
-
-
-    .select{
-        width: 100% !important;
+    #tituloInput{
+        font-weight: 700;
+        color: #008fa3;
+        font-stretch: expanded;
     }
-    .etiquetas{
-        width: 100% !important;
-        text-align: start !important;
+    #titulo{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
     }
-    .etiquetas-col{
-        width: 100% !important;
+    #TipoNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700;
     }
-    .select-input{
-        width: 100% !important;
+    #año{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    #numero{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    .filter-option-inner-inner{
+        background-color: #E6E6E6;
+        margin-top: 0%;
+        color: #495057;
+    }
+    .bootstrap-select .dropdown-toggle .filter-option{
+        margin-top: 0%;
+    }
+    .btn-light {
+        background-color: #E6E6E6;
+    }
+    .btn.dropdown-toggle.btn-light{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .btn.dropdown-toggle.btn-light.bs-placeholder{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+        height: 35px !important;
+    }
+    .dropdown-item.active, .dropdown-item:active{
+        background-color: #41b1c3 !important;
+    }
+    .col{
+        height: 35px !important;
+    }
+    #texto{
+        background-color: #E6E6E6;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+    }
+    .select2-selection.select2-selection--multiple{
+        background-color: #E6E6E6;
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 700 !important;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        border-color: #E6E6E6;
+    }
+    .select2-search__field{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-results__option--selectable{
+        font-family:'Montserrat', sans-serif !important;
+    }
+    .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+        background-color: #41b1c3 !important;
+    }
+    .col-auto{
+        width: 20% !important;
     }
     .js-example-basic-multiple{
-        width: 90% !important;
+        width: 100% !important;
+    }
+    .btn.btn-sm.btn-outline-secondary.cargando.buscarNorma{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 600;
+        font-size: large !important;
+        background-color: #008fa3;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+        border-radius: 5px;
+        margin-top: 40px;
+        height: 50px !important;
+        width: 140px;
+    }
+    #botoncito{
+        margin-top: 7% !important;
     }
 }
 @media (min-width: 992px){
@@ -175,6 +414,9 @@
     }
     .col-auto{
         width: 20% !important;
+    }
+    .col-auto.izq{
+        margin-left: 15% !important;
     }
     .js-example-basic-multiple{
         width: 100% !important;

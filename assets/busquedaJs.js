@@ -24,6 +24,13 @@ $(document).ready(function(){
         }else{
             var cadena1=cadena;
         }
+    }else if((screen.width<1300 && screen.width>800)){
+        if (longitud > 50) {
+            var cadena1=cadena.substring(0,50);
+            cadena1=cadena1 + " ...";
+        }else{
+            var cadena1=cadena;
+        }
     }
     cadenaRuta.remove();
     let texto = document.createTextNode(cadena1)

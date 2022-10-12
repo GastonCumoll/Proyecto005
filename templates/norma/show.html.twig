@@ -229,22 +229,18 @@
                     {% endif %}
                 </div>
                 
-
-                {# <div class="card" id="cardRelaciones"> #}
                     <table class="table" id="tablaRela">
                         <thead class="thead">
                             <tr>
                                 <th scope="col" id="relacionColHead">Relacion</th>
                                 <th scope="col" id="relacionNorHead">Norma</th>
                                 
-                                {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
+                                {% if ("DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1) or ("DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1) %}
                                 <th id="relacionEditHead"scope="col">Editar</th>
                                 {% else %}
                                     <th scope="col" id="relacionNorHead" ></th>
                                 {% endif %}
-                                {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
-                                <th scope="col">Edit</th>
-                                {% endif %}
+                                
                             </tr>
                         </thead>
                                 {% for rela in relacion %}
@@ -252,7 +248,7 @@
                                     <tr id="trRela">
                                         <td id="relacionCol">{{rela.getTipoRelacion.getNombre}}</td>
                                         <td id="relacionNor"><a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
-                                        {% if "DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1 %}
+                                        {% if ("DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1) or ("DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1) %}
                                         <td id="relacionEdit">
                                             <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
@@ -260,12 +256,7 @@
                                         {% else %}
                                         <td id="relacionEdit"></td>
                                         {% endif %}
-                                        {% if "DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1 %}
-                                        <td>
-                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
-                                            {{include('relacion/_delete_form.html.twig')}}
-                                        </td>
-                                        {% endif %}
+                                        
                                     </tr>
                                     <tr>
                                         <td>Observaciones</td>
@@ -301,18 +292,18 @@
                 <div class="card" id="cardTexto">
                     <div class="headerPdf">
                         <div class="row">
-                            <div class="col-7 findAndSeek">
+                            <div class="col-12 findAndSeek">
                                 <div class="ml-5 contenedorBotonPDF">
                                     <a target="_blank" href="{{path('mostrar_pdf', {'id': norma.id})  }}"><button type="button" id="verPdf" class="btn"><strong>VER PDF </strong><i class="fas fa-file-pdf"></i></button></a>
                                 </div>
-                                <div class="mr-5 input-group" id="busqueda-input-texto">
+                                <div class="input-group" id="busqueda-input-texto">
                                     <input type="text" class="form-control" id="busquedaTexto" value="" placeholder="Buscar en el texto" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                                     {# <div class="input-group-prepend botonVerde">
                                         <button class="btn btn-success btn-sm rounded" id="botonBuscarTexto"><i class="fa-solid fa-magnifying-glass"></i></button>
                                     </div> #}
                                 </div>
                             </div>
-                            <div class="col-5"></div>
+                            {# <div class="col-5"></div> #}
                         </div>
                         
                     </div>
