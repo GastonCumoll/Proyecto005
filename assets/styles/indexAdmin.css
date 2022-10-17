@@ -1,5 +1,50 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@media (max-width:499px) and (min-width:350px){
+    .card .card-body {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        text-align: center !important;
+    }
+    #form{
+        align-items: center !important;
+    }
+    
+}
+@media (max-width:767px) and (min-width:500px){
+    .card .card-body {
+        margin-left: 0px!important;
+        margin-right: 0px!important;
+        text-align: center !important;
+    }
+    .form-row.mb-2{
+        margin-left: 20% !important;
+    }
+}
+@media(max-width:991px)and(min-width:768px){
+    .col.auto{
+            width: 30% !important;
+        }
+    .col-auto.izq{
+        margin-left: 0% !important;
+    }
 
+}
+@media (max-width: 1199px) and (min-width: 992px){
+    .col-auto {
+        width: 20% !important;
+    }
+    .col-auto.izq{
+        margin-left: 15% !important;
+    } 
+}
+@media(min-width:1200px){
+    .col-auto {
+        width: 20% !important;
+    }
+    .col-auto.izq{
+        margin-left: 15% !important;
+    } 
+}
 .modalContainer {
     display: none;
     position: fixed;
@@ -68,6 +113,14 @@
     font-size: larger;
 }
 .sortable{
+    color:white !important;
+    font-size: medium;
+}
+.asc{
+    color:white !important;
+    font-size: medium;
+}
+.desc{
     color:white !important;
     font-size: medium;
 }
@@ -195,9 +248,13 @@ h1{
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 5px;
     border-radius: 5px;
 }
-.col-auto {
+/* .col-auto {
     width: 20% !important;
 }
+.col-auto.izq{
+    margin-left: 15% !important;
+} */
+
 .col {
     height: 35px !important;
 }
@@ -243,6 +300,7 @@ h1{
 #botoncito{
     margin-top: 6% !important;
 }
+
 /* #editarDisabled:hover{
     background-color: none !important;
     color: none !important;

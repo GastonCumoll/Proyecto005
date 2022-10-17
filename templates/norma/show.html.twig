@@ -163,7 +163,7 @@
                                     <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
                                 </div>
                                 {% endif %}
-                                {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
+                                {% if "DIG_EDITOR" in roles and (norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                                 <div class="contenedorBotonMas">
                                     <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
                                 </div>
@@ -211,6 +211,11 @@
                     {% endif %} #}
                 {# {% endif %} #}
                 <div class="container" id="containerBotones">
+                    {% if norma.estado == "Publicada" and  "DIG_EDITOR" in roles and usuarioReparticion == 1 %}
+                    <div class="divBotones mt-3 mr-2">
+                        <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
+                    </div>
+                    {% endif %}
                     {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
@@ -342,11 +347,7 @@
                             </form>
                         </div>
                     {% endif %}
-                    {% if norma.estado == "Publicada" and  "DIG_EDITOR" in roles and usuarioReparticion == 1 %}
-                    <div class="divBotones mt-3 mr-2">
-                        <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="editar">Editar</button></a>
-                    </div>
-                    {% endif %}
+                    
                     {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
                     <br>
                         <form action="{{path('acceso')}}" method="post">
@@ -362,6 +363,7 @@
                                 {% endif %}
                             </div>
                         </form>
+                        
                         <form action="{{path('updateInstancia')}}" method="post">
                             <div class="text-center">
                                 <input type="hidden" name="normaId" value="{{norma.id}}">
