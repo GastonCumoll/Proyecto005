@@ -1588,7 +1588,7 @@ class NormaController extends AbstractController
                 }
             }
             $entityManager->flush();
-            return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('norma_showEdit', ['id'=>$id], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('norma/agregarArchivo.html.twig', [
             'norma' => $norma,
@@ -1644,6 +1644,63 @@ class NormaController extends AbstractController
         }
 
         return $this->render('norma/show.html.twig', [
+            'item'=>$item,
+            'roles'=>$arrayRoles,
+            'norma' => $norma,
+            'relacion' => $relacion,
+            'rol'=>$rol,
+            'user' => $unUser,
+            'usuarioReparticion' => $usuarioReparticion,
+        ]);
+    }
+
+    /**
+     * @Route("/showEdit/{id}", name="norma_showEdit", methods={"GET"})
+     */
+    public function showEdit(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
+    {
+        
+        if(!empty($itemDeNorma=$norma->getItems()->toArray())){
+            $item=$itemDeNorma[0];
+        }else{
+            $item="";
+        }
+
+        $repository = $this->getDoctrine()->getRepository(Relacion::class);
+        $relacion= $repository->findByNorma($id);
+        $auditoria=$norma->getAuditorias();
+        $unUser='';
+        
+        foreach ($auditoria as $audi) {
+            $unUser=$audi->getNombreUsuario();
+        }
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        $usuarioReparticion = 0; //variable que voy a usar en la vista para saber si el usuario es de la reparticíon de la norma
+
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);  //se obtiene la repartición del usuario logueado
+        $reparticionesNorma = $norma->getTipoNorma()->getTipoNormaReparticions(); //se obtienen las reparticiones a las que pertenece ese tipo de norma a editar
+        
+        foreach($reparticionesNorma as $unaReparticion){
+            if($unaReparticion->getReparticionId()->getId() == $idReparticion){
+                $usuarioReparticion = 1;
+            }
+        }
+        $arrayRoles=[];
+        if($seguridad->checkSessionActive($idSession)){
+            // dd($idSession);
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+
+        return $this->render('norma/showEdit.html.twig', [
             'item'=>$item,
             'roles'=>$arrayRoles,
             'norma' => $norma,
@@ -1965,28 +2022,27 @@ class NormaController extends AbstractController
                 //como la norma ya esta publicada, redirecciona a generar pdf
                 $session->remove('urlAnterior');
                 return $this->redirectToRoute('generar_pdf', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
-
-
             }
             
             $entityManager->flush();
             //dependiendo de cual es la urlAnterior redirecciona a ciertas vistas
-            if(str_contains($session->get('urlAnterior'),'borrador')){
-                $session->remove('urlAnterior');
-                return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
-            }
-            else if(str_contains($session->get('urlAnterior'),'listas')){
-                $session->remove('urlAnterior');
-                return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
-            }
-            else if(str_contains($session->get('urlAnterior'),'norma/'.$norma->getId())){
-                $session->remove('urlAnterior');
-                return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
-            }
-            else{
-                $session->remove('urlAnterior');
-                return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
-            }
+            // if(str_contains($session->get('urlAnterior'),'borrador')){
+            //     $session->remove('urlAnterior');
+            //     return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+            // }
+            // else if(str_contains($session->get('urlAnterior'),'listas')){
+            //     $session->remove('urlAnterior');
+            //     return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+            // }
+            // else if(str_contains($session->get('urlAnterior'),'norma/'.$norma->getId())){
+            //     $session->remove('urlAnterior');
+            //     return $this->redirectToRoute('norma_show', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
+            // }
+            // else{
+            //     $session->remove('urlAnterior');
+            //     return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+            // }
+            return $this->redirectToRoute('norma_showEdit', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('norma/edit.html.twig', [

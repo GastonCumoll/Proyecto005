@@ -89,7 +89,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'back_borrador'=>['DIG_EDITOR'],
                 'acceso'=>['DIG_ADMINISTRADOR'],
                 'publicar'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
-
+                'norma_showEdit'=>['DIG_OPERADOR','DIG_EDITOR'],
 
                 //Relacion
                 'relacion_index'=>['DIG_OPERADOR','DIG_EDITOR'],
