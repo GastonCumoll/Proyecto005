@@ -1,0 +1,16 @@
+{% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
+    <form method="post" action="{{ path('norma_delete', {'id': norma.id}) }}" onsubmit="return confirm('¿Estás seguro de que quiere eliminar esta norma?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ norma.id) }}">
+        <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar" id="botonAuditoria" ><i class="fa-solid fa-trash-can"></i></button>
+    </form>
+{% elseif bandera == 1 and ( norma.estado == "Lista" or norma.estado == "Publicada") and "DIG_EDITOR" in roles %}
+    <form method="post" action="{{ path('norma_delete', {'id': norma.id}) }}" onsubmit="return confirm('¿Estás seguro de que quiere eliminar esta norma?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ norma.id) }}">
+        <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar" id="botonAuditoria" ><i class="fa-solid fa-trash-can"></i></button>
+    </form>
+{% else %}
+    <form method="post" action="{{ path('norma_delete', {'id': norma.id}) }}" onsubmit="return confirm('¿Estás seguro de que quiere eliminar esta norma?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ norma.id) }}">
+        <button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar" id="botonAuditoria" disabled><i class="fa-solid fa-trash-can"></i></button>
+    </form>
+{% endif %}

@@ -38,7 +38,7 @@ $(document).ready(function(){
 			else if(urlAnt.includes("/borrador")){
 				boton.setAttribute("href","/norma/borrador");
 			}else if(urlAnt.includes("/edit")){
-				console.log("edit");
+				// console.log("edit");
 				boton.setAttribute("href",history.go(-2));
 			}
 			else{
@@ -46,33 +46,37 @@ $(document).ready(function(){
 			}
 	});
 	
-	var botonTexto = document.getElementById("botonBuscarTexto");
+	// var botonTexto = document.getElementById("botonBuscarTexto");
 	// var busquedaTexto =document.getElementById("busquedaTexto");
-	var id=0;
-	botonTexto.addEventListener("click",function(){
-		var text = document.getElementById("busquedaTexto").value;
-		var query = new RegExp("(\\b" + text + "\\b)", "gim");
-		var e = document.getElementById("parrafo").innerHTML;
-		var enew = e.replace(/(<span>|<\/span>)/igm, "");
-		document.getElementById("parrafo").innerHTML = enew;
-		var newe = enew.replace(query, "<span>$1</span>");
-		document.getElementById("parrafo").innerHTML = newe;
-	})
+	// var id=0;
+	// botonTexto.addEventListener("click",function(){
+	// 	var text = document.getElementById("busquedaTexto").value;
+	// 	var query = new RegExp("(\\b" + text + "\\b)", "gim");
+	// 	var e = document.getElementById("parrafo").innerHTML;
+	// 	var enew = e.replace(/(<span>|<\/span>)/igm, "");
+	// 	document.getElementById("parrafo").innerHTML = enew;
+	// 	var newe = enew.replace(query, "<span>$1</span>");
+	// 	document.getElementById("parrafo").innerHTML = newe;
+	// })
 
 	var busquedaTexto = document.getElementById("busquedaTexto");
+	// console.log(busquedaTexto.);
     busquedaTexto.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
         //document.getElementById("id_of_button").click();
 		var text = document.getElementById("busquedaTexto").value;
-		var query = new RegExp("(\\b" + text + "\\b)", "gim");
-		var e = document.getElementById("parrafo").innerHTML;
-		var enew = e.replace(/(<span>|<\/span>)/igm, "");
-		document.getElementById("parrafo").innerHTML = enew;
-		var newe = enew.replace(query, "<span>$1</span>");
-		document.getElementById("parrafo").innerHTML = newe;
+		
+		if(text.length > 0){
+			var query = new RegExp("(\\b" + text + "\\b)", "gim");
+			var e = document.getElementById("parrafo").innerHTML;
+			var enew = e.replace(/(<span>|<\/span>)/igm, "");
+			document.getElementById("parrafo").innerHTML = enew;
+			var newe = enew.replace(query, "<span>$1</span>");
+			document.getElementById("parrafo").innerHTML = newe;
+		}
     }
-});
+})
 	// 	var botonTexto = document.getElementById("botonBuscarTexto");
 	// 	botonTexto.addEventListener("click",function(){
 	//  	var texto = document.getElementById("busquedaTexto");

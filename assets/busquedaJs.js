@@ -9,7 +9,7 @@ $(document).ready(function(){
     var cadena= cadenaRuta.innerText
 
     var longitud=cadena.length;
-    console.log(screen.width);
+    // console.log(screen.width);
     if(screen.width>=1920){
         if (longitud > 145) {
             var cadena1=cadena.substring(0,145);
@@ -31,6 +31,8 @@ $(document).ready(function(){
         }else{
             var cadena1=cadena;
         }
+    }else{
+        cadena1='';
     }
     cadenaRuta.remove();
     let texto = document.createTextNode(cadena1)
