@@ -301,7 +301,14 @@ h1{
 #botoncito{
     margin-top: 6% !important;
 }
-
+#auditoriaIcon{
+    height:0.8rem ;
+    width:0.8rem ;
+}
+#verIcon{
+    height: 0.8rem;
+    /* width: 0.8rem; */
+}
 /* #editarDisabled:hover{
     background-color: none !important;
     color: none !important;

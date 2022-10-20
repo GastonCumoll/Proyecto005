@@ -51,7 +51,7 @@
             </td>
             {% if "DIG_ADMINISTRADOR" in roles %}
             <td>
-                <a  href="{{path('tipo_consulta_edit', {'id': tipo_consultum.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                <a  href="{{path('tipo_consulta_edit', {'id': tipo_consultum.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                 {{ include('tipo_consulta/_delete_form.html.twig') }}
             </td>
             {% endif %}

@@ -48,7 +48,7 @@
                 </td>
                 {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
-                    <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                    <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                     <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>
                     <a  href="{{path('rol_tipo_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-user-shield"></i></button></a>
                     

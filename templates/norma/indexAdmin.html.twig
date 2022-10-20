@@ -269,13 +269,13 @@
                                 {% endfor %}
                                 {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
                                 {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% elseif bandera == 1 and ( norma.estado == "Lista" or norma.estado == "Publicada") and "DIG_EDITOR" in roles %}
-                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% else %}
-                                    <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% endif %}
-                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><i class="fa-solid fa-magnifying-glass"></i></button></a>
+                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><img src="{{asset('/Auditorias.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {{ include('norma/_deleteIndex_form.html.twig') }}
                                 {# <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
                                 <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a> #}
