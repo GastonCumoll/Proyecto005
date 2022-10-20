@@ -2087,6 +2087,7 @@ class NormaController extends AbstractController
     public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
+            // dd($_SERVER['HTTP_REFERER']);
             //buscar usuario
             $session=$this->get('session');
             $usuario=$session->get('username');
@@ -2119,6 +2120,12 @@ class NormaController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+        if(str_contains($_SERVER['HTTP_REFERER'],'borrador')){
+            return $this->redirectToRoute('borrador', [], Response::HTTP_SEE_OTHER);
+        }else if(str_contains($_SERVER['HTTP_REFERER'],'listas')){
+            return $this->redirectToRoute('listas', [], Response::HTTP_SEE_OTHER);
+        }else{
+            return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 }

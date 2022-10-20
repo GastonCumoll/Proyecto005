@@ -220,17 +220,17 @@
                         <div class="divBotones mt-3 mr-2">
                             <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        <div class="divBotones mt-3 mr-2">
+                        {# <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
-                        </div>
+                        </div> #}
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and norma.estado == "Lista" and usuarioReparticion == 1 %}
                         <div class="divBotones mt-3 mr-2">
                             <a href="{{path('norma_edit',{'id': norma.id})}}"><button type="button" class="btn btn-success botones editar" value="{{norma.id}}" id="btn">Editar</button></a>
                         </div>
-                        <div class="divBotones mt-3 mr-2">
+                        {# <div class="divBotones mt-3 mr-2">
                             {{ include('norma/_delete_form.html.twig') }}
-                        </div>
+                        </div> #}
                     {% endif %}
                 </div>
                 
@@ -371,9 +371,9 @@
                             </div>
                         </form>
                         
-                            <div class="containerEliminar">
+                            {# <div class="containerEliminar">
                                 {{ include('norma/_delete_form.html.twig') }}
-                            </div>
+                            </div> #}
                         
                         
                         
