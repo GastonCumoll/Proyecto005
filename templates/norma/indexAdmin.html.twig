@@ -260,8 +260,13 @@
                     {% set bandera = 0 %}
                     <td class="columnaOp">
                         <div id="divBotonesOpNorma">
-                            <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
-                            {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
+                            {# si hay sesion: #}
+                            {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
+                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
+                            {% else %}
+                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><img src="{{asset('/Ver.png')}}"  alt="" id="verIcon"></button></a>
+                            {% endif %}
+                                {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
                                 {% for unaNormaUsuario in normasUsuario %}
                                     {% if unaNormaUsuario == norma.tipoNorma.nombre  %}
                                         {% set bandera = 1 %}

@@ -3545,6 +3545,28 @@
         font-style: italic !important;
     }
 }
+@media (min-height:300px) and (max-height:599px){
+    #containerHeader{
+        background-color: #005B88;
+        color:white;
+        font-family:'Montserrat', sans-serif !important;
+        height: max-content !important;
+        width: 100% !important;
+    }
+    #nav{
+        background-color: #008FA3;
+        height: 30% !important;
+        width: 100% !important;
+    }
+    .navbar-toggler{
+        background-color: white !important;
+        color: #808080;
+    }
+    .nav-item.dropdown::marker{
+        color: #008FA3 !important;
+        background-color: #008FA3 !important;
+    }
+}
 
 @media (min-height: 600px) and (max-height:799px){
     #auditoriaIcon{

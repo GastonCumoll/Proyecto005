@@ -1464,7 +1464,6 @@ class NormaController extends AbstractController
     //este metodo sirve para agregarle un archivo a la norma una vez cargada.Tambien se le puede setear el nombre que uno quiera que aparezca .
     public function agregarArchivo(TipoNormaRepository $tipoNormaRepository,AreaRepository $areaRepository,ReparticionService $reparticionService,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
     {
-
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];

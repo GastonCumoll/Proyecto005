@@ -78,7 +78,11 @@ class EtiquetaController extends AbstractController
     //metodo para buscar las normas que tienen una etiqueta determinada
     public function busquedaId(AreaRepository $areaRepository, NormaRepository $normaRepository,EntityManagerInterface $em,TipoNormaRepository $tipoRepository,EtiquetaRepository $etiquetaRepository,$id,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
+
         $etiqueta=$etiquetaRepository->find($id);//array
+        // dd($etiqueta);
+        $fEti=[];
+        $fEti[]=$etiqueta->getNombre();
         //$etiqueta->getNormas()->toArray() trae las normas de $etiqueta, que anteriormente fue buscada por su id, y lo convierte en array. No es conveniente en el paginator 
         //trabajar con arrays, por eso en $normaRepository->findNormasEtiqueta, devuelve una instancia de query, para trabajar con el knp paginator
         $normasEtiquetas=$etiqueta->getNormas()->toArray();
@@ -132,6 +136,7 @@ class EtiquetaController extends AbstractController
             'roles'=>$arrayRoles,
             'normas' => $norma,
             'normasUsuario' => $normasUsuario,
+            'fEtiquetas' =>$fEti,
         ]);
     }
 
