@@ -348,11 +348,17 @@
                         </div>
                     {% endif %}
                     
-                    {% if norma.estado == "Publicada" and  "DIG_ADMINISTRADOR" in roles %}
+                    {% if norma.estado == "Publicada" and  ("DIG_ADMINISTRADOR" in roles or ("DIG_EDITOR" in roles and usuarioReparticion == 1)) %}
                     <br>
                         <form action="{{path('acceso')}}" method="post">
                             <div class="text-center">
                                 {% if norma.publico == 1 %}
+                                    {# <div class="switch-button">
+                                        <!-- Checkbox -->
+                                        <input type="checkbox" name="switch-button" id="switch-label" class="switch-button__checkbox">
+                                        <!-- Botón -->
+                                        <label for="switch-label" class="switch-button__label"></label>
+                                    </div> #}
                                     <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
                                     <button type="submit" class="badge badge-primary">Aplicar</button>

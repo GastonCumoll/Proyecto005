@@ -183,4 +183,12 @@
         border-collapse: separate;
         /* margin-top: 2%; */
     }
+    .notif{
+        color: #008FA3 !important;
+        height: 7px !important ;
+        width: 7px !important;
+        position: absolute !important;
+        right: 28px !important;
+        top: 7px !important;
+    }
 }

@@ -11,7 +11,14 @@
 <div class="barraNavegacion">
     <ul class="nav nav-pills" id="listadoElementos">
         <li class="nav-item dropdown" id="PrimerItem">
+            
+            {% if 'DIG_OPERADOR' in app.session.get('roles') and app.session.get('cantB') > 0  %}
+            <a class="nav-link dropdown-toggle" id="navLinkDropdownToggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma <i class="fa-solid fa-circle notif"></i></a>
+            {% elseif 'DIG_EDITOR' in app.session.get('roles') and app.session.get('cantL') > 0  %}
+            <a class="nav-link dropdown-toggle" id="navLinkDropdownToggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma <i class="fa-solid fa-circle notif"></i></a>
+            {% else %}
             <a class="nav-link dropdown-toggle" id="navLinkDropdownToggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Norma</a>
+            {% endif %}
             <div class="dropdown-menu" id="dropdownMenu">
                 <a class="dropdown-item" href="{{ path('norma_index') }}">Ver todas</a>
                 {% if 'DIG_OPERADOR' in app.session.get('roles') or  'DIG_EDITOR' in app.session.get('roles') or  'DIG_ADMINISTRADOR' in app.session.get('roles') %}

@@ -42,16 +42,19 @@ class SecuritySubscriber implements EventSubscriberInterface
         // else {
             //notificaciones:
                 //$session = $this->get('session');
-                /*
+                
                 //lo siguiente hace bajar mucho el rendimiento:
+                
                 $session_id=$this->session->get('session_id');
-                $idReparticion =  $this->seguridad->getIdReparticionAction($session_id);
+                if($session_id){
+                    $idReparticion =  $this->seguridad->getIdReparticionAction($session_id);
 
-                $borradores=$this->normas->findBorradoresCont('DIG_OPERADOR',$idReparticion);
-                $this->session->set('cantB',count($borradores));
-                $listas=$this->normas->findListasCont('DIG_EDITOR',$idReparticion);
-                $this->session->set('cantL',count($listas));
-                */
+                    $borradores=$this->normas->findBorradoresCont('DIG_OPERADOR',$idReparticion);
+                    $this->session->set('cantB',count($borradores));
+                    $listas=$this->normas->findListasCont('DIG_EDITOR',$idReparticion);
+                    $this->session->set('cantL',count($listas));
+                }
+                
 
             $request = $event->getRequest();
             //dd($request);
@@ -87,7 +90,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'agregar_archivo'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'trayecto_norma' => ['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'back_borrador'=>['DIG_EDITOR'],
-                'acceso'=>['DIG_ADMINISTRADOR'],
+                'acceso'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'publicar'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'norma_showEdit'=>['DIG_OPERADOR','DIG_EDITOR'],
 

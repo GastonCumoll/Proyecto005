@@ -106,17 +106,17 @@ class NormaRepository extends ServiceEntityRepository
     public function findBorradoresCont($rol,$reparticionId){
         // dd($roles);
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        $consulta->select('p.id')->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
-        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
-        ->orderBy('p.id','ASC');
+        ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma');
+        // ->orderBy('p.id','ASC');
         // foreach ($roles as $rol) {
             $consulta->andWhere("tr.nombreRol='".$rol."'");
         // }
         $consulta->andWhere("tnr.reparticionId = '".$reparticionId."'");
         //dd($consulta);
         $query=$consulta->getQuery()->getArrayResult();
-        //dd($query);
+        // dd($query);
         return $query;
     }
 
@@ -140,7 +140,7 @@ class NormaRepository extends ServiceEntityRepository
 
     public function findListasCont($rol,$reparticionId){
         $consulta=$this->createQueryBuilder('p');
-        $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+        $consulta->select('p.id')->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = tr.tipoNorma')
         ->orderBy('p.id','ASC');

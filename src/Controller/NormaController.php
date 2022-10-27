@@ -388,10 +388,38 @@ class NormaController extends AbstractController
         }
         $id=$_POST['normaId'];
         $norma=$normaRepository->findOneById($id);
-        $norma->setPublico($b);
-        $entityManager->persist($norma);
-        $entityManager->flush();
-        return $this->redirectToRoute('norma_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
+
+        if($norma->getPublico() != $b){
+            $norma->setPublico($b);
+            $entityManager->persist($norma);
+
+            // $entityManager->flush();
+            //auditoria
+            $session=$this->get('session');
+            $usuario=$session->get('username');
+            $today=new DateTime();
+
+            $auditoria=new Auditoria();
+
+            $auditoria->setNorma($norma);
+            $auditoria->setNombreUsuario($usuario);
+            $auditoria->setFecha($today);
+
+            $auditoria->setInstanciaAnterior($norma->getInstancia());
+            $auditoria->setInstanciaActual($norma->getInstancia());
+            $auditoria->setEstadoAnterior($norma->getEstado());
+            $auditoria->setEstadoActual($norma->getEstado());
+            $auditoria->setAccion("Cambio Acceso");
+            $entityManager->persist($auditoria);
+            $norma->addAuditoria($auditoria);
+            $entityManager->persist($norma);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('norma_showEdit', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }else{
+            return $this->redirectToRoute('norma_showEdit', ['id'=>$id], Response::HTTP_SEE_OTHER);
+        }
+        
     }
 
 
@@ -481,7 +509,7 @@ class NormaController extends AbstractController
             $cantidadBorrador=$sesion->get('cantB');
             $cantidadBorrador++;
             $sesion->set('cantB',$cantidadBorrador);
-            if(in_array("DIG_ADMINISTRADOR",$listaDeRolesUsuario)){
+            if(in_array("DIG_ADMINISTRADOR",$listaDeRolesUsuario) || in_array("DIG_EDITOR",$listaDeRolesUsuario)){
                 $auditoria->setInstanciaAnterior($norma->getInstancia());
                 $auditoria->setInstanciaActual(1);
                 $auditoria->setEstadoAnterior($norma->getEstado());
@@ -598,7 +626,7 @@ class NormaController extends AbstractController
     /**
      * @Route("/borrador", name="borrador", methods={"GET"})
      */
-    //este metodo trae un query de las normas que tienen "Lista" como estado
+    //este metodo trae un query de las normas que tienen "Borrador" como estado
     public function borrador(ReparticionService $reparticionService,AreaRepository $areaRepository,NormaRepository $normaRepository,SeguridadService $seguridad,Request $request,PaginatorInterface $paginator, TipoNormaRepository $tipoNorma,EtiquetaRepository $etiquetas): Response
     {
         $listaDeRolesUsuario=[];
@@ -1138,66 +1166,66 @@ class NormaController extends AbstractController
         // dd($var,$norma->getTexto(),$norma->getTextoAnterior());
         if($norma->getTextoAnterior()){
             if($var == true && $norma->getTexto() != $norma->getTextoAnterior()){
-            
-            $normaNombre=$norma->getTitulo();
-            $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
-            $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
-            $today = new DateTime();
-            $result = $today->format('d-m-Y H-i-s');
-            $hoy = $today->format('d-m-Y\\ H:i');
+                
+                $normaNombre=$norma->getTitulo();
+                $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
+                $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
+                $today = new DateTime();
+                $result = $today->format('d-m-Y H-i-s');
+                $hoy = $today->format('d-m-Y\\ H:i');
 
-        // Recupere el HTML generado en nuestro archivo twig
-        $html = $this->renderView('norma/generarPdf.html.twig', [
-            //'texto' => $norma->getTexto(),
-            'id' => $normaRepository->find($id)
-        ]);
-
-            //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
-            $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-            $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
-            $mod=$cabecera.$mod;
-            $mPdf = $MpdfFactory->createMpdfObject([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'margin_header' => 5,
-                'margin_footer' => 5,
-                'orientation' => 'P'
+                // Recupere el HTML generado en nuestro archivo twig
+                $html = $this->renderView('norma/generarPdf.html.twig', [
+                    //'texto' => $norma->getTexto(),
+                    'id' => $normaRepository->find($id)
                 ]);
-            $mPdf->WriteHTML($mod);
 
-            // In this case, we want to write the file in the public directory
-            $publicDirectory = 'uploads/pdf';
-            // e.g /var/www/project/public/mypdf.pdf
-            $salida='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-            $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
-            $nombre=$normaNombreLimpio.'('.$hoy.')';
-            $pdfFilepath =  $publicDirectory . $salida;
+                //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
+                $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+                $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
+                $mod=$cabecera.$mod;
+                $mPdf = $MpdfFactory->createMpdfObject([
+                    'mode' => 'utf-8',
+                    'format' => 'A4',
+                    'margin_header' => 5,
+                    'margin_footer' => 5,
+                    'orientation' => 'P'
+                    ]);
+                $mPdf->WriteHTML($mod);
 
-            // Write file to the desired path
-            $output = $mPdf -> Output($salida,'S');
-            file_put_contents($pdfFilepath, $output);
+                // In this case, we want to write the file in the public directory
+                $publicDirectory = 'uploads/pdf';
+                // e.g /var/www/project/public/mypdf.pdf
+                $salida='/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+                $ruta='pdf/'.$normaNombreLimpio.'-MODIFICADA-'.$result.'-.pdf';
+                $nombre=$normaNombreLimpio.'('.$hoy.')';
+                $pdfFilepath =  $publicDirectory . $salida;
 
-            $archi=new Archivo();
-            $archi->setNorma($norma);
-            $archi->setRuta($ruta);
-            $archi->setNombre($nombre);
-            $archi->setTipo("pdf");
+                // Write file to the desired path
+                $output = $mPdf -> Output($salida,'S');
+                file_put_contents($pdfFilepath, $output);
 
-            $archivos=$archivoRepository->findByNorma($id);
-            foreach ($archivos as $unArchi) {
-                if($unArchi->getRuta()==$ruta){
-                    $entityManager->remove($unArchi);
+                $archi=new Archivo();
+                $archi->setNorma($norma);
+                $archi->setRuta($ruta);
+                $archi->setNombre($nombre);
+                $archi->setTipo("pdf");
+
+                $archivos=$archivoRepository->findByNorma($id);
+                foreach ($archivos as $unArchi) {
+                    if($unArchi->getRuta()==$ruta){
+                        $entityManager->remove($unArchi);
+                    }
                 }
-            }
-            //dd($archi);
-            $entityManager->persist($archi);
-            $norma->addArchivos($archi);
-            $entityManager->persist($norma);
-            $entityManager->flush();
-            
-            //return true;
-            return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
-            exit;
+                //dd($archi);
+                $entityManager->persist($archi);
+                $norma->addArchivos($archi);
+                $entityManager->persist($norma);
+                $entityManager->flush();
+                
+                //return true;
+                return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);
+                exit;
             }
             else{
                 return $this->redirectToRoute('publicar', ['id' =>$id,'b' =>$b], Response::HTTP_SEE_OTHER);

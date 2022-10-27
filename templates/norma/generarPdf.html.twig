@@ -13,10 +13,10 @@
     Fecha de sanción: {{ id.fechaSancion ? id.fechaSancion|date('Y-m-d') : '' }}
 <br>
 {% endif %}
-{# {% if id.fechaPublicacion %}
+{% if id.fechaPublicacion %}
 Fecha de publicacion: {{ id.fechaPublicacion ? id.fechaPublicacion|date('Y-m-d') : '' }}
 <br>
-{% endif %} #}
+{% endif %}
 
 {% if id.resumen %}
 Resumen: {{ id.resumen }}

@@ -316,7 +316,9 @@
         margin-left: 40%;
         width: 20% !important;
     }
-
+    .badge-primary {
+        background-color: #008fa3 !important;
+    }
 }
 
 @media (max-width: 767px) and (min-width: 525px) {
@@ -626,6 +628,9 @@
         margin-left: 40%;
         width: 20% !important;
     }
+    .badge-primary {
+        background-color: #008fa3 !important;
+    }
 }
 
 @media (max-width: 991px) and (min-width: 767px){
@@ -933,6 +938,9 @@
     .containerEliminar{
         margin-left: 40%;
         width: 20% !important;
+    }
+    .badge-primary {
+        background-color: #008fa3 !important;
     }
 }
 
@@ -1242,6 +1250,9 @@
         margin-left: 40%;
         width: 20% !important;
     }
+    .badge-primary {
+        background-color: #008fa3 !important;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -1546,4 +1557,54 @@
         margin-left: 40%;
         width: 20% !important;
     }
+    .badge-primary {
+        background-color: #008fa3 !important;
+    }
+    /* ---------------SWITCH CAMBIO DE ACCESO------------------- */
+    /* :root {
+        --color-green: #008fa3;
+        --color-red: white;
+        --color-button: #808080;
+        --color-black: #808080;
+    }
+    ::before{
+        background-color: white !important;
+    }
+    .switch-button {
+        display: inline-block;
+    }
+    .switch-button .switch-button__checkbox {
+        display: none;
+    }
+    .switch-button .switch-button__label {
+        background-color: white;
+        border-color: #808080!important ;
+        border-style: solid !important;
+        border-width: 2px !important;
+        width: 4rem;
+        height: 2rem;
+        border-radius: 2rem;
+        display: inline-block;
+        position: relative;
+    }
+    .switch-button .switch-button__label:before {
+        transition: .2s;
+        display: block;
+        position: absolute;
+        top: 2.3px;
+        left:2px;
+        width: 1.4rem;
+        height: 1.4rem;
+        background-color: var(--color-button);
+        content: '';
+        border-radius: 50%;
+        box-shadow: inset 0px 0px 0px 1px var(--color-black);
+        border-color:black !important ;
+    }
+    .switch-button .switch-button__checkbox:checked + .switch-button__label {
+        background-color: var(--color-green);
+    }
+    .switch-button .switch-button__checkbox:checked + .switch-button__label:before {
+        transform: translateX(2rem);
+    } */
 }
