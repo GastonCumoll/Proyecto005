@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        La pagina solicitada no existe. Dirijase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
-    </p>
+<div class="card mt-2" id="tarjetaError">
+    <div class="card-header">
+        <h1>Page not found</h1>
+    </div>
+    <div class="card-body">
+        <p>
+            La pagina solicitada no existe. Dirijase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
+        </p>
+    </div>
+        </div>
 {% endblock %}

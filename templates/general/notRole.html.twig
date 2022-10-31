@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Page not found</h1>
-
-    <p>
-        No tiene los permisos para ingresar a la pagina solicitada. Se le redireccionará al login...
-        Si quiere ingresar
-        con un usuario habilitado, redirigase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
-    </p>
+    {% block addStyleSheets %}
+        {{ encore_entry_link_tags('estilo') }}
+    {% endblock %}
+    <div class="card mt-2" id="tarjetaError">
+        <div class="card-header">
+            <h1>Page not found</h1>
+        </div>
+        <div class="card-body">
+            <p>
+            No tiene los permisos para ingresar a la pagina solicitada. Se le redireccionará al login...
+            Si quiere ingresar
+            con un usuario habilitado, redirigase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
+        </p>
+        </div>
+    </div>
+    
     {% block javascripts %}
     {# {{encore_entry_script_tags('redireccionLogout')}} #}
     {% endblock %}

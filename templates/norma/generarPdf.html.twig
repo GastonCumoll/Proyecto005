@@ -17,7 +17,14 @@
 Fecha de publicacion: {{ id.fechaPublicacion ? id.fechaPublicacion|date('Y-m-d') : '' }}
 <br>
 {% endif %}
-
+{% if id.fechaPublicacionBoletin %}
+    <strong>Fecha de publicacion boletín:</strong> {{ id.fechaPublicacionBoletin ? id.fechaPublicacionBoletin|date('Y-m-d') : '' }}
+<br>
+{% endif %}
+{% if id.fechaPromulgacion %}
+    <strong>Fecha de promulgación: </strong> {{ id.fechaPromulgacion ? id.fechaPromulgacion|date('Y-m-d') : '' }}
+<br>
+{% endif %}
 {% if id.resumen %}
 Resumen: {{ id.resumen }}
 <br>

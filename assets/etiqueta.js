@@ -30,5 +30,12 @@ $(document).ready(function() {
         },
         allowClear: true,
     });
-    
+    // var p=window.performance.getEntriesByType("navigation")[0].type;
+    // alert(p);
+    // if(p==='onload'){
+        document.getElementById("boton_guardar").addEventListener("click", function(event){
+            document.getElementById("boton_guardar").disabled=true;
+            document.getElementById("norma_nueva_form").submit();
+        });
+    // }
 });

@@ -6,6 +6,7 @@ import './app.js';
  * Spanish translation for bootstrap-datepicker
  * Bruno Bonamin <bruno.bonamin@gmail.com>
  */
+
 (function($){
 	$.fn.datepicker.dates['es'] = {
 		days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -16,8 +17,9 @@ import './app.js';
 		today: "Hoy",
 		monthsTitle: "Meses",
 		clear: "Borrar",
+        maxDate: '0',
 		weekStart: 1,
-		format: "dd/mm/yyyy"
+		format: "dd/mm/yyyy",
 	};
 }(jQuery));
 
@@ -38,7 +40,8 @@ import './app.js';
     showMonthAfterYear: false,
     yearSuffix: '',
 });*/
-
+var FromEndDate = new Date();
 $('.datepicker').datepicker({
-    'language' : 'es'
+    'language' : 'es',
+    endDate: FromEndDate, 
 });

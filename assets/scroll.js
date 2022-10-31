@@ -25,24 +25,61 @@ import { contains } from 'jquery';
 $(document).ready(function(){
 
 	var boton = document.getElementsByClassName("botonAtras")[0];
-
 	var urlAnt = document.referrer;
+	var vuelta = $('#volverFrom').val();
 	boton.addEventListener("click", function(){
 			if(urlAnt.includes("/indice/Vigentes")){
 				boton.setAttribute("href","/indice/Vigentes");
-			}else if (urlAnt.includes("/indice/NoVigentes")){
+			}
+			else if (urlAnt.includes("/indice/NoVigentes")){
 				boton.setAttribute("href","/indice/NoVigentes");
-			}else if(urlAnt.includes("/listas")){
+			}
+			else if(urlAnt.includes("/listas")){
 				boton.setAttribute("href","/norma/listas");
 			}
 			else if(urlAnt.includes("/borrador")){
 				boton.setAttribute("href","/norma/borrador");
-			}else if(urlAnt.includes("/edit")){
-				// console.log("edit");
-				boton.setAttribute("href",history.go(-2));
 			}
-			else{
-				boton.setAttribute("href",urlAnt);
+			else if(urlAnt.includes("/edit") && vuelta == 'borrador'){
+				boton.setAttribute("href","/norma/borrador");
+			}
+			else if(urlAnt.includes("/edit") && vuelta == 'todas'){
+				boton.setAttribute("href","/norma");
+			}
+			else if(urlAnt.includes("/edit") && vuelta == 'listas'){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt.includes("/showEdit") && vuelta == 'borrador'){
+				boton.setAttribute("href","/norma/borrador");
+			}
+			else if(urlAnt.includes("/showEdit") && vuelta == 'todas'){
+				boton.setAttribute("href","/norma");
+			}
+			else if(urlAnt.includes("/showEdit") && vuelta == 'listas'){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt.includes("/agregarArchivo") && vuelta == 'borrador'){
+				boton.setAttribute("href","/norma/borrador");
+			}
+			else if(urlAnt.includes("/agregarArchivo") && vuelta == 'todas'){
+				boton.setAttribute("href","/norma");
+			}
+			else if(urlAnt.includes("/agregarArchivo") && vuelta == 'listas'){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt.includes("/relaFormEdit") && vuelta == 'borrador'){
+				boton.setAttribute("href","/norma/borrador");
+			}
+			else if(urlAnt.includes("/relaFormEdit") && vuelta == 'todas'){
+				boton.setAttribute("href","/norma");
+			}
+			else if(urlAnt.includes("/relaFormEdit") && vuelta == 'listas'){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt==window.location){
+				boton.setAttribute("href",'/inicio');
+			}else{
+				boton.setAttribute("href",'/inicio');
 			}
 	});
 	

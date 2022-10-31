@@ -296,6 +296,7 @@ class NormaController extends AbstractController
     {   
 
         $sesion=$this->get('session');
+        $sesion->set('from','todas');
         $idSession=$sesion->get('session_id')*1;
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         //dd($idReparticion);
@@ -583,6 +584,7 @@ class NormaController extends AbstractController
     {
         $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
+        $sesion->set('from','listas');
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
             // dd($idSession);
@@ -631,6 +633,7 @@ class NormaController extends AbstractController
     {
         $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
+        $sesion->set('from','borrador');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -842,7 +845,8 @@ class NormaController extends AbstractController
             $filtros[]=$titulo;
         }
         if($tipo){
-            $filtros[]=$tipo;
+            $filtros[]=$tipoNormaRepository->findOneById($tipo)->getNombre();
+            
         }
         if($numero){
             $filtros[]=$numero;
@@ -1686,6 +1690,7 @@ class NormaController extends AbstractController
      */
     public function showEdit(Norma $norma,$id,Request $request, SeguridadService $seguridad): Response
     {
+        
         
         if(!empty($itemDeNorma=$norma->getItems()->toArray())){
             $item=$itemDeNorma[0];

@@ -87,6 +87,7 @@
     {% endfor %}
 
     <div class="container mt-3 mb-3">
+        <input type="hidden" id="volverFrom" value={{app.session.get('from')}}>
         <div class="card text-center shadow mb-5 bg-white rounded" id="cardGeneral">
             
                 {% if norma.estado == "Borrador" %}
