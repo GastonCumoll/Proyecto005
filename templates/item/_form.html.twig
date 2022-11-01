@@ -1,8 +1,8 @@
-{{ form_start(form) }}
+{{ form_start(form,{'attr':{'id':'norma_nueva_form'}})}}
     {{ form_row(form.nombre) }} 
     {{ form_row(form.padre) }} 
     {# {{ form_row(form.dependencias) }}  #}
     {# {{ form_row(form.orden)}}
     {{ form_row(form.normas) }}  #}
-    <button class="btn btn-success" id="boton123">{{ button_label|default('Guardar') }}</button>
+    <button class="btn btn-success" id="boton_guardar">{{ button_label|default('Guardar') }}</button>
 {{ form_end(form) }}

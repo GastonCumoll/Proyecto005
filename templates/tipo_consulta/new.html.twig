@@ -15,5 +15,8 @@
         <a href="{{ path('tipo_consulta_index') }}" class="btn btn-primary">Volver</a>
     </div>
     </div>
-
+    {% block javascripts %}
+    {{ parent() }}
+    {{encore_entry_script_tags('tipoConsultaNew')}}
+{% endblock  %} 
 {% endblock %}

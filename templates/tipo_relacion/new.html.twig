@@ -19,6 +19,9 @@
     {# <h1>Nuevo tipo de relacion</h1> #}
 
     
-
+    {% block javascripts %}
+    {{ parent() }}
+    {{encore_entry_script_tags('tipoRelaNew')}}
+{% endblock %}
     
 {% endblock %}
