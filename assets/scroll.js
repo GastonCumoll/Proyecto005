@@ -112,8 +112,12 @@ $(document).ready(function(){
 			var e = document.getElementById("parrafo").innerHTML;
 			var enew = e.replace(/(<span>|<\/span>)/igm, "");
 			document.getElementById("parrafo").innerHTML = enew;
-			var newe = enew.replace(query, "<span>$1</span>");
+			var newe = enew.replace(query, '<span id="palabraResaltada">$1</span>');
 			document.getElementById("parrafo").innerHTML = newe;
+			
+            var element = document.getElementById("palabraResaltada");
+			element.scrollIntoView({block: "center", behavior: "smooth"});
+			// window.;
 		}
     }
 })
