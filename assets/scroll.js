@@ -40,6 +40,9 @@ $(document).ready(function(){
 			else if(urlAnt.includes("/borrador")){
 				boton.setAttribute("href","/norma/borrador");
 			}
+			else if(urlAnt.includes("/norma/")){
+				boton.setAttribute("href","/norma/");
+			}
 			else if(urlAnt.includes("/edit") && vuelta == 'borrador'){
 				boton.setAttribute("href","/norma/borrador");
 			}
