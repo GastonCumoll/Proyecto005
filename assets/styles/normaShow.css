@@ -162,7 +162,9 @@
         left: 10px !important;
         top: 0 !important;
     }
-
+    .h5, h5 {
+        font-size: 1rem !important;
+    }
     .card-title{
         text-align: center !important;
         font-family:'Montserrat', sans-serif !important;

@@ -52,117 +52,120 @@
                 <div class="collapse" id="collapseExample">
                     <div class="card shadow-sm">
                         <div class="card-body sm">
-                            <form action="{{path('busqueda_filtro')}}" method="get" name="formulario" id="form">
+                            <div class="container-formulario">
+                                <form action="{{path('busqueda_filtro')}}" method="get" name="formulario" id="form">
+                                    <div class="form-row mb-2">
+                                        {# <div class="col-1"></div> #}
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto izq">
+                                                <div id="titulo"> Título</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control form-control-sm"  id="textoInput" name="titulo"
+                                                        placeholder="Título" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto">
+                                                <div id="titulo"> Tipo</div>
+                                            </div>
+                                            <div class="col">
+                                                {# <input class="form-control form-control-sm" id="responsable"
+                                                name="responsable" placeholder="responsable" /> #}
+                                                <div class="input-group">
+                                                    <select title="Seleccionar" name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
+                                                        <option value = '' selected></option>
+                                                        {% for tipo in tipoNormas %}
+                                                            <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
+                                                        {% endfor %}
+                                                    </select>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-row mb-2">
                                     {# <div class="col-1"></div> #}
-                                <div class="col-6">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto izq">
-                                            <div id="titulo"> Título</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm"  id="textoInput" name="titulo"
-                                                    placeholder="Título" />
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto izq">
+                                                <div id="titulo"> Número</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto">
-                                            <div id="titulo"> Tipo</div>
-                                        </div>
-                                        <div class="col">
-                                            {# <input class="form-control form-control-sm" id="responsable"
-                                            name="responsable" placeholder="responsable" /> #}
-                                            <div class="input-group">
-                                                <select title="Seleccionar" name="tipoNorma" id="TipoNorma" class="form-control selectpicker" data-live-search="true">
-                                                    <option value = '' selected></option>
-                                                    {% for tipo in tipoNormas %}
-                                                        <option value={{tipo.getId()}}>{{tipo.getNombre()}}</option>    
-                                                    {% endfor %}
-                                                </select>
-                                            </div> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                {# <div class="col-1"></div> #}
-                                <div class="col-6">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto izq">
-                                            <div id="titulo"> Número</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group">
-                                                <input type="number" class="form-control form-control-sm" id="textoInput" name="numero"
-                                                    placeholder="Número" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto">
-                                            <div id="titulo"> Año</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group">
+                                            <div class="col">
                                                 <div class="input-group">
-                                                    <input type="number" class="form-control form-control-sm" id="textoInput" name="año"
-                                                        placeholder="Año" />
+                                                    <input type="number" class="form-control form-control-sm" id="textoInput" name="numero"
+                                                        placeholder="Número" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto">
+                                                <div id="titulo"> Año</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <div class="input-group">
+                                                        <input type="number" class="form-control form-control-sm" id="textoInput" name="año"
+                                                            placeholder="Año" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-row mb-2">
-                                {# <div class="col-1"></div> #}
-                                <div class="col-6">
-                                    <div class="form-row align-items-center">
-                                        <div class="col-auto izq">
-                                            <div id="titulo"> Texto</div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control form-control-sm" id="textoInput" name="texto"
-                                                    placeholder="Texto" />
+                                <div class="form-row mb-2">
+                                    {# <div class="col-1"></div> #}
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center">
+                                            <div class="col-auto izq">
+                                                <div id="titulo"> Texto</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control form-control-sm" id="textoInput" name="texto"
+                                                        placeholder="Texto" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                
+                                {# <div class="text-center">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <strong>Etiquetas</strong>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <select name="etiquetas" id="etiquetas" class="form-control selectpicker" data-live-search="true" multiple="true">
+                                                    <option value = '-' selected></option>
+                                                    {% for etiqueta in etiquetas %}
+                                                        <option value={{etiqueta.getId()}}>{{etiqueta.getNombre()}}</option>    
+                                                    {% endfor %}
+                                                </select>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div> #}
+                                <div class="text-center">
+                                    
+                                        <a class="btn btn-sm btn-outline-secondary cargando buscarNorma">
+                                            <div id="botoncito">
+                                            <i class="fa fa-search"></i> BUSCAR
+                                        </div>
+                                        </a>
+                                    
+                                </div>
+                                </form>
                             </div>
                             
-                            {# <div class="text-center">
-                                <div class="form-row align-items-center">
-                                    <div class="col-auto">
-                                        <strong>Etiquetas</strong>
-                                    </div>
-                                    <div class="col">
-                                        <div class="input-group">
-                                            <select name="etiquetas" id="etiquetas" class="form-control selectpicker" data-live-search="true" multiple="true">
-                                                <option value = '-' selected></option>
-                                                {% for etiqueta in etiquetas %}
-                                                    <option value={{etiqueta.getId()}}>{{etiqueta.getNombre()}}</option>    
-                                                {% endfor %}
-                                            </select>
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div> #}
-                            <div class="text-center">
-                                
-                                    <a class="btn btn-sm btn-outline-secondary cargando buscarNorma">
-                                        <div id="botoncito">
-                                        <i class="fa fa-search"></i> BUSCAR
-                                    </div>
-                                    </a>
-                                
-                            </div>
-                            </form>
                         </div>
                     </div>
                 </div>

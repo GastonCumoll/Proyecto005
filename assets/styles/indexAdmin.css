@@ -1,15 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@media (max-width:499px) and (min-width:350px){
-    .card .card-body {
-        margin-left: 0px!important;
-        margin-right: 0px!important;
-        text-align: center !important;
-    }
-    #form{
-        align-items: center !important;
-    }
-    
-}
+
 @media (max-width:767px) and (min-width:500px){
     .card .card-body {
         margin-left: 0px!important;
