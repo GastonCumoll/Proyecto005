@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class TipoConsultaType extends AbstractType
 {
@@ -14,7 +15,7 @@ class TipoConsultaType extends AbstractType
     {
         $builder
             ->add('nombre')
-            ->add('email',TextType::class,[
+            ->add('email',EmailType::class,[
                 'required'=>true,
             ])
         ;

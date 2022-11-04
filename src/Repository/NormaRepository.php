@@ -102,8 +102,8 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     }
-
-    public function findBorradoresCont($rol,$reparticionId){
+    public function findBorradoresCont($rol,$reparticionId)
+    {
         // dd($roles);
         $consulta=$this->createQueryBuilder('p');
         $consulta->select('p.id')->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
@@ -119,8 +119,8 @@ class NormaRepository extends ServiceEntityRepository
         // dd($query);
         return $query;
     }
-
-    public function findBorradores($roles,$reparticion){
+    public function findBorradores($roles,$reparticion)
+    {
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :b')->setParameter('b','Borrador')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
@@ -136,9 +136,8 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     }
-
-
-    public function findListasCont($rol,$reparticionId){
+    public function findListasCont($rol,$reparticionId)
+    {
         $consulta=$this->createQueryBuilder('p');
         $consulta->select('p.id')->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
@@ -151,16 +150,14 @@ class NormaRepository extends ServiceEntityRepository
         $query=$consulta->getQuery()->getArrayResult();
         return $query;
     }
-
-
-    public function findByTexto($texto){
+    public function findByTexto($texto)
+    {
         $consulta=$this->createQueryBuilder('p')->where('p.texto LIKE :t')->setParameter('t','%'.$texto.'%')->orderBy('p.id','ASC');
         $query=$consulta->getQuery()->getArrayResult();
         return $query;
     }
-
-
-    public function findListas($roles,$reparticion){
+    public function findListas($roles,$reparticion)
+    {
         $consulta=$this->createQueryBuilder('p');
         $consulta->where('p.estado = :l')->setParameter('l','Lista')->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->join('App\Entity\TipoNormaRol','tr','WITH','tr.tipoNorma = t.id')
@@ -241,7 +238,6 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     }
-
     //busqueda de los filtros con session
     public function findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticion,$rol,$texto): Query 
     {
@@ -318,7 +314,6 @@ class NormaRepository extends ServiceEntityRepository
         return $query;
 
     }
-    
     public function findNormasEtiqueta($normasEtiquetas): Query
     {
         $tam=count($normasEtiquetas);
@@ -330,7 +325,6 @@ class NormaRepository extends ServiceEntityRepository
         $query=$consulta->getQuery();
         return $query;
     }
-
     public function findArrayDePalabras($arreglo): Query
     {
         $tam=sizeof($arreglo);
@@ -346,14 +340,12 @@ class NormaRepository extends ServiceEntityRepository
 
         return $query;
     }
-
     public function findUnNumero($palabra): array
     {
         $retorno=$this->createQueryBuilder('p')->where('p.numero LIKE :numero')->setParameter('numero','%'.$palabra.'%')->orderBy('p.titulo','ASC');
         $query=$retorno->getQuery();
         return $query->execute();
     }
-
     public function findUnAño($palabra): array
     {
         $retorno=$this->createQueryBuilder('p')->where('p.fechaPublicacion LIKE :fecha')->setParameter('fecha','%'.$palabra.'%')->orderBy('p.titulo','ASC');
@@ -361,6 +353,7 @@ class NormaRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    
     /*
     public function findOneBySomeField($value): ?Norma
     {

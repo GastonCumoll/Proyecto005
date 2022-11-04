@@ -752,27 +752,51 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/normasAjax", name="normas_ajax", methods={"GET"}, options={"expose"=true})
      */
-    public function normasAjax(NormaRepository $normaRepository,ItemRepository $itemRepository,$id): Response
+    public function normasAjax(TipoNormaReparticionRepository $tipoNormaReparticionRepository,AreaRepository $areaRepository,ReparticionService $reparticionService,SeguridadService $seguridad,NormaRepository $normaRepository,ItemRepository $itemRepository,$id): Response
     {
         //normasAjax metodo para buscar normas ligadas a los items
         $item=$itemRepository->find($id);
         $normas=$item->getNormas()->toArray();
+
+        //------------------seccion roles y reparticion-----------------------
+        /*
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        if($seguridad->checkSessionActive($idSession)){
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $listaDeRolesUsuario[]= $unRol["id"];
+            }
+            // dd($roles);
+            $rol=$roles[0]['id'];
+            // dd($rol);
+        }else {
+            $rol="";
+        }
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        if($idReparticion){
+            $reparticionUsuario = $areaRepository->find($idReparticion);
+        }
+        */
+        //------------------seccion roles y reparticion-----------------------
         $nH=[];
-        foreach ($normas as $norma) {
+        
+            foreach ($normas as $norma) {
             if($norma->getEstado()=="Publicada" && $norma->getPublico()==true){
                 $nH[]=$norma;
             }
         }
-        // dd($nH);
+        
         $jsonData = array();  
         $idx = 0;  
+        
         foreach($nH as $unaNorma) {
             if($unaNorma->getTipoNorma()->getNombre()=='Decreto' && $unaNorma->getNumeroAuxiliar()!=0){
                 $numero=$unaNorma->getNumeroAuxiliar().'/'.$unaNorma->getYear();
                 
             }else if($unaNorma->getNumeroAuxiliar()!=0){
                 $numero=$unaNorma->getNumeroAuxiliar();
-                
             }else{
                 $temp = array(
                     'titulo' => $unaNorma->getTitulo(),  
@@ -790,7 +814,7 @@ class NormaController extends AbstractController
                 );   
                 $jsonData[$idx++] = $temp;  
             }
-            //dd($jsonData);
+
             return new Response(json_encode($jsonData), 200, array('Content-Type'=>'application/json'));
     }
 

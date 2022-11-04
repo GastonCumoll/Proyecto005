@@ -402,6 +402,8 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
@@ -409,10 +411,13 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family: 'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -996,6 +1001,8 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
@@ -1003,10 +1010,13 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family:'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -1583,6 +1593,8 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
@@ -1590,10 +1602,13 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family:'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -2178,6 +2193,8 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
@@ -2185,10 +2202,13 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family:'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -2759,6 +2779,8 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
@@ -2766,10 +2788,13 @@
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        margin-left: 15% !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family: 'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -3338,21 +3363,26 @@
     }
 
     #consultaEnviada{
+        margin-left: 15% !important;
         margin-top: 15% !important;
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #3ba9b5 !important;
+        width: 70% !important;
     }
 
     #consultaNoEnviada{
+        margin-left: 15% !important;
         margin-top: 15% !important;
         border-radius: 5px !important;
         border: 2px solid !important;
         border-color: #b63232 !important;
+        width: 70% !important;
     }
 
     #textoCartelConsulta{
         margin: 1rem !important;
+        font-family: 'Montserrat', sans-serif !important;
     }
 
     .card .card-header button{
@@ -3545,6 +3575,7 @@
         font-style: italic !important;
     }
 }
+
 @media (min-height:300px) and (max-height:599px){
     #containerHeader{
         background-color: #005B88;

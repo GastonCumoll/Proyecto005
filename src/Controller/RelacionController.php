@@ -363,6 +363,6 @@ class RelacionController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('norma_show', ['id'=>$normaId], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('norma_showEdit', ['id'=>$normaId], Response::HTTP_SEE_OTHER);
     }
 }

@@ -27,6 +27,7 @@ $(document).ready(function(){
 	var boton = document.getElementsByClassName("botonAtras")[0];
 	var urlAnt = document.referrer;
 	var vuelta = $('#volverFrom').val();
+	console.log(urlAnt);
 	boton.addEventListener("click", function(){
 			if(urlAnt.includes("/indice/Vigentes")){
 				boton.setAttribute("href","/indice/Vigentes");
@@ -34,14 +35,8 @@ $(document).ready(function(){
 			else if (urlAnt.includes("/indice/NoVigentes")){
 				boton.setAttribute("href","/indice/NoVigentes");
 			}
-			else if(urlAnt.includes("/listas")){
-				boton.setAttribute("href","/norma/listas");
-			}
-			else if(urlAnt.includes("/borrador")){
-				boton.setAttribute("href","/norma/borrador");
-			}
-			else if(urlAnt.includes("/norma/")){
-				boton.setAttribute("href","/norma/");
+			else if(urlAnt.includes("/formularioBusquedaResult") || urlAnt.includes("/busquedaFiltro") ){
+				boton.setAttribute("href",urlAnt);
 			}
 			else if(urlAnt.includes("/edit") && vuelta == 'borrador'){
 				boton.setAttribute("href","/norma/borrador");
@@ -79,9 +74,22 @@ $(document).ready(function(){
 			else if(urlAnt.includes("/relaFormEdit") && vuelta == 'listas'){
 				boton.setAttribute("href","/norma/listas");
 			}
+			else if(urlAnt.includes("/busquedaId") && urlAnt.includes("/etiqueta/")){
+				boton.setAttribute("href",urlAnt);
+			}
+			else if(urlAnt.includes("/listas")){
+				boton.setAttribute("href","/norma/listas");
+			}
+			else if(urlAnt.includes("/borrador")){
+				boton.setAttribute("href","/norma/borrador");
+			}
+			else if(urlAnt.includes("/norma/")){
+				boton.setAttribute("href","/norma/");
+			}
 			else if(urlAnt==window.location){
 				boton.setAttribute("href",'/inicio');
-			}else{
+			}
+			else{
 				boton.setAttribute("href",'/inicio');
 			}
 	});
@@ -100,23 +108,27 @@ $(document).ready(function(){
 	// })
 
 	var busquedaTexto = document.getElementById("busquedaTexto");
-	// console.log(busquedaTexto.);
+	// console.log(busquedaTexto);
     busquedaTexto.addEventListener("keyup", function(event) {
     event.preventDefault();
     if (event.keyCode === 13) {
-        //document.getElementById("id_of_button").click();
-		var text = document.getElementById("busquedaTexto").value;
 		
-		if(text.length > 0){
-			var query = new RegExp("(\\b" + text + "\\b)", "gim");
+        //document.getElementById("id_of_button").click();
+		var palabra = document.getElementById("busquedaTexto").value;
+		//text = la palabra a buscar
+		if(palabra.length > 0){
+			var query = new RegExp("(\\b" + palabra + "\\b)", "gim");
 			var e = document.getElementById("parrafo").innerHTML;
+			
 			var enew = e.replace(/(<span>|<\/span>)/igm, "");
 			document.getElementById("parrafo").innerHTML = enew;
 			var newe = enew.replace(query, '<span id="palabraResaltada">$1</span>');
 			document.getElementById("parrafo").innerHTML = newe;
 			
             var element = document.getElementById("palabraResaltada");
+			
 			element.scrollIntoView({block: "center", behavior: "smooth"});
+
 			// window.;
 		}
     }

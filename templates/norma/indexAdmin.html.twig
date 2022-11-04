@@ -41,9 +41,15 @@
         </div>
     </div> #}
         <div class="row">
+            
             <div class="col-sm-12">
                 <div id="contenedorBotonVolver" class="text-left mt-1">
-                    <a href="{{path('inicio')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                    {% if "/etiqueta/" in  app.request.pathinfo and "busquedaId" in  app.request.pathinfo  %}
+                        <a href={{app.request.headers.get('referer')}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                    {% else %}
+                        <a href="{{path('inicio')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                    {% endif %}
+                    
                 </div>
                 <a class="btn btn-outline-info btnFiltro dropdown-toggle" role="button" data-toggle="collapse" href="#collapseExample"
                     aria-expanded="false" aria-controls="collapseExample">

@@ -3,7 +3,10 @@
 @media (max-width: 575px) and (min-width: 400px) {
     .form-row{
         display: inline-block !important;
-        margin-left: 8% !important;
+        margin-left: 10% !important; 
+        margin-right: 10 !important;
+        width: 100% !important;
+        /* text-align: center !important; */
     }
     .col-6{
         display: inline-block !important;
