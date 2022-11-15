@@ -3633,7 +3633,13 @@
 @media (min-height: 800px){
     #tarjetaError{
         font-family:'Montserrat', sans-serif !important;
+        width: 80% !important;
+        margin-left: 10% !important;
     }
+    #error{
+        background-color: #b2b2b2 !important;
+    }
+
     #auditoriaIcon{
         height:0.8rem ;
         width:0.8rem ;

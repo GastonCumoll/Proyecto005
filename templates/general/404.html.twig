@@ -2,12 +2,12 @@
 
 {% block body %}
 <div class="card mt-2" id="tarjetaError">
-    <div class="card-header">
+    <div class="card-header"id="error">
         <h1>Page not found</h1>
     </div>
-    <div class="card-body">
+    <div class="card-body"id="errorBody">
         <p>
-            La pagina solicitada no existe. Dirijase a la <a href="{{ path('login') }}">pagina de Login</a>.Si no, <a href="{{ path('inicio') }}">vuelva al inicio</a>.
+            La pagina solicitada no existe. Dirijase al <a href="{{ path('inicio') }}">inicio</a>.
         </p>
     </div>
         </div>
