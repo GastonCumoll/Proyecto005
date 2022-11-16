@@ -16,7 +16,7 @@
     </div>
     {% if "DIG_ADMINISTRADOR" in roles %}
         
-        <a href="{{ path('tipo_norma_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+        <a href="{{ path('tipo_norma_new') }}"> <button title="NUEVO TIPO DE NORMA" type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     {% endif %}
     <br>
     <br>
@@ -48,9 +48,9 @@
                 </td>
                 {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
-                    <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
-                    <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>
-                    <a  href="{{path('rol_tipo_norma', {'id': tipo_norma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-user-shield"></i></button></a>
+                    <a  href="{{path('tipo_norma_edit', {'id': tipo_norma.id})  }}"><button title="EDITAR" class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                    <a  href="{{path('reparticion_norma', {'id': tipo_norma.id})  }}"><button title="REPARTICIONES" class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-link"></i></button></a>
+                    <a  href="{{path('rol_tipo_norma', {'id': tipo_norma.id})  }}"><button title="ROLES" class="btn btn-info btn-sm d-inline-block float-left mr-1"><i class="fa-solid fa-user-shield"></i></button></a>
                     
                         {# <button class="btn btn-danger btn-sm d-inline" disabled><i class="fa-solid fa-trash-can"> #}
                     

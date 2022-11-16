@@ -49,14 +49,14 @@
         <li class="nav-item dropdown ultimoItem" >
             <a class="nav-link dropdown-toggle" data-toggle="dropdown"  id="navLinkDropdownToggle" href="#" role="button" aria-expanded="false">Parámetros</a>
             <div class="dropdown-menu" id="dropdownMenu">
-                <a class="dropdown-item" href="{{ path('area_index') }}">Areas</a>
+                <a class="dropdown-item" href="{{ path('area_index') }}">Áreas</a>
                 <a class="dropdown-item" href="{{ path('etiqueta_index') }}">Etiquetas</a>
                 <a class="dropdown-item" href="{{ path('tipo_relacion_index') }}">Relaciones</a>
                 <a class="dropdown-item" href="{{ path('tipo_norma_index') }}">Tipos de norma</a>
-                <a class="dropdown-item" href="{{ path('auditoria_index') }}">Auditoria</a>
+                <a class="dropdown-item" href="{{ path('auditoria_index') }}">Auditorías</a>
                 {% if app.session.get('rolNombre') == "DIG_ADMINISTRADOR" %}
                 <a class="dropdown-item" href="{{ path('consulta_index') }}">Consultas</a>
-                <a class="dropdown-item" href="{{ path('tipo_consulta_index') }}">Tipo de consultas</a>
+                <a class="dropdown-item" href="{{ path('tipo_consulta_index') }}">Tipos de consultas</a>
                 {% endif %}
                 
             </div>

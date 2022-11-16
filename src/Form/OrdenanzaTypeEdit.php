@@ -27,7 +27,7 @@ class OrdenanzaTypeEdit extends AbstractType
     {
         $builder
         ->add('numeroAuxiliar',NumberType::class,[
-            'label' => 'Numero',
+            'label' => 'Número',
             'help' => 'Solo números',
             'required' => false,
         ]

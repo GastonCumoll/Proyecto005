@@ -19,7 +19,7 @@
     </div>
     {% if "DIG_ADMINISTRADOR" in roles %}
         
-        <a href="{{ path('item_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+        <a href="{{ path('item_new') }}"> <button title="NUEVO ÍNDICE" type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     {% endif %}
     <div class="input-group float-right ml-auto mr-2">
         <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="   Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
@@ -52,7 +52,7 @@
             </td>
             {% if "DIG_ADMINISTRADOR" in roles %}
             <td>
-                <a  href="{{path('item_edit', {'id': item.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                <a  href="{{path('item_edit', {'id': item.id})  }}"><button title="EDITAR" class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                 {{ include('item/_delete_form.html.twig') }}
             </td>
             {% endif %}

@@ -137,16 +137,16 @@
                 <h5 class="card-title">{{ norma.titulo }}</h5>
                 {# <p class="card-text text-left">Fecha de sanción: {{ norma.fechaSancion ? norma.fechaSancion|date('Y-m-d') : '' }}</p> #}
                 {% if norma.estado =="Publicada" %}
-                    <p class="card-text"><strong>Fecha de publicacion: </strong>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('d-m-Y') : '' }}</p>
+                    <p class="card-text"><strong>Fecha de publicación: </strong>{{ norma.fechaPublicacion ? norma.fechaPublicacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaSancion %}
-                    <p class="card-text text-left"><strong>Fecha de sancion: </strong>{{ norma.fechaSancion ? norma.fechaSancion|date('d-m-Y') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de sanción: </strong>{{ norma.fechaSancion ? norma.fechaSancion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPromulgacion %}
-                    <p class="card-text text-left"><strong>Fecha de promulgacion: </strong>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('d-m-Y') : '' }}</p>
+                    <p class="card-text text-left"><strong>Fecha de promulgación: </strong>{{ norma.fechaPromulgacion ? norma.fechaPromulgacion|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 {% if norma.fechaPublicacionBoletin %}
-                <p class="card-text text-left"><strong>Fecha de Publicacion Boletín: </strong>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('d-m-Y') : '' }}</p>
+                <p class="card-text text-left"><strong>Fecha de Publicación Boletín: </strong>{{ norma.fechaPublicacionBoletin ? norma.fechaPublicacionBoletin|date('d-m-Y') : '' }}</p>
                 {% endif %}
                 <p class="card-text text-left"><strong>Resumen: </strong>{{ norma.resumen }}</p>
 
@@ -161,12 +161,12 @@
                                 <h5 id="h5Archivos" class="">Archivos adjuntos</h5>
                                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                                 <div class="contenedorBotonMas">
-                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" title="AGREGAR ARCHIVO" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
                                 </div>
                                 {% endif %}
                                 {% if "DIG_EDITOR" in roles and (norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                                 <div class="contenedorBotonMas">
-                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
+                                    <a href="{{path('agregar_archivo', {'id': norma.id})  }}" title="AGREGAR ARCHIVO" class="btn btn-secondary btn-sm" id="botonMas"><i class="fas fa-solid fa-plus iconoMas"></i></a>
                                 </div>
                                 {% endif %}
                                 {% for unPdf in norma.archivos %}
@@ -238,13 +238,13 @@
                     <table class="table" id="tablaRela">
                         <thead class="thead">
                             <tr>
-                                <th scope="col" id="relacionColHead">Relacion</th>
+                                <th scope="col" id="relacionColHead">Relación</th>
                                 <th scope="col" id="relacionNorHead">Norma</th>
                                 
                                 {% if ("DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1) or ("DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1) %}
-                                <th id="relacionEditHead"scope="col">Editar</th>
+                                <th id="relacionEditHead"scope="col">Acciones</th>
                                 {% else %}
-                                    <th scope="col" id="relacionNorHead" ></th>
+                                    <th scope="col" id="relacionNorHead"></th>
                                 {% endif %}
                                 
                             </tr>
@@ -256,13 +256,12 @@
                                         <td id="relacionNor"><a href="{{path('norma_show', {'id': rela.getComplementada.getId}) }}">{{rela.getComplementada.getTitulo}}</a></td>
                                         {% if ("DIG_OPERADOR" in roles and norma.estado != "Publicada" and usuarioReparticion == 1) or ("DIG_EDITOR" in roles and (norma.estado == "Publicada" or norma.estado == 'Lista') and usuarioReparticion == 1) %}
                                         <td id="relacionEdit">
-                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
+                                            <a href="{{path('relacion_edit', {'id':norma.id,'idA':rela.getComplementada.getId,'idR':rela.getId})}}"><button title="EDITAR" class="btn btn-info btn-sm d-inline float-left mr-1"><i class="fa-solid fa-pen-to-square"></i></button></a>
                                             {{include('relacion/_delete_form.html.twig')}}
                                         </td>
                                         {% else %}
                                         <td id="relacionEdit"></td>
                                         {% endif %}
-                                        
                                     </tr>
                                     <tr>
                                         <td>Observaciones</td>
@@ -283,12 +282,12 @@
                 
                 {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relación</button></a>
                     </div>
                     {% endif %}
                     {% if "DIG_EDITOR" in roles and (norma.estado == "Lista" or norma.estado == 'Publicada') and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
-                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>
+                        <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relación</button></a>
                     </div>
                     <br>
                     
@@ -339,9 +338,9 @@
                                     <button class="btn " id="btn">Publicar</button>
                                     <div class="text-center">
                                         {% if norma.publico == 1 %}
-                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
+                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso público</label>
                                         {% else %}
-                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
+                                            <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso público</label>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -360,11 +359,11 @@
                                         <!-- Botón -->
                                         <label for="switch-label" class="switch-button__label"></label>
                                     </div> #}
-                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso publico</label>
+                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso público</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
                                     <button type="submit" class="badge badge-primary">Aplicar</button>
                                 {% else %}
-                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso publico</label>
+                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso público</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
                                     <button type="submit" class="badge badge-primary">Aplicar</button>
                                 {% endif %}

@@ -16,7 +16,7 @@
         <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
     </div>
     {% if "DIG_ADMINISTRADOR" in roles %}
-        <a href="{{ path('tipo_relacion_new') }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+        <a href="{{ path('tipo_relacion_new') }}"> <button title="NUEVA RELACIÓN" type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
     {% endif %}
     <br>
     <br>
@@ -32,7 +32,7 @@
         <thead id="headIndex">
             <tr>
                 <th>{{ knp_pagination_sortable(tipo_relacions, 'Id', 'p.id') }}</th>
-                <th>{{knp_pagination_sortable(tipo_relacions, 'Descripcion', 'p.nombre')}}</th>
+                <th>{{knp_pagination_sortable(tipo_relacions, 'Descripción', 'p.nombre')}}</th>
                 {% if "DIG_ADMINISTRADOR" in roles %}
                 <th class="thOp">Opciones</th>
                 {% endif %}
@@ -50,7 +50,7 @@
                 </td>
                 {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
-                    <a  href="{{path('tipo_relacion_edit', {'id': tipo_relacion.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                    <a  href="{{path('tipo_relacion_edit', {'id': tipo_relacion.id})  }}"><button title="EDITAR" class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                     {{ include('tipo_relacion/_delete_form.html.twig') }}
                 </td>
                 {% endif %}

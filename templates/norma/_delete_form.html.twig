@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('norma_delete', {'id': norma.id}) }}" onsubmit="return confirm('¿Estás seguro de que quiere eliminar esta norma?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ norma.id) }}">
-    <button class="btn botones" id="btn">Eliminar</button>
+    <button title="ELIMINAR" class="btn botones" id="btn">Eliminar</button>
 </form>

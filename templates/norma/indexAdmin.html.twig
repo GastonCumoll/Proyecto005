@@ -46,6 +46,8 @@
                 <div id="contenedorBotonVolver" class="text-left mt-1">
                     {% if "/etiqueta/" in  app.request.pathinfo and "busquedaId" in  app.request.pathinfo  %}
                         <a href={{app.request.headers.get('referer')}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
+                    {% elseif "norma/formularioBusqueda" in  app.request.pathinfo %}
+                        <a href="{{ path('formulario_busqueda')  }}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                     {% else %}
                         <a href="{{path('inicio')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
                     {% endif %}
@@ -228,8 +230,8 @@
                     {# <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th> #}
                     <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
                         {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
-                    <th class="colTit">{{knp_pagination_sortable(normas, 'Titulo', 'p.titulo')}}</th>
-                    <th class="colNum">{{knp_pagination_sortable(normas, 'Numero', 'p.numeroAuxiliar')}}</th>
+                    <th class="colTit">{{knp_pagination_sortable(normas, 'Título', 'p.titulo')}}</th>
+                    <th class="colNum">{{knp_pagination_sortable(normas, 'Número', 'p.numeroAuxiliar')}}</th>
                     <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
                     {% if rol != "" %}
                     <th class="colPublico">{{knp_pagination_sortable(normas, 'Acceso', 'p.publico')}}</th></th>
@@ -271,9 +273,9 @@
                         <div id="divBotonesOpNorma">
                             {# si hay sesion: #}
                             {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
-                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><i class="far fa-eye"></i></button></a>
+                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" title="VER"><i class="far fa-eye"></i></button></a>
                             {% else %}
-                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Ver norma"><img src="{{asset('/Ver.png')}}"  alt="" id="verIcon"></button></a>
+                                <a  href="{{path('norma_show', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" title="VER"><img src="{{asset('/Ver.png')}}"  alt="" id="verIcon"></button></a>
                             {% endif %}
                                 {% if "DIG_OPERADOR" in roles or "DIG_EDITOR" in roles or "DIG_ADMINISTRADOR" in roles %}
                                 {% for unaNormaUsuario in normasUsuario %}
@@ -283,13 +285,13 @@
                                 {% endfor %}
                                 {# {% if bandera == 1 and norma.estado !="Publicada" and rol != "DIG_ADMINISTRADOR" %} #}
                                 {% if bandera == 1 and norma.estado == "Borrador" and "DIG_OPERADOR" in roles %}
-                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar"title="EDITAR"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% elseif bandera == 1 and ( norma.estado == "Lista" or norma.estado == "Publicada") and "DIG_EDITOR" in roles %}
-                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                                    <a  href="{{path('norma_showEdit',{'id': norma.id})}}"><button class="btn btn-info btn-sm editar"title="EDITAR"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% else %}
-                                    <a  href="#"><button class="btn btn-info btn-sm editar" data-toggle="tooltip" data-placement="top" title="Editar norma" id="editar" value="{{norma.id}}" disabled><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                                    <a  href="#"><button class="btn btn-info btn-sm editar" id="editar" value="{{norma.id}}" disabled><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {% endif %}
-                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Trayecto de la norma" id="botonAuditoria" ><img src="{{asset('/Auditorias.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                                <a  href="{{path('trayecto_norma', {'id': norma.id})  }}"><button class="btn btn-info btn-sm" title="AUDITORÍA" id="botonAuditoria" ><img src="{{asset('/Auditorias.png')}}"  alt="" id="auditoriaIcon"></button></a>
                                 {{ include('norma/_deleteIndex_form.html.twig') }}
                                 {# <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Relaciones" id="botonAuditoria"><i class="fas fa-handshake"></i></button></a>
                                 <a href="#"><button class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Archivos" id="botonAuditoria"><i class="fas fa-archive"></i></button></a> #}

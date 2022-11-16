@@ -14,12 +14,12 @@
     <div id="contenedorBotonVolver" class="text-left mt-1">
         <a href="{{path('tipo_norma_index')}}" class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
     </div>
-    <a href="{{ path('tipo_norma_rol_new',{'id': tipoNorma.id}) }}"> <button  type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
+    <a href="{{ path('tipo_norma_rol_new',{'id': tipoNorma.id}) }}"> <button title="AGREGAR ROL" type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
 {% endif %}
 <br>
 <br>
     <div class="table-responsive">
-        <table class="table">
+        <table class="table"id="tablaIndex">
             <thead id="headIndex">
             <tr>
                 <th class="thOp">Id</th>
@@ -40,7 +40,7 @@
                 </td>
                 {% if "DIG_ADMINISTRADOR" in roles %}
                 <td>
-                    <a  href="{{path('tipo_norma_rol_edit', {'id': r.id,'t':tipoNorma.id})  }}"><button class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
+                    <a  href="{{path('tipo_norma_rol_edit', {'id': r.id,'t':tipoNorma.id})  }}"><button title="EDITAR" class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                     {{ include('tipo_norma_rol/_delete_form.html.twig') }}
                 </td>
                 {% endif %}

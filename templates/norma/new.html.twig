@@ -9,22 +9,8 @@
     {{ encore_entry_link_tags('createCss') }}
 {% endblock %}
 
-
-{# {{ form_start(form) }} 
-        {# {{ form_row(form.titulo) }}
-        {{ form_row(form.texto) }}
-        {{ form_row(form.resumen) }}
-        {{ form_row(form.fechaSancion) }}
-        
-        {{ form_row(form.etiquetas) }} #}
-
-        
-        
- 
-
-
- <h1>Cargar norma</h1>
- {% for flash_message in app.session.flashbag.get('verifPublicar') %}
+    <h1>Cargar norma</h1>
+    {% for flash_message in app.session.flashbag.get('verifPublicar') %}
         <div class="card shadow mb-5 rounded" id="cardAdvertencia">
             <div class="flash-notice text-white font-weight-bolder text-center">
                 {{ flash_message }}
@@ -43,11 +29,9 @@
     </div>  
 
     {% block javascripts %}
-    {{ parent() }}
-    {# {{encore_entry_script_tags('etiquetasNorma')}} #}
-    {{encore_entry_script_tags('datepicker')}}
-    {{encore_entry_script_tags('etiqueta')}}
-    
-{% endblock  %} 
+        {{ parent() }}
+        {{encore_entry_script_tags('datepicker')}}
+        {{encore_entry_script_tags('etiqueta')}}
+    {% endblock  %} 
 
 {% endblock %}
