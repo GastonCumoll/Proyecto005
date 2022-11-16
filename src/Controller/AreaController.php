@@ -138,7 +138,7 @@ class AreaController extends AbstractController
         if(!empty($area->getTipoNormaReparticions()->toArray())){
             $this->addFlash(
                 'errorDeleteArea',
-                "No puede eliminar esta repartición ya que está vinculada a un tipo de norma."
+                "No puede eliminar esta repartición, ya que está vinculada a un tipo de norma."
             );
             return $this->redirectToRoute('area_index',[],Response::HTTP_SEE_OTHER);
         }

@@ -99,7 +99,7 @@ class ConsultaController extends AbstractController
                 $telefono=$request->get('telefono');//string
             }
             else{
-                $mensaje .= "Debe ingresar un número telefonico. \n";
+                $mensaje .= "Debe ingresar un número telefónico. \n";
             }
             if(($request->get('consulta') != "")){
                 $texto=$request->get('consulta');

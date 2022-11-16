@@ -354,7 +354,7 @@ class GeneralController extends AbstractController
         if($bandera==1){
         $this->addFlash(
                     'notice',
-                    'NO POSEES LOS ROLES NECESARIOS PARA INGRESAR AL SISTEMA'
+                    'NO POSEE LOS ROLES NECESARIOS PARA INGRESAR AL SISTEMA'
                 );
         }
         if($bandera==2){
@@ -366,7 +366,7 @@ class GeneralController extends AbstractController
         if($bandera==3){
             $this->addFlash(
                 'notice',
-                'NO TIENE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN! '
+                'NO POSEE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN'
             );
         }
         if($bandera==0){

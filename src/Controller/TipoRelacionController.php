@@ -143,7 +143,7 @@ class TipoRelacionController extends AbstractController
         if(!empty($tipoRelacion->getRela()->toArray())){
             $this->addFlash(
                 'errorDeleteTipoRela',
-                "No puede eliminar este tipo de relacion ya que hay normas que la estan usando."
+                "No se pudo eliminar este tipo de relación ya que hay normas que la están usando."
             );
             return $this->redirectToRoute('tipo_relacion_index',[],Response::HTTP_SEE_OTHER);
         }

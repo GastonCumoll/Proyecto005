@@ -108,7 +108,7 @@ class TipoNormaRolController extends AbstractController
         if($rolesFaltantes == []){
             $this->addFlash(
                 'notice',
-                $tipo->getNombre()." tiene todos los roles" 
+                "'".$tipo->getNombre()."' ya tiene todos los roles" 
             );
             return $this->renderForm('tipo_norma_rol/new.html.twig', [
                 'tipo_norma_rol' => $tipoNormaRol,

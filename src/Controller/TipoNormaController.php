@@ -214,7 +214,7 @@ class TipoNormaController extends AbstractController
             //dd(empty($tipoNorma->getNormas()));
             $this->addFlash(
                 'errorDeleteTipoNorma',
-                "No puede eliminar este tipo de norma debido a que tiene normas, roles y/o reparticiones."
+                "No se pudo eliminar este tipo de norma debido a que tiene normas, roles y/o reparticiones asociados."
             );
             return $this->redirectToRoute('tipo_norma_index',[],Response::HTTP_SEE_OTHER);
         }

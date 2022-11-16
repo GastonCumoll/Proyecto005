@@ -1169,7 +1169,7 @@ class NormaController extends AbstractController
 
             $this->addFlash(
                 'verifPublicar',
-                "No fue posible publicar la norma debido a que no tiene una fecha de sancion y/o un numero definido."
+                "No fue posible publicar la norma debido a que no tiene una fecha de sanción y/o un número definido."
             );
             return $this->redirectToRoute('norma_show',['id'=>$id],Response::HTTP_SEE_OTHER);
         }
@@ -1399,7 +1399,7 @@ class NormaController extends AbstractController
                     if($unArchivo->getSize() > 1000000){
                         $this->addFlash(
                             'archivoMaxSize',
-                            "El archivo que esta queriendo cargar es muy grande. No debe superar los 10 Mb."
+                            "El archivo que está queriendo cargar es muy grande. No debe superar los 10 Mb."
                         );
                         return $this->redirectToRoute('norma_new',['id'=>$id],Response::HTTP_SEE_OTHER);
                     }
