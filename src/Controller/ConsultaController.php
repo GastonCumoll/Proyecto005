@@ -67,7 +67,7 @@ class ConsultaController extends AbstractController
         curl_setopt($cu, CURLOPT_POST, 1); //Indica el tipo de envio POST
         curl_setopt($cu, CURLOPT_POSTFIELDS, http_build_query(
             [
-                'secret' => '6LedpdAgAAAAAOtvcORbWBIy9OXpZTfccBKC5JCT',
+                'secret' => '6LdAchgjAAAAAFQJ7MBKrc5FAeBrdpLZ1lJ4VqbP',
                 'response' => $token,
             ]
         ));
