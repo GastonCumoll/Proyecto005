@@ -76,10 +76,10 @@ class RelacionController extends AbstractController
         
         //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         if(!in_array($idTipoNorma,$normasU)){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
         if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
 
 
@@ -238,10 +238,10 @@ class RelacionController extends AbstractController
         
         //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
         if(!in_array($idTipoNorma,$normasU)){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
         if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
 
         $today=new DateTime();

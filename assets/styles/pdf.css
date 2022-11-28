@@ -1,0 +1,36 @@
+.containerPdf{
+    font-family: 'Montserrat', sans-serif !important;
+}
+.titulo{
+    text-align: center !important;
+    font-size: 20px !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+.containerImg{
+    border-color: black !important;
+    display: inline !important;
+}
+#logoHcd{
+    height: 65px !important;
+    width: 200px !important;
+    margin-top: 20px !important;
+    float: right !important;
+}
+#separador{
+    color:black !important;
+    height: 1px !important;
+    margin-top: 100% !important;
+    margin-bottom: 0% !important;
+}
+#separadorH{
+    color:black !important;
+    height: 1px !important;
+}
+#footer{
+    text-align: right;
+    display: flex !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+p{
+    text-align: justify !important;
+}

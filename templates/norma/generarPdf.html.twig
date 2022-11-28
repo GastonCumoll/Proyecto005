@@ -1,38 +1,53 @@
 
-<br>
-{% block title %}{{id.getTitulo}}{% endblock %}
+
+{% block addStyleSheets %}
+{{ encore_entry_link_tags('pdf') }}
+{% endblock %}
+{# <div class="containgerImg">
+<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+<img id="logoHcd" alt="" src="uploads/imagenes/LogoHcd.png" />
+</div>
+<hr id="separador"> #}
+{% block title %}
+<div class="titulo">
+<strong>{{id.getTitulo}}</strong>
+</div>
+{% endblock %}
 
 {% block body %}
 
-{{id.tipoNorma.nombre}} N°
-{{ id.numeroAuxiliar }}
-<br>
-{{ id.titulo }}
+
+
+{# <strong>{{ id.titulo }}</strong> #}
+<div class="containerPdf">
 <br>
 {% if id.fechaSancion %}
-    Fecha de sanción: {{ id.fechaSancion ? id.fechaSancion|date('Y-m-d') : '' }}
+    <strong>Fecha de sanción:</strong> {{ id.fechaSancion ? id.fechaSancion|date('d-m-Y') : '' }}
 <br>
 {% endif %}
 {% if id.fechaPublicacion %}
-Fecha de publicación: {{ id.fechaPublicacion ? id.fechaPublicacion|date('Y-m-d') : '' }}
+<strong>Fecha de publicación: </strong>{{ id.fechaPublicacion ? id.fechaPublicacion|date('d-m-Y') : '' }}
 <br>
 {% endif %}
 {% if id.fechaPublicacionBoletin %}
-    <strong>Fecha de publicación boletín:</strong> {{ id.fechaPublicacionBoletin ? id.fechaPublicacionBoletin|date('Y-m-d') : '' }}
+    <strong>Fecha de publicación boletín:</strong> {{ id.fechaPublicacionBoletin ? id.fechaPublicacionBoletin|date('d-m-Y') : '' }}
 <br>
 {% endif %}
 {% if id.fechaPromulgacion %}
-    <strong>Fecha de promulgación: </strong> {{ id.fechaPromulgacion ? id.fechaPromulgacion|date('Y-m-d') : '' }}
+    <strong>Fecha de promulgación: </strong> {{ id.fechaPromulgacion ? id.fechaPromulgacion|date('d-m-Y') : '' }}
 <br>
 {% endif %}
+
+
+
 {% if id.resumen %}
-Resumen: {{ id.resumen }}
+<strong>Resumen: </strong>{{ id.resumen }}
 <br>
 {% endif %}
-
-
 <hr>
-{{(id.textoAnterior) | purify}}
+<p>{{(id.textoAnterior) | purify}}</p>
+</div>
+
 
 
 

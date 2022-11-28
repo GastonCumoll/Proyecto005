@@ -64,6 +64,7 @@ Encore
     .addStyleEntry('barrita', '/assets/styles/barrita.css')
     .addStyleEntry('spinnerCss', '/assets/styles/spinner.css')
     .addStyleEntry('login', '/assets/styles/login.css')
+    .addStyleEntry('pdf', '/assets/styles/pdf.css')
 
 
 

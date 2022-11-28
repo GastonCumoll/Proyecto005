@@ -27,7 +27,7 @@
                     <th style="width: 13%;">{{knp_pagination_sortable(consultas, 'Número Tel.', 'p.numeroTel')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Consulta', 'p.texto')}}</th>
                     <th>{{knp_pagination_sortable(consultas, 'Fecha y Hora', 'p.fecha_yHora')}}</th>
-                    <th class="thOp">Acciones</th>
+                    
                 </tr>
             </thead>
             <tbody class="tbody">
@@ -40,7 +40,7 @@
                         <td>{{ consulta.numeroTel }}</td>
                         <td>{{ consulta.texto }}</td>
                         <td>{{ consulta.fechaYHora|date('d-m-Y\\ H:i') }}</td>
-                        <td>{{ include('consulta/_delete_form.html.twig') }}</td>
+                        
                     </tr>
                 {% else %}
                     <tr>

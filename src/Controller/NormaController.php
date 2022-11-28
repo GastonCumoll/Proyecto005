@@ -1072,7 +1072,8 @@ class NormaController extends AbstractController
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
         // $cabecera=substr($htmlModificado,0,202);
         // $htmlModificado=substr($htmlModificado,202);
-        $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
+        // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
+        // $cabecera2='<img  alt="" src="uploads/imagenes/LogoHcd.png" style="height:70px;width:200px;" />';
         $posicion=strpos($htmlModificado,'?');
         $posicion2=strpos($htmlModificado,'=es');
 
@@ -1083,15 +1084,37 @@ class NormaController extends AbstractController
         else{
             $mod=$htmlModificado;
         }
-        $mod=$cabecera.$mod;
-
+        // $mod=$cabecera.$mod;
+        $footerP=strpos($html,'<footer id="footer">');
+        $footer=substr($html,$footerP);
+        // dd($footer);
+        
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
             'format' => 'A4',
-            'margin_header' => 5,
+            'margin_header' =>5,
             'margin_footer' => 5,
-            'orientation' => 'P'
+            'margin_top' => 40,
+            'margin_bottom' => 15,
+            'orientation' => 'P',
+            'setAutoTopMargin' => 'strech',
+            'autoMarginPadding'=>'15'
             ]);
+            // $mPdf->setFooter('www.Parana.gob.ar');
+            $mPdf->setHTMLHeader('<div class="containgerImg">
+            <img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+            <img id="logoHcd" alt="" src="uploads/imagenes/LogoHcd.png" />
+        </div>
+        <hr id="separadorH">
+
+        ');
+            $mPdf->setHTMLFooter('
+            <hr id="separador">
+            <footer id="footer">
+            
+            <pre> www.parana.gob.ar                    Pág. {PAGENO} de {nb}</pre>
+            </footer>');
+            
             $mPdf->WriteHTML($mod);
             //return $MpdfFactory->createDownloadResponse($mPdf, "file.pdf");
             $mPdf -> Output('','I');
@@ -1197,7 +1220,7 @@ class NormaController extends AbstractController
                 
                 $normaNombre=$norma->getTitulo();
                 $normaNombreLimpio=str_replace("/","-",$normaNombre);//reemplaza / por - asi puede guardarlo
-                $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
+                // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
                 $today = new DateTime();
                 $result = $today->format('d-m-Y H-i-s');
                 $hoy = $today->format('d-m-Y\\ H:i');
@@ -1211,14 +1234,32 @@ class NormaController extends AbstractController
                 //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
                 $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
                 $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
-                $mod=$cabecera.$mod;
+                // $mod=$cabecera.$mod;
                 $mPdf = $MpdfFactory->createMpdfObject([
                     'mode' => 'utf-8',
                     'format' => 'A4',
-                    'margin_header' => 5,
+                    'margin_header' =>5,
                     'margin_footer' => 5,
-                    'orientation' => 'P'
+                    'margin_top' => 40,
+                    'margin_bottom' => 15,
+                    'orientation' => 'P',
+                    'setAutoTopMargin' => 'strech',
+                    'autoMarginPadding'=>'15'
                     ]);
+                    // $mPdf->setFooter('www.Parana.gob.ar');
+                    $mPdf->setHTMLHeader('<div class="containgerImg">
+                    <img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+                    <img id="logoHcd" alt="" src="uploads/imagenes/LogoHcd.png" />
+                </div>
+                <hr id="separadorH">
+        
+                ');
+                    $mPdf->setHTMLFooter('
+                    <hr id="separador">
+                    <footer id="footer">
+                    
+                    <pre> www.parana.gob.ar                    Pág. {PAGENO} de {nb}</pre>
+                    </footer>');
                 $mPdf->WriteHTML($mod);
 
                 // In this case, we want to write the file in the public directory
@@ -1248,6 +1289,7 @@ class NormaController extends AbstractController
                 //dd($archi);
                 $entityManager->persist($archi);
                 $norma->addArchivos($archi);
+                $norma->setTextoAnterior(NULL);
                 $entityManager->persist($norma);
                 $entityManager->flush();
                 
@@ -1306,9 +1348,9 @@ class NormaController extends AbstractController
             $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
             $normasU[]=$normasUsuarioObj[0]->getId();
         }
-        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, lo manda a la pagina de error
         if(!in_array($id,$normasU)){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER); 
         }
         $repository = $this->getDoctrine()->getRepository(TipoNorma::class);
         $idNorma = $repository->find($id);
@@ -1547,12 +1589,12 @@ class NormaController extends AbstractController
         // dd($id);
         $idTipoNorma=$norma->getTipoNorma()->getId();
         
-        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma lo manda a pantalla de error
         if(!in_array($idTipoNorma,$normasU)){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
         if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); 
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
 
         $form = $this->createForm(ArchivoType::class, $norma);
@@ -1848,7 +1890,7 @@ class NormaController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+        return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
@@ -1891,7 +1933,7 @@ class NormaController extends AbstractController
             $rol="";
         }
         if(!in_array($idTipoNorma,$normasU,true) || ($norma->getEstado()=='Publicada' && (!in_array('DIG_EDITOR',$arrayRoles)))){
-            return $this->redirectToRoute('logout', ['bandera' => 3], Response::HTTP_SEE_OTHER); //si el usuario ingresa de forma indebida, es decir, no tiene la misma repartición de la norma, se lo desloguea
+           return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
         //se crea una variable en sesion 'urlAnterior' para guardar la url de donde vengo a editar, ya que al submitear el formulario, se pierde 
         //la ultima url

@@ -34,10 +34,10 @@ class SecuritySubscriber implements EventSubscriberInterface
 
         // Verificación de sesión expirada
         
-        //  if (!$this->seguridad->checkSessionActive($this->session->get('session_id'))) {
-        //      $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
-        //      $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
-        //      $event->setResponse(new RedirectResponse('/logout'));
+        // if (!$this->seguridad->checkSessionActive($this->session->get('session_id'))) {
+        //     $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
+        //     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
+        //     $event->setResponse(new RedirectResponse('/logout'));
         // }
         // else {
             //notificaciones:
@@ -167,7 +167,7 @@ class SecuritySubscriber implements EventSubscriberInterface
 
                 // Consulta
                 'consultaMensaje'=>[],
-                'consulta_index'=>['DIG_ADMINISTRADOR'],
+                'consulta_index'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR'],
                 'consulta'=>[],
                 'consulta_show'=>['DIG_ADMINISTRADOR'],
                 'consulta_edit'=>['DIG_ADMINISTRADOR'],
@@ -255,7 +255,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                         // Si la sesión expiró, redirijo a Logout
                         $msj = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
                         $this->session->getFlashBag()->set('alert alert-danger', $msj);
-                        $event->setResponse(new RedirectResponse('/logout'));
+                        $event->setResponse(new RedirectResponse('/logout/4'));
                         break;
                 }
             }
@@ -269,9 +269,9 @@ class SecuritySubscriber implements EventSubscriberInterface
                     //entra si existe sesion_id (alguien se logueó) y la sesion expiro y no esta en logout y la ruta en la que se encuentra no esta en routeList
                     $mensaje = array('message' => 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.');
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
-                    $event->setResponse(new RedirectResponse('/logout'));
+                    $event->setResponse(new RedirectResponse('/logout/4'));
                 }else{
-                    $event->setResponse(new RedirectResponse('/404'));
+                    // $event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }

@@ -346,6 +346,7 @@ class GeneralController extends AbstractController
      */
     public function logout(SeguridadService $seguridad,$bandera)
     {   
+        
         //dd($bandera);
         $session = $this->get('session');
         $session_id = $session->get('session_id') * 1;
@@ -367,6 +368,12 @@ class GeneralController extends AbstractController
             $this->addFlash(
                 'notice',
                 'NO POSEE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN'
+            );
+        }
+        if($bandera==3){
+            $this->addFlash(
+                'notice',
+                'Error: la sesión ha expirado, por favor, vuelva a autenticarse.'
             );
         }
         if($bandera==0){

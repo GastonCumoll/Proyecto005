@@ -80,7 +80,12 @@ class ConsultaController extends AbstractController
         $mensaje="";
         //recuperamos los datos de la consulta, y si falta alguno, construimos el mensaje q falta dicho campo;
         if ($datos['success'] == false or $datos['score'] < 0.5) {
-            dd($datos);
+            $mensaje="Hubo un problema... ¡Intente nuevamente! Gracias.";
+            $this->addFlash(
+                'notice',
+                $mensaje
+            );
+            return $this->redirectToRoute('inicio',[],Response::HTTP_SEE_OTHER);
             // return $this->redirectToRoute('404', [], Response::HTTP_SEE_OTHER);
         } else {
             if($request->get('nombre') != ""){
