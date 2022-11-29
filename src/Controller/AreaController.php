@@ -26,6 +26,9 @@ class AreaController extends AbstractController
     public function index(AreaRepository $areaRepository,SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -57,6 +60,10 @@ class AreaController extends AbstractController
      */
     public function new(AreaRepository $areaRepository,Request $request, EntityManagerInterface $entityManager,FindReparticionService $findReparticionService): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //se buscan todas las reparticiones, luego se hace un unset de las reparticiones que ya estan cargadas en el sistema;
         $reparticiones = $findReparticionService->DatosReparticiones();
         $areas=$areaRepository->findAll();
@@ -115,6 +122,10 @@ class AreaController extends AbstractController
      */
     public function edit(Request $request, Area $area, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(AreaEditType::class, $area);
         $form->handleRequest($request);
 
@@ -135,6 +146,10 @@ class AreaController extends AbstractController
      */
     public function delete(Request $request, Area $area, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         if(!empty($area->getTipoNormaReparticions()->toArray())){
             $this->addFlash(
                 'errorDeleteArea',

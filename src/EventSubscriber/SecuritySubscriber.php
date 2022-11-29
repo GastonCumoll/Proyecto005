@@ -139,6 +139,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'logout'=>[],//ojo con este
                 'inicio' =>[],
                 'not_role'=>[],
+                'not_repa'=>[],
                 'inicio_admin'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR'],
 
                 //Etiqueta

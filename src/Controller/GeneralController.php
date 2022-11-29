@@ -66,6 +66,13 @@ class GeneralController extends AbstractController
     {
         return $this->render('general/notRole.html.twig');
     }
+    /**
+     * @Route("/notRepa", name="not_repa")
+     */
+    public function notRepa(): Response
+    {
+        return $this->render('general/notRepa.html.twig');
+    }
 
     /**
      * @Route("/404", name="404")
@@ -152,6 +159,7 @@ class GeneralController extends AbstractController
             foreach ($reparticiones as $repa) {
                 if($repa->getId()==$idReparticion){
                     $session->set('repa', $repa->getNombre());
+                    $session->set('repaid', $repa->getId());
                 }
             }
             $session->set('rolId', $idReparticion);

@@ -22,8 +22,10 @@ class TipoConsultaController extends AbstractController
      */
     public function index(TipoConsultaRepository $tipoConsultaRepository,SeguridadService $seguridad): Response
     {
-
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -52,6 +54,10 @@ class TipoConsultaController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $tipoConsultum = new TipoConsulta();
         $form = $this->createForm(TipoConsultaType::class, $tipoConsultum);
         $form->handleRequest($request);
@@ -84,6 +90,10 @@ class TipoConsultaController extends AbstractController
      */
     public function edit(Request $request, TipoConsulta $tipoConsultum, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(TipoConsultaType::class, $tipoConsultum);
         $form->handleRequest($request);
 
@@ -104,6 +114,10 @@ class TipoConsultaController extends AbstractController
      */
     public function delete(Request $request, TipoConsulta $tipoConsultum, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         if(!empty($tipoConsultum->getConsultas()->toArray())){
             //dd($tipoConsultum->getConsultas()->toArray());
             //dd(empty($tipoNorma->getNormas()));

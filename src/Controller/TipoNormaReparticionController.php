@@ -37,6 +37,10 @@ class TipoNormaReparticionController extends AbstractController
     //este metodo se ejecuta cuando se quiere editar una reparticion a un tipo de norma id = id de la reparticion y t = id del tipo de norma
     public function edit(AreaRepository $areaRepository,$id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager,TipoNormaRepository $tipoNormaRepository,$t): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //tipo=tipo de norma
         $tipo=$tipoNormaRepository->findOneById($t);
         //tipoNormaReparticion array de tipoNormaReparticion donde se encuentra la reparticion dada
@@ -103,6 +107,9 @@ class TipoNormaReparticionController extends AbstractController
     public function reparticionNorma(SeguridadService $seguridad,TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id): Response
     {
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -140,6 +147,10 @@ class TipoNormaReparticionController extends AbstractController
     //este metodo le agrega una reparticion a un tipo de norma que es pasado por parametro con la variable id= id del tipo de norma
     public function new(AreaRepository $areaRepository,Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //se crean arrays para almacenar las reparticiones que tiene el tipo de norma que se esta tratando y las que le faltan.
         $repaFaltantes=[];
         $reparticionesObj=[];
@@ -197,7 +208,10 @@ class TipoNormaReparticionController extends AbstractController
     //este metodo le borra alguna reparticion a un tipo de norma, id= id de reparticion y t=id del tipo de norma
     public function delete($t,$id,Request $request, TipoNormaReparticionRepository $tipoNormaReparticionRepository, EntityManagerInterface $entityManager): Response
     {
-
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $tnr=$tipoNormaReparticionRepository->findByTipoNormaId($t);
         foreach ($tnr as $tnrNorma) {
             if($tnrNorma->getReparticionId()->getId()==$id){

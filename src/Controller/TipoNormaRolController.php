@@ -37,6 +37,7 @@ class TipoNormaRolController extends AbstractController
     //este metodo muestra los roles que pueden acceder a un tipo de norma en especifico,el parametro id= id del tipo de norma
     public function rolTipoNorma(TipoNormaReparticionRepository $tipoNormaReparticionRepository,TipoNormaRepository $tipoNormaRepository,$id,AreaRepository $areaRepository,SeguridadService $seguridad): Response
     {
+        
         $rolesTipo=[];
         $tipoNorma=$tipoNormaRepository->findById($id);
         //$tipoNorma=$tipoNormaRepository->findById($id);
@@ -47,6 +48,9 @@ class TipoNormaRolController extends AbstractController
         }
 
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -84,6 +88,10 @@ class TipoNormaRolController extends AbstractController
     //este metodo le agrega un rol a un tipo de norma, su id es enviado por el parametro id.
     public function new(TipoNormaRolRepository $tipoNormaRolRepository,Request $request, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $rolesDeTipo=[];
         $rolesFaltantes=[];
 
@@ -150,6 +158,10 @@ class TipoNormaRolController extends AbstractController
     //y t se refiere al id de tipo de norma
     public function edit($t,Request $request, TipoNormaRolRepository $tipoNormaRolRepository, EntityManagerInterface $entityManager,$id,TipoNormaRepository $tipoNormaRepository): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $rolActual=$tipoNormaRolRepository->findOneById($id)->getNombreRol();
         // dd($rolActual);
         if($rolActual){
@@ -203,6 +215,10 @@ class TipoNormaRolController extends AbstractController
      */
     public function delete(Request $request, TipoNormaRol $tipoNormaRol, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $tipo=$tipoNormaRol->getTipoNorma()->getId();
         
         if ($this->isCsrfTokenValid('delete'.$tipoNormaRol->getId(), $request->request->get('_token'))) {

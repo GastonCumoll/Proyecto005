@@ -321,7 +321,6 @@ class RelacionController extends AbstractController
     /**
      * @Route("/{id}", name="relacion_delete", methods={"POST"})
      */
-    
     public function delete(RelacionRepository $relacionRepository,Request $request, Relacion $relacion, EntityManagerInterface $entityManager): Response
     {
         //dd($relacion);

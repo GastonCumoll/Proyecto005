@@ -24,6 +24,9 @@ class TipoRelacionController extends AbstractController
     public function index(SeguridadService $seguridad,TipoRelacionRepository $tipoRelacionRepository,Request $request, PaginatorInterface $paginator): Response
     {
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $arrayRoles=[];
         $idSession=$sesion->get('session_id')*1;
         if($seguridad->checkSessionActive($idSession)){
@@ -67,6 +70,10 @@ class TipoRelacionController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,TipoRelacionRepository $tipoRelacionRepository): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //inversoBase se creó para setearle un inverso "generico" cada vez que se cargue un tipo de relacion.
         //Esto se implemento para facilitar la carga de tipos de relaciones y su vinculacion con el inverso de verdad
         //Entonces, cada vez que se crea un tipo, se setea su inverso a inversoBase, y luego cuando se esta creando el inverso del tipo se que se acaba de crear,
@@ -119,6 +126,10 @@ class TipoRelacionController extends AbstractController
      */
     public function edit(Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(TipoRelacionType::class, $tipoRelacion);
         $form->handleRequest($request);
 
@@ -139,6 +150,10 @@ class TipoRelacionController extends AbstractController
      */
     public function delete(TipoRelacionRepository $tipoRelacionRepository,Request $request, TipoRelacion $tipoRelacion, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         // dd($tipoRelacion->getRela()->toArray());
         if(!empty($tipoRelacion->getRela()->toArray())){
             $this->addFlash(
@@ -173,10 +188,8 @@ class TipoRelacionController extends AbstractController
                 $entityManager->remove($tipoRelacion);
                 
                 $entityManager->flush();
+            }
         }
-    }
-        
-
         return $this->redirectToRoute('tipo_relacion_index', [], Response::HTTP_SEE_OTHER);
     }
 }

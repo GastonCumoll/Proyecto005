@@ -34,6 +34,9 @@ class TipoNormaController extends AbstractController
         // }
         // dd($ejemplo->getNormas()->toArray());
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -153,6 +156,10 @@ class TipoNormaController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $tipoNorma = new TipoNorma();
         $form = $this->createForm(TipoNormaType::class, $tipoNorma);
         $form->handleRequest($request);
@@ -186,6 +193,10 @@ class TipoNormaController extends AbstractController
      */
     public function edit(Request $request, TipoNorma $tipoNorma, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(TipoNormaType::class, $tipoNorma);
         $form->handleRequest($request);
 
@@ -206,6 +217,10 @@ class TipoNormaController extends AbstractController
      */
     public function delete(Request $request, TipoNorma $tipoNorma, EntityManagerInterface $entityManager): Response
     {
+        $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //para eliminar un tipo de norma, primero se pregunta si es que tiene alguna norma atada, rol o reparticion. Si es que las tiene, manda un mensaje flash a la vista
         //avisando que no pudo eliminar ese tipo de norma por las razones antes descriptas.
         //la funcion if(!empty($tipoNorma->getNormas()->toArray())...) se hace porque el ->getNormas() trae una collection, que no se sabe si es vacia o no

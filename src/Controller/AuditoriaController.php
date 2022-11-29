@@ -24,6 +24,9 @@ class AuditoriaController extends AbstractController
     public function index(SeguridadService $seguridad,AuditoriaRepository $auditoriaRepository,PaginatorInterface $paginator,Request $request): Response
     {
         $sesion=$this->get('session');
+        if($sesion->get('repaid') != 5){
+            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
+        }
         //dd($sesion);
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
