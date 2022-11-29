@@ -330,18 +330,21 @@ class GeneralController extends AbstractController
             $confirmacion=$form->get('contraseniaNuevaConfir')->getData();
             if($nueva==$confirmacion){
                 if($seguridad->changePassword($session_id,$vieja,$nueva) == 1){
-                    $mensaje.="La contraseña fue modificada correctamente.";
-                    $this->addFlash('notice',$mensaje);
+                    
+                    $this->addFlash(
+                        'cambio',
+                        "La contraseña fue modificada correctamente."
+                    );
                     return $this->redirectToRoute('inicio_admin', [], Response::HTTP_SEE_OTHER);
                 }else{
-                    $mensaje.="Error al cambiar la contraseña.";
+                    $mensaje="Error al cambiar la contraseña.";
                 }
             }else{
                 $mensaje.="Las contraseñas no coinciden.";
             }
         }
         if($mensaje != ""){
-            $this->addFlash('notice',$mensaje);
+            $this->addFlash('cambio',$mensaje);
         }
         return $this->renderForm('general/changePass.html.twig', [
             'form'=>$form,

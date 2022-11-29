@@ -93,6 +93,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'acceso'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'publicar'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'norma_showEdit'=>['DIG_OPERADOR','DIG_EDITOR'],
+                'file_manager'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
 
                 //Relacion
                 'relacion_index'=>['DIG_OPERADOR','DIG_EDITOR'],
@@ -141,13 +142,14 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'not_role'=>[],
                 'not_repa'=>[],
                 'inicio_admin'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR'],
+                'change_password'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_CONSULTOR','DIG_EDITOR'],
 
                 //Etiqueta
                 'etiqueta_index'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'etiqueta_new'=>['DIG_ADMINISTRADOR'],
+                'etiqueta_new'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
                 'etiqueta_show'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
-                'etiqueta_edit'=>['DIG_ADMINISTRADOR'],
-                'etiqueta_delete'=>['DIG_ADMINISTRADOR'],
+                'etiqueta_edit'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
+                'etiqueta_delete'=>['DIG_ADMINISTRADOR','DIG_OPERADOR','DIG_EDITOR'],
                 'busqueda_param_etiqueta'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
                 'busqueda_id_etiqueta'=>[],
 
@@ -272,7 +274,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout/4'));
                 }else{
-                    $event->setResponse(new RedirectResponse('/404'));
+                    // $event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }

@@ -59,6 +59,9 @@
                     {% if app.session.get('rolNombre') == "DIG_ADMINISTRADOR" %}
                         <a class="dropdown-item" href="{{ path('tipo_consulta_index') }}">Tipos de consultas</a>
                     {% endif %}
+                {% elseif app.session.get('rolNombre') == "DIG_OPERADOR" or app.session.get('rolNombre') == "DIG_EDITOR" %}
+                    <a class="dropdown-item" href="{{ path('etiqueta_index') }}">Etiquetas</a>
+                    <a class="dropdown-item" href="{{ path('consulta_index') }}">Consultas</a>
                 {% else %}
                     <a class="dropdown-item" href="{{ path('consulta_index') }}">Consultas</a>
                 {% endif %}

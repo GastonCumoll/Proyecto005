@@ -28,9 +28,7 @@ class EtiquetaController extends AbstractController
     public function index(EtiquetaRepository $etiquetaRepository,Request $request, PaginatorInterface $paginator,SeguridadService $seguridad): Response
     {
         $sesion=$this->get('session');
-        if($sesion->get('repaid') != 5){
-            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
-        }
+
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
@@ -197,10 +195,6 @@ class EtiquetaController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $sesion=$this->get('session');
-        if($sesion->get('repaid') != 5){
-            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
-        }
         $etiquetum = new Etiqueta();
         $form = $this->createForm(EtiquetaType::class, $etiquetum);
         $form->handleRequest($request);
@@ -242,10 +236,6 @@ class EtiquetaController extends AbstractController
      */
     public function edit(Request $request, Etiqueta $etiquetum, EntityManagerInterface $entityManager): Response
     {
-        $sesion=$this->get('session');
-        if($sesion->get('repaid') != 5){
-            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
-        }
         $form = $this->createForm(EtiquetaType::class, $etiquetum);
         $form->handleRequest($request);
 
@@ -266,10 +256,6 @@ class EtiquetaController extends AbstractController
      */
     public function delete(Request $request, Etiqueta $etiquetum, EntityManagerInterface $entityManager): Response
     {
-        $sesion=$this->get('session');
-        if($sesion->get('repaid') != 5){
-            return $this->redirectToRoute('not_repa', [], Response::HTTP_SEE_OTHER);
-        }
         if ($this->isCsrfTokenValid('delete'.$etiquetum->getId(), $request->request->get('_token'))) {
             $entityManager->remove($etiquetum);
             $entityManager->flush();

@@ -5,9 +5,9 @@
 
 
 <body>
-    {% for flash_message in app.session.flashbag.get('notice') %}
+    {% for flash_message in app.session.flashbag.get('cambio') %}
             <div class="card shadow mb-5 rounded" id="passCorrect">
-                <div class="flash-notice text-white font-weight-bolder text-center">
+                <div class="flash-notice font-weight-bolder text-center">
                     {{ flash_message }}
                 </div>
             </div>

@@ -150,6 +150,8 @@
                         </div>
                     {% endif %}
                 </div> #}
+                {% if relacion %}
+                    
                 
                     <table class="table" id="tablaRela">
                         <thead class="thead">
@@ -192,7 +194,7 @@
                             {% endfor %}</tbody>
                     </table>
                 {# </div> #}
-                
+                {% endif %}
                 {# {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                     <div class="divBotones text-center">
                         <a href="{{ path('form_rela_edit', {'id': norma.id}) }} "><button type="button" class="btn " id="btn"> Agregar relacion</button></a>

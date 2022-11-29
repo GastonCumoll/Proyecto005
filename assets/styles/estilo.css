@@ -3577,6 +3577,9 @@
 }
 
 @media (min-height:300px) and (max-height:599px){
+    #passCorrect{
+        background-color: #08a72b !important;
+    }
     #containerHeader{
         background-color: #005B88;
         color:white;
@@ -3600,6 +3603,9 @@
 }
 
 @media (min-height: 600px) and (max-height:799px){
+    #passCorrect{
+        background-color: #08a72b !important;
+    }
     #auditoriaIcon{
         height:0.8rem ;
         width:0.8rem ;
@@ -3631,6 +3637,9 @@
 }
 
 @media (min-height: 800px){
+    #passCorrect{
+        background-color: #08a72b !important;
+    }
     #tarjetaError{
         font-family:'Montserrat', sans-serif !important;
         width: 80% !important;

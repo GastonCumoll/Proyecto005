@@ -43,7 +43,8 @@ Encore
     .addEntry('tipoNormaNew', './assets/tipoNormaNew.js')
     .addEntry('tipoConsultaNew', './assets/tipoConsultaNew.js')
     .addEntry('relacionNew', './assets/relacionNew.js')
-    
+    .addEntry('etiquetaNew', './assets/etiquetaNew.js')
+
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
     .addStyleEntry('boton', '/assets/styles/boton.css')

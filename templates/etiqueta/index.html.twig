@@ -15,9 +15,9 @@
         <div id="contenedorBotonVolver" class="text-left mt-1">
             <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
         </div>
-        {% if "DIG_ADMINISTRADOR" in roles %}
+
             <a href="{{ path('etiqueta_new') }}"> <button title="NUEVA ETIQUETA" type="button" class="btn btn-outline-info btn-sm ml-3">Agregar <i class="fa-solid fa-plus"></i></button> </a>
-        {% endif %}
+
             <div class="input-group float-right ml-auto mr-2">
                 <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="   Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                 <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
@@ -49,9 +49,9 @@
             <tr>
                 <th>{{ knp_pagination_sortable(etiquetas, 'Id', 'p.id') }}</th>
                 <th>{{knp_pagination_sortable(etiquetas, 'Nombre', 'p.nombre')}}</th>
-                {% if "DIG_ADMINISTRADOR" in roles %}
+
                 <th class="thOp">Acciones</th>
-                {% endif %}
+
             </tr>
         </thead>
         <tbody class="tbody">
@@ -63,12 +63,12 @@
                     <td>
                         {{etiquetum.nombre}}
                     </td>
-                    {% if "DIG_ADMINISTRADOR" in roles %}
+
                     <td>
                         <a  href="{{path('etiqueta_edit', {'id': etiquetum.id})  }}"><button title="EDITAR" class="btn btn-info btn-sm d-inline-block float-left mr-1"><img src="{{asset('/Editar.png')}}"  alt="" id="auditoriaIcon"></button></a>
                         {{ include('etiqueta/_delete_form.html.twig') }}
                     </td>
-                    {% endif %}
+
                 </tr>
             {% else %}
                 <tr>
@@ -87,7 +87,6 @@
     {% block javascripts %}
     {{ parent() }}
     {{encore_entry_script_tags('busquedaParamEtiqueta')}}
-    
     {% endblock %}
     
 {% endblock %}
