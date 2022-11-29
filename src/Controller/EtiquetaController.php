@@ -256,11 +256,19 @@ class EtiquetaController extends AbstractController
      */
     public function delete(Request $request, Etiqueta $etiquetum, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$etiquetum->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($etiquetum);
-            $entityManager->flush();
+        if(count($etiquetum->getNormas()) > 0){
+            $this->addFlash(
+                'errorDeleteEtiqueta',
+                "No se pudo eliminar debido a que ya existen normas con esta etiqueta."
+            );
+            return $this->redirectToRoute('etiqueta_index',[],Response::HTTP_SEE_OTHER);
+        }else{
+            if ($this->isCsrfTokenValid('delete'.$etiquetum->getId(), $request->request->get('_token'))) {
+                $entityManager->remove($etiquetum);
+                $entityManager->flush();
+            }
+            return $this->redirectToRoute('etiqueta_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->redirectToRoute('etiqueta_index', [], Response::HTTP_SEE_OTHER);
+        
     }
 }

@@ -11,7 +11,14 @@
     <h1>Etiquetas</h1>
 
     <div class="container">
-
+        {% for flash_message in app.session.flashbag.get('errorDeleteEtiqueta') %}
+        <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+            <div class="flash-notice text-white font-weight-bolder text-center">
+                {{ flash_message }}
+            </div>
+        </div>
+    {% endfor %}
+    
         <div id="contenedorBotonVolver" class="text-left mt-1">
             <a href="{{path('inicio_admin')}}"}} class="btn btn-outline-primary rounded-circle" id="botonVolverAtras"><i class="fa-solid fa-chevron-left"></i></a>
         </div>
@@ -22,7 +29,7 @@
                 <input type="text" class="form-control col-5 float-right" id="busquedaParam" value="" placeholder="   Nombre" aria-label="Input group example" aria-describedby="btnGroupAddon2">
                 <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
             </div>
-        
+            
     <div class="container">
         
 
