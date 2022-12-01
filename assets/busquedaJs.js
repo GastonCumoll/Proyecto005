@@ -11,8 +11,8 @@ $(document).ready(function(){
     var longitud=cadena.length;
     // console.log(screen.width);
     if(screen.width>=1920){
-        if (longitud > 145) {
-            var cadena1=cadena.substring(0,145);
+        if (longitud > 140) {
+            var cadena1=cadena.substring(0,140);
             cadena1=cadena1 + " ...";
         }else{
             var cadena1=cadena;

@@ -19,8 +19,6 @@
 
     {% block addStyleSheets %}
     {{ encore_entry_link_tags('footer') }}
-    {# {{ encore_entry_link_tags('barrita') }} #}
-    {# {{ encore_entry_link_tags('base') }} #}
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('boton') }} 
 
@@ -44,15 +42,22 @@
             <div class="titulo text-center mt-4">
                 <h3 class="" id="tituloD">Digesto Municipal</h3>
             </div>
-            
-            <div class="collapse navbar-collapse text-right contenedorBotonIngresar mr-5" id="myNavbar">
+            <div class="contenedorImagenHeader ">
+                <a class="navbar-brand imagen" href="https://hcdparana.gob.ar/" >
+                    <img src="{{asset('/logohcd.png')}}"  alt="" id="logoHcd">
+                </a>
+                <div class="w-100 mt-auto mb-auto text-right">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            {# <div class="collapse navbar-collapse text-right contenedorBotonIngresar mr-5" id="myNavbar">
                 <ul class="navbar-nav ml-auto text-center">
-                    {# si hay sesion: #}
+
                 {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
                     <li class="nav-item dropdown">
-                        {# <div class="text-left">
-                            <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg mr-2" style="width: 25;"></i>INGRESAR</p></a>
-                        </div> #}
+
                         <a class="nav-link dropdown-toggle botonModificado" data-toggle="dropdown" href="#" role="button"aria-haspopup="true" aria-expanded="false">
                             <p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg" style="width: 25;"></i>{{ app.session.get('username')}}</p></a>
                         <div class="dropdown-menu" id="dropdownMenu">
@@ -78,7 +83,7 @@
                             <div class="option">
                                 <a href="{{ path('change_password') }}"><p id="rol">Cambiar contraseña</p></a>
                             </div>
-                            {# <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a> #}
+                            
                             <div class="dropdown-divider"></div>
                             <div class="option">
                                 <a href="{{ path('inicio_admin') }}"><p id="rol">Panel de control</p></a>
@@ -95,7 +100,7 @@
                     </div>
                 {% endif %}
                 </ul>
-            </div>
+            </div> #}
 
         </nav>
 {% if app.request.get('_route') == 'norma_show' %}

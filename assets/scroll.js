@@ -27,7 +27,6 @@ $(document).ready(function(){
 	var boton = document.getElementsByClassName("botonAtras")[0];
 	var urlAnt = document.referrer;
 	var vuelta = $('#volverFrom').val();
-	console.log(urlAnt);
 	boton.addEventListener("click", function(){
 			if(urlAnt.includes("/indice/Vigentes")){
 				boton.setAttribute("href","/indice/Vigentes");

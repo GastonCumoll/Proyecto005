@@ -10,11 +10,12 @@
     border-color: black !important;
     display: inline !important;
 }
-#logoHcd{
-    height: 65px !important;
-    width: 200px !important;
-    margin-top: 20px !important;
+#logoHcdPdf{
+    height: 60px !important;
+    width: 165px !important;
+    margin-top: 23px !important;
     float: right !important;
+    margin-right: 5px !important;
 }
 #separador{
     color:black !important;

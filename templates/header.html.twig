@@ -8,7 +8,83 @@
         <div class="contenedorDinamicoSpinner">
 
         </div>
-        <div class="row">
+        {% if app.request.get('_route') == 'login' %}
+            <div class="container-fluid" style="height: 52px;">
+        {% endif %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-9 col-lg-7 col-md-6 col-sm-4 col-2 text-center">
+                    <div class="text-left" id="txt">
+                        {% if app.request.get('_route') == 'indice_vigente' %}
+                            Normas vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
+                        {% endif %}
+                        {% if app.request.get('_route') == 'indice_no_vigente' %}
+                            Normas no vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
+                        {% endif %}
+        
+                        {% if app.request.get('_route') == 'formulario_busqueda' %}
+                            Búsqueda Avanzada |<a id="linkVolver" href="/inicio"> Volver </a>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+                {% if app.request.get('_route') != 'login' %}
+                    <div class="col-xl-1 col-lg-3 col-md-3 col-sm-4 col-5  text-lg-center text-md-left" >
+                        <div class="input-group mr-2" id="busqueda-input">
+                            <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                            <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
+                        </div>
+                    </div>
+                {% endif %}
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-5" id="columnaBoton">
+                {% if app.session.get('session_id') is defined and app.session.get('session_id') is not null %}
+                    <div class="dropdown mt-2 mb-2 ml-xl-5 ml-lg-5 ml-md-5 ml-sm-5">
+                        <button class="dropdown-toggle botonModificado" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <p class="mt-auto"><i class="fa-regular fa-circle-user fa-lg" style="width: 25;"></i>{{ app.session.get('username')}}</p></a>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            {% if 'DIG_ADMINISTRADOR' in app.session.get('roles') %}
+                                <p id="rol">DIG_ADMINISTRADOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_OPERADOR' in app.session.get('roles') %}
+                            <p id="rol">DIG_OPERADOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_CONSULTOR' in app.session.get('roles') %}
+                            <p id="rol">DIG_CONSULTOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            {% if 'DIG_EDITOR' in app.session.get('roles') %}
+                            <p id="rol">DIG_EDITOR</p>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                            
+                            <p id="rol">{{app.session.get('repa')}}</p>
+                            <div class="dropdown-divider"></div> 
+                            <div class="option">
+                                <a href="{{ path('change_password') }}"><p id="rol">Cambiar contraseña</p></a>
+                            </div>
+                            {# <a class="dropdown-item cargando" href="{{ path('change_password') }}"style="font-size: 12px !important;">Cambiar contraseña</a> #}
+                            <div class="dropdown-divider"></div>
+                            <div class="option">
+                                <a href="{{ path('inicio_admin') }}"><p id="rol">Panel de control</p></a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="option">
+                                <a href="{{path('logout',{'bandera':0})}}"><p id="rol">Salir</p></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% elseif app.request.get('_route') != 'login' %}
+                        <div class="text-right" id="divBotonIngresar">
+                            <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-2" id="parrafoBotonIngresar"><i class="fa-regular fa-circle-user fa-lg" style="width: 25;"></i>INGRESAR</p></a>
+                        </div>
+                    {% endif %}
+              </div>
+            </div>
+          </div>
+        {# <div class="row">
             <div id="txt">
                 {% if app.request.get('_route') == 'indice_vigente' %}
                     Normas vigentes |<a id="linkVolver" href="/inicio"> Volver </a>
@@ -27,7 +103,7 @@
             <input type="text" class="form-control" id="busquedaRapida" value="" placeholder="    BUSCAR" aria-label="Input group example" aria-describedby="btnGroupAddon2">
             <i class="fa-solid fa-magnifying-glass" id="iconoLupa"></i>
         </div>
-    </div>
+    </div> #}
     </div>
 
     {% block javascripts %}

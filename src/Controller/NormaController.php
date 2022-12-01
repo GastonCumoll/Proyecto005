@@ -1103,7 +1103,7 @@ class NormaController extends AbstractController
             // $mPdf->setFooter('www.Parana.gob.ar');
             $mPdf->setHTMLHeader('<div class="containgerImg">
             <img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
-            <img id="logoHcd" alt="" src="uploads/imagenes/LogoHcd.png" />
+            <img id="logoHcdPdf" alt="" src="uploads/imagenes/logoHcdNegro.png" />
         </div>
         <hr id="separadorH">
 

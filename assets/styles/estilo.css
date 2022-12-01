@@ -169,6 +169,11 @@
     #logoMunicipalidad{
         width: 12rem !important;
     }
+    #logoHcd{
+        width: 12rem !important;
+        float: right !important;
+        margin-right: 10% !important;
+    }
     .titulo{
         width: 60% !important;
     }
@@ -192,7 +197,7 @@
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         color: #808080;
-        font-size: 15px;
+        font-size: 8px;
         box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
         background-color: white !important;
     }
@@ -515,35 +520,9 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busquedaRapida{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        float: right !important;
-        height: 65% !important;
-        width: 100%  !important;
-        margin-top: 4%; 
-        margin-bottom: 5%;
-        margin-right: 8%;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        border-radius: 5px;
-        background-color: white !important;
-    }
-    #busqueda-input{
-        position: relative !important;
-    }
-    #iconoLupa{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        color: #595959;
-        position: absolute;
-        width: 13px;
-        height: 13px;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+
+
+
     #txt{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
@@ -757,15 +736,21 @@
         /* text-align: right !important; */
         margin-left: 8% !important;
     }
-    .btn.btn-light.botonmodificado{
-        width: 99% !important;
+    .btn.btn-light.botonModificado{
+        width: 10% !important;
         padding: 0;
         text-align: center !important;
         margin-right: 0 !important;
-        margin-left: 3vw !important;
+        margin-left: 15px !important;
+        margin-top: 5px !important;
     }
     #logoMunicipalidad{
         width: 6rem !important;
+    }
+    #logoHcd{
+        width: 6rem !important;
+        float: right !important;
+        margin-right: 10% !important;
     }
     .titulo{
         width: 60% !important;
@@ -1100,7 +1085,7 @@
         font-weight: 500;
     }
 
-    #busquedaRapida{
+    /* #busquedaRapida{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
         font-size: small;
@@ -1113,7 +1098,7 @@
         box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
         border-radius: 5px;
         background-color: white !important;
-    }
+    } */
 
     #busquedaRapida1{
         font-family:'Montserrat', sans-serif !important;
@@ -1129,9 +1114,7 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busqueda-input{
-        position: relative !important;
-    }
+/*     
     #iconoLupa{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
@@ -1143,7 +1126,7 @@
         left: 10px;
         top: 50%;
         transform: translateY(-50%);
-    }
+    } */
     #txt{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
@@ -1358,6 +1341,11 @@
     }
     #logoMunicipalidad{
         width: 8rem !important;
+    }
+    #logoHcd{
+        width: 8rem !important;
+        float: right !important;
+        margin-right: 10% !important;
     }
     .titulo{
         width: 60% !important;
@@ -1691,20 +1679,6 @@
         font-weight: 500;
     }
 
-    #busquedaRapida{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        float: right !important;
-        height: 65% !important;
-        width: 100%  !important;
-        margin-top: 4%; 
-        margin-bottom: 5%;
-        margin-right: 8%;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        border-radius: 5px;
-        background-color: white !important;
-    }
 
     #busquedaRapida1{
         font-family:'Montserrat', sans-serif !important;
@@ -1720,10 +1694,8 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busqueda-input{
-        position: relative !important;
-    }
-    #iconoLupa{
+    
+    /* #iconoLupa{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
         font-size: small;
@@ -1734,7 +1706,7 @@
         left: 10px;
         top: 50%;
         transform: translateY(-50%);
-    }
+    } */
     #txt{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
@@ -1810,6 +1782,11 @@
     #logoMunicipalidad{
         width: 10rem !important;
         margin-left: 10% !important;
+    }
+    #logoHcd{
+        width: 10rem !important;
+        float: right !important;
+        margin-right: 10% !important;
     }
     .titulo{
         margin-left: 6% !important;
@@ -1958,6 +1935,11 @@
     #logoMunicipalidad{
         width: 10rem !important;
     }
+    #logoHcd{
+        width: 10rem !important;
+        float: right !important;
+        margin-right: 10% !important;
+    }
     .titulo{
         width: 60% !important;
     }
@@ -1979,6 +1961,7 @@
     }
     .botonModificado{
         width: 130px;
+        height: auto !important;
         height: 33px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
@@ -2288,20 +2271,6 @@
         font-weight: 500;
     }
 
-    #busquedaRapida{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        float: right !important;
-        height: 65% !important;
-        width: 100%  !important;
-        margin-top: 4%; 
-        margin-bottom: 5%;
-        margin-right: 8%;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        border-radius: 5px;
-        background-color: white !important;
-    }
 
     #busquedaRapida1{
         font-family:'Montserrat', sans-serif !important;
@@ -2317,22 +2286,8 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busqueda-input{
-        position: relative !important;
-    }
+    
 
-    #iconoLupa{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        color: #595959;
-        position: absolute;
-        width: 13px;
-        height: 13px;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
     #txt{
         display: block !important;
         font-family:'Montserrat', sans-serif !important;
@@ -2546,6 +2501,11 @@
     #logoMunicipalidad{
         width: 12rem !important;
     }
+    #logoHcd{
+        width: 12rem !important;
+        float: right !important;
+        margin-right: 10% !important;
+    }
     .titulo{
         width: 60% !important;
     }
@@ -2564,12 +2524,13 @@
         margin-top: 4%;
     }
     .botonModificado{
+        text-align: center;
         width: 150px;
         height: 38px;
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         color: #808080;
-        font-size: 15px;
+        font-size: 11.2px;
         box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
         background-color: white !important;
     }
@@ -2874,20 +2835,6 @@
         font-weight: 500;
     }
 
-    #busquedaRapida{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        float: right !important;
-        height: 65% !important;
-        width: 100%  !important;
-        margin-top: 4%; 
-        margin-bottom: 5%;
-        margin-right: 8%;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        border-radius: 5px;
-        background-color: white !important;
-    }
 
     #busquedaRapida1{
         font-family:'Montserrat', sans-serif !important;
@@ -2903,22 +2850,8 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busqueda-input{
-        position: relative !important;
-    }
+    
 
-    #iconoLupa{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        color: #595959;
-        position: absolute;
-        width: 13px;
-        height: 13px;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
     #txt{
         display: block !important;
         font-family:'Montserrat', sans-serif !important;
@@ -3063,6 +2996,7 @@
 
     .mt-auto{
         display: inline !important;
+        /* padding: 0% !important; */
     }
     #nav li a {
         background-color: white;
@@ -3080,7 +3014,7 @@
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
         text-align: left !important;
-        min-width: 100% !important;
+        /* min-width: 100% !important; */
         width: fit-content !important;
         padding: 10px;
     }
@@ -3095,7 +3029,7 @@
     }
     .option{
         font-family: 'Montserrat', sans-serif;
-        font-weight: 300;
+        font-weight: 600;
         color: white;
         font-size: small;
     }
@@ -3132,6 +3066,11 @@
     #logoMunicipalidad{
         width: 12rem !important;
     }
+    #logoHcd{
+        width: 12rem !important;
+        float: right !important;
+        margin-right: 10% !important;
+    }
     .titulo{
         width: 60% !important;
     }
@@ -3149,18 +3088,7 @@
         
         margin-top: 4%;
     }
-    .botonModificado{
-        width: 150px;
-        height: 38px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        color: #808080;
-        font-size: 15px;
-        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
-        background-color: white !important;
-        margin-right: 20% !important;
-        /* margin-left: 50%; */
-    }
+
     .white{
         text-align: center !important;
         background-color: white !important;
@@ -3462,20 +3390,6 @@
         font-weight: 500;
     }
 
-    #busquedaRapida{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        float: right !important;
-        height: 65% !important;
-        width: 100%  !important;
-        margin-top: 4%; 
-        margin-bottom: 5%; 
-        margin-right: 8%;
-        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
-        border-radius: 5px;
-        background-color: white !important;
-    }
 
     #busquedaRapida1{
         font-family:'Montserrat', sans-serif !important;
@@ -3491,21 +3405,8 @@
         border-radius: 5px;
         background-color: white !important;
     }
-    #busqueda-input{
-        position: relative !important;
-    }
-    #iconoLupa{
-        font-family:'Montserrat', sans-serif !important;
-        font-weight: 500;
-        font-size: small;
-        color: #595959;
-        position: absolute;
-        width: 13px;
-        height: 13px;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+    
+
     #txt{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 500;
@@ -3514,7 +3415,6 @@
         float: left;
         margin-top: 18px;
         margin-left: 2%;
-        
     }
     .card-title{
         font-family:'Montserrat', sans-serif !important;
@@ -3574,6 +3474,7 @@
     #footerFont{
         font-style: italic !important;
     }
+    
 }
 
 @media (min-height:300px) and (max-height:599px){
@@ -3588,6 +3489,11 @@
         height: max-content !important;
         width: 100% !important;
     }
+    #columnaBoton{
+        /* width: 20% !important; */
+        float: right !important;
+        text-align: right !important;
+    }
     #nav{
         background-color: #008FA3;
         height: 30% !important;
@@ -3600,6 +3506,14 @@
     .nav-item.dropdown::marker{
         color: #008FA3 !important;
         background-color: #008FA3 !important;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 8px !important;
     }
 }
 
@@ -3622,6 +3536,11 @@
         height: max-content !important;
         width: 100% !important;
     }
+    #columnaBoton{
+        /* width: 20% !important; */
+        float: right !important;
+        text-align: right !important;
+    }
     #nav{
         background-color: #008FA3;
         height: 18% !important;
@@ -3634,6 +3553,14 @@
     .nav-item.dropdown::marker{
         color: #008FA3 !important;
         background-color: #008FA3 !important;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 8px !important;
     }
 }
 
@@ -3668,11 +3595,17 @@
         font-family:'Montserrat', sans-serif !important;
         height: max-content !important;
         width: 100% !important;
+        /* min-height: 20px !important; */
     }
     #nav{
         background-color: #008FA3;
         height: 15% !important;
         width: 100% !important;
     }
+    #columnaBoton{
+        /* width: 20% !important; */
+        float: right !important;
+        text-align: right !important;
+    }
+    
 }
-

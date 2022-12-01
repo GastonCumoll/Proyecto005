@@ -1,25 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
-/* @media (max-width: 767px){
-    #listadoElementos{
-        float: left !important;
-
-        background-color: #d3d3d3 !important;
-        color: #d3d3d3;
-        width: auto !important;
-    }
-    .ultimoItem{
-        display: inline-block !important;
-    }
-    #PrimerItem{
-        margin-left: 2% !important;
-    }
-    #busqueda-input{
-        margin-left: 5% !important;
-        margin-top: 2% !important;
-        margin-bottom: 2% !important;
-    }
-    } */
 @media (max-width: 350px) and (min-width: 300px){
     #listadoElementos{
         /* margin-left: 10vw !important; */
@@ -39,7 +19,38 @@
     }
     #busqueda-input{
         float: inline-start !important;
-        margin-left: auto !important;
+        margin-left: 30px !important;
+        height: 28px;
+        width: 120% !important;
+    }
+    #busqueda-input{
+        position: relative !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        float: right !important;
+        height: 65% !important;
+        width: 100%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
     }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
@@ -54,14 +65,142 @@
     #tablaIndex{
         font-family:'Montserrat', sans-serif !important;
         border: 2px solid #005B88;
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
         border-spacing: 0px;
         border-collapse: separate;
         /* margin-top: 2%; */
     }
+        /* botones ingresar y de usuario */
+        .botonModificado{
+            height: 30px !important;
+            margin-top: 1px!important;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #808080;
+            font-size: 10px;
+            box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+            background-color: white !important;
+            margin-right: 20% !important;
+            border-radius: 5px !important;
+            border: none;
+        }
+        .btn.btn-light.botonModificado{
+            width: 70% !important;
+            padding: 0;
+            text-align: center !important;
+            margin-right: 0 !important;
+            margin-left: 15px !important;
+            margin-top: 7px !important;
+        }
+        #parrafoBotonIngresar{
+            margin-top: 8px !important;
+        }
 }
 
-@media(max-width:519px) and (min-width:351px){
+@media(max-width:504px) and (min-width:351px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: #303030 !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
+    #linkVolver{
+        color: white;
+    }
+    #linkVolver:hover{
+        color: #d3d3d3;
+        text-decoration: none !important;
+    }
+    #tablaIndex{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+        /* margin-top: 2%; */
+    }
+
+    /* formulario busqueda rapida */
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: 35px !important;
+        height: 45px;
+        width: 120% !important;
+    }
+
+    #busqueda-input{
+        position: relative !important;
+    }
+
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 10px;
+        float: right !important;
+        height: 65% !important;
+        width: 100%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 10px !important;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* botones ingresar y de usuario */
+    .botonModificado{
+        height: 30px !important;
+        margin-top: 1px!important;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #808080;
+        font-size:8px;
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+        background-color: white !important;
+        margin-right: 20% !important;
+        border-radius: 5px !important;
+        border: none;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 7px !important;
+    }
+    #parrafoBotonIngresar{
+        margin-top: 8px !important;
+    }
+}
+
+@media(max-width:767px) and (min-width:505px){
     #listadoElementos{
         /* margin-left: 10vw !important; */
         background-color: #b2b2b2;
@@ -80,7 +219,39 @@
     }
     #busqueda-input{
         float: inline-start !important;
-        margin-left: auto !important;
+        margin-left: 50px !important;
+        height: 48px;
+        width: 120% !important;
+        text-align: right !important;
+    }
+    #busqueda-input{
+        position: relative !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        float: right !important;
+        height: 65% !important;
+        width: 100%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 45%;
+        transform: translateY(-50%);
     }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
@@ -95,15 +266,76 @@
     #tablaIndex{
         font-family:'Montserrat', sans-serif !important;
         border: 2px solid #005B88;
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
         border-spacing: 0px;
         border-collapse: separate;
         /* margin-top: 2%; */
     }
 
+    /* formulario busqueda rapida */
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: 50px !important;
+        height: 48px;
+        width: 120% !important;
+        text-align: right !important;
+        margin-top: 2px !important;
+        position: relative !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 11.5px;
+        float: right !important;
+        height: 65% !important;
+        width: 100%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    /* botones ingresar y de usuario */
+    .botonModificado{
+        height: 30px !important;
+        margin-top: 1px!important;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #808080;
+        font-size: 11.5px;
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+        background-color: white !important;
+        margin-right: 20% !important;
+        border-radius: 5px !important;
+        border: none;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 10px !important;
+    }
+    #parrafoBotonIngresar{
+        margin-top: 8px !important;
+    }
 }
 
-@media(max-width:1199px) and (min-width:520px){
+@media(max-width:992px) and (min-width:768px){
     #listadoElementos{
         /* margin-left: 10vw !important; */
         background-color: #b2b2b2;
@@ -120,10 +352,7 @@
     .nav-link:hover{
         color: #005B88 !important;
     }
-    #busqueda-input{
-        float: inline-start !important;
-        margin-left: auto !important;
-    }
+
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
     }
@@ -137,14 +366,76 @@
     #tablaIndex{
         font-family:'Montserrat', sans-serif !important;
         border: 2px solid #005B88;
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
         border-spacing: 0px;
         border-collapse: separate;
         /* margin-top: 2%; */
     }
-}
+        /* formulario busqueda rapida */
+        #busqueda-input{
+            float: inline-start !important;
+            margin-left: 30% !important;
+            height: 60px;
+            width: 120% !important;
+            text-align: right !important;
+            position: relative !important;
+            margin-top: 1px !important;
+        }
+        #busquedaRapida{
+            font-family:'Montserrat', sans-serif !important;
+            font-weight: 500;
+            font-size: 11.5;
+            float: right !important;
+            height: 65% !important;
+            width: 100%  !important;
+            margin-top: 4%;
+            margin-bottom: 5%;
+            margin-right: 8%;
+            box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+            border-radius: 5px;
+            background-color: white !important;
+        }
+        #iconoLupa{
+            font-family:'Montserrat', sans-serif !important;
+            font-weight: 500;
+            font-size: small;
+            color: #595959;
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            left: 10px;
+            top: 45%;
+            transform: translateY(-50%);
+        }
+        /* botones ingresar y de usuario */
+        .botonModificado{
+            height: 39px !important;
+            margin-top: 1px!important;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #808080;
+            font-size: 11.5px;
+            box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+            background-color: white !important;
+            margin-right: 20% !important;
+            border-radius: 5px !important;
+            border: none;
+        }
+        .btn.btn-light.botonModificado{
+            width: 70% !important;
+            padding: 0;
+            text-align: center !important;
+            margin-right: 0 !important;
+            margin-left: 15px !important;
+            margin-top: 10px !important;
+        }
+        #parrafoBotonIngresar{
+            margin-top: 11px !important;
+        }
+    }
 
-@media (min-width: 1200px){
+
+@media(max-width:1199px) and (min-width:991px){
     #listadoElementos{
         /* margin-left: 10vw !important; */
         background-color: #b2b2b2;
@@ -161,10 +452,6 @@
     .nav-link:hover{
         color: #005B88 !important;
     }
-    #busqueda-input{
-        float: inline-start !important;
-        margin-left: auto !important;
-    }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
     }
@@ -178,7 +465,108 @@
     #tablaIndex{
         font-family:'Montserrat', sans-serif !important;
         border: 2px solid #005B88;
-        border-radius: 5px !important; 
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+        /* margin-top: 2%; */
+    }
+/* formulario busqueda rapida */
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: 30% !important;
+        height: 58px;
+        text-align: right !important;
+        position: relative !important;
+        width: 100% !important;
+        margin-top: 0px !important;
+        text-align: right !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 11.5;
+        float: right !important;
+        height: 65% !important;
+        width: 100%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 11.5;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 46%;
+        transform: translateY(-50%);
+    }
+
+    /* botones ingresar y de usuario */
+    .botonModificado{
+        height: 38px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #808080;
+        font-size: 11.5px;
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+        background-color: white !important;
+        margin-right: 20% !important;
+        border-radius: 5px !important;
+        border: none;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 8px !important;
+    }
+    #parrafoBotonIngresar{
+        margin-top: 10px !important;
+    }
+}
+
+@media (min-width: 1200px) and (max-width:1668px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: #303030 !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
+    /*formulario busqueda rapida headerAdmin*/
+
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
+    #linkVolver{
+        color: white;
+    }
+    #linkVolver:hover{
+        color: #d3d3d3;
+        text-decoration: none !important;
+    }
+    #tablaIndex{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
         border-spacing: 0px;
         border-collapse: separate;
         /* margin-top: 2%; */
@@ -190,5 +578,164 @@
         position: absolute !important;
         right: 28px !important;
         top: 7px !important;
+    }
+    /* form busqueda rapida */
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: 20% !important;
+        width: 180% !important;
+        height: 47.5px;
+        margin-top: 2px !important;
+        margin-bottom: 5px !important;
+        text-align: right !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 15px;
+        float: right !important;
+        height: 80% !important;
+        width: 50%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    /* botones ingresar y de usuario */
+    .botonModificado{
+        height: 38px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #808080;
+        font-size: 15px;
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+        background-color: white !important;
+        margin-right: 20% !important;
+        border-radius: 5px !important;
+        border: none;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 8px !important;
+    }
+}
+@media(min-width:1669px){
+    #listadoElementos{
+        /* margin-left: 10vw !important; */
+        background-color: #b2b2b2;
+        color: #d3d3d3;
+        margin-top: 0% !important;
+    }
+    #PrimerItem{
+        margin-left: 2% !important;
+    }
+    .nav-pills .show>.nav-link{
+        background-color: #005B88 !important;
+        color: #303030 !important;
+    }
+    .nav-link:hover{
+        color: #005B88 !important;
+    }
+    /*formulario busqueda rapida headerAdmin*/
+    #busqueda-input{
+        float: inline-start !important;
+        margin-left: 20% !important;
+        width: 180% !important;
+        height: 47.5px;
+        margin-top: 0px !important;
+        margin-bottom: 5px !important;
+        text-align: right !important;
+    }
+    #busquedaRapida{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: 15px;
+        float: right !important;
+        height: 80% !important;
+        width: 50%  !important;
+        margin-top: 4%;
+        margin-bottom: 5%;
+        margin-right: 8%;
+        box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+        border-radius: 5px;
+        background-color: white !important;
+    }
+    #iconoLupa{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 57%;
+        transform: translateY(-50%);
+    } 
+
+    #navLinkDropdownToggle{
+        background-color: #b2b2b2 !important;
+    }
+    #linkVolver{
+        color: white;
+    }
+    #linkVolver:hover{
+        color: #d3d3d3;
+        text-decoration: none !important;
+    }
+    #tablaIndex{
+        font-family:'Montserrat', sans-serif !important;
+        border: 2px solid #005B88;
+        border-radius: 5px !important;
+        border-spacing: 0px;
+        border-collapse: separate;
+        /* margin-top: 2%; */
+    }
+    .notif{
+        color: #008FA3 !important;
+        height: 7px !important ;
+        width: 7px !important;
+        position: absolute !important;
+        right: 28px !important;
+        top: 7px !important;
+    }
+
+    .botonModificado{
+        height: 38px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        color: #808080;
+        font-size: 15px;
+        box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
+        background-color: white !important;
+        margin-right: 20% !important;
+        border-radius: 5px !important;
+        border: none;
+    }
+    .btn.btn-light.botonModificado{
+        width: 70% !important;
+        padding: 0;
+        text-align: center !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        margin-top: 8px !important;
     }
 }

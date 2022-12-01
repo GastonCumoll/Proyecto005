@@ -818,9 +818,9 @@
         border-radius: 5px;
         height: 35px !important;
     }
-    .dropdown-toggle {
-        background-color: #e6e6e6;
-    }
+    /* .dropdown-toggle {
+        background-color: #e6e6e6 !important;
+    } */
     .btn.dropdown-toggle.btn-light {
         background-color: #e3e3e3;
         /* box-shadow: rgb(0 0 0 / 40%) 0px 5px 15px; */
