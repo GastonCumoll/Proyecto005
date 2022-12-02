@@ -22,7 +22,7 @@
     {{ encore_entry_link_tags('estilo') }}
     {{ encore_entry_link_tags('boton') }} 
 
-    <link rel="icon" href="{{ asset('muni.ico') }}" type="image/x-icon"/>
+    <link rel="icon" href="{{ asset('build/imagenes/muni.ico') }}" type="image/x-icon"/>
     {% endblock %}
 </head>
 
@@ -31,7 +31,7 @@
         <nav class="navbar navbar-expand" id="nav">
             <div class="contenedorImagenHeader text-left ml-5">
                 <a class="navbar-brand imagen" href="{{ path('inicio') }}" >
-                    <img src="{{asset('/logoMunicipalidadBlanco.png')}}"  alt="" id="logoMunicipalidad">
+                    <img src="{{asset('build/imagenes/logoMunicipalidadBlanco.png')}}"  alt="" id="logoMunicipalidad">
                 </a>
                 <div class="w-100 mt-auto mb-auto text-right">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
@@ -44,7 +44,7 @@
             </div>
             <div class="contenedorImagenHeader ">
                 <a class="navbar-brand imagen" href="https://hcdparana.gob.ar/" >
-                    <img src="{{asset('/logohcd.png')}}"  alt="" id="logoHcd">
+                    <img src="{{asset('build/imagenes/logohcd.png')}}"  alt="" id="logoHcd">
                 </a>
                 <div class="w-100 mt-auto mb-auto text-right">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">

@@ -77,9 +77,9 @@
                         </div>
                     </div>
                     {% elseif app.request.get('_route') != 'login' %}
-                        <div class="text-right" id="divBotonIngresar">
+                        {# <div class="text-right" id="divBotonIngresar"> #}
                             <a class="btn btn-light botonModificado" type="button" href="{{ path('login') }}"><p class="mt-2" id="parrafoBotonIngresar"><i class="fa-regular fa-circle-user fa-lg" style="width: 25;"></i>INGRESAR</p></a>
-                        </div>
+                        {# </div> #}
                     {% endif %}
               </div>
             </div>

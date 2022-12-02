@@ -1100,13 +1100,13 @@ class NormaController extends AbstractController
             'setAutoTopMargin' => 'strech',
             'autoMarginPadding'=>'15'
             ]);
-            // $mPdf->setFooter('www.Parana.gob.ar');
+            
+
             $mPdf->setHTMLHeader('<div class="containgerImg">
-            <img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
-            <img id="logoHcdPdf" alt="" src="uploads/imagenes/logoHcdNegro.png" />
+            <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+            <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
         </div>
         <hr id="separadorH">
-
         ');
             $mPdf->setHTMLFooter('
             <hr id="separador">
@@ -1248,8 +1248,8 @@ class NormaController extends AbstractController
                     ]);
                     // $mPdf->setFooter('www.Parana.gob.ar');
                     $mPdf->setHTMLHeader('<div class="containgerImg">
-                    <img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
-                    <img id="logoHcd" alt="" src="uploads/imagenes/LogoHcd.png" />
+                    <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+                    <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
                 </div>
                 <hr id="separadorH">
         
