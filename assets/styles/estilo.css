@@ -3003,6 +3003,9 @@
         margin-top: 2%;
         margin-bottom: 2%;
     }
+    .contenedorImagenHeaderIzq{
+        width: 17.5% !important;
+    }
     .contenedorImagenHeader{
         width: 20% !important;
     }
