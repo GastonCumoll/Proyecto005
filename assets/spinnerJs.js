@@ -118,10 +118,6 @@ window.onload = function(){
         body.style.position = "static";
         body.style.height = "100%";
         body.style.overflow = "hidden";
-
-
-
-
     });
 
     window.addEventListener("unload", function() {

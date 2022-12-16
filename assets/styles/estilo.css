@@ -462,6 +462,8 @@
     .navigation{
         font-size: xx-small !important;
         text-align: center !important;
+        width: 50% !important;
+        margin-left: 50% !important ;
     }
     .pagination{
         font-family:'Montserrat', sans-serif !important;
@@ -1025,6 +1027,8 @@
     .navigation{
         font-size: x-small !important;
         text-align: center !important;
+        width: 50% !important;
+        margin-left: 50% !important ;
     }
     .pagination{
         font-family:'Montserrat', sans-serif !important;
@@ -1610,6 +1614,8 @@
     /*============== Paginator pagination v2 =============**/
     .navigation{
         font-size: small !important;
+        width: 50% !important;
+        margin-left: 50% !important ;
     }
     .pagination{
         font-family:'Montserrat', sans-serif !important;
@@ -1894,6 +1900,10 @@
     }
     .contenedorImagenHeader{
         width: 20% !important;
+    }
+    .contenedorImagenHeaderIzq{
+        width: 17.5% !important;
+        margin-left: 2% !important;
     }
     .imagen{
         width: 100% !important;
@@ -2193,6 +2203,7 @@
     }
 
     /*============== Paginator pagination v2 =============**/
+    
     .pagination{
         font-family:'Montserrat', sans-serif !important;
         font-weight: 600;
@@ -2450,6 +2461,10 @@
     }
     .contenedorImagenHeader{
         width: 20% !important;
+    }
+    .contenedorImagenHeaderIzq{
+        width: 17.5% !important;
+        margin-left: 2% !important;
     }
     .imagen{
         width: 100% !important;
@@ -2957,6 +2972,7 @@
 
     }
     #dropdownMenu{
+        margin-right: 30px !important;
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.5) 2px 5px 15px;
         text-align: left !important;
@@ -3005,6 +3021,7 @@
     }
     .contenedorImagenHeaderIzq{
         width: 17.5% !important;
+        margin-left: 2% !important;
     }
     .contenedorImagenHeader{
         width: 20% !important;

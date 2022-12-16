@@ -350,41 +350,47 @@
                     
                     {% if norma.estado == "Publicada" and  ("DIG_ADMINISTRADOR" in roles or ("DIG_EDITOR" in roles and usuarioReparticion == 1)) %}
                     <br>
+                    <div class="card" id="cardTexto">
                         <form action="{{path('acceso')}}" method="post">
-                            <div class="text-center">
+                            <div class="accesoP text-center">
                                 {% if norma.publico == 1 %}
-                                    {# <div class="switch-button">
-                                        <!-- Checkbox -->
-                                        <input type="checkbox" name="switch-button" id="switch-label" class="switch-button__checkbox">
-                                        <!-- Botón -->
-                                        <label for="switch-label" class="switch-button__label"></label>
-                                    </div> #}
-                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso público</label>
+                                <div class="text-center">
+                                    Acceso público
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox"id="cbox1" name="checkbox" value="true" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                                <br>
+                                <input type="hidden" name="normaId" value="{{norma.id}}">
+                                <button type="submit" class="badge badge-primary">Aplicar</button>
+                                    {# <label><input type="checkbox" id="cbox1" name="checkbox" value="true" checked> Acceso público</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button type="submit" class="badge badge-primary">Aplicar</button>
+                                    <button type="submit" class="badge badge-primary">Aplicar</button> #}
                                 {% else %}
-                                    <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso público</label>
+                                <div class="text-center">
+                                    Acceso público
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox"id="cbox1" name="checkbox" value="true">
+                                    <span class="slider round"></span>
+                                </label>
+                                <br>
+                                <input type="hidden" name="normaId" value="{{norma.id}}">
+                                <button type="submit" class="badge badge-primary">Aplicar</button>
+                                    {# <label><input type="checkbox" id="cbox1" name="checkbox" value="true"> Acceso público</label>
                                     <input type="hidden" name="normaId" value="{{norma.id}}">
-                                    <button type="submit" class="badge badge-primary">Aplicar</button>
+                                    <button type="submit" class="badge badge-primary">Aplicar</button> #}
                                 {% endif %}
                             </div>
                         </form>
-                        
+                    </div>
                         <form action="{{path('updateInstancia')}}" method="post">
                             <div class="text-center">
                                 <input type="hidden" name="normaId" value="{{norma.id}}">
                                 <button type="submit" class="btn" id="btn">Mandar a borrador</button></a>
                             </div>
                         </form>
-                        
-                            {# <div class="containerEliminar">
-                                {{ include('norma/_delete_form.html.twig') }}
-                            </div> #}
-                        
-                        
-                        
-                        
-                        {# <a href="{{path('updateInstancia')}}"><button type="button" class="btn btn-danger" id="botonVolver">Mandar a borrador<i class="fa-solid fa-backward"></i></button></a> #}
                     {% endif %}
                 </div>
             </div>

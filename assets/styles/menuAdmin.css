@@ -52,6 +52,18 @@
         top: 50%;
         transform: translateY(-50%);
     }
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
     }
@@ -172,7 +184,18 @@
         top: 50%;
         transform: translateY(-50%);
     }
-
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     /* botones ingresar y de usuario */
     .botonModificado{
         height: 30px !important;
@@ -253,6 +276,18 @@
         top: 45%;
         transform: translateY(-50%);
     }
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
     }
@@ -307,6 +342,18 @@
         height: 13px;
         left: 10px;
         top: 70%;
+        transform: translateY(-50%);
+    }
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
         transform: translateY(-50%);
     }
     /* botones ingresar y de usuario */
@@ -409,6 +456,18 @@
             top: 70%;
             transform: translateY(-50%);
         }
+        #iconoLupaAbajo{
+            font-family:'Montserrat', sans-serif !important;
+            font-weight: 500;
+            font-size: small;
+            color: #595959;
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
         /* botones ingresar y de usuario */
         .botonModificado{
             height: 38px !important;
@@ -509,7 +568,18 @@
         top: 70%;
         transform: translateY(-50%);
     }
-
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     /* botones ingresar y de usuario */
     .botonModificado{
         height: 40px;
@@ -617,6 +687,18 @@
         top: 62%;
         transform: translateY(-50%);
     }
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     /* botones ingresar y de usuario */
     .botonModificado{
         height: 40px;
@@ -693,7 +775,18 @@
         top: 70%;
         transform: translateY(-50%);
     } 
-
+    #iconoLupaAbajo{
+        font-family:'Montserrat', sans-serif !important;
+        font-weight: 500;
+        font-size: small;
+        color: #595959;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
     #navLinkDropdownToggle{
         background-color: #b2b2b2 !important;
     }
