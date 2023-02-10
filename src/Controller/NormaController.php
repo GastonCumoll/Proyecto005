@@ -851,18 +851,30 @@ class NormaController extends AbstractController
         $tipo=$request->query->get('tipoNorma');//string
         $numero=intval($request->query->get('numero'));//int
         $año=intval($request->query->get('año'));//int
-
+        $etiquetas=$request->query->get('etiquetas');
+        
         $texto=$request->query->get('texto');
-        //$etiquetas=$request->query->get('etiquetas'); //etiquetas en matenimiento por el momento
+
+        $arrayDeNormas=[];
+
+        if($etiquetas!= null){
+                $etiquetasObj=[];
+                for ($i=0; $i <count($etiquetas) ; $i++) {
+                    $etiquetasObj[$i]=$etiquetaRepository->findById($etiquetas[$i]);
+                    foreach ($etiquetasObj[$i][0]->getNormas() as $unaNorma) {
+                        $arrayDeNormas[]=$unaNorma;
+                    }
+                }
+        }
         //obtiene los datos de los campos;
         //dd($titulo);
-        $arrayDeEtiquetas=[];
+        // $arrayDeEtiquetas=[];
         //pregunta si hay alguien logeado, si no hay nadie,usa findNormas, si hay alguien logeado, busca findNormasSession y le pasa la reparticion del usuario logeado
         //dentro de los metodos findNormas y findNormasSession, pregunta si alguno de los campos está vacio o no
         if(!$idSession){
-            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$texto);
+            $normas=$normaRepository->findNormas($titulo,$numero,$año,$tipo,$arrayDeNormas,$texto);
         }else{
-            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeEtiquetas,$reparticionUsuario,$rol,$texto);
+            $normas=$normaRepository->findNormasSession($titulo,$numero,$año,$tipo,$arrayDeNormas,$reparticionUsuario,$rol,$texto);
         }
         $filtros=[];
         if($titulo){
@@ -881,8 +893,12 @@ class NormaController extends AbstractController
         if($texto){
             $filtros[]=$texto;
         }
-        foreach ($arrayDeEtiquetas as $eti) {
-            $filtros[]=$eti;
+        
+        $fEti=[];
+        if($etiquetas!= null){
+            foreach ($etiquetas as $eti) {
+                $fEti[]=$etiquetaRepository->findOneById($eti);
+            }
         }
         // dd($normas);
         //seccion paginator
@@ -905,7 +921,8 @@ class NormaController extends AbstractController
             'rol' => $rol,
             'roles'=>$arrayRoles,
             'normasUsuario' => $normasUsuario,
-            'filtros' => $filtros
+            'filtros' => $filtros,
+            'fEtiquetas' =>$fEti, 
         ]);
     }
 

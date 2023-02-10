@@ -234,6 +234,34 @@ h1{
     color: #008fa3;
     font-stretch: expanded;
 }
+
+.select2-selection.select2-selection--multiple{
+    background-color: #E6E6E6;
+    font-family:'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    width: 16rem !important;
+    box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 5px;
+    border-radius: 5px;
+    border-color: #E6E6E6;
+}
+.select2-search__field{
+    font-family:'Montserrat', sans-serif !important;
+}
+.select2-results__option--selectable{
+    font-family:'Montserrat', sans-serif !important;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+    background-color: #41b1c3 !important;
+}
+.col-auto{
+    width: 20% !important;
+}
+.col-auto.izq{
+    margin-left: 15% !important;
+}
+.js-example-basic-multiple{
+    width: 100% !important;
+}
 #textoInput{
     background-color: #E6E6E6;
     box-shadow: rgb(0 0 0 / 40%) 0px 5px 5px;

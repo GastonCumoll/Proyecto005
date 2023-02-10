@@ -143,6 +143,24 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6">
+                                        <div class="form-row align-items-center select">
+                                            <div class="col-auto etiquetas">
+                                                <div id="titulo">Etiquetas </div>
+                                            </div>
+                                            <div class="col etiquetas-col">
+                                                <div class="input-group select select-input">
+                                                {#<select multiple name="etiquetas[]" id="etiquetas" class="form-control selectpicker" data-live-search="true" data-size="20">#}
+                                                    <select class="js-example-basic-multiple" name="etiquetas[]" multiple="multiple">
+                                                        {# <option selected></option> #}
+                                                        {% for etiqueta in etiquetas %}
+                                                            <option value="{{etiqueta.getId()}}">{{etiqueta.getNombre()}}</option>    
+                                                        {% endfor %}
+                                                    </select>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 {# <div class="text-center">
@@ -314,6 +332,6 @@
     {% block javascripts %}
         {{encore_entry_script_tags('busquedaParamNorma')}}
         {{encore_entry_script_tags('normaEdit')}}
-        
+        {{encore_entry_script_tags('etiqueta')}}
     {% endblock %}
 {% endblock %}
