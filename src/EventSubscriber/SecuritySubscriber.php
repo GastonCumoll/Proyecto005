@@ -274,7 +274,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout/4'));
                 }else{
-                    $event->setResponse(new RedirectResponse('/404'));
+                    //$event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }

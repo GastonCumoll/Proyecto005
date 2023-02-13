@@ -682,7 +682,7 @@ class NormaController extends AbstractController
      * @Route("/{palabra}/busquedaRapida", name="busqueda_rapida", methods={"GET","POST"}, options={"expose"=true})
      */
     //este metodo ejecuta una busqueda de normas por campo titulo, que contenga la palabra pasada por parametro
-    public function busquedaRapida(ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
+    public function busquedaRapida(EtiquetaRepository $etiquetaRepository, ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
         $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
@@ -739,6 +739,7 @@ class NormaController extends AbstractController
             'align' => 'center',
         ]);
         return $this->render('norma/indexAdmin.html.twig', [
+            'etiquetas' => $etiquetaRepository->findAll(),
             'normas' => $normas,
             'roles'=>$listaDeRolesUsuario,
             'rol' => $rol,
@@ -914,6 +915,7 @@ class NormaController extends AbstractController
         $normasP->setCustomParameters([
             'align' => 'center',
         ]);
+        
         return $this->renderForm('norma/indexAdmin.html.twig', [
             'etiquetas' => $etiquetaRepository->findAll(),
             'tipoNormas' =>$tipoNormaRepository->findAll(),
