@@ -684,6 +684,23 @@ class NormaController extends AbstractController
     //este metodo ejecuta una busqueda de normas por campo titulo, que contenga la palabra pasada por parametro
     public function busquedaRapida(EtiquetaRepository $etiquetaRepository, ReparticionService $reparticionService,AreaRepository $areaRepository,TipoNormaRepository $tipo,NormaRepository $normaRepository,$palabra,Request $request,SeguridadService $seguridad,PaginatorInterface $paginator):Response
     {
+        //palabra es la cadena de busqueda
+        $arrayP=explode(" ",$palabra);
+        $numeros=[];
+        $palabraNueva=$palabra;
+        // dd($arrayP);
+        foreach ($arrayP as $p) {
+            if(is_numeric($p)){
+                $numeros[]=$p;
+                $longitud=strlen($p);//longitud de la palabra p
+                // dd($longitud);
+                $palabraNueva=str_replace($p,"",$palabraNueva);//substraigo el numero de la palabra
+                
+            }
+        }
+        $palabraCorta=trim(str_replace("  "," ",$palabraNueva));
+        
+
         $listaDeRolesUsuario=[];
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
@@ -708,12 +725,15 @@ class NormaController extends AbstractController
         if(!$idSession){
             //si no hay nadie logueado, hace la busqueda por la palabra que ingrese(o busca todas si no ingrese palabra(-1))
             if($palabra=="-1"){
-                
                 $normasQuery=$normaRepository->findAllQuery();
             }else{
                 $palabra=str_replace("§","/",$palabra);
                 $filtros[]=$palabra;
-                $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
+                if($numeros != null){
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloConNumero($palabraCorta,$numeros);//ORMQuery
+                }else{
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
+                }
             }
         }else{
             //si hay session, filtra por roles(listaDeRolesUsuario) y reparticion(reparticionUsuario) y la palabra ingresada
@@ -721,11 +741,14 @@ class NormaController extends AbstractController
                 $normasQuery=$normaRepository->findAllQueryS($reparticionUsuario,$rol);
             }else{
                 $palabra=str_replace("§","/",$palabra);
-                $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
                 $filtros[]=$palabra;
+                if($numeros != null){
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSessionConNumero($listaDeRolesUsuario,$reparticionUsuario,$palabraCorta,$numeros);//ORMQuery
+                }else{
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
+                }
             }
         }
-        
         // Paginar los resultados de la consulta
         $normas = $paginator->paginate(
             // Consulta Doctrine, no resultados

@@ -69,6 +69,36 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     }
+    public function findUnaPalabraDentroDelTituloConNumero($palabra,$numero): Query
+    {
+        //numero es un array de numeros
+        $consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        $consultaAux1="";
+        foreach ($numero as $unNumero) {
+            if(array_search($unNumero,$numero) == 0){
+                $consultaAux1=$consultaAux1."p.numeroAuxiliar = ".$unNumero;
+            }else{
+                $consultaAux1=$consultaAux1." OR p.numeroAuxiliar = ".$unNumero;
+            }   
+        }
+        if($palabra == ""){
+            $retorno=$this->createQueryBuilder('p')->where($consultaAux1)
+            ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+            ->andWhere($consultaAux)
+            ->orderBy('p.id','DESC');
+            $query=$retorno->getQuery();
+            return $query;
+        }else{
+            $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+            ->orWhere($consultaAux1)
+            ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+            ->andWhere($consultaAux)
+            ->orderBy('p.id','DESC');
+            $query=$retorno->getQuery();
+            return $query;
+        }
+        
+    }
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $consultaAux="p.estado = 'Publicada' AND p.publico =1";
@@ -79,6 +109,54 @@ class NormaRepository extends ServiceEntityRepository
         $query=$retorno->getQuery();
         // dd($query);
         return $query;
+    }
+    public function findUnaPalabraDentroDelTituloSessionConNumero($roles,$reparticion,$palabra,$numero): Query
+    {
+        $consultaAux1="";
+        foreach ($numero as $unNumero) {
+            if(array_search($unNumero,$numero) == 0){
+                $consultaAux1=$consultaAux1."p.numeroAuxiliar = ".$unNumero;
+            }else{
+                $consultaAux1=$consultaAux1." OR p.numeroAuxiliar = ".$unNumero;
+            }   
+        }
+
+        if($roles[0]=="DIG_CONSULTOR"){
+            $consultaAux=" AND p.estado = 'Publicada')";
+            $consultaAux2=" OR (p.estado = 'Publicada' AND p.publico =1)";
+        }else{
+            $consultaAux=")OR (p.estado = 'Publicada' AND p.publico =1)";
+            $consultaAux2="";
+        }
+        // dd($palabra);
+        //$consultaAux="p.estado = 'Publicada' AND p.publico =1";
+        if($palabra == ""){
+            $retorno=$this->createQueryBuilder('p')->where($consultaAux1)
+            ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+    
+            ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->orderBy('p.id','DESC');
+            
+            //->andWhere($consultaAux)
+    
+            $retorno->andWhere("(tnr.reparticionId = '".$reparticion->getId()."'".$consultaAux.$consultaAux2);
+            
+            $query=$retorno->getQuery();
+            return $query;
+        }else{
+            $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+            ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
+    
+            ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->orderBy('p.id','DESC')
+            ->orWhere($consultaAux1);
+            //->andWhere($consultaAux)
+    
+            $retorno->andWhere("(tnr.reparticionId = '".$reparticion->getId()."'".$consultaAux.$consultaAux2);
+            
+            $query=$retorno->getQuery();
+            //dd($query);
+            return $query;
+        }
+        
     }
     public function findUnaPalabraDentroDelTituloSession($roles,$reparticion,$palabra): Query
     {
