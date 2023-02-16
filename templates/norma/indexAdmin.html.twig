@@ -248,13 +248,13 @@
                     {# <th class="colId">{{knp_pagination_sortable(normas, 'ID', 'p.id') }}</th> #}
                     <th class="colTipo"{% if normas.isSorted('t.nombre') %} class="sorted" {% endif %}>
                         {{knp_pagination_sortable(normas, 'Tipo', 't.nombre')}}</th>
-                    <th class="colTit">{{knp_pagination_sortable(normas, 'Título', 'p.titulo')}}</th>
                     <th class="colNum">{{knp_pagination_sortable(normas, 'Número', 'p.numeroAuxiliar')}}</th>
                     <th class="colEstado">{{knp_pagination_sortable(normas, 'Estado', 'p.estado')}}</th>
                     {% if rol != "" %}
                     <th class="colPublico">{{knp_pagination_sortable(normas, 'Acceso', 'p.publico')}}</th></th>
                     {% endif %}
                     <th class="colFecha">{{knp_pagination_sortable(normas, 'Año', 'p.year')}}</th>
+                    <th class="colTit">{{knp_pagination_sortable(normas, 'Título', 'p.titulo')}}</th>
                     <th class="columnaOp">{{knp_pagination_sortable(normas, 'Opciones', 'p.id')}}</th>
                 </tr>
             </thead>
@@ -275,7 +275,6 @@
 
                     {# <td class="colId"><strong>{{norma.id}}</strong></td> #}
                     <td class="colTipo">{{norma.tipoNorma.nombre}}</td>
-                    <td class="colTit">{{norma.titulo}}</td>
                     <td class="colNum">{{norma.numeroAuxiliar}}</td>
                     <td class="colEstado">{{norma.estado}}</td>
                     {% if rol != "" %}
@@ -286,6 +285,7 @@
                         {% endif %}
                     {% endif %}
                     <td class="colFecha">{{norma.year}}</td>
+                    <td class="colTit">{{norma.titulo}}</td>
                     {% set bandera = 0 %}
                     <td class="columnaOp">
                         <div id="divBotonesOpNorma">
