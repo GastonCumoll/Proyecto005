@@ -69,6 +69,7 @@ class NormaRepository extends ServiceEntityRepository
         //dd($query);
         return $query;
     }
+
     public function findUnaPalabraDentroDelTituloConNumero($palabra,$numero): Query
     {
         //numero es un array de numeros
@@ -90,6 +91,7 @@ class NormaRepository extends ServiceEntityRepository
             return $query;
         }else{
             $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+            ->orWhere('p.resumen LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
             ->orWhere($consultaAux1)
             ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
             ->andWhere($consultaAux)
@@ -99,10 +101,12 @@ class NormaRepository extends ServiceEntityRepository
         }
         
     }
+
     public function findUnaPalabraDentroDelTitulo($palabra): Query
     {
         $consultaAux="p.estado = 'Publicada' AND p.publico =1";
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+        ->orWhere('p.resumen LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
         ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
         ->andWhere($consultaAux)
         ->orderBy('p.id','DESC');
@@ -110,6 +114,7 @@ class NormaRepository extends ServiceEntityRepository
         // dd($query);
         return $query;
     }
+
     public function findUnaPalabraDentroDelTituloSessionConNumero($roles,$reparticion,$palabra,$numero): Query
     {
         $consultaAux1="";
@@ -144,6 +149,7 @@ class NormaRepository extends ServiceEntityRepository
             return $query;
         }else{
             $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+            ->orWhere('p.resumen LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
             ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
     
             ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->orderBy('p.id','DESC')
@@ -169,6 +175,7 @@ class NormaRepository extends ServiceEntityRepository
         }
         //$consultaAux="p.estado = 'Publicada' AND p.publico =1";
         $retorno=$this->createQueryBuilder('p')->where('p.titulo LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
+        ->orWhere('p.resumen LIKE :titulo')->setParameter('titulo','%'.$palabra.'%')
         ->join('App\Entity\TipoNorma','t','WITH','p.tipoNorma = t.id')
 
         ->join('App\Entity\TipoNormaReparticion','tnr','WITH','tnr.tipoNormaId = t.id')->orderBy('p.id','DESC');
