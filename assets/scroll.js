@@ -34,7 +34,7 @@ $(document).ready(function(){
 			else if (urlAnt.includes("/indice/NoVigentes")){
 				boton.setAttribute("href","/indice/NoVigentes");
 			}
-			else if(urlAnt.includes("/formularioBusquedaResult") || urlAnt.includes("/busquedaFiltro") ){
+			else if(urlAnt.includes("/formularioBusquedaResult") || urlAnt.includes("/busquedaFiltro") || urlAnt.includes("/busquedaRapida") ){
 				boton.setAttribute("href",urlAnt);
 			}
 			else if(urlAnt.includes("/edit") && vuelta == 'borrador'){
