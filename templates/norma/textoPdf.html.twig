@@ -9,9 +9,16 @@
 </div>
 <hr id="separador"> #}
 {% block title %}
-<div class="titulo">
-    <strong>{{id.getTitulo}}</strong>
-</div>
+    
+    {% if id.numeroAuxiliar != null %}
+        <div class="titulo">
+            <strong>{{id.tipoNorma.nombre}} N° {{ id.numeroAuxiliar }}</strong>
+        </div>
+        <br>
+    {% endif %}
+    <div class="titulo">
+        <strong>{{id.getTitulo}}</strong>
+    </div>
 {% endblock %}
 
 {% block body %}
