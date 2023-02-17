@@ -695,10 +695,9 @@ class NormaController extends AbstractController
                 $longitud=strlen($p);//longitud de la palabra p
                 // dd($longitud);
                 $palabraNueva=str_replace($p,"",$palabraNueva);//substraigo el numero de la palabra
-                
             }
         }
-        $palabraCorta=trim(str_replace("  "," ",$palabraNueva));
+        //$palabraCorta=trim(str_replace("  "," ",$palabraNueva));
         
 
         $listaDeRolesUsuario=[];
@@ -730,7 +729,7 @@ class NormaController extends AbstractController
                 $palabra=str_replace("§","/",$palabra);
                 $filtros[]=$palabra;
                 if($numeros != null){
-                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloConNumero($palabraCorta,$numeros);//ORMQuery
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloConNumero($palabra,$numeros);//ORMQuery
                 }else{
                     $normasQuery=$normaRepository->findUnaPalabraDentroDelTitulo($palabra);//ORMQuery
                 }
@@ -743,7 +742,7 @@ class NormaController extends AbstractController
                 $palabra=str_replace("§","/",$palabra);
                 $filtros[]=$palabra;
                 if($numeros != null){
-                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSessionConNumero($listaDeRolesUsuario,$reparticionUsuario,$palabraCorta,$numeros);//ORMQuery
+                    $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSessionConNumero($listaDeRolesUsuario,$reparticionUsuario,$palabra,$numeros);//ORMQuery
                 }else{
                     $normasQuery=$normaRepository->findUnaPalabraDentroDelTituloSession($listaDeRolesUsuario,$reparticionUsuario,$palabra);//ORMQuery
                 }
