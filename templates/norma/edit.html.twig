@@ -36,5 +36,34 @@
         {{encore_entry_script_tags('datepicker')}}
 
     {% endblock  %} 
+    <script>
+        switch ("{{ norma.tipoNorma.nombre}}") {
+            case 'Decreto':
+                var selectTipoNorma = document.getElementById("decreto_type_edit_tipoDeNorma");
+                break;
+            case 'Ley': 
+                var selectTipoNorma = document.getElementById("ley_type_edit_tipoDeNorma");
+                break;
+            case 'Ordenanza':
+                var selectTipoNorma = document.getElementById("ordenanza_type_edit_tipoDeNorma");
+                break;
+            case 'Directiva':
+                var selectTipoNorma = document.getElementById("directiva_type_edit_tipoDeNorma");
+                break;
+            case 'Disposición':
+                var selectTipoNorma = document.getElementById("disposicion_type_edit_tipoDeNorma");
+                break;
+            case 'Resolucion':
+                var selectTipoNorma = document.getElementById("resolucion_type_edit_tipoDeNorma");
+                break;
+            case 'Circular': 
+                var selectTipoNorma = document.getElementById("circular_type_edit_tipoDeNorma");
+                break;
+            default:
+                break;
+        }
+        var idTipoNorma = "{{ norma.tipoNorma.id }}";
+        selectTipoNorma.value = idTipoNorma;
+    </script>
 {% endblock %}
     

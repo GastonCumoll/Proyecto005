@@ -17,6 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -24,7 +25,22 @@ class DirectivaTypeEdit extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        
+        $tipoNormasUsuario = $options['tipoNormasUsuario'];
+        
+        $tnuChoice = [];
+        foreach ($tipoNormasUsuario as $t){
+            $id = str_pad($t['idTipoNorma'], 1, "0", STR_PAD_LEFT);
+            $tnuChoice[$t['nombreTipoNorma']] = $t['idTipoNorma'];
+        }
+
         $builder
+        ->add('tipoDeNorma',ChoiceType::class,[
+            'choices' => $tnuChoice,
+            'multiple' =>false,
+            'mapped'=>false,
+            'required' => false,
+        ])
         ->add('numeroAuxiliar',NumberType::class,[
             'label' => 'Número',
             'help' => 'Solo números',
@@ -134,7 +150,7 @@ class DirectivaTypeEdit extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Norma::class,
+            'tipoNormasUsuario' => NULL,
         ]);
     }
 }

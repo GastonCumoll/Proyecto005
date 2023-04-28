@@ -79,7 +79,7 @@ class AreaController extends AbstractController
                 }
             }
         }
-
+        
         $area = new Area();
         $form = $this->createForm(AreaType::class,null,['reparticiones' => $reparticiones]);
         $form->handleRequest($request);

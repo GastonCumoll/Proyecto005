@@ -1956,10 +1956,17 @@ class NormaController extends AbstractController
         $idReparticion = $seguridad->getIdReparticionAction($session_id);
         $reparticionUsuario = $areaRepository->find($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+        $tipoNormaPermitida=[];
         foreach($normasUsuario as $nU){
             $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
             $normasU[]=$normasUsuarioObj[0]->getId();
+            $unTipoNormaP=[
+                'idTipoNorma'=> $normasUsuarioObj[0]->getId(),
+                'nombreTipoNorma'=>$nU,
+            ];
+            $tipoNormaPermitida[]= $unTipoNormaP;
         }
+
 
         if($seguridad->checkSessionActive($session_id)){
             // dd($idSession);
@@ -1974,7 +1981,7 @@ class NormaController extends AbstractController
             $rol="";
         }
         if(!in_array($idTipoNorma,$normasU,true) || ($norma->getEstado()=='Publicada' && (!in_array('DIG_EDITOR',$arrayRoles)))){
-           return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
         }
         //se crea una variable en sesion 'urlAnterior' para guardar la url de donde vengo a editar, ya que al submitear el formulario, se pierde 
         //la ultima url
@@ -1983,31 +1990,35 @@ class NormaController extends AbstractController
         if(!$session->get('urlAnterior') && $_SERVER['HTTP_REFERER']){
             $session->set('urlAnterior',$_SERVER['HTTP_REFERER']);
         }
-
+        
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
-                $form = $this->createForm(DecretoTypeEdit::class, $norma);
+                $form = $this->createForm(DecretoTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
                 $form->handleRequest($request);
             break;
             case 'Ordenanza':
-                $form = $this->createForm(OrdenanzaTypeEdit::class, $norma);
+                $form = $this->createForm(OrdenanzaTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
                 $form->handleRequest($request);
             break;
             case 'Resolucion':
-                $form = $this->createForm(ResolucionTypeEdit::class, $norma);
+                $form = $this->createForm(ResolucionTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
                 $form->handleRequest($request);
             break;
             case 'Ley':
-                $form = $this->createForm(LeyTypeEdit::class, $norma);
+                $form = $this->createForm(LeyTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
                 $form->handleRequest($request);
             break;
             default:
-                $form = $this->createForm(CircularTypeEdit::class, $norma);
+                $form = $this->createForm(CircularTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
                 $form->handleRequest($request);
             break;
         }
         if ($form->isSubmitted() && $form->isValid())
         {
+            $tipoN=$form['tipoDeNorma']->getData();
+            $tipoNormaNueva=$tipoNormaRepository->findOneById($tipoN);
+            $norma->setTipoNorma($tipoNormaNueva);
+
             $item =$form['items']->getData();
             $itemsPostEdit=$item->toArray();
             if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
@@ -2054,7 +2065,7 @@ class NormaController extends AbstractController
                 $auditoria->setNorma($norma);
                 $entityManager->persist($auditoria);
                 $norma->addAuditoria($auditoria);
-
+                
                 $norma->setInstancia($instancia);
                 $entityManager->persist($norma);
             }

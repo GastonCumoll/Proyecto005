@@ -84,40 +84,38 @@ class TipoNormaController extends AbstractController
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];//array roles es un array que contiene todos los roles del usuario.(lo hicimos porq hay usuarios que tienen mas de un rol)
         if($seguridad->checkSessionActive($idSession)){
-            
-            // dd($idSession);
+
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
             foreach ($roles as $unRol) {
                 $arrayRoles[]=$unRol['id'];
             }
-            // dd($roles);
+
             $rol=$roles[0]['id'];
-            // dd($rol);
+
         }else {
             $rol="";
         }
-        //dd($stringRoles);
+
         $idReparticion = $seguridad->getIdReparticionAction($idSession);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
-        // dd($normasUsuario);
+
         $reparticionUsuario = $areaRepository->find($idReparticion);
-        //dd($roles);
+
         $idTipoNorma=[];
         $tiposDeNormas=[];
         //solamente el rol operador puede cargar normas
         if(in_array('DIG_OPERADOR',$arrayRoles)){
-            //dd("lo encontro");
+
             $tiposDeNormasRol=$tipoNormaRolRepository->findByNombreRol('DIG_OPERADOR');
-            //dd($tiposDeNormasRol);
+
             foreach ($tiposDeNormasRol as $unTipoNormaRol) {
                 $idTipoNorma[]=$unTipoNormaRol->getTipoNorma();
             }
-            //dd($idTipoNorma);
+
             //idTipoNorma->array de los ids de tipos de norma del rol
             foreach ($idTipoNorma as $id) {
                 $tiposDeNormas[]=$tipoNormaRepository->findOneById($id);
             }
-            //dd($tiposDeNormas);
         }
         
         return $this->render('tipo_norma/newTipo.html.twig', [

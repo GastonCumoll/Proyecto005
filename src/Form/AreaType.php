@@ -25,7 +25,6 @@ class AreaType extends AbstractType
             $id = str_pad($r['idReparticion'], 3, "0", STR_PAD_LEFT);
             $reparticionChoice[$id." - ".$r['nombre']] = $r['idReparticion'];
         }
-        //dd($reparticiones);
         $builder
             ->add('nombre', ChoiceType::class, [
                 'choices' => $reparticionChoice,

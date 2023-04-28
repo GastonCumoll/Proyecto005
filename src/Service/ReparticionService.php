@@ -35,10 +35,11 @@ class ReparticionService extends AbstractController {
         else
         {
             $reparticionUsuario = $areaRepository->find($idReparticion);
-
-            //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
-            foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
-                $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+            if($reparticionUsuario){
+                //obtengo la reparticion del usuario para poder deshabilitar los botones edit de los registros de la tabla que no sean de la repartición del mismo
+                foreach($reparticionUsuario->getTipoNormaReparticions() as $unTipoNorma){
+                    $normasUsuario[] = $unTipoNorma->getTipoNormaId()->getNombre();
+                }
             }
         }    
         return $normasUsuario;
