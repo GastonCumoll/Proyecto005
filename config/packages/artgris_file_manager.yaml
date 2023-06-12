@@ -1,12 +1,18 @@
+# artgris_file_manager:
+#     conf:
+#         files:
+#             dir: "%kernel.project_dir%/public/uploads/imagenes"
+#             type: 'file'
+#         images:
+#             dir: "%kernel.project_dir%/public/uploads/imagenes"
+#             type: 'image'
 artgris_file_manager:
     conf:
-        files:
-            dir: "%kernel.project_dir%/public/uploads/imagenes"
-            type: 'file'
-        images:
-            dir: "%kernel.project_dir%/public/uploads/imagenes"
+        public:
+            dir: '%kernel.project_dir%/public/uploads/imagenes'
             type: 'image'
-
+            upload:
+                max_file_size: 1048576 # (1Mo) size in bytes
 
 fos_ck_editor:
     default_config: basic_config
@@ -19,5 +25,5 @@ fos_ck_editor:
                 module: ckeditor
             filebrowserImageBrowseRoute: file_manager
             filebrowserImageBrowseRouteParameters:
-                conf: images
+                conf: public
                 module: ckeditor

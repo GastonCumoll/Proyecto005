@@ -85,16 +85,16 @@ class DecretoType extends AbstractType
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
-                'conf' => 'default',
-                'config_name' => 'basic_config',
-                //'toolbar' => 'standard',
+                'conf' => 'basic',
+                'config_name' => 'full_config',
+                'toolbar' => 'full',
                 //'uiColor' =>  '#FFFFFF',
                 //'removeButtons' => 'Save,NewPage',
                 //'extraPlugins' => 'simpleImageUpload',
                 //'filebrowserImageBrowseRoute' => '',
                 //'filebrowserUploadUrl'=> '/public/uploads',
-                //'removePlugins' => 'pasteimage',
-                'pasteFilter' => 'h1 h2 p ul ol li',
+                'removePlugins' => 'pasteimage',
+                // 'pasteFilter' => 'h1 h2 p ul ol li',
             ],
             'purify_html' => true,
             'constraints'=>[new NotBlank(),],
