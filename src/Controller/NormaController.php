@@ -1138,7 +1138,7 @@ class NormaController extends AbstractController
             'setAutoTopMargin' => 'strech',
             'autoMarginPadding'=>'15'
             ]);
-            
+            $mPdf->showImageErrors = true;
 
             $mPdf->setHTMLHeader('<div class="containgerImg">
                 <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
