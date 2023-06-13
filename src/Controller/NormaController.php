@@ -1106,9 +1106,8 @@ class NormaController extends AbstractController
         // dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
 
-        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-        $htmlModificado = str_replace('conf=public','conf=images',$htmlModificado);
-        // dd($htmlModificado); 
+        $htmlModificado = str_replace('/manager/file','build/uploads',$html);
+        //dd($htmlModificado); 
         // $cabecera=substr($htmlModificado,0,202);
         // $htmlModificado=substr($htmlModificado,202);
         // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
@@ -1142,11 +1141,12 @@ class NormaController extends AbstractController
             
 
             $mPdf->setHTMLHeader('<div class="containgerImg">
-            <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
-            <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
-        </div>
-        <hr id="separadorH">
-        ');
+                <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+                <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
+                </div>
+                <hr id="separadorH">'
+            );
+        
             $mPdf->setHTMLFooter('
             <hr id="separador">
             <footer id="footer">
@@ -1272,7 +1272,6 @@ class NormaController extends AbstractController
 
                 //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
                 $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-                $htmlModificado = str_replace('conf=public','conf=images',$htmlModificado);
                 $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
                 // $mod=$cabecera.$mod;
                 $mPdf = $MpdfFactory->createMpdfObject([
