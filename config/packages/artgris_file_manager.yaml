@@ -9,7 +9,7 @@
 artgris_file_manager:
     conf:
         public:
-            dir: '%kernel.project_dir%/public/build/uploads'
+            dir: '%kernel.project_dir%/public/uploads/imagenes'
             type: 'image'
             upload:
                 max_file_size: 1048576 # (1Mo) size in bytes

@@ -1106,8 +1106,8 @@ class NormaController extends AbstractController
         // dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
 
-        $htmlModificado = str_replace('/manager/file','build/uploads',$html);
-        //dd($htmlModificado); 
+        $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+        // dd($htmlModificado); 
         // $cabecera=substr($htmlModificado,0,202);
         // $htmlModificado=substr($htmlModificado,202);
         // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
@@ -1138,7 +1138,7 @@ class NormaController extends AbstractController
             'setAutoTopMargin' => 'strech',
             'autoMarginPadding'=>'15'
             ]);
-            $mPdf->showImageErrors = true;
+        $mPdf->showImageErrors = true;
 
             $mPdf->setHTMLHeader('<div class="containgerImg">
                 <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
