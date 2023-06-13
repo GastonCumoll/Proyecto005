@@ -88,13 +88,14 @@ class DecretoType extends AbstractType
                 'conf' => 'basic',
                 'config_name' => 'full_config',
                 'toolbar' => 'full',
+                'pasteFilter' => 'h1 h2 p ul ol li; a[!href]'
                 //'uiColor' =>  '#FFFFFF',
                 //'removeButtons' => 'Save,NewPage',
                 //'extraPlugins' => 'simpleImageUpload',
                 //'filebrowserImageBrowseRoute' => '',
                 //'filebrowserUploadUrl'=> '/public/uploads',
-                'removePlugins' => 'pasteimage',
-                // 'pasteFilter' => 'h1 h2 p ul ol li',
+                //'removePlugins' => 'pasteimage',
+                
             ],
             'purify_html' => true,
             'constraints'=>[new NotBlank(),],

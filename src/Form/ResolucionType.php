@@ -78,13 +78,14 @@ class ResolucionType extends AbstractType
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
-                'conf' => 'default',
-                'config_name' => 'basic_config',
-                'pasteFilter' => 'h1 h2 p ul ol li; img[!src, alt]; a[!href]',
+                'conf' => 'basic',
+                'config_name' => 'full_config',
+                'toolbar' => 'full',
+                'pasteFilter' => 'h1 h2 p ul ol li; a[!href]'
             ],
             'purify_html' => true,
             'constraints'=>[new NotBlank(),],
-        'label'=>'Texto(*)'
+            'label'=>'Texto(*)'
         ])
         //->add('fechaPublicacionBoletin')
         //->add('estado')

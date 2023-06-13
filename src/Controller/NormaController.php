@@ -1098,19 +1098,17 @@ class NormaController extends AbstractController
 
         $today = new DateTime();
         $result = $today->format('d-m-Y H:i:s');
-        // return $this->render('norma/textoPdf.html.twig', [
-        //     //'texto' => $norma->getTexto(),
-        //     'id' => $normaRepository->find($id)
-        // ]);
-        // Recupere el HTML generado en nuestro archivo twig
+
         $html = $this->renderView('norma/textoPdf.html.twig', [
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        //dd($html);
+        // dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
 
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+        $htmlModificado = str_replace('conf=public','conf=images',$htmlModificado);
+        // dd($htmlModificado); 
         // $cabecera=substr($htmlModificado,0,202);
         // $htmlModificado=substr($htmlModificado,202);
         // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
@@ -1274,6 +1272,7 @@ class NormaController extends AbstractController
 
                 //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
                 $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
+                $htmlModificado = str_replace('conf=public','conf=images',$htmlModificado);
                 $mod = str_replace('?conf=images&amp;module=ckeditor&amp;CKEditor=decreto_texto&amp;CKEditorFuncNum=3&amp;langCode=es',"",$htmlModificado);
                 // $mod=$cabecera.$mod;
                 $mPdf = $MpdfFactory->createMpdfObject([
