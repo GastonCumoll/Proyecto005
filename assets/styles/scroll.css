@@ -14,7 +14,10 @@
     }
     #parrafo span{
         /* background-color:#FF9; */
-        color:#555;
+        /* color:#555; */
+    }
+    .palabraResaltada{
+        background-color:#FF9;
     }
 }
 @media (min-width: 576px) and (max-width: 991px) {
@@ -31,7 +34,10 @@
     }
     #parrafo span{
         /* background-color:#FF9; */
-        color:#555;
+        /* color:#555; */
+    }
+    .palabraResaltada{
+        background-color:#FF9;
     }
 }
 @media (min-width: 992px) {
@@ -49,6 +55,16 @@
 
     #parrafo span{
         /* background-color:#FF9; */
-        color:#555;
+        /* color:#555; */
+    }
+    .palabraResaltada{
+        background-color:#FF9;
+    }
+    #alertFiltro{
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+        padding: 10px !important;
     }
 }

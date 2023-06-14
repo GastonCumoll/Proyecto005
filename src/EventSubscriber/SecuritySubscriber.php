@@ -59,6 +59,7 @@ class SecuritySubscriber implements EventSubscriberInterface
             $request = $event->getRequest();
             //dd($request);
             $routeName = $request->attributes->get('_route');
+            
             //dd($this->session->get('session_id'));
             //dd($this->session);
             //$routeParameters = $request->attributes->get('_route_params');
@@ -94,6 +95,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'publicar'=>['DIG_ADMINISTRADOR','DIG_EDITOR'],
                 'norma_showEdit'=>['DIG_OPERADOR','DIG_EDITOR'],
                 'file_manager'=>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
+                'file_manager_file' =>['DIG_OPERADOR','DIG_ADMINISTRADOR','DIG_EDITOR'],
 
                 //Relacion
                 'relacion_index'=>['DIG_OPERADOR','DIG_EDITOR'],
@@ -274,10 +276,11 @@ class SecuritySubscriber implements EventSubscriberInterface
                     $this->session->getFlashBag()->set('alert alert-danger', $mensaje);
                     $event->setResponse(new RedirectResponse('/logout/4'));
                 }else{
-                    // $event->setResponse(new RedirectResponse('/404'));
+                    $event->setResponse(new RedirectResponse('/404'));
                 }
             }
         // }
+    
     }
     
     public static function getSubscribedEvents()

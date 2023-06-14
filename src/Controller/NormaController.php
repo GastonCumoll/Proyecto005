@@ -1103,11 +1103,12 @@ class NormaController extends AbstractController
             //'texto' => $norma->getTexto(),
             'id' => $normaRepository->find($id)
         ]);
-        // dd($html);
+        //dd($html);
         //codigo para reemplazar /manager/file y despues del '?' para poder buscar las imagenes
 
         $htmlModificado = str_replace('/manager/file','uploads/imagenes',$html);
-        // dd($htmlModificado); 
+        $htmlModificado = str_replace('%2520',' ',$htmlModificado);
+        //dd($htmlModificado); 
         // $cabecera=substr($htmlModificado,0,202);
         // $htmlModificado=substr($htmlModificado,202);
         // $cabecera='<img alt="" src="uploads/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />';
@@ -1125,7 +1126,6 @@ class NormaController extends AbstractController
         // $mod=$cabecera.$mod;
         $footerP=strpos($html,'<footer id="footer">');
         $footer=substr($html,$footerP);
-        // dd($footer);
         
         $mPdf = $MpdfFactory->createMpdfObject([
             'mode' => 'utf-8',
@@ -1138,14 +1138,15 @@ class NormaController extends AbstractController
             'setAutoTopMargin' => 'strech',
             'autoMarginPadding'=>'15'
             ]);
+            
         $mPdf->showImageErrors = true;
 
-            $mPdf->setHTMLHeader('<div class="containgerImg">
-                <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
-                <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
-                </div>
-                <hr id="separadorH">'
-            );
+        $mPdf->setHTMLHeader('<div class="containgerImg">
+            <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />
+            <img id="logoHcdPdf" alt="" src="build/imagenes/logoHCDNegro.png" />
+            </div>
+            <hr id="separadorH">'
+        );
         
             $mPdf->setHTMLFooter('
             <hr id="separador">
@@ -1285,6 +1286,9 @@ class NormaController extends AbstractController
                     'setAutoTopMargin' => 'strech',
                     'autoMarginPadding'=>'15'
                     ]);
+
+                    $mPdf->showImageErrors = true;
+
                     // $mPdf->setFooter('www.Parana.gob.ar');
                     $mPdf->setHTMLHeader('<div class="containgerImg">
                     <img alt="" src="build/imagenes/Logomunicipalidad.png" style="height:99px;width:200px;" />

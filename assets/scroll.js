@@ -21,7 +21,8 @@ import { contains } from 'jquery';
 	// console.log(textoSeparado);
 	// });
 
-	
+var primVez = 0;
+var cont = 0;
 $(document).ready(function(){
 
 	var boton = document.getElementsByClassName("botonAtras")[0];
@@ -106,32 +107,81 @@ $(document).ready(function(){
 	// 	document.getElementById("parrafo").innerHTML = newe;
 	// })
 
+	//busquedaTexto id del input
+	var palabrasBuscadas ;
 	var busquedaTexto = document.getElementById("busquedaTexto");
-	// console.log(busquedaTexto);
+	
+	
     busquedaTexto.addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-		
-        //document.getElementById("id_of_button").click();
-		var palabra = document.getElementById("busquedaTexto").value;
-		//text = la palabra a buscar
-		if(palabra.length > 0){
-			var query = new RegExp("(\\b" + palabra + "\\b)", "gim");
-			var e = document.getElementById("parrafo").innerHTML;
-			
-			var enew = e.replace(/(<span>|<\/span>)/igm, "");
-			document.getElementById("parrafo").innerHTML = enew;
-			var newe = enew.replace(query, '<span id="palabraResaltada">$1</span>');
-			document.getElementById("parrafo").innerHTML = newe;
-			
-            var element = document.getElementById("palabraResaltada");
-			
-			element.scrollIntoView({block: "center", behavior: "smooth"});
+		event.preventDefault();
+		if (event.keyCode === 13) {
 
-			// window.;
+			var palabra = document.getElementById("busquedaTexto").value;
+
+			if (palabra.length > 0 && cont == 0 && primVez == 0) {
+				primVez++;
+				//palabrasBuscadas.push(palabra); // Agregar la palabra buscada al arreglo
+
+				var query = new RegExp("(\\b" + palabra + "\\b)", "gim");
+				var eInicial = document.getElementById("parrafo").innerHTML;
+				var e = document.getElementById("parrafo").innerHTML;
+				var enew = e.replace(/(<span>|<\/span>)/igm, "");
+
+				document.getElementById("parrafo").innerHTML = enew;
+				var newe = enew.replace(query, '<span class="palabraResaltada">$1</span>');
+				document.getElementById("parrafo").innerHTML = newe;
+
+				palabrasBuscadas = document.getElementsByClassName("palabraResaltada");
+				
+
+				mostrarAlerta(palabra,eInicial); // Mostrar el div de alerta con la palabra buscada
+				
+			}
+			var element = palabrasBuscadas[cont];
+			element.scrollIntoView({block: "center", behavior: "smooth"});
+			cont++;
+			if(cont == palabrasBuscadas.length){
+				cont = 0;
+			}
 		}
-    }
-})
+	})
+	
+function mostrarAlerta(palabra,eInicial) {
+    var alertDiv = document.getElementById("alertFiltro");
+
+    // Limpiar el contenido existente
+    alertDiv.innerHTML = "";
+	alertDiv.classList.add("alert-info");
+    var mensaje = document.createElement("span");
+    mensaje.innerHTML = "Palabra buscada: <strong>" + palabra + "</strong>";
+    alertDiv.appendChild(mensaje);
+
+    var closeButton = document.createElement("button");
+	
+	closeButton.setAttribute("type", "button");
+	closeButton.setAttribute("class", "close");
+	closeButton.setAttribute("aria-label", "Close");
+	closeButton.setAttribute("id", "btnCerrar");
+
+    closeButton.innerHTML = "x";
+    closeButton.addEventListener("click", function() {
+        alertDiv.innerHTML = ""; // Limpiar el contenido al hacer clic en el botón "x"
+		document.getElementById("parrafo").innerHTML = eInicial;
+		document.getElementById("busquedaTexto").value = "";
+		alertDiv.classList.remove("alert-info");
+		primVez=0;
+		cont=0;
+
+    });
+    alertDiv.appendChild(closeButton);
+}
+
+
+
+
+
+
+
 	// 	var botonTexto = document.getElementById("botonBuscarTexto");
 	// 	botonTexto.addEventListener("click",function(){
 	//  	var texto = document.getElementById("busquedaTexto");
