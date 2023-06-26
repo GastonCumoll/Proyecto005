@@ -89,17 +89,12 @@ class LeyType extends AbstractType
             'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
-        ])
+            'label' => 'Item',
+            ])
         ->add('decretoPromulgacion',EntityType::class, [
             'class' => Norma::class,
             'multiple' => false,
@@ -112,18 +107,6 @@ class LeyType extends AbstractType
                 'data-live-search'=>true,
             ]
         ])
-        // ->add('fechaPromulgacion',DateType::class,[
-        //     'widget' =>'single_text',
-        //     'html5'=>false,
-        //     'format'=> 'dd/MM/yyyy',
-        //     'label' => 'Fecha de sancion',
-        //     'attr'=>[
-        //         'class' => 'datepicker col-2',
-        //         'style' => 'min-width: 200px;',
-        //         'placeholder' => 'Seleccionar',
-        //         'requiered' => false,
-        //     ],
-        // ])
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,

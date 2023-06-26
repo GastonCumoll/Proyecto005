@@ -7,8 +7,15 @@
 {% block addStyleSheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('createCss') }}
+    {{ encore_entry_link_tags('select2totree') }}
 {% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+{{encore_entry_script_tags('select2')}}
+{{encore_entry_script_tags('datepicker')}}
+{{encore_entry_script_tags('etiqueta')}}
+{% endblock  %} 
     <h1>Cargar norma</h1>
     {% for flash_message in app.session.flashbag.get('verifPublicar') %}
         <div class="card shadow mb-5 rounded" id="cardAdvertencia">
@@ -23,15 +30,9 @@
             
             {{ include('norma/_form.html.twig') }} 
             
-            
         <a href="{{ path('norma_nueva') }}" class="btn btn-primary mt-2 mb-2">Volver</a>
         </div>
     </div>  
 
-    {% block javascripts %}
-        {{ parent() }}
-        {{encore_entry_script_tags('datepicker')}}
-        {{encore_entry_script_tags('etiqueta')}}
-    {% endblock  %} 
 
 {% endblock %}

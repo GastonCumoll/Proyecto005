@@ -7,8 +7,15 @@
 {% block addStyleSheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('createCss') }}
+    {{ encore_entry_link_tags('select2totree') }}
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{encore_entry_script_tags('select2')}}
+    {{encore_entry_script_tags('etiqueta')}}
+    {{encore_entry_script_tags('datepicker')}}
 
+{% endblock  %} 
     <h1>Editar Norma</h1>
     <div class="container"  id="tarjeta">
         <div class="container">
@@ -23,19 +30,16 @@
     {% if "/norma/" ~ norma.id in  app.request.headers.get('referer') %}
         <input type="hidden" name="urlAnterior" value="norma_show">
     {% endif %}
-
-    
+    <select id="selectIds">
+        {% for unId in idT %}
+            <option value={{unId.id}}>hola</option>
+        {% endfor %}
+    </select>
     <input type="hidden" id="id" value="{{norma.id}}">
     <input type="hidden" id="idNombre" value="{{norma.titulo}}">
     <a href="{{app.request.headers.get('referer')}}" class="btn btn-primary mt-2 mb-2">Volver</a>
 </div>
 </div>
-    {% block javascripts %}
-        {{ parent() }}
-        {{encore_entry_script_tags('etiqueta')}}
-        {{encore_entry_script_tags('datepicker')}}
-
-    {% endblock  %} 
     <script>
         switch ("{{ norma.tipoNorma.nombre}}") {
             case 'Decreto':

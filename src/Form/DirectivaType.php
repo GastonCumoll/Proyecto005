@@ -29,8 +29,7 @@ class DirectivaType extends AbstractType
             'label' => 'Número',
             'help' => 'Solo números',
             'required' => false,
-        ]
-        )
+        ])
         ->add('titulo',TextType::class,[
             'label'=> 'Titulo (*)',
             'required' => false,
@@ -75,7 +74,6 @@ class DirectivaType extends AbstractType
                 'requiered' => false,
             ],
         ])
-        //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
@@ -89,19 +87,12 @@ class DirectivaType extends AbstractType
             'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
-        ])
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
+            'label' => 'Item',
+            ])
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,
@@ -124,11 +115,7 @@ class DirectivaType extends AbstractType
                 'attr'=>[
                     'class'=>'js-example-basic-multiple',
                     ]
-        ])
-            //->add('fechaPromulgacion')
-            //->add('decretoPromulgacion')
-        ;
-        ;
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

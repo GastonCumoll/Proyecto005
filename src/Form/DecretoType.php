@@ -21,6 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -81,7 +82,6 @@ class DecretoType extends AbstractType
                 'requiered' => false,
             ],
         ])
-        //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
@@ -102,16 +102,12 @@ class DecretoType extends AbstractType
             'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
+            'label' => 'Item',
+            'label' => 'Item',
             ])
         ->add('archivo', FileType::class,[
             'multiple'=>true,
@@ -124,9 +120,6 @@ class DecretoType extends AbstractType
             'required' => false,
             'attr'=>['id'=>'ida'],
         ])
-        //->add('captcha', CaptchaType::class)
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -138,9 +131,7 @@ class DecretoType extends AbstractType
                 'attr'=>[
                     'class'=>'js-example-basic-multiple',
                     ]
-        ])
-        
-        ;
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

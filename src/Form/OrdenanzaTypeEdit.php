@@ -91,7 +91,6 @@ class OrdenanzaTypeEdit extends AbstractType
                 'requiered' => false,
             ],
         ])
-        //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
@@ -105,31 +104,12 @@ class OrdenanzaTypeEdit extends AbstractType
             'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
-        ])
-        //->add('texto',  FroalaEditorType::class)
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
-        // ->add('archivo', FileType::class,[
-        //     'multiple'=>true,
-        //     'mapped'=>false,
-        //     'required'=>false,
-        //     'attr' => ['class'=>'custom-file-imput'],
-        // ])
-        // ->add('nombre_archivo',TextType::class,[
-        //     'mapped' => false,
-        //     'required' => false,
-        //     'attr'=>['id'=>'ida'],
-        // ])
+            'label' => 'Item',
+            ])
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -142,8 +122,6 @@ class OrdenanzaTypeEdit extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        //->add('fechaPromulgacion')
-        //->add('decretoPromulgacion')
     ;
     }
 

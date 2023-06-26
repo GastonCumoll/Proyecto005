@@ -1365,20 +1365,20 @@ class NormaController extends AbstractController
     /**
      * @Route("{id}/new", name="norma_new", methods={"GET", "POST"})
      */
-    public function new(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad, Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger): Response
+    public function new(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad, 
+    Request $request, EntityManagerInterface $entityManager,NormaRepository $normaRepository,$id, SluggerInterface $slugger, ItemRepository $itemRepository): Response
     {
         $sesion=$this->get('session');
         $idSession=$sesion->get('session_id')*1;
         $arrayRoles=[];
         if($seguridad->checkSessionActive($idSession)){
-            // dd($idSession);
+
             $roles=json_decode($seguridad->getListRolAction($idSession), true);
-            // dd($roles);
             foreach ($roles as $unRol) {
+
                 $arrayRoles[]=$unRol['id'];
             }
             $rol=$roles[0]['id'];
-            // dd($rol);
         }else {
             $rol="";
         }
@@ -1399,6 +1399,8 @@ class NormaController extends AbstractController
         $idNorma = $repository->find($id);
 
         $etiquetaRepository= $this->getDoctrine()->getRepository(Etiqueta::class);
+
+        $booleano = false;
 
         //dependiendo del tipo de norma que se crea, se ejecuta un formulario.
         switch ($idNorma->getNombre()){
@@ -1439,36 +1441,47 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
                 break;
         }
-        if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form->get('nombre_archivo','id')->getData());
-            //dd($form['etiquetas']->getData());
-            //dd($form->get('archivo')->getData());
+
+        foreach($_POST as $datos){
+            
+            if(isset($datos['items'])){
+                if((str_contains($form['items']->getErrors()[0]->getCause()->getMessage(),$datos['items'][0])) && (str_contains($form['items']->getErrors()[0]->getCause()->getMessage(),'do not exist in the choice list.'))){
+                    $booleano = true;
+                }
+            }else{
+                $booleano = $form->isValid();
+            }
+        }
+
+        if ($form->isSubmitted() && $booleano) {
             $today = new DateTime();
-            //$norma->setFechaPublicacion($today);
+
             $norma->setEstado("Borrador");
+
             if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
-                // dd($fecha);
-                // strtotime($fecha);
-                // $año=date("Y",$fecha);
                 $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
                 $norma->setNumero($numYAño);
-                // dd($numYAño);
             }
             if($form->get('fechaSancion')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
                 $norma->setYear(intval($fecha));
             }
-            $item =$form['items']->getData();
-            
-            foreach ($item as $unItem) {
-                $newItem= new Item();
-                $newItem=$unItem;
-                $norma->addItem($newItem);
-                $newItem->addNorma($norma); 
-                $entityManager->persist($newItem);
+
+            foreach($_POST as $datosFormulario){
+                if(isset($datosFormulario['items'])){
+                    foreach($datosFormulario['items'] as $unIdItem){
+                        if(is_numeric($unIdItem)){
+                            $item = $itemRepository->findOneById($unIdItem);
+                        
+                            $norma->addItem($item);
+                            $item->addNorma($norma); 
+                            $entityManager->persist($item);
+                        }
+                    }
+                }
             }
 
             $entityManager->persist($norma);
@@ -1554,19 +1567,20 @@ class NormaController extends AbstractController
             
             //foreach para asignarle nuevas etiquetas ya creadas a Norma
             if($etiquetasDeNorma != null){
+
                 foreach ($etiquetasDeNorma as $eti) {
-                $eti->addNorma($norma);
-                $norma->addEtiqueta($eti);
-                $entityManager->persist($eti);
-            }
-            $entityManager->persist($norma);
+
+                    $eti->addNorma($norma);
+                    $norma->addEtiqueta($eti);
+                    $entityManager->persist($eti);
+                }
+                $entityManager->persist($norma);
             }
             //usuarios
             //obtener el nombre del usuario logeado;
             $session=$this->get('session');
             $usuario=$session->get('username');
             
-
             //crear auditoria
             $auditoria=new Auditoria();
             $auditoria->setFecha($today);
@@ -1939,7 +1953,8 @@ class NormaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="norma_edit", methods={"GET", "POST"})
      */
-    public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    public function edit(TipoNormaRepository $tipoNormaRepository,ReparticionService $reparticionService,AreaRepository $areaRepository,SeguridadService $seguridad,Request $request, 
+    Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id,ItemRepository $itemRepository): Response
     {
         //seteamos el texto anterior (original) en la variable textoAnterior para despues comparar y generar el pdf o no
         if(!$norma->getTextoAnterior()){
@@ -1950,6 +1965,7 @@ class NormaController extends AbstractController
         //itemPreEdit se usa para saber los items atados a la norma antes de que se edite
         //se compara, y si viene uno que no es igual al que ya tiene, elimina el viejo y añade el nuevo
         $itemsPreEdit=$norma->getItems()->toArray();
+
         $idTipoNorma=$norma->getTipoNorma()->getId();
         $session=$this->get('session');
         
@@ -1959,6 +1975,7 @@ class NormaController extends AbstractController
         $reparticionUsuario = $areaRepository->find($idReparticion);
         $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
         $tipoNormaPermitida=[];
+
         foreach($normasUsuario as $nU){
             $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
             $normasU[]=$normasUsuarioObj[0]->getId();
@@ -1969,16 +1986,12 @@ class NormaController extends AbstractController
             $tipoNormaPermitida[]= $unTipoNormaP;
         }
 
-
         if($seguridad->checkSessionActive($session_id)){
-            // dd($idSession);
             $roles=json_decode($seguridad->getListRolAction($session_id), true);
-            // dd($roles);
             $rol=$roles[0]['id'];
             foreach ($roles as $unRol) {
                 $arrayRoles[]=$unRol['id'];
             }
-            // dd($rol);
         }else {
             $rol="";
         }
@@ -1993,6 +2006,8 @@ class NormaController extends AbstractController
             $session->set('urlAnterior',$_SERVER['HTTP_REFERER']);
         }
         
+        $booleano = false;
+
         switch ($norma->getTipoNorma()->getNombre()){
             case 'Decreto':
                 $form = $this->createForm(DecretoTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
@@ -2015,38 +2030,48 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
             break;
         }
-        if ($form->isSubmitted() && $form->isValid())
+
+        foreach($_POST as $datos){
+            
+            if(isset($datos['items'])){
+
+                if((str_contains($form['items']->getErrors()[0]->getCause()->getMessage(),$datos['items'][0])) && (str_contains($form['items']->getErrors()[0]->getCause()->getMessage(),'do not exist in the choice list.'))){
+                    $booleano = true;
+                }
+            }else{
+                $booleano = $form->isValid();
+            }
+        }
+
+        if ($form->isSubmitted() && $booleano)
         {
             $tipoN=$form['tipoDeNorma']->getData();
             $tipoNormaNueva=$tipoNormaRepository->findOneById($tipoN);
             $norma->setTipoNorma($tipoNormaNueva);
 
-            $item =$form['items']->getData();
-            $itemsPostEdit=$item->toArray();
+            $itemsPostEdit=[];
+            foreach($_POST as $datosFormulario){
+                if(isset($datosFormulario['items'])){
+                    foreach($datosFormulario['items'] as $unIdItem){
+                        $itemsPostEdit[] = $itemRepository->findOneById($unIdItem);
+                    }
+                }
+            }
+            $itemsAgregados = array_diff($itemsPostEdit,$itemsPreEdit);
+            $itemsEliminados = array_diff($itemsPreEdit,$itemsPostEdit);
+            // dd($itemsPostEdit,$itemsPreEdit,$itemsAgregados,$itemsEliminados);
             if($form->get('fechaSancion')->getData() && $form->get('numeroAuxiliar')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
-                // dd($fecha);
-                // strtotime($fecha);
-                // $año=date("Y",$fecha);
                 $numYAño=$form->get('numeroAuxiliar')->getData().'/'.$fecha;
                 $norma->setNumero($numYAño);
-                // dd($numYAño);
             }
             if($form->get('fechaSancion')->getData()){
                 $fecha=$form->get('fechaSancion')->getData();
                 $fecha=date_format($fecha, "Y");
                 $norma->setYear(intval($fecha));
             }
-            // dd(gettype($itemsPostEdit));
-            // if(count($itemsPostEdit) > 1){
-            //     $this->addFlash(
-            //         'errorItem',
-            //         "No puede agregar más de un item."
-            //     );
-            //     return $this->redirectToRoute('norma_edit',['id'=>$id],Response::HTTP_SEE_OTHER);
-            // }
-            // if($form('texto')->getData() != $norma->getTexto());
+            
             if($form['texto']->getData() != $textoPreSubmit){
                 //usuarios
                 //obtener el nombre del usuario logeado;
@@ -2071,30 +2096,25 @@ class NormaController extends AbstractController
                 $norma->setInstancia($instancia);
                 $entityManager->persist($norma);
             }
-            if(empty($itemsPostEdit)){
-                foreach ($itemsPreEdit as $unItem) {
-                    $norma->removeItem($unItem);
-                    $unItem->removeNorma($norma);
-                    $entityManager->persist($norma);
-                    $entityManager->persist($unItem);
-                }
-            }else{
-                foreach ($itemsPreEdit as $unItem) {
-                    $norma->removeItem($unItem);
-                    $unItem->removeNorma($norma);
-                    $entityManager->persist($norma);
-                    $entityManager->persist($unItem);
-                }
 
-                foreach ($itemsPostEdit as $unItem) {
-                    $newItem= new Item();
-                    $newItem=$unItem;
-                    $norma->addItem($newItem);
-                    $newItem->addNorma($norma); 
-                    $entityManager->persist($newItem);
+            if($itemsAgregados){
+                foreach ($itemsAgregados as $unItem) {
+                        // $newItem= new Item();
+                        // $newItem=$unItem;
+                        $norma->addItem($unItem);
+                        $unItem->addNorma($norma); 
+                        $entityManager->persist($unItem);
                 }
+                $entityManager->persist($norma);
             }
-            $entityManager->persist($norma);
+            if($itemsEliminados){
+                foreach($itemsEliminados as $unItemEli){
+                    $norma->removeItem($unItemEli);
+                    $unItemEli->removeNorma($norma);
+                    $entityManager->persist($unItemEli);
+                }
+                $entityManager->persist($norma);
+            }
 
             $etiquetasDeNorma=$form['etiquetas']->getData();
             //foreach para asignarle nuevas etiquetas ya creadas a Norma
@@ -2200,46 +2220,16 @@ class NormaController extends AbstractController
         return $this->renderForm('norma/edit.html.twig', [
             'norma' => $norma,
             'form' => $form,
+            'idT' => $itemsPreEdit,
         ]);
     }
-
-    // /**
-    //  * @Route("/{id}/{t}", name="norma_show_arbol", methods={"GET"})
-    //  */
-    // //este metodo no se usa
-    // public function normaArbol(Norma $norma,$id,$t): Response
-    // {
-    //     //dd($norma->getItems()->toArray());
-    //     $repository = $this->getDoctrine()->getRepository(Relacion::class);
-    //     $relacion= $repository->findByNorma($id);
-        
-    //     $itemDeNorma=$norma->getItems()->toArray();
-    //     // dd($relacion);
-    //     if(!empty($itemDeNorma)){
-    //         $item=$itemDeNorma[0];
-    //     }
-        
-    //     foreach ($itemDeNorma as $unItem) {
-    //         if($unItem->getId()==$t){
-    //             $item = $unItem;
-    //         }
-    //         $complementada=$repository->findByComplementada($id);
-        
-    //         return $this->render('norma/normaShowArbol.html.twig', [
-    //             'item' => $item,
-    //             'norma' => $norma,
-    //             'relacion' => $relacion,
-    //         ]);
-    //     }
-    // }
-
+    
     /**
      * @Route("/{id}", name="norma_delete", methods={"POST"})
      */
     public function delete(Request $request, Norma $norma, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$norma->getId(), $request->request->get('_token'))) {
-            // dd($_SERVER['HTTP_REFERER']);
             //buscar usuario
             $session=$this->get('session');
             $usuario=$session->get('username');

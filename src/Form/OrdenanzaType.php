@@ -76,7 +76,6 @@ class OrdenanzaType extends AbstractType
                 'requiered' => false,
             ],
         ])
-        //->add('fechaPublicacion')
         ->add('resumen')
         ->add('texto',  CKEditorType::class,[
             'config' => [
@@ -90,19 +89,12 @@ class OrdenanzaType extends AbstractType
             'label'=>'Texto(*)'
         ])
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
-        ])
-        //
-        //->add('estado')
+            'label' => 'Item',
+            ])
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,
@@ -126,8 +118,6 @@ class OrdenanzaType extends AbstractType
                     'class'=>'js-example-basic-multiple',
                     ]
         ])
-        
-        //->add('decretoPromulgacion')
     ;
     }
 

@@ -1,7 +1,8 @@
 import './styles/estilo.css';
 import './app.js';
 import 'select2';
-import 'select2-theme-bootstrap4/dist/select2-bootstrap.css';                   
+import 'select2-theme-bootstrap4/dist/select2-bootstrap.css';     
+import 'select2/dist/js/i18n/es.js';              
 //import 'select2/dist/css/select2.css';
 //import "select2/dist/js/select2.min.js";
 
@@ -29,6 +30,7 @@ $(document).ready(function() {
         text: 'Buscar ...',
         },
         allowClear: true,
+        language: "es",
     });
     // var p=window.performance.getEntriesByType("navigation")[0].type;
     // alert(p);

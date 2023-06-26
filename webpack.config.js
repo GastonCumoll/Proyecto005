@@ -44,6 +44,9 @@ Encore
     .addEntry('tipoConsultaNew', './assets/tipoConsultaNew.js')
     .addEntry('relacionNew', './assets/relacionNew.js')
     .addEntry('etiquetaNew', './assets/etiquetaNew.js')
+    .addEntry('select2','./assets/select2.js')
+    .addEntry('select2totree','./assets/select2totree.js')
+
     
     .addStyleEntry('base', '/assets/styles/app.css')
     .addStyleEntry('estilo', '/assets/styles/estilo.css')
@@ -66,6 +69,7 @@ Encore
     .addStyleEntry('spinnerCss', '/assets/styles/spinner.css')
     .addStyleEntry('login', '/assets/styles/login.css')
     .addStyleEntry('pdf', '/assets/styles/pdf.css')
+    .addStyleEntry('select2totreeStyle', '/assets/styles/select2totree.css')
 
     .addPlugin(
         new CopyPlugin({
