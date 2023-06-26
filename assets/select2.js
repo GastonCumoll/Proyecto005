@@ -7,7 +7,7 @@ import 'select2/dist/js/i18n/es.js'
 
 $.get('/indice/generate/tree',function(data){
         var midata = data;
-
+        
         function addSelectedById(data, id) {
                 for (var i = 0; i < data.length; i++) {
                         if (data[i].id === id) {
@@ -21,14 +21,17 @@ $.get('/indice/generate/tree',function(data){
                 }
                 return false;
         }
-        
-        var selectItems = document.getElementById('selectIds');
-        // selectItems.style.display="none";
-        var cantidadOpt = document.getElementById('selectIds').length;
+        var URLactual = window.location.href;
+        if (URLactual.includes('/norma') && URLactual.includes('/edit')) {
+                var selectItems = document.getElementById('selectIds');
+                // selectItems.style.display="none";
+                var cantidadOpt = document.getElementById('selectIds').length;
 
-        for (let i = 0; i < cantidadOpt; i++) {
-                addSelectedById(midata,parseInt(selectItems[i].value));        
+                for (let i = 0; i < cantidadOpt; i++) {
+                        addSelectedById(midata,parseInt(selectItems[i].value));        
+                }
         }
+        
 
         $("#decreto_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
