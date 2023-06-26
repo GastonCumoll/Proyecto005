@@ -1967,6 +1967,7 @@ class NormaController extends AbstractController
         $itemsPreEdit=$norma->getItems()->toArray();
 
         $idTipoNorma=$norma->getTipoNorma()->getId();
+        
         $session=$this->get('session');
         
 
@@ -2045,9 +2046,13 @@ class NormaController extends AbstractController
 
         if ($form->isSubmitted() && $booleano)
         {
+
             $tipoN=$form['tipoDeNorma']->getData();
-            $tipoNormaNueva=$tipoNormaRepository->findOneById($tipoN);
-            $norma->setTipoNorma($tipoNormaNueva);
+            if($tipoN){
+                $tipoNormaNueva=$tipoNormaRepository->findOneById($tipoN);
+                $norma->setTipoNorma($tipoNormaNueva);
+            }
+            
 
             $itemsPostEdit=[];
             foreach($_POST as $datosFormulario){

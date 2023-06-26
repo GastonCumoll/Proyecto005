@@ -127,6 +127,7 @@ class SecuritySubscriber implements EventSubscriberInterface
                 'item_edit'=>['DIG_ADMINISTRADOR'],
                 'item_delete'=>['DIG_ADMINISTRADOR'],
                 'busqueda_param_item'=>['DIG_OPERADOR','DIG_EDITOR','DIG_ADMINISTRADOR'],
+                'generarArbol' =>[],
 
 
                 //indice 
