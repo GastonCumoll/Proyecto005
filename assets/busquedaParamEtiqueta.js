@@ -6,10 +6,7 @@ $(document).ready(function(){
 
     $('#selectpickerEti').change(function(){
         var idEtiqueta=document.getElementById('selectpickerEti');
-        console.log(idEtiqueta.value);
     })
-    
-    
 
     $("#busquedaParam").keypress(function(event){
         //me redirecciona a una pagina donde estan todas los titulos de las normas que tienen la palabra buscada

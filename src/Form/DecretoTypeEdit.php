@@ -42,6 +42,9 @@ class DecretoTypeEdit extends AbstractType
             'multiple' =>false,
             'mapped'=>false,
             'required' => false,
+            'attr' => [
+                'class'=>'selectpicker',
+            ]
         ])
         ->add('numeroAuxiliar',NumberType::class,[
             'label' => 'Número',

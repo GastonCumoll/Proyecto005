@@ -98,7 +98,7 @@ class LeyType extends AbstractType
         ->add('decretoPromulgacion',EntityType::class, [
             'class' => Norma::class,
             'multiple' => false,
-            'placeholder' => '',
+            'placeholder' => 'Seleccionar',
             'required' =>false,
             'choice_label' => 'titulo',
             'attr' => [

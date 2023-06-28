@@ -31,53 +31,61 @@ $.get('/indice/generate/tree',function(data){
                         addSelectedById(midata,parseInt(selectItems[i].value));        
                 }
         }
-        
-
+        console.log(midata);
         $("#decreto_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#decreto_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#ley_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#ordenanza_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#circular_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#resolucion_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#ley_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#ordenanza_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#circular_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',
                 'You can only select 1 item' : 'Sólo se puede seleccionar 1 item'
         },language : 'es'});
+
         $("#resolucion_type_edit_items").select2ToTree({treeData: {dataArr: midata},translations:{
                 'No results found': 'No se encontraron resultados',
                 'Searching...': 'Buscando...',

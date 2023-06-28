@@ -1441,7 +1441,6 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
                 break;
         }
-
         foreach($_POST as $datos){
             
             if(isset($datos['items'])){
@@ -2027,7 +2026,7 @@ class NormaController extends AbstractController
                 $form->handleRequest($request);
             break;
             default:
-                $form = $this->createForm(CircularTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida]);
+                $form = $this->createForm(CircularTypeEdit::class, $norma,['tipoNormasUsuario' => $tipoNormaPermitida,'tipoNorma'=>$norma->getTipoNorma()->getNombre()]);
                 $form->handleRequest($request);
             break;
         }

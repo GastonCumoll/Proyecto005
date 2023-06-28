@@ -31,7 +31,7 @@ class CircularTypeEdit extends AbstractType
 
         
         $tipoNormasUsuario = $options['tipoNormasUsuario'];
-        
+        $tipoNormaNombre = $options['tipoNorma'];        
         $tnuChoice = [];
         foreach ($tipoNormasUsuario as $t){
             $id = str_pad($t['idTipoNorma'], 1, "0", STR_PAD_LEFT);
@@ -41,9 +41,15 @@ class CircularTypeEdit extends AbstractType
         $builder
         ->add('tipoDeNorma',ChoiceType::class,[
             'choices' => $tnuChoice,
+            'choice_attr' => [
+                $tipoNormaNombre => ['selected' => true]
+            ],
             'multiple' =>false,
             'mapped'=>false,
             'required' => false,
+            'attr'=>[
+                'class' => 'selectpicker ',
+            ],
         ])
         ->add('numeroAuxiliar',NumberType::class,[
             'label' => 'Número',
@@ -129,6 +135,7 @@ class CircularTypeEdit extends AbstractType
     {
         $resolver->setDefaults([
             'tipoNormasUsuario' => NULL,
+            'tipoNorma' =>NULL,
         ]);
     }
 }

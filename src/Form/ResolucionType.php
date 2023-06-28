@@ -25,17 +25,20 @@ class ResolucionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        //numeroAuxiliar
         ->add('numeroAuxiliar',NumberType::class,[
-            'label' => 'Numero',
+            'label' => 'Número',
             'help' => 'Solo números',
             'required' => false,
         ]
         )
+        //titulo
         ->add('titulo',TextType::class,[
             'label'=> 'Titulo (*)',
             'required' => false,
             'constraints'=>[new NotBlank(),],
         ])
+        //fechaSancion
         ->add('fechaSancion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -43,12 +46,13 @@ class ResolucionType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de sancion',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker ',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //fechaPublicacionBoletin
         ->add('fechaPublicacionBoletin',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -56,12 +60,13 @@ class ResolucionType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de publicacion boletin',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //fechaPromulgacion
         ->add('fechaPromulgacion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -69,49 +74,56 @@ class ResolucionType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de promulgacion',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker ',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //resumen
         ->add('resumen')
+        //texto
         ->add('texto',  CKEditorType::class,[
             'config' => [
                 'conf' => 'basic',
                 'config_name' => 'full_config',
                 'toolbar' => 'full',
                 'pasteFilter' => 'h1 h2 p ul ol li; a[!href]'
+                //'uiColor' =>  '#FFFFFF',
+                //'removeButtons' => 'Save,NewPage',
+                //'extraPlugins' => 'simpleImageUpload',
+                //'filebrowserImageBrowseRoute' => '',
+                //'filebrowserUploadUrl'=> '/public/uploads',
+                //'removePlugins' => 'pasteimage',
+                
             ],
             'purify_html' => true,
             'constraints'=>[new NotBlank(),],
             'label'=>'Texto(*)'
         ])
-        //->add('fechaPublicacionBoletin')
-        //->add('estado')
+        //items
         ->add('items',EntityType::class,[
-            'class' => Item::class,
+            'class' => Item::class,           
+            'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'choice_label' => 'nombre',
-            'attr'=> [
-                'class'=>'selectpicker',
-                'data-size'=>'10',
-                'data-live-search'=>true,
-                'data-max-options'=>1,
-            ]
+            'label' => 'Item',
+            'label' => 'Item',
         ])
+        //archivo
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,
             'attr' => ['class'=>'custom-file-imput'],
         ])
+        //nombre_archivo
         ->add('nombre_archivo',TextType::class,[
             'mapped' => false,
             'required' => false,
             'attr'=>['id'=>'ida'],
         ])
+        //etiquetas
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
@@ -123,10 +135,7 @@ class ResolucionType extends AbstractType
                 'attr'=>[
                     'class'=>'js-example-basic-multiple',
                     ]
-        ])
-            //->add('fechaPromulgacion')
-            //->add('decretoPromulgacion')
-        ;
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

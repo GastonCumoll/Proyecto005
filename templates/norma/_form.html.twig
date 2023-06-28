@@ -1,7 +1,81 @@
 {{ form_start(form,{'attr':{'id':'norma_nueva_form'}}) }}
 
-{{ form_widget(form) }}
+{% if 'edit' in  app.request.pathinfo  %}
+<div class="row mt-2">
+    <div class="col-12">
+        {{ form_label(form.tipoDeNorma)}}
+        {{ form_widget(form.tipoDeNorma)}}
+    </div>
+</div>
+{% endif %}
     
-    {# {{ form_row(form.brochure) }}  #}
+<div class="row mt-2">
+    <div class="col-12 col-md-6 mb-3">
+        {{ form_label(form.numeroAuxiliar)}}
+        {{ form_widget(form.numeroAuxiliar)}}
+
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+        {{ form_label(form.titulo)}}
+        {{ form_widget(form.titulo)}}
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12 col-md-4 mb-3">
+        {{ form_label(form.fechaSancion)}}
+        {{ form_widget(form.fechaSancion)}}
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        {{ form_label(form.fechaPublicacionBoletin)}}
+        {{ form_widget(form.fechaPublicacionBoletin)}}   
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        {{ form_label(form.fechaPromulgacion)}}
+        {{ form_widget(form.fechaPromulgacion)}}   
+    </div>
+</div>
+{% if norma.tipoNorma.nombre == 'Ley' %}
+<div class="row mt-2">
+    <div class="col-12 ">
+        {{ form_label(form.decretoPromulgacion)}}
+        {{ form_widget(form.decretoPromulgacion)}}   
+    </div>
+</div>
+{% endif %}
+<div class="row mt-2">
+    <div class="col-12 ">
+        {{ form_label(form.texto)}}
+        {{ form_widget(form.texto)}}   
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-12">
+        {{ form_label(form.resumen)}}
+        {{ form_widget(form.resumen)}}
+    </div>
+</div>
+{% if 'edit' in  app.request.pathinfo  %}
+{% else %}
+    <div class="row mt-2">
+        <div class="col-12 col-md-6 mb-3">
+            {{ form_label(form.archivo)}}
+            {{ form_widget(form.archivo)}}
+        </div>
+        <div class="col-12 col-md-6 mb-3">
+            {{ form_label(form.nombre_archivo)}}
+            {{ form_widget(form.nombre_archivo)}}
+        </div>
+    </div>
+{% endif %}
+<div class="row mt-2">
+    <div class="col-12 col-md-6 mb-3">
+        {{ form_label(form.items)}}
+        {{ form_widget(form.items)}}   
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+        {{ form_label(form.etiquetas)}}
+        {{ form_widget(form.etiquetas)}}   
+    </div>
+</div>
     <button class="btn btn-success mt-2 mb-2" id="boton_guardar">{{ button_label|default('Confirmar') }}</button>
 {{ form_end(form) }}

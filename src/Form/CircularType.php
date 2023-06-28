@@ -29,8 +29,7 @@ class CircularType extends AbstractType
         ->add('numeroAuxiliar',NumberType::class,[
             'label' => 'Número',
             'help' => 'Solo números',
-        ]
-        )
+        ])
         ->add('titulo',TextType::class,[
             'label'=> 'Titulo (*)'
         ])

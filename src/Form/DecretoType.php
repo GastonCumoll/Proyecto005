@@ -31,18 +31,20 @@ class DecretoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        //numeroAuxiliar
         ->add('numeroAuxiliar',NumberType::class,[
             'label' => 'Número',
             'help' => 'Solo números',
             'required' => false,
         ]
         )
+        //titulo
         ->add('titulo',TextType::class,[
             'label'=> 'Titulo (*)',
             'required' => false,
             'constraints'=>[new NotBlank(),],
         ])
-        
+        //fechaSancion
         ->add('fechaSancion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -50,12 +52,13 @@ class DecretoType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de sancion',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker ',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //fechaPublicacionBoletin
         ->add('fechaPublicacionBoletin',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -63,12 +66,13 @@ class DecretoType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de publicacion boletin',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //fechaPromulgacion
         ->add('fechaPromulgacion',DateType::class,[
             'required' => false,
             'widget' =>'single_text',
@@ -76,13 +80,15 @@ class DecretoType extends AbstractType
             'format'=> 'dd/MM/yyyy',
             'label' => 'Fecha de promulgacion',
             'attr'=>[
-                'class' => 'datepicker col-2',
+                'class' => 'datepicker ',
                 'style' => 'min-width: 200px;',
                 'placeholder' => 'Seleccionar',
                 'requiered' => false,
             ],
         ])
+        //resumen
         ->add('resumen')
+        //texto
         ->add('texto',  CKEditorType::class,[
             'config' => [
                 'conf' => 'basic',
@@ -101,6 +107,7 @@ class DecretoType extends AbstractType
             'constraints'=>[new NotBlank(),],
             'label'=>'Texto(*)'
         ])
+        //items
         ->add('items',EntityType::class,[
             'class' => Item::class,           
             'choices' =>[],
@@ -108,18 +115,21 @@ class DecretoType extends AbstractType
             'required' => false,
             'label' => 'Item',
             'label' => 'Item',
-            ])
+        ])
+        //archivo
         ->add('archivo', FileType::class,[
             'multiple'=>true,
             'mapped'=>false,
             'required'=>false,
             'attr' => ['class'=>'custom-file-imput'],
         ])
+        //nombre_archivo
         ->add('nombre_archivo',TextType::class,[
             'mapped' => false,
             'required' => false,
             'attr'=>['id'=>'ida'],
         ])
+        //etiquetas
         ->add('etiquetas',EntityType::class,[
             'required' => false,
             'class' => Etiqueta::class,
