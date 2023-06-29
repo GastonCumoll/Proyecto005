@@ -39,6 +39,7 @@ class RelacionType extends AbstractType
             ])
             ->add('tipoRelacion',EntityType::class,[
                 'class' => TipoRelacion::class,
+                'label' => 'Tipo de relación',
                 'placeholder' => '',
                 'choice_filter' => ChoiceList::filter(
                     $this,
@@ -52,7 +53,9 @@ class RelacionType extends AbstractType
                 )
                 ])
             //->add('fechaRelacion')
-            ->add('descripcion')
+            ->add('descripcion',TextType::class,[
+                'label' => 'Descripción'
+            ])
             ->add('resumen');
             
     }

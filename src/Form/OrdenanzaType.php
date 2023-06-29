@@ -33,7 +33,7 @@ class OrdenanzaType extends AbstractType
         ]
         )
         ->add('titulo',TextType::class,[
-            'label'=> 'Titulo (*)',
+            'label'=> 'Título (*)',
             'required' => false,
             'constraints'=>[new NotBlank(),],
         ])
@@ -42,7 +42,7 @@ class OrdenanzaType extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha de sancion',
+            'label' => 'Fecha de sanción',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -55,7 +55,7 @@ class OrdenanzaType extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha publicacion en boletin',
+            'label' => 'Fecha publicación en boletón',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -68,7 +68,7 @@ class OrdenanzaType extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha de promulgacion',
+            'label' => 'Fecha de promulgación',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -93,7 +93,7 @@ class OrdenanzaType extends AbstractType
             'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'label' => 'Item',
+            'label' => 'Ítem',
             ])
         ->add('archivo', FileType::class,[
             'multiple'=>true,

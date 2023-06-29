@@ -449,12 +449,11 @@ class NormaController extends AbstractController
         }else {
             $rol="";
         }
-        //dd($listaDeRolesUsuario);
         $id=$_POST['normaId'];
         $norma=$normaRepository->find($id);
         $estadoNorma=$norma->getEstado();
         $today=new DateTime();
-        // dd($today);
+
         //obtener el nombre del usuario logeado;
         $session=$this->get('session');
         $usuario=$session->get('username');
@@ -492,19 +491,19 @@ class NormaController extends AbstractController
                 $norma->setEstado("Publicada");
                 $norma->setInstancia(3);
                 $norma->setEdito(false);
-                $norma->setFechaPublicacion($today);
+                if(!$norma->getFechaPublicacion()){
+                    $norma->setFechaPublicacion($today);
+                }
                 $auditoria->setAccion("Publicacion");
                 $norma->setPublico($b);
                 $entityManager->persist($auditoria);
                 $entityManager->persist($norma);
-                //$entityManager->persist($userObj);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('norma_index', [], Response::HTTP_SEE_OTHER);
             }else{
                 return $this->render('general/notRole.html.twig');
             }
-            
         }
         if($estadoNorma=="Publicada"){
             $cantidadBorrador=$sesion->get('cantB');
@@ -1202,7 +1201,11 @@ class NormaController extends AbstractController
                 $norma->setEstado("Publicada");
                 $norma->setInstancia(3);
                 $norma->setEdito(false);
-                $norma->setFechaPublicacion($today);
+
+                if(!$norma->getFechaPublicacion()){
+                    $norma->setFechaPublicacion($today);
+                }
+                
                 $auditoria->setAccion("Publicacion");
                 $norma->setPublico($b);
                 $entityManager->persist($auditoria);

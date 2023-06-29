@@ -51,7 +51,7 @@ class ResolucionTypeEdit extends AbstractType
         ]
         )
         ->add('titulo',TextType::class,[
-            'label'=> 'Titulo (*)',
+            'label'=> 'Título (*)',
             'required' => false,
             'constraints'=>[new NotBlank(),],
         ])
@@ -60,7 +60,7 @@ class ResolucionTypeEdit extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha de sancion',
+            'label' => 'Fecha de sanción',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -73,7 +73,7 @@ class ResolucionTypeEdit extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha de publicacion boletin',
+            'label' => 'Fecha de publicación boletín',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -86,7 +86,7 @@ class ResolucionTypeEdit extends AbstractType
             'widget' =>'single_text',
             'html5'=>false,
             'format'=> 'dd/MM/yyyy',
-            'label' => 'Fecha de promulgacion',
+            'label' => 'Fecha de promulgación',
             'attr'=>[
                 'class' => 'datepicker col-2',
                 'style' => 'min-width: 200px;',
@@ -111,8 +111,7 @@ class ResolucionTypeEdit extends AbstractType
             'choices' =>[],
             'multiple' =>true,
             'required' => false,
-            'label' => 'Item',
-            'label' => 'Item',
+            'label' => 'Ítem',
             ])
         ->add('etiquetas',EntityType::class,[
             'required' => false,

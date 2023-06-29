@@ -41,6 +41,7 @@ class TipoNormaRolType extends AbstractType
         // //dd($choices);
         $builder
             ->add('tipoNorma',EntityType::class,[
+                'label' => 'Tipo de norma',
                 'class' => TipoNorma::class,
                 'disabled' => true,
             ])

@@ -31,16 +31,16 @@
     <strong>Fecha de sanción:</strong> {{ id.fechaSancion ? id.fechaSancion|date('d-m-Y') : '' }}
 <br>
 {% endif %}
-{% if id.fechaPublicacion %}
-<strong>Fecha de publicación: </strong>{{ id.fechaPublicacion ? id.fechaPublicacion|date('d-m-Y') : '' }}
-<br>
-{% endif %}
 {% if id.fechaPublicacionBoletin %}
     <strong>Fecha de publicación boletín:</strong> {{ id.fechaPublicacionBoletin ? id.fechaPublicacionBoletin|date('d-m-Y') : '' }}
 <br>
 {% endif %}
 {% if id.fechaPromulgacion %}
     <strong>Fecha de promulgación: </strong> {{ id.fechaPromulgacion ? id.fechaPromulgacion|date('d-m-Y') : '' }}
+<br>
+{% endif %}
+{% if id.fechaPublicacion %}
+<strong>Fecha de publicación: </strong>{{ id.fechaPublicacion ? id.fechaPublicacion|date('d-m-Y') : '' }}
 <br>
 {% endif %}
 

@@ -32,11 +32,12 @@ class TipoNormaReparticionType extends AbstractType
         //dd($reparticionesChoices);
         $builder
             ->add('tipoNormaId',EntityType::class,[
+                'label' => 'Tipo de norma',
                 'class'=>TipoNorma::class,
                 'disabled'=>true,
             ])
             ->add('reparticionId',ChoiceType::class,[
-                'label' => 'Reparticion ',
+                'label' => 'Repartición ',
                 'choices' => $reparticionesChoices,
             ])
             // ->add('reparticionId',EntityType::class,[
