@@ -137,6 +137,16 @@ class GeneralController extends AbstractController
         
 
         if ($session_id > 0) {
+
+            // Obtener el ID de la repartición del usuario logueado
+            $idReparticion = $seguridad->getIdReparticionAction($session_id);
+            //dd($idReparticion);
+            $reparticiones=$areas->findAll();
+
+            if(!$areas->findOneById($idReparticion)){
+                return $this->redirectToRoute('logout',['bandera'=>4],Response::HTTP_SEE_OTHER);
+            }
+
             $session = new Session();
             $session = $this->get('session');
             $session->set('active', $seguridad->checkSessionActive($session_id));
@@ -152,10 +162,7 @@ class GeneralController extends AbstractController
 
             // Para dumpear usuarios en el sistema
             //dd($seguridad->getListUserAction($session_id, 114));
-            // Obtener el ID de la repartición del usuario logueado
-            $idReparticion = $seguridad->getIdReparticionAction($session_id);
-            //dd($idReparticion);
-            $reparticiones=$areas->findAll();
+
             foreach ($reparticiones as $repa) {
                 if($repa->getId()==$idReparticion){
                     $session->set('repa', $repa->getNombre());
@@ -381,7 +388,13 @@ class GeneralController extends AbstractController
                 'NO POSEE LOS PERMISOS PARA REALIZAR ESTA ACCIÓN'
             );
         }
-        if($bandera==3){
+        if($bandera==4){
+            $this->addFlash(
+                'notice',
+                'LA REPARTICIÓN QUE LE PERTENECE AL USUARIO NO ESTÁ PARAMETRIZADA EN EL SISTEMA'
+            );
+        }
+        if($bandera==5){
             $this->addFlash(
                 'notice',
                 'Error: la sesión ha expirado, por favor, vuelva a autenticarse.'
