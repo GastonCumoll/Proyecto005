@@ -1752,6 +1752,57 @@ class NormaController extends AbstractController
             'id' => $id,
         ]);
     }
+/**
+     * @Route("/{id}/eliminarArchivo", name="eliminar_archivo", methods={"GET", "POST"})
+     */
+    public function eliminarArchivo(ArchivoRepository $archivoRepository,TipoNormaRepository $tipoNormaRepository,AreaRepository $areaRepository,ReparticionService $reparticionService,SeguridadService $seguridad,Request $request, Norma $norma, EntityManagerInterface $entityManager,SluggerInterface $slugger,$id): Response
+    {
+
+        $sesion=$this->get('session');
+        $idSession=$sesion->get('session_id')*1;
+        $arrayRoles=[];
+        if($seguridad->checkSessionActive($idSession)){
+            $roles=json_decode($seguridad->getListRolAction($idSession), true);
+            foreach ($roles as $unRol) {
+                $arrayRoles[]=$unRol['id'];
+            }
+            $rol=$roles[0]['id'];
+        }else {
+            $rol="";
+        }
+        $normasU=[];
+        $normasUsuarioObj=[];
+        $idReparticion = $seguridad->getIdReparticionAction($idSession);
+        $normasUsuario=$reparticionService->obtenerTiposDeNormasUsuario($areaRepository);
+
+        foreach($normasUsuario as $nU){
+            $normasUsuarioObj=$tipoNormaRepository->findByNombre($nU);
+            $normasU[]=$normasUsuarioObj[0]->getId();
+        }
+        $idTipoNorma=$norma->getTipoNorma()->getId();
+
+        if(!in_array($idTipoNorma,$normasU)){
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
+        }
+        if(($norma->getEstado() == 'Publicada') && (!in_array('DIG_EDITOR',$arrayRoles))){
+            return $this->redirectToRoute('not_role', [], Response::HTTP_SEE_OTHER);
+        }
+        $archivo = $archivoRepository->findOneById($id);
+        if($archivo){
+            $norma=$archivo->getNorma();
+            if($norma){
+                $norma->removeArchivos($archivo);
+                $entityManager->persist($norma);
+                $entityManager->remove($archivo);
+                $entityManager->flush();
+                $this->addFlash(
+                    'eliminacionCorrecta',
+                    "El archivo se eliminó correctamente."
+                );
+            }
+            return $this->redirectToRoute('norma_showEdit', ['id'=>$norma->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
 
     /**
      * @Route("/{id}", name="norma_show", methods={"GET"})
