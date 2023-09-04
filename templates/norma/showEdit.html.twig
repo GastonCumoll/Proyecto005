@@ -187,7 +187,7 @@
                                                 <a><button onclick="confirmAndRedirect('{{ path('eliminar_archivo', {'id': unPdf.id}) }}')" title="ELIMINAR ARCHIVO" class="btn btn-secondary btn-sm"><i class="fas fa-times fa-xs"></i></button></a>
                                             {% endif %}
                                         {% elseif unPdf.tipo == 'docx' or unPdf.tipo == 'txt'  %}
-                                        <a><button onclick="confirmAndRedirect('{{ path('eliminar_archivo', {'id': unPdf.id}) }}')" title="ELIMINAR ARCHIVO" class="btn btn-secondary btn-sm"><i class="fas fa-times fa-xs"></i></button></a>
+                                        <a target="_blank" href="{{asset('uploads/' ~ unPdf.ruta)  }}" id="linkArchivo">{{unPdf.nombre}}<i class="fa-solid fa-file-word"></i></a>
                                             {% if "DIG_OPERADOR" in roles and norma.estado == "Borrador" and usuarioReparticion == 1 %}
                                             <a><button onclick="confirmAndRedirect('{{ path('eliminar_archivo', {'id': unPdf.id}) }}')" title="ELIMINAR ARCHIVO" class="btn btn-secondary btn-sm"><i class="fas fa-times fa-xs"></i></button></a>
                                             {% endif %}
