@@ -78,15 +78,22 @@
     <a href={{app.request.headers.get('referer')}} class="btn btn-primary rounded-circle"><span id="estilo-boton"><i class="fa-solid fa-chevron-left"></i></span></a>
 </div> #}
 
-{% for flash_message in app.session.flashbag.get('verifPublicar') %}
+
+
+    <div class="container mt-3 mb-3">
+
+    {% for flash_message in app.session.flashbag.get('verifPublicar') %}
         <div class="card shadow mb-5 rounded" id="cardAdvertencia">
             <div class="flash-notice text-white font-weight-bolder text-center">
                 {{ flash_message }}
             </div>
         </div>
-    {% endfor %}
-
-    <div class="container mt-3 mb-3">
+        {% endfor %}
+        {% for flash_message in app.session.flashbag.get('eliminacionCorrecta') %}
+        <div id ="cargaCorrecta" class="alert alert-success" role="alert">
+            {{flash_message}}
+        </div>
+        {% endfor %}
         <input type="hidden" id="volverFrom" value={{app.session.get('from')}}>
         <div class="card text-center shadow mb-5 bg-white rounded" id="cardGeneral">
             
@@ -418,7 +425,14 @@
     <div>
         <span class="ir-arriba"><i class="fa-solid fa-circle-chevron-up"></i></span>
     </div>
-    
+
+    <script>
+        function confirmAndRedirect(url) {
+            if (confirm('¿Estás seguro de que quieres eliminar este archivo?')) {
+                window.location.href = url;
+            }
+        }
+    </script>
 {% block javascripts %}
         {{ parent() }}
         {{encore_entry_script_tags('normaEdit')}}
