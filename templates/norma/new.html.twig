@@ -17,14 +17,21 @@
 {{encore_entry_script_tags('etiqueta')}}
 {% endblock  %} 
     <h1>Cargar norma</h1>
-    {% for flash_message in app.session.flashbag.get('verifPublicar') %}
+    <div class="container"  id="tarjeta">
+        {% for flash_message in app.session.flashbag.get('verifPublicar') %}
         <div class="card shadow mb-5 rounded" id="cardAdvertencia">
             <div class="flash-notice text-white font-weight-bolder text-center">
                 {{ flash_message }}
             </div>
         </div>
     {% endfor %}
-    <div class="container"  id="tarjeta">
+        {% for flash_message in app.session.flashbag.get('archivoMaxSize') %}
+        <div class="card shadow mb-5 rounded" id="cardAdvertencia">
+            <div class="flash-notice text-white font-weight-bolder text-center">
+                {{ flash_message }}
+            </div>
+        </div>
+    {% endfor %}
         <div class="container">
             <h5 class="h5">Los campos con (*) son obligatorios</h5>
             
