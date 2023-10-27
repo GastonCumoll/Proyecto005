@@ -1496,7 +1496,7 @@ class NormaController extends AbstractController
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
                     //mayor a 15 mb
                     
-                    if($unArchivo->getSize() > 1500000){
+                    if($unArchivo->getSize() > 15000000){
                         $this->addFlash(
                             'archivoMaxSize',
                             "El archivo que está queriendo cargar es muy grande. No debe superar los 15 Mb."
@@ -1668,7 +1668,7 @@ class NormaController extends AbstractController
                 foreach ($brochureFile as $unArchivo) {
                     $originalFilename = pathinfo($unArchivo->getClientOriginalName(), PATHINFO_FILENAME);
 
-                    if($unArchivo->getSize() > 1500000){
+                    if($unArchivo->getSize() > 15000000){
                         $this->addFlash(
                             'archivoMaxSize',
                             "El archivo que está queriendo cargar es muy grande. No debe superar los 15 Mb."
